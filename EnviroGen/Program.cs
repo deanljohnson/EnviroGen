@@ -19,7 +19,7 @@ namespace EnviroGen
             InitializeDisplayWindow();
 
             Generator = new EnvironmentGenerator(DisplayWindow.Size, 7, 6);
-            Generator.Generate();
+            Generator.Generate(); //Generate the first environment
             Environment = Generator.Environment;
 
             while (DisplayWindow.IsOpen())
@@ -32,7 +32,7 @@ namespace EnviroGen
 
                 if (DisplayingOptions)
                 {
-                    OptionsMenu.Update();
+                    OptionsMenu.Update(); 
                     DisplayWindow.Draw(OptionsMenu);
                 }
 
@@ -40,6 +40,9 @@ namespace EnviroGen
             }
         }
 
+        /// <summary>
+        /// Setup general window data
+        /// </summary>
         private static void InitializeDisplayWindow()
         {
             DisplayWindow = new RenderWindow(new VideoMode(1400, 800, 32), "EnviroGen Display", Styles.Default);
@@ -62,7 +65,7 @@ namespace EnviroGen
                 }
                 if (!DisplayingOptions)
                 {
-                    Generator.Generate();
+                    Generator.Generate(); //Options may have changed, regenerate the environment
                     Environment = Generator.Environment;
                 }
             }

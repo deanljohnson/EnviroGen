@@ -18,8 +18,10 @@ namespace EnviroGen
             m_ui = new UserInterface(Program.DisplayWindow);
             m_container = new UIContainer(new Vector2f(100, 100));
 
+            //Used to validate text entry's in the UI
             var numbersOnly = new Regex(@"^\d$");
 
+            //All the fields that will be editable in the UI
             var heightField = new UILabelWithField(new Vector2f(0, 0), SetHeightOctave, "Height Map Octave Count: ", m_generator.HeightGenerator.OctaveCount.ToString(), numbersOnly);
             var seaLevelField = new UILabelWithField(new Vector2f(0, 0), SetSeaLevel, "Sea Level: ", Terrain.SeaLevel.ToString(), numbersOnly);
             var sandDistanceField = new UILabelWithField(new Vector2f(0, 0), SetSandDistance, "Sand Distance: ",
@@ -31,6 +33,7 @@ namespace EnviroGen
             var cloudOctaveField = new UILabelWithField(new Vector2f(0, 0), SetCloudOctave, "Cloud Map Octave Count: ",
                 m_generator.CloudGenerator.OctaveCount.ToString(), numbersOnly);
 
+            //Conveniently organizes fields into a single column
             var grid = new UIGridContainer(new Vector2f(5, 0), new Vector2u(1, 6), new Vector2f(10, 20))
             {
                 heightField,

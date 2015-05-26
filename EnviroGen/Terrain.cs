@@ -3,12 +3,15 @@ using SFML.Graphics;
 
 namespace EnviroGen
 {
+    /// <summary>
+    /// Includes land masses and oceans
+    /// </summary>
     class Terrain : Transformable, Drawable
     {
         private readonly Sprite m_heightSprite;
         private readonly float[,] m_heightMap;
 
-        public static int SeaLevel = 120;
+        public static int SeaLevel = 120; //How high the sea goes up to
         public static int SandDistance = 10; //Distance from water where a height is considered sand
         public static int ForestDistance = 70; //Distance from water where a height is considered forest
         public static int MountainDistance = 135; //Distance from water where a height is considered mountain
@@ -25,6 +28,10 @@ namespace EnviroGen
             target.Draw(m_heightSprite, states);
         }
 
+        /// <summary>
+        /// Generate the height sprite based on the height map
+        /// </summary>
+        /// <returns></returns>
         private Sprite GenerateHeightSprite()
         {
             var heightImage = new Image((uint)m_heightMap.GetLength(0), (uint)m_heightMap.GetLength(1));
@@ -32,6 +39,10 @@ namespace EnviroGen
             return new Sprite(new Texture(heightImage));
         }
 
+        /// <summary>
+        /// Set img pixel colors according to height properties
+        /// </summary>
+        /// <param name="img"></param>
         private void SetHeightPixels(Image img)
         {
             var water = new Color(0, 0, 255);
@@ -43,6 +54,7 @@ namespace EnviroGen
             {
                 for (uint i = 0; i < img.Size.X; i++)
                 {
+                    //Scale the float value of the height map into a byte value
                     var height = (byte)(m_heightMap[i, j] * Byte.MaxValue);
                     if (IsWaterHeight(height))
                     {
@@ -72,21 +84,41 @@ namespace EnviroGen
             }
         }
 
+        /// <summary>
+        /// Checks if height is in water zone
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
         private static bool IsWaterHeight(byte height)
         {
             return height < SeaLevel;
         }
 
+        /// <summary>
+        /// Checks if height is in sand zone
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
         private static bool IsSandHeight(byte height)
         {
             return height >= SeaLevel && height < SeaLevel + SandDistance;
         }
 
+        /// <summary>
+        /// Checks if height is in forest zone
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
         private static bool IsForestHeight(byte height)
         {
             return height >= SeaLevel + SandDistance && height < SeaLevel + ForestDistance;
         }
 
+        /// <summary>
+        /// Checks if height is in mountain zone
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
         private static bool IsMountainHeight(byte height)
         {
             return height >= SeaLevel + ForestDistance && height < SeaLevel + MountainDistance;
