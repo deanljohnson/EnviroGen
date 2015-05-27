@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace EnviroGen
 {
@@ -8,18 +10,19 @@ namespace EnviroGen
     /// </summary>
     class Terrain : Transformable, Drawable
     {
-        private readonly Sprite m_heightSprite;
-        private readonly float[,] m_heightMap;
+        private Sprite m_heightSprite { get; set; }
+        private float[,] m_heightMap { get; set; }
 
         public static int SeaLevel = 120; //How high the sea goes up to
         public static int SandDistance = 10; //Distance from water where a height is considered sand
         public static int ForestDistance = 70; //Distance from water where a height is considered forest
         public static int MountainDistance = 135; //Distance from water where a height is considered mountain
 
-        public Terrain(float[,] heightMap)
+        public Terrain(float[,] heightMap, Vector2i desiredSize)
         {
             m_heightMap = heightMap;
             m_heightSprite = GenerateHeightSprite();
+            Scale = new Vector2f(desiredSize.X / (float)(m_heightSprite.Texture.Size.X), desiredSize.Y / (float)(m_heightSprite.Texture.Size.Y));
         }
 
         public void Draw(RenderTarget target, RenderStates states)
