@@ -1,5 +1,4 @@
-﻿using System;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 
 namespace EnviroGen
 {
@@ -25,7 +24,5 @@ namespace EnviroGen
             target.Draw(m_terrain, states);
             target.Draw(m_clouds, states);
         }
-
-        
     }
 }
