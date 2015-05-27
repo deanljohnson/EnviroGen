@@ -18,7 +18,7 @@ namespace EnviroGen
         {
             InitializeDisplayWindow();
 
-            Generator = new EnvironmentGenerator(DisplayWindow.Size, 7, 6);
+            Generator = new EnvironmentGenerator(new Vector2i((int)DisplayWindow.Size.X, (int)DisplayWindow.Size.Y), 7, 6);
             Generator.Generate(); //Generate the first environment
             Environment = Generator.Environment;
 
@@ -65,6 +65,7 @@ namespace EnviroGen
                 }
                 if (!DisplayingOptions)
                 {
+                    OptionsMenu.PushValues();
                     Generator.Generate(); //Options may have changed, regenerate the environment
                     Environment = Generator.Environment;
                 }
