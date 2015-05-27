@@ -3,25 +3,25 @@ using SFML.Window;
 
 namespace EnviroGen
 {
-    class HeightMapGenerator : PerlinNoiseGenerator
+    class PerlinHeightMapGenerator : PerlinNoiseGenerator
     {
         private readonly Random m_random = new Random();
 
-        public float[,] HeightMap;
+        public float[,] HeightMap { get; private set; }
 
-        public HeightMapGenerator(Vector2u size, int octaveCount)
+        public PerlinHeightMapGenerator(Vector2i size, int octaveCount)
             : base(size, octaveCount)
         {
 
         }
 
-        public HeightMapGenerator(Vector2u size, int octaveCount, int seed)
+        public PerlinHeightMapGenerator(Vector2i size, int octaveCount, int seed)
             : base(size, octaveCount)
         {
             m_random = new Random(seed);
         }
 
-        public HeightMapGenerator(Vector2u size, int octaveCount, Random random)
+        public PerlinHeightMapGenerator(Vector2i size, int octaveCount, Random random)
             : base(size, octaveCount)
         {
             m_random = random;
