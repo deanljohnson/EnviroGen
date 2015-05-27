@@ -58,7 +58,7 @@
     <Compile Include="Clouds.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="EnvironmentGenerator.cs" />
-    <Compile Include="HeightMapGenerator.cs" />
+    <Compile Include="PerlinHeightMapGenerator.cs" />
     <Compile Include="OptionsMenu.cs" />
     <Compile Include="PerlinNoiseGenerator.cs" />
     <Compile Include="Program.cs" />
