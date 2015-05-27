@@ -13,9 +13,9 @@ namespace EnviroGen
         /// <summary>
         /// Sets size to be used for generation
         /// </summary>
-        public Vector2u Size { get; set; }
+        public Vector2i Size { get; set; }
 
-        protected PerlinNoiseGenerator(Vector2u size, int octaveCount)
+        protected PerlinNoiseGenerator(Vector2i size, int octaveCount)
         {
             OctaveCount = octaveCount;
             Size = size;
@@ -53,8 +53,8 @@ namespace EnviroGen
         private float[,] GeneratePerlinNoise(float[,] baseNoise, int octaveCount)
         {
             const float persistence = .6f;
-            var width = (int)Size.X;
-            var height = (int)Size.Y;
+            var width = Size.X;
+            var height = Size.Y;
 
             var perlinNoise = new float[width, height];
             var amplitude = 1.0f;
@@ -90,8 +90,8 @@ namespace EnviroGen
 
         private float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
         {
-            var width = (int)Size.X;
-            var height = (int)Size.Y;
+            var width = Size.X;
+            var height = Size.Y;
 
             var smoothNoise = new float[width, height];
 

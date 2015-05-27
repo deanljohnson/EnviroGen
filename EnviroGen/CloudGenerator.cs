@@ -9,18 +9,18 @@ namespace EnviroGen
 
         public float[,] CloudMap;
 
-        public CloudGenerator(Vector2u size, int octaveCount)
+        public CloudGenerator(Vector2i size, int octaveCount)
             : base(size, octaveCount)
         {
         }
 
-        public CloudGenerator(Vector2u size, int octaveCount, int seed)
+        public CloudGenerator(Vector2i size, int octaveCount, int seed)
             : base(size, octaveCount)
         {
             m_random = new Random(seed);
         }
 
-        public CloudGenerator(Vector2u size, int octaveCount, Random random)
+        public CloudGenerator(Vector2i size, int octaveCount, Random random)
             : base(size, octaveCount)
         {
             m_random = random;
