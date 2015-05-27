@@ -22,7 +22,7 @@ namespace EnviroGen
             var numbersOnly = new Regex(@"^\d$");
 
             //All the fields that will be editable in the UI
-            var heightField = new UILabelWithField(new Vector2f(0, 0), SetHeightOctave, "Height Map Octave Count: ", m_generator.HeightGenerator.OctaveCount.ToString(), numbersOnly);
+            var heightField = new UILabelWithField(new Vector2f(0, 0), SetHeightOctave, "Height Map Octave Count: ", m_generator.HeightMapGenerator.OctaveCount.ToString(), numbersOnly);
             var seaLevelField = new UILabelWithField(new Vector2f(0, 0), SetSeaLevel, "Sea Level: ", Terrain.SeaLevel.ToString(), numbersOnly);
             var sandDistanceField = new UILabelWithField(new Vector2f(0, 0), SetSandDistance, "Sand Distance: ",
                 Terrain.SandDistance.ToString(), numbersOnly);
@@ -62,9 +62,17 @@ namespace EnviroGen
             target.Draw(m_ui, states);
         }
 
+        public void PushValues()
+        {
+            foreach (var elem in m_container.OfType<ITextualOutputElement>(true))
+            {
+                elem.OutputValue();
+            }
+        }
+
         private void SetHeightOctave(string text, UITextField field)
         {
-            m_generator.HeightGenerator.OctaveCount = Int16.Parse(text);
+            m_generator.HeightMapGenerator.OctaveCount = Int16.Parse(text);
         }
 
         private static void SetMountainDistance(string text, UITextField field)
