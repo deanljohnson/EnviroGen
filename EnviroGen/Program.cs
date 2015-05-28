@@ -12,13 +12,13 @@ namespace EnviroGen
         private static OptionsMenu OptionsMenu;
 
         public static RenderWindow DisplayWindow;
-        public static readonly Random Random = new Random();
+        public static Random Random = new Random();
 
         public static void Main(string[] args)
         {
             InitializeDisplayWindow();
 
-            Generator = new EnvironmentGenerator(new Vector2i((int)DisplayWindow.Size.X, (int)DisplayWindow.Size.Y), 7, 6);
+            Generator = new EnvironmentGenerator(new Vector2i((int)DisplayWindow.Size.X, (int)DisplayWindow.Size.Y), 7, 8);
             Generator.Generate(); //Generate the first environment
             Environment = Generator.Environment;
 
