@@ -15,6 +15,10 @@ namespace EnviroGen
             Size = size;
             HeightMapGenerator = new PerlinHeightMapGenerator(size, heightOctaveCount, Program.Random);
             CloudGenerator = new CloudGenerator(size, cloudOctaveCount, Program.Random);
+
+            HeightMapGenerator.NumContinents = 1;
+            HeightMapGenerator.MinContinentSize = 400;
+            HeightMapGenerator.MaxContinentSize = 450;
         }
 
         public void Generate()
