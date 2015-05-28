@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -58,11 +58,12 @@
     <Compile Include="Clouds.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="EnvironmentGenerator.cs" />
-    <Compile Include="PerlinHeightMapGenerator.cs" />
+    <Compile Include="HeightMapGenerator.cs" />
     <Compile Include="OptionsMenu.cs" />
     <Compile Include="PerlinNoiseGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RiverGenerator.cs" />
     <Compile Include="SimplexNoiseGenerator.cs" />
     <Compile Include="Terrain.cs" />
   </ItemGroup>
