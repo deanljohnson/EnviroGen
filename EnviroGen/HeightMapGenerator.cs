@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using SFML.Window;
 
 namespace EnviroGen
 {
-    class PerlinHeightMapGenerator : PerlinNoiseGenerator
+    class HeightMapGenerator : PerlinNoiseGenerator
     {
         private readonly Random m_random = new Random();
 
@@ -13,19 +15,19 @@ namespace EnviroGen
 
         public float[,] HeightMap { get; private set; }
 
-        public PerlinHeightMapGenerator(Vector2i size, int octaveCount)
+        public HeightMapGenerator(Vector2i size, int octaveCount)
             : base(size, octaveCount)
         {
 
         }
 
-        public PerlinHeightMapGenerator(Vector2i size, int octaveCount, int seed)
+        public HeightMapGenerator(Vector2i size, int octaveCount, int seed)
             : base(size, octaveCount)
         {
             m_random = new Random(seed);
         }
 
-        public PerlinHeightMapGenerator(Vector2i size, int octaveCount, Random random)
+        public HeightMapGenerator(Vector2i size, int octaveCount, Random random)
             : base(size, octaveCount)
         {
             m_random = random;
@@ -154,7 +156,7 @@ namespace EnviroGen
             DebugVerifyNormalization();
         }
 
-        [ConditionalAttribute("DEBUG")]
+        [Conditional("DEBUG")]
         private void DebugVerifyHeightMapSize()
         {
             if (HeightMap.GetLength(0) != Size.X || HeightMap.GetLength(1) != Size.Y)
@@ -163,7 +165,7 @@ namespace EnviroGen
             }
         }
 
-        [ConditionalAttribute("DEBUG")]
+        [Conditional("DEBUG")]
         private void DebugVerifyNormalization()
         {
             foreach (var f in HeightMap)
