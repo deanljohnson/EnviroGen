@@ -61,7 +61,7 @@ namespace EnviroGen
             var totalAmplitude = 0.0f;
 
             //blend noise together
-            for (var octave = octaveCount - 1; octave > 0; octave--)
+            for (var octave = octaveCount - 1; octave >= 0; octave--)
             {
                 var smoothNoise = GenerateSmoothNoise(baseNoise, octave);
                 amplitude *= persistence;
@@ -124,7 +124,14 @@ namespace EnviroGen
 
         private static float Interpolate(float x, float y, float alpha)
         {
-            return x * (1 - alpha) + alpha * y;
+            //Cosine
+            var ft = alpha * (float)Math.PI;
+            var f = (1f - (float)Math.Cos(ft)) * .5f;
+
+            return x * (1 - f) + y * f;
+            /*
+            //Linear
+            return x * (1 - alpha) + alpha * y;*/
         }
     }
 }
