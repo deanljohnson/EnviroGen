@@ -15,6 +15,7 @@ namespace EnviroGen
         public OptionsMenu(EnvironmentGenerator generator)
         {
             m_generator = generator;
+            UITextualElement.SetDefaultFontData(null, 36, Color.Black);
             m_ui = new UserInterface(Program.DisplayWindow);
             m_container = new UIContainer(new Vector2f(100, 100));
 
@@ -32,24 +33,36 @@ namespace EnviroGen
                 "Mountain Distance: ", Terrain.MountainDistance.ToString(), numbersOnly);
             var cloudOctaveField = new UILabelWithField(new Vector2f(0, 0), SetCloudOctave, "Cloud Map Octave Count: ",
                 m_generator.CloudGenerator.OctaveCount.ToString(), numbersOnly);
+            var numContinentsField = new UILabelWithField(new Vector2f(0, 0), SetNumContinents, "Number of Continents: ",
+                m_generator.HeightMapGenerator.NumContinents.ToString(), numbersOnly);
+            var minContinentSizeField = new UILabelWithField(new Vector2f(0, 0), SetMinContinentSize, "Minimum Continent Size: ",
+                m_generator.HeightMapGenerator.MinContinentSize.ToString(), numbersOnly);
+            var maxContinentSizeField = new UILabelWithField(new Vector2f(0, 0), SetMaxContinentSize, "Maximum Continent Size: ",
+                m_generator.HeightMapGenerator.MaxContinentSize.ToString(), numbersOnly);
+
 
             //Conveniently organizes fields into a single column
-            var grid = new UIGridContainer(new Vector2f(5, 0), new Vector2u(1, 6), new Vector2f(10, 20))
+            var grid = new UIGridContainer(new Vector2f(0, 0), new Vector2u(1, 9), new Vector2f(0, 0))
             {
                 heightField,
                 seaLevelField,
                 sandDistanceField,
                 forestDistanceField,
                 mountainDistanceField,
-                cloudOctaveField
+                cloudOctaveField,
+                numContinentsField,
+                minContinentSizeField,
+                maxContinentSizeField
             };
 
-            var background = new UIRectangle(new Vector2f(0, 0), new Vector2f(grid.Size.X + 30, grid.Size.Y), Color.White, 2, Color.Black);
+            var background = new UIRectangle(new Vector2f(0, 0), new Vector2f(grid.Width, grid.Height), Color.White, 2, Color.Black);
 
             m_container.Add(background);
             m_container.Add(grid);
 
             m_ui.AddContainer(m_container);
+
+            //m_ui.SetFontData(null, 70, Color.Black);
         }
 
         public void Update()
@@ -98,6 +111,21 @@ namespace EnviroGen
         private void SetCloudOctave(string text, UITextField field)
         {
             m_generator.CloudGenerator.OctaveCount = Int16.Parse(text);
+        }
+
+        private void SetMaxContinentSize(string text, UITextField field)
+        {
+            m_generator.HeightMapGenerator.MaxContinentSize = Int16.Parse(text);
+        }
+
+        private void SetMinContinentSize(string text, UITextField field)
+        {
+            m_generator.HeightMapGenerator.MinContinentSize = Int16.Parse(text);
+        }
+
+        private void SetNumContinents(string text, UITextField field)
+        {
+            m_generator.HeightMapGenerator.NumContinents = Int16.Parse(text);
         }
     }
 }
