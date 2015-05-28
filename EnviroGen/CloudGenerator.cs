@@ -7,7 +7,7 @@ namespace EnviroGen
     {
         private readonly Random m_random = new Random();
 
-        public float[,] CloudMap;
+        public float[,] CloudMap { get; set; }
 
         public CloudGenerator(Vector2i size, int octaveCount)
             : base(size, octaveCount)
