@@ -7,13 +7,13 @@ namespace EnviroGen
         private Vector2i Size { get; set; }
         public Environment Environment;
 
-        public readonly PerlinHeightMapGenerator HeightMapGenerator;
+        public readonly HeightMapGenerator HeightMapGenerator;
         public readonly CloudGenerator CloudGenerator;
 
         public EnvironmentGenerator(Vector2i size, int heightOctaveCount, int cloudOctaveCount)
         {
             Size = size;
-            HeightMapGenerator = new PerlinHeightMapGenerator(size, heightOctaveCount, Program.Random);
+            HeightMapGenerator = new HeightMapGenerator(size, heightOctaveCount, Program.Random);
             CloudGenerator = new CloudGenerator(size, cloudOctaveCount, Program.Random);
 
             HeightMapGenerator.NumContinents = 1;
