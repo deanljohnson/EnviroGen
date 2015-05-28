@@ -69,7 +69,7 @@ namespace EnviroGen
             {
                 for (uint i = 0; i < img.Size.X; i++)
                 {
-                    var height = (byte)(m_cloudMap[i, j] * Byte.MaxValue);
+                    var height = (byte)((m_cloudMap[i, j] * m_cloudMap[i, j]) * Byte.MaxValue);
                     cloudColor.A = (byte)(height / 3.5);
                     img.SetPixel(i, j, cloudColor);
                 }
