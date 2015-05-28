@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using SFML.Window;
 
 namespace EnviroGen
@@ -52,7 +53,7 @@ namespace EnviroGen
 
         private float[,] GeneratePerlinNoise(float[,] baseNoise, int octaveCount)
         {
-            const float persistence = .6f;
+            const float persistence = .55f;
             var width = Size.X;
             var height = Size.Y;
 
@@ -96,18 +97,18 @@ namespace EnviroGen
             var smoothNoise = new float[width, height];
 
             var samplePeriod = (int)Math.Pow(2, octave);
-            var sampleFrequency = 1.0f / samplePeriod;
+            var sampleFrequency = 1f / samplePeriod;
 
             for (var j = 0; j < height; j++)
             {
-                //calculate the horizontal sampling indices
+                //calculate the vertical sampling indices
                 var sampleJ0 = (j / samplePeriod) * samplePeriod;
                 var sampleJ1 = (sampleJ0 + samplePeriod) % height;
                 var verticalBlend = (j - sampleJ0) * sampleFrequency;
 
                 for (var i = 0; i < width; i++)
                 {
-                    //calculate the vertical sampling indices
+                    //calculate the horizontaol sampling indices
                     var sampleI0 = (i / samplePeriod) * samplePeriod;
                     var sampleI1 = (sampleI0 + samplePeriod) % width;
                     var horizontalBlend = (i - sampleI0) * sampleFrequency;
@@ -124,14 +125,35 @@ namespace EnviroGen
 
         private static float Interpolate(float x, float y, float alpha)
         {
-            //Cosine
+            return CosineInterpolation(x, y, alpha);
+            //return Lerp(x, y, alpha);
+        }
+
+        /// <summary>
+        /// Has fewer visual artifacts than Lerp, but has a performance hit
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        private static float CosineInterpolation(float x, float y, float alpha)
+        {
             var ft = alpha * (float)Math.PI;
             var f = (1f - (float)Math.Cos(ft)) * .5f;
 
             return x * (1 - f) + y * f;
-            /*
-            //Linear
-            return x * (1 - alpha) + alpha * y;*/
+        }
+
+        /// <summary>
+        /// Fast, but creates slight rectangular patterns
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        private static float Lerp(float x, float y, float alpha)
+        {
+            return x * (1 - alpha) + alpha * y;
         }
     }
 }
