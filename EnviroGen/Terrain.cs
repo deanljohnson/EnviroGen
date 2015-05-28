@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -13,7 +12,7 @@ namespace EnviroGen
         private Sprite m_heightSprite { get; set; }
         private float[,] m_heightMap { get; set; }
 
-        public static int SeaLevel = 120; //How high the sea goes up to
+        public static int SeaLevel = 100; //How high the sea goes up to
         public static int SandDistance = 10; //Distance from water where a height is considered sand
         public static int ForestDistance = 70; //Distance from water where a height is considered forest
         public static int MountainDistance = 135; //Distance from water where a height is considered mountain
@@ -124,7 +123,7 @@ namespace EnviroGen
         /// <returns></returns>
         private static bool IsMountainHeight(byte height)
         {
-            return height >= SeaLevel + ForestDistance && height < SeaLevel + MountainDistance;
+            return height >= SeaLevel + ForestDistance /*&& height < SeaLevel + MountainDistance*/;
         }
     }
 }
