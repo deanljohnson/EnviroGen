@@ -51,7 +51,7 @@ namespace EnviroGen
         private void BuildContinents(int numContinents, int minSize, int maxSize)
         {
             var startPoints = GetRandomPoints(numContinents);
-            startPoints = new List<Vector2i> {new Vector2i(700, 400)};
+            //startPoints = new List<Vector2i> {new Vector2i(700, 400)};
             foreach (var start in startPoints)
             {
                 var size = m_random.Next(maxSize - minSize) + minSize;
@@ -145,11 +145,13 @@ namespace EnviroGen
                 minValue = h < minValue ? h : minValue;
             }
 
+            var dif = maxValue - minValue;
+
             for (var y = 0; y < HeightMap.GetLength(1); y++)
             {
                 for (var x = 0; x < HeightMap.GetLength(0); x++)
                 {
-                    HeightMap[x, y] = (HeightMap[x, y] - minValue) / (maxValue - minValue);
+                    HeightMap[x, y] = (HeightMap[x, y] - minValue) / (dif);
                 }
             }
 
