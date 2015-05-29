@@ -6,38 +6,24 @@ namespace EnviroGen
     //Not my code for the most part, got this from:
     //http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
 
-    /// <summary>
-    /// Need to adjust this to efficiently create an array of noise. Creates new variables for every point
-    /// is what I think is destroying this implementations performance.
-    /// </summary>
     public static class SimplexNoiseGenerator
     {
         static SimplexNoiseGenerator()
         {
             for (var i = 0; i < 512; i++)
             {
-                perm[i]=p[i & 255];
+                Perm[i]=P[i & 255];
             }
         }
 
         // Simplex noise in 2D, 3D and 4D
-        private static int[][] grad3 = {
+        private static readonly int[][] Grad3 = {
             new[] {1,1,0}, new[] {-1,1,0}, new[] {1,-1,0}, new[] {-1,-1,0}, 
             new[] {1,0,1}, new[] {-1,0,1}, new[] {1,0,-1}, new[] {-1,0,-1}, 
             new[] {0,1,1}, new[] {0,-1,1}, new[] {0,1,-1}, new[] {0,-1,-1}
         };
-        private static int[][] grad4 = {
-            new[] {0,1,1,1}, new[] {0,1,1,-1}, new[] {0,1,-1,1}, new[] {0,1,-1,-1}, 
-            new[] {0,-1,1,1}, new[] {0,-1,1,-1}, new[] {0,-1,-1,1}, new[] {0,-1,-1,-1}, 
-            new[] {1,0,1,1}, new[] {1,0,1,-1}, new[] {1,0,-1,1}, new[] {1,0,-1,-1}, 
-            new[] {-1,0,1,1}, new[] {-1,0,1,-1}, new[] {-1,0,-1,1}, new[] {-1,0,-1,-1}, 
-            new[] {1,1,0,1}, new[] {1,1,0,-1}, new[] {1,-1,0,1}, new[] {1,-1,0,-1}, 
-            new[] {-1,1,0,1}, new[] {-1,1,0,-1}, new[] {-1,-1,0,1}, new[] {-1,-1,0,-1}, 
-            new[] {1,1,1,0}, new[] {1,1,-1,0}, new[] {1,-1,1,0}, new[] {1,-1,-1,0}, 
-            new[] {-1,1,1,0}, new[] {-1,1,-1,0}, new[] {-1,-1,1,0}, new[] {-1,-1,-1,0}
-        };
-  
-        private static int[] p = {151,160,137,91,90,15,
+
+        private static readonly int[] P = {151,160,137,91,90,15,
                                   131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
                                   190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
                                   88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
@@ -51,22 +37,16 @@ namespace EnviroGen
                                   49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
                                   138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180};
         // To remove the need for index wrapping, double the permutation table length
-        private static int[] perm = new int[512];
+        private static readonly int[] Perm = new int[512];
         // A lookup table to traverse the simplex around a given point in 4D.
         // Details can be found where this table is used, in the 4D noise method.
-        private static int[,] simplex = {
-            {0,1,2,3},{0,1,3,2},{0,0,0,0},{0,2,3,1},{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,2,3,0},
-            {0,2,1,3},{0,0,0,0},{0,3,1,2},{0,3,2,1},{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,3,2,0},
-            {0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},
-            {1,2,0,3},{0,0,0,0},{1,3,0,2},{0,0,0,0},{0,0,0,0},{0,0,0,0},{2,3,0,1},{2,3,1,0},
-            {1,0,2,3},{1,0,3,2},{0,0,0,0},{0,0,0,0},{0,0,0,0},{2,0,3,1},{0,0,0,0},{2,1,3,0},
-            {0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},
-            {2,0,1,3},{0,0,0,0},{0,0,0,0},{0,0,0,0},{3,0,1,2},{3,0,2,1},{0,0,0,0},{3,1,2,0},
-            {2,1,0,3},{0,0,0,0},{0,0,0,0},{0,0,0,0},{3,1,0,2},{0,0,0,0},{3,2,0,1},{3,2,1,0}};
 
-        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves)
+        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float scale)
         {
             var arr = new float[xMax, yMax];
+            var layerFrequency = scale;
+            var layerWeight = 1f;
+            var weightSum = 0f;
 
             for (var y = 0; y < yMax; y++)
             {
@@ -74,12 +54,42 @@ namespace EnviroGen
                 {
                     for (var o = 0; o < numOctaves - 1; o++)
                     {
-                        arr[x, y] = (float) (Noise(x, y) / Math.Pow(2, o));
+                        arr[x, y] += Noise(x * layerFrequency, y * layerFrequency) * layerWeight;
+                        layerFrequency *= 2;
+                        weightSum += layerWeight;
+                        layerWeight *= roughness;
                     }
+                    layerFrequency = scale;
+                    layerWeight = 1f;
+                    weightSum = 0f;
+                }
+            }
+            arr = Normalize(arr);
+            return arr;
+        }
+
+        private static float[,] Normalize(float[,] heightMap)
+        {
+            var maxValue = heightMap[0, 0];
+            var minValue = heightMap[0, 0];
+
+            foreach (var h in heightMap)
+            {
+                maxValue = h > maxValue ? h : maxValue;
+                minValue = h < minValue ? h : minValue;
+            }
+
+            var dif = maxValue - minValue;
+
+            for (var y = 0; y < heightMap.GetLength(1); y++)
+            {
+                for (var x = 0; x < heightMap.GetLength(0); x++)
+                {
+                    heightMap[x, y] = (heightMap[x, y] - minValue) / (dif);
                 }
             }
 
-            return arr;
+            return heightMap;
         }
 
         // 2D simplex noise
@@ -131,9 +141,10 @@ namespace EnviroGen
             // Work out the hashed gradient indices of the three simplex corners
             var ii = i & 255;
             var jj = j & 255;
-            var gi0 = perm[ii+perm[jj]] % 12;
-            var gi1 = perm[ii+i1+perm[jj+j1]] % 12;
-            var gi2 = perm[ii+1+perm[jj+1]] % 12;
+
+            var gi0 = Perm[ii+Perm[jj]] % 12;
+            var gi1 = Perm[ii+i1+Perm[jj+j1]] % 12;
+            var gi2 = Perm[ii+1+Perm[jj+1]] % 12;
             // Calculate the contribution from the three corners
             var t0 = (float) (0.5 - x0*x0-y0*y0);
 
@@ -144,7 +155,7 @@ namespace EnviroGen
             else 
             {
                 t0 *= t0;
-                n0 = t0 * t0 * Dot(grad3[gi0], x0, y0);  
+                n0 = t0 * t0 * Dot(Grad3[gi0], x0, y0);  
                 // (x,y) of grad3 used for 2D gradient
             }
 
@@ -156,14 +167,14 @@ namespace EnviroGen
             else 
             {
                 t1 *= t1;
-                n1 = t1 * t1 * Dot(grad3[gi1], x1, y1);
+                n1 = t1 * t1 * Dot(Grad3[gi1], x1, y1);
             }
             var t2 = (float) (0.5 - x2*x2-y2*y2);
             if(t2<0) n2 = (float) 0.0;
             else 
             {
                 t2 *= t2;
-                n2 = t2 * t2 * Dot(grad3[gi2], x2, y2);
+                n2 = t2 * t2 * Dot(Grad3[gi2], x2, y2);
             }
             // Add contributions from each corner to get the final noise value.
             // The result is scaled to return values in the interval [-1,1].
@@ -173,14 +184,6 @@ namespace EnviroGen
         private static float Dot(IReadOnlyList<int> g, float x, float y)
         {
             return g[0] * x + g[1] * y;
-        }
-        private static float Dot(IReadOnlyList<int> g, float x, float y, float z)
-        {
-            return g[0] * x + g[1] * y + g[2] * z;
-        }
-        private static float Dot(IReadOnlyList<int> g, float x, float y, float z, float w)
-        {
-            return g[0] * x + g[1] * y + g[2] * z + g[3] * w;
         }
 
         // This method is a *lot* faster than using (int)Math.floor(x)
