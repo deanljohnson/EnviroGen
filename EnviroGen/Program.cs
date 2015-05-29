@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -12,7 +13,8 @@ namespace EnviroGen
         private static OptionsMenu OptionsMenu;
 
         public static RenderWindow DisplayWindow;
-        public static Random Random = new Random();
+        public static readonly Random Random = new Random();
+        public static readonly Stopwatch Timer = new Stopwatch();
 
         public static void Main(string[] args)
         {
