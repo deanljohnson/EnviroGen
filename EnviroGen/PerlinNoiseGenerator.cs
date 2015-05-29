@@ -124,8 +124,8 @@ namespace EnviroGen
 
         private static float Interpolate(float x, float y, float alpha)
         {
-            return CosineInterpolation(x, y, alpha);
-            //return Lerp(x, y, alpha);
+            //return CosineInterpolation(x, y, alpha);
+            return Lerp(x, y, alpha);
         }
 
         /// <summary>
