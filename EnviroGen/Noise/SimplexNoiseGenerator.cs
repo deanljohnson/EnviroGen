@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EnviroGen
+namespace EnviroGen.Noise
 {
     //Not my code for the most part, got this from:
     //http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
@@ -38,8 +38,6 @@ namespace EnviroGen
                                   138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180};
         // To remove the need for index wrapping, double the permutation table length
         private static readonly int[] Perm = new int[512];
-        // A lookup table to traverse the simplex around a given point in 4D.
-        // Details can be found where this table is used, in the 4D noise method.
 
         public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float scale)
         {
