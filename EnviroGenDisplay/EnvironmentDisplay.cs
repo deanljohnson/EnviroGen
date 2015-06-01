@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using EnviroGen;
 using SFML.Graphics;
 using SFML.Window;
@@ -20,12 +19,14 @@ namespace EnviroGenDisplay
             Window.SetVerticalSyncEnabled(true);
             Window.SetActive(false);
             Window.SetVisible(true);
+            Window.SetKeyRepeatEnabled(true);
 
             Window.Closed += WindowClosedEvent;
+            Window.MouseWheelMoved += MouseWheelEvent;
+            Window.KeyPressed += KeyPressedEvent;
 
             Environment = new Environment(null, null);
             EnvironmentData = new EnvironmentData();
-
         }
 
         public static void Update(object sender, DoWorkEventArgs doWorkEventArgs)
@@ -58,6 +59,46 @@ namespace EnviroGenDisplay
             Window.Close();
         }
 
+        private static void MouseWheelEvent(object sender, MouseWheelEventArgs e)
+        {
+            var view = Window.GetView();
+
+            if (e.Delta > 0)
+            {
+                view.Zoom(.9f);
+            }
+            else
+            {
+                view.Zoom(1.1f);
+            }
+
+            Window.SetView(view);
+        }
+
+        private static void KeyPressedEvent(object sender, KeyEventArgs e)
+        {
+            var view = Window.GetView();
+            const float speed = 10f;
+
+            switch (e.Code)
+            {
+                case Keyboard.Key.Up:
+                    view.Move(new Vector2f(0f, -speed));
+                    break;
+                case Keyboard.Key.Down:
+                    view.Move(new Vector2f(0f, speed));
+                    break;
+                case Keyboard.Key.Left:
+                    view.Move(new Vector2f(-speed, 0f));
+                    break;
+                case Keyboard.Key.Right:
+                    view.Move(new Vector2f(speed, 0f));
+                    break;
+            }
+
+            Window.SetView(view);
+        }
+
         public static void GenerateFromData(EnvironmentData data)
         {
             EnvironmentGenerator enviroGen;
@@ -72,23 +113,7 @@ namespace EnviroGenDisplay
                 var cloudSeed = Int32.Parse(EnvironmentData.CloudMapSeed);
                 cloudSeed = cloudSeed == -1 ? random.Next(5000) : cloudSeed;
 
-                enviroGen = new EnvironmentGenerator
-                {
-                    SizeX = Int32.Parse(EnvironmentData.SizeX),
-                    SizeY = Int32.Parse(EnvironmentData.SizeY),
-                    HeightMapOctaveCount = Int32.Parse(EnvironmentData.HeightMapOctaveCount),
-                    CloudMapOctaveCount = Int32.Parse(EnvironmentData.CloudMapOctaveCount),
-                    NumContinents = Int32.Parse(EnvironmentData.NumberOfContinents),
-                    MinimumContinentSize = Int32.Parse(EnvironmentData.MinimumContinentSize),
-                    MaximumContinentSize = Int32.Parse(EnvironmentData.MaximumContinentSize),
-                    SeaLevel = Int32.Parse(EnvironmentData.SeaLevel),
-                    SandDistance = Int32.Parse(EnvironmentData.SandDistance),
-                    ForestDistance = Int32.Parse(EnvironmentData.MountainDistance),
-                    HeightMapSeed = heightSeed,
-                    CloudMapSeed = cloudSeed,
-                    NoiseRoughness = float.Parse(EnvironmentData.NoiseRoughness),
-                    NoiseScale = float.Parse(EnvironmentData.NoiseScale)
-                };
+                enviroGen = EnvironmentData.BuildEnvironmentGenerator();
             }
 
             lock (Environment)
@@ -97,7 +122,7 @@ namespace EnviroGenDisplay
             }
         }
 
-        public static void RefreshColorMapping(EnvironmentData data)
+        public static void RefreshColorMappingHeights(EnvironmentData data)
         {
             lock (EnvironmentData)
             {
@@ -106,7 +131,7 @@ namespace EnviroGenDisplay
 
             lock (Environment)
             {
-                Environment.Terrain.SetColorMapping(Int32.Parse(data.SeaLevel), Int32.Parse(data.SandDistance), Int32.Parse(data.ForestDistance), Int32.Parse(data.MountainDistance));
+                Environment.Terrain.SetColorMappingHeights(Int32.Parse(data.SeaLevel), Int32.Parse(data.SandDistance), Int32.Parse(data.ForestDistance), Int32.Parse(data.MountainDistance));
                 Environment.Terrain.ColorMap();
             }
         }
