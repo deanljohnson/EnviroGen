@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using SFML.Window;
 
 namespace EnviroGen
@@ -25,6 +26,12 @@ namespace EnviroGen
         {
             get { return Map[x, y]; }
             set { Map[x, y] = value; }
+        }
+
+        public float this[Vector2i v]
+        {
+            get { return Map[v.X, v.Y]; }
+            set { Map[v.X, v.Y] = value; }
         }
 
         public IEnumerator GetEnumerator()
