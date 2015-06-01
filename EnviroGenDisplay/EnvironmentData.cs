@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using EnviroGenDisplay.Annotations;
 
@@ -20,6 +21,8 @@ namespace EnviroGenDisplay
         private int m_maximumContinentSize;
         private int m_heightMapSeed;
         private int m_cloudMapSeed;
+        private float m_noiseRoughness;
+        private float m_noiseScale;
 
         public string SizeX
         {
@@ -190,6 +193,32 @@ namespace EnviroGenDisplay
             }
         }
 
+        public string NoiseRoughness
+        {
+            get { return m_noiseRoughness.ToString(CultureInfo.CurrentCulture); }
+            set
+            {
+                if (m_noiseRoughness.ToString(CultureInfo.CurrentCulture) != value)
+                {
+                    m_noiseRoughness = float.Parse(value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string NoiseScale
+        {
+            get { return m_noiseScale.ToString(CultureInfo.CurrentCulture); }
+            set
+            {
+                if (m_noiseScale.ToString(CultureInfo.CurrentCulture) != value)
+                {
+                    m_noiseScale = float.Parse(value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public EnvironmentData()
         {
             m_sizeX = 1400;
@@ -205,6 +234,8 @@ namespace EnviroGenDisplay
             m_maximumContinentSize = 450;
             m_heightMapSeed = -1;
             m_cloudMapSeed = -1;
+            m_noiseRoughness = .55f;
+            m_noiseScale = .005f;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

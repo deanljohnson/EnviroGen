@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using EnviroGen;
 using SFML.Graphics;
 using SFML.Window;
@@ -84,7 +85,9 @@ namespace EnviroGenDisplay
                     SandDistance = Int32.Parse(EnvironmentData.SandDistance),
                     ForestDistance = Int32.Parse(EnvironmentData.MountainDistance),
                     HeightMapSeed = heightSeed,
-                    CloudMapSeed = cloudSeed
+                    CloudMapSeed = cloudSeed,
+                    NoiseRoughness = float.Parse(EnvironmentData.NoiseRoughness),
+                    NoiseScale = float.Parse(EnvironmentData.NoiseScale)
                 };
             }
 

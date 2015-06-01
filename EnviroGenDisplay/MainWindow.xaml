@@ -39,6 +39,8 @@
         <Label Content="Maximum Continent Size:" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center"/>
         <Label Content="Height Map Seed:" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center"/>
         <Label Content="Cloud Map Seed:" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center"/>
+        <Label Content="Noise Roughness:" Grid.Column="0" Grid.Row="9" VerticalAlignment="Center"/>
+        <Label Content="Noise Scale:" Grid.Column="0" Grid.Row="10" VerticalAlignment="Center"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=HeightMapOctaveCount}"/>
@@ -48,7 +50,9 @@
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="6" Text="{Binding Path=MaximumContinentSize}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="7" Text="{Binding Path=HeightMapSeed}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="8" Text="{Binding Path=CloudMapSeed}"/>
-        <Button Content="Generate" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Grid.Column="0" Grid.Row="9" Click="OnGenerateClick"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="9" Text="{Binding Path=NoiseRoughness}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="10" Text="{Binding Path=NoiseScale}"/>
+        <Button Content="Generate" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Grid.Column="0" Grid.Row="11" Click="OnGenerateClick"/>
         
         <Label Content="Sea Level:" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
         <Label Content="Sand Distance:" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
