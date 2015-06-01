@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace EnviroGen
 {
@@ -8,6 +10,11 @@ namespace EnviroGen
     /// </summary>
     public class Terrain : Transformable, Drawable
     {
+        public static Color SeaColor = new Color(0, 0, 255);
+        public static Color SandColor = new Color(255, 255, 204);
+        public static Color ForestColor = new Color(0, 255, 0);
+        public static Color MountainColor = new Color(102, 102, 102, 120);
+
         private int m_seaLevel = 100; //How high the sea goes up to
         private int m_sandHeight = 10; //Distance from water where a height is considered sand
         private int m_forestHeight = 70; //Distance from water where a height is considered forest
@@ -28,9 +35,17 @@ namespace EnviroGen
             }
         }
 
+        public List<Vector2i> RiverTiles { get; set; }
+
         public Terrain(HeightMap heightMap)
+            : this(heightMap, new List<Vector2i>())
         {
-            HeightMap = heightMap;
+        }
+
+        public Terrain(HeightMap heightMap, List<Vector2i> riverTiles)
+        {
+            m_heightMap = heightMap;
+            RiverTiles = riverTiles;
             GenerateSprite();
         }
 
@@ -43,16 +58,23 @@ namespace EnviroGen
         /// <summary>
         /// Sets the heights for color mapping. Call ColorMap to actually update the sprite.
         /// </summary>
-        /// <param name="seaLevel"></param>
-        /// <param name="sandHeight"></param>
-        /// <param name="forestHeight"></param>
-        /// <param name="mountainHeight"></param>
-        public void SetColorMapping(int seaLevel, int sandHeight, int forestHeight, int mountainHeight)
+        public void SetColorMappingHeights(int seaLevel, int sandHeight, int forestHeight, int mountainHeight)
         {
             m_seaLevel = seaLevel;
             m_sandHeight = sandHeight;
             m_forestHeight = forestHeight;
             m_mountainHeight = mountainHeight;
+        }
+
+        /// <summary>
+        /// Sets the colors for color mapping. Call ColorMap to actually update the sprite.
+        /// </summary>
+        public void SetColorMappingColors(Color seaColor, Color sandColor, Color forestColor, Color mountainColor)
+        {
+            SeaColor = seaColor;
+            SandColor = sandColor;
+            ForestColor = forestColor;
+            MountainColor = mountainColor;
         }
 
         /// <summary>
@@ -80,11 +102,6 @@ namespace EnviroGen
         /// <param name="img"></param>
         private void SetHeightPixels(Image img)
         {
-            var water = new Color(0, 0, 255);
-            var sand = new Color(255, 255, 204);
-            var forest = new Color(0, 255, 0);
-            var mountains = new Color(102, 102, 102, 120);
-
             for (uint j = 0; j < img.Size.Y; j++)
             {
                 for (uint i = 0; i < img.Size.X; i++)
@@ -93,29 +110,34 @@ namespace EnviroGen
                     var height = (byte)(HeightMap[i, j] * Byte.MaxValue);
                     if (IsWaterHeight(height))
                     {
-                        water.A = height; //deep water is darker
-                        img.SetPixel(i, j, water);
+                        SeaColor.A = height; //deep water is darker
+                        img.SetPixel(i, j, SeaColor);
                     }
                     else if (IsSandHeight(height))
                     {
                         var fromWater = (byte)(height - m_seaLevel);
                         fromWater *= 10; //scale the distance so that we see a greater range of colors
-                        sand.A = (byte)(240 - fromWater);
-                        img.SetPixel(i, j, sand);
+                        SandColor.A = (byte)(240 - fromWater);
+                        img.SetPixel(i, j, SandColor);
                     }
                     else if (IsForestHeight(height))
                     {
                         var fromWater = (byte)(height - m_seaLevel);
-                        forest.G = (byte)(height - (2 * fromWater)); //higher forest is darker colored
+                        ForestColor.G = (byte)(height - (2 * fromWater)); //higher forest is darker colored
 
-                        img.SetPixel(i, j, forest);
+                        img.SetPixel(i, j, ForestColor);
                     }
                     else if (IsMountainHeight(height))
                     {
-                        mountains.A = height; //higher mountains are brighter
-                        img.SetPixel(i, j, mountains);
+                        MountainColor.A = height; //higher mountains are brighter
+                        img.SetPixel(i, j, MountainColor);
                     }
                 }
+            }
+
+            foreach (var riverTile in RiverTiles)
+            {
+                img.SetPixel((uint)riverTile.X, (uint)riverTile.Y, SeaColor);
             }
         }
 
