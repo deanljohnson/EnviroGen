@@ -60,5 +60,22 @@ namespace EnviroGen
                 }
             }
         }
+
+        public List<Vector2i> GetVonNeumannNeighbors(Vector2i point)
+        {
+            return GetVonNeumannNeighbors(point.X, point.Y);
+        }
+
+        public List<Vector2i> GetVonNeumannNeighbors(int x, int y)
+        {
+            var points = new List<Vector2i>();
+
+            if (x > 0) points.Add(new Vector2i(x - 1, y));
+            if (x < Size.X - 1) points.Add(new Vector2i(x + 1, y));
+            if (y > 0) points.Add(new Vector2i(x, y - 1));
+            if (y < Size.Y - 1) points.Add(new Vector2i(x, y + 1));
+
+            return points;
+        }
     }
 }
