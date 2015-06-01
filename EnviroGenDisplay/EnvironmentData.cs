@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using EnviroGen;
 using EnviroGenDisplay.Annotations;
 
 namespace EnviroGenDisplay
@@ -23,6 +25,12 @@ namespace EnviroGenDisplay
         private int m_cloudMapSeed;
         private float m_noiseRoughness;
         private float m_noiseScale;
+        private float m_erosionAngle;
+        private int m_erosionIterations;
+        private Color m_seaColor;
+        private Color m_sandColor;
+        private Color m_forestColor;
+        private Color m_mountainColor;
 
         public string SizeX
         {
@@ -214,6 +222,84 @@ namespace EnviroGenDisplay
                 if (m_noiseScale.ToString(CultureInfo.CurrentCulture) != value)
                 {
                     m_noiseScale = float.Parse(value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string ErosionAngle
+        {
+            get { return m_erosionAngle.ToString(CultureInfo.CurrentCulture); }
+            set
+            {
+                if (m_erosionAngle.ToString(CultureInfo.CurrentCulture) != value)
+                {
+                    m_erosionAngle = float.Parse(value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string ErosionIterations
+        {
+            get { return m_erosionIterations.ToString(); }
+            set
+            {
+                if (m_erosionIterations.ToString() != value)
+                {
+                    m_erosionIterations = Int32.Parse(value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color SeaColor
+        {
+            get { return m_seaColor; }
+            set
+            {
+                if (m_seaColor != value)
+                {
+                    m_seaColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color SandColor
+        {
+            get { return m_sandColor; }
+            set
+            {
+                if (m_sandColor != value)
+                {
+                    m_sandColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color ForestColor
+        {
+            get { return m_forestColor; }
+            set
+            {
+                if (m_forestColor != value)
+                {
+                    m_forestColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color MountainColor
+        {
+            get { return m_mountainColor; }
+            set
+            {
+                if (m_mountainColor != value)
+                {
+                    m_mountainColor = value;
                     OnPropertyChanged();
                 }
             }
