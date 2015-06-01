@@ -39,20 +39,20 @@ namespace EnviroGen.Noise
         // To remove the need for index wrapping, double the permutation table length
         private static readonly int[] Perm = new int[512];
 
-        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float scale)
+        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float scale, int seed)
         {
             var arr = new float[xMax, yMax];
             var layerFrequency = scale;
             var layerWeight = 1f;
             var weightSum = 0f;
 
-            for (var y = 0; y < yMax; y++)
+            for (var y = seed; y < yMax + seed; y++)
             {
-                for (var x = 0; x < xMax; x++)
+                for (var x = seed; x < xMax + seed; x++)
                 {
                     for (var o = 0; o < numOctaves - 1; o++)
                     {
-                        arr[x, y] += Noise(x * layerFrequency, y * layerFrequency) * layerWeight;
+                        arr[x - seed, y - seed] += Noise2d(x * layerFrequency, y * layerFrequency) * layerWeight;
                         layerFrequency *= 2;
                         weightSum += layerWeight;
                         layerWeight *= roughness;
@@ -91,7 +91,7 @@ namespace EnviroGen.Noise
         }
 
         // 2D simplex noise
-        public static float Noise(float xin, float yin)
+        internal static float Noise2d(float xin, float yin)
         {
             float n0, n1, n2; 
 
