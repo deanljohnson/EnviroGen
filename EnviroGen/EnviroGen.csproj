@@ -52,9 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clouds.cs" />
+    <Compile Include="Coloring\Colorizer.cs" />
+    <Compile Include="Coloring\ColorRange.cs" />
     <Compile Include="ContinentGenerator.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="EnvironmentGenerator.cs" />
+    <Compile Include="Erosion\ImprovedThermalErosion.cs" />
+    <Compile Include="Erosion\ThermalErosion.cs" />
     <Compile Include="HeightMap.cs" />
     <Compile Include="HeightMapGenerator.cs" />
     <Compile Include="Noise\PerlinNoiseGenerator.cs" />
