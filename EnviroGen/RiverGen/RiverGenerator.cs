@@ -6,22 +6,19 @@ using SFML.Window;
 
 namespace EnviroGen.RiverGen
 {
-    class RiverGenerator
+    public static class RiverGenerator
     {
         private static readonly Random Random = new Random();
-        public static float[,] HeightMap { get; set; }
+        private static HeightMap HeightMap { get; set; }
 
         /// <summary>
         /// Generates a desired number of rivers on the given height map, returning a list of all river tiles.
         /// Will deform the land around the rivers.
         /// </summary>
-        /// <param name="numRivers"></param>
-        /// <param name="riverStartHeightMin"></param>
-        /// <param name="riverStartHeightMax"></param>
-        /// <param name="seaLevel"></param>
-        /// <returns></returns>
-        public static List<Vector2i> GenerateRivers(int numRivers, float riverStartHeightMin, float riverStartHeightMax, float seaLevel)
+        public static List<Vector2i> GenerateRivers(HeightMap heightMap, int numRivers, float riverStartHeightMin, float riverStartHeightMax, float seaLevel)
         {
+            HeightMap = heightMap;
+
             var riverTiles = new List<Vector2i>();
 
             var startPoints = GetStartPoints(numRivers, riverStartHeightMin, riverStartHeightMax);
@@ -40,7 +37,7 @@ namespace EnviroGen.RiverGen
 
             while (startPoints.Count < numRivers)
             {
-                var point = new Vector2i(Random.Next(HeightMap.GetLength(0)), Random.Next(HeightMap.GetLength(1)));
+                var point = new Vector2i(Random.Next((int)HeightMap.Size.X), Random.Next((int)HeightMap.Size.Y));
                 var height = HeightMap[point.X, point.Y];
 
                 if (height > riverStartMin && height < riverStartMax)
@@ -107,7 +104,7 @@ namespace EnviroGen.RiverGen
         private static List<Vector2i> GetNeighbors(Vector2i node)
         {
             var neighbors = new List<Vector2i>();
-            var dimensions = new Vector2i(HeightMap.GetLength(0), HeightMap.GetLength(1));
+            var dimensions = new Vector2i((int)HeightMap.Size.X, (int)HeightMap.Size.Y);
 
             if (node.X > 1)
             {
@@ -134,7 +131,7 @@ namespace EnviroGen.RiverGen
             var heightDif = Math.Abs(aHeight - bHeight);
             var dist = Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
 
-            return dist * (1f + heightDif);
+            return dist + (heightDif * 2f);
         }
     }
 }
