@@ -2,32 +2,32 @@
 
 namespace EnviroGen
 {
-    class EnvironmentGenerator
+    public class EnvironmentGenerator
     {
-        private Vector2i Size { get; set; }
-        public Environment Environment;
+        public int SizeX { get; set; }
+        public int SizeY { get; set; }
+        public int HeightMapOctaveCount { get; set; }
+        public int CloudMapOctaveCount { get; set; }
+        public int NumContinents { get; set; }
+        public int MinimumContinentSize { get; set; }
+        public int MaximumContinentSize { get; set; }
+        public int SeaLevel { get; set; }
+        public int SandDistance { get; set; }
+        public int ForestDistance { get; set; }
+        public int MountainDistance { get; set; }
+        public int HeightMapSeed { get; set; }
+        public int CloudMapSeed { get; set; }
 
-        public readonly HeightMapGenerator HeightMapGenerator;
-        public readonly CloudGenerator CloudGenerator;
-
-        public EnvironmentGenerator(Vector2i size, int heightOctaveCount, int cloudOctaveCount)
+        public Environment Generate()
         {
-            Size = size;
-            HeightMapGenerator = new HeightMapGenerator(size, heightOctaveCount, Program.Random);
-            CloudGenerator = new CloudGenerator(size, cloudOctaveCount, Program.Random);
+            var heightMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, HeightMapOctaveCount, NumContinents, MinimumContinentSize, MaximumContinentSize, HeightMapSeed);
+            var cloudMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, CloudMapOctaveCount, 0, 0, 0, CloudMapSeed);
+            
+            ContinentGenerator.BuildContinents(heightMap, NumContinents, MinimumContinentSize, MaximumContinentSize);
 
-            HeightMapGenerator.NumContinents = 1;
-            HeightMapGenerator.MinContinentSize = 400;
-            HeightMapGenerator.MaxContinentSize = 450;
-        }
+            heightMap.Normalize();
 
-        public void Generate()
-        {
-            HeightMapGenerator.GenerateHeightMap();
-            CloudGenerator.GenerateCloudMap();
-
-            Environment = new Environment(new Terrain(HeightMapGenerator.HeightMap, Size), 
-                new Clouds(CloudGenerator.CloudMap));
+            return new Environment(new Terrain(heightMap), new Clouds(cloudMap));
         }
     }
 }
