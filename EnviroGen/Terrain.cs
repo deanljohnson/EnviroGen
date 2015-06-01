@@ -1,27 +1,37 @@
 ﻿using System;
 using SFML.Graphics;
-using SFML.Window;
 
 namespace EnviroGen
 {
     /// <summary>
     /// Includes land masses and oceans
     /// </summary>
-    class Terrain : Transformable, Drawable
+    public class Terrain : Transformable, Drawable
     {
+        private int m_seaLevel = 100; //How high the sea goes up to
+        private int m_sandHeight = 10; //Distance from water where a height is considered sand
+        private int m_forestHeight = 70; //Distance from water where a height is considered forest
+        private int m_mountainHeight = 135; //Distance from water where a height is considered mountain
+        private HeightMap m_heightMap;
         private Sprite m_heightSprite { get; set; }
-        private float[,] m_heightMap { get; set; }
 
-        public static int SeaLevel = 100; //How high the sea goes up to
-        public static int SandDistance = 10; //Distance from water where a height is considered sand
-        public static int ForestDistance = 70; //Distance from water where a height is considered forest
-        public static int MountainDistance = 135; //Distance from water where a height is considered mountain
-
-        public Terrain(float[,] heightMap, Vector2i desiredSize)
+        /// <summary>
+        /// Sets the Terrains height map. Setting this will cause a regeneration of the sprite.
+        /// </summary>
+        public HeightMap HeightMap
         {
-            m_heightMap = heightMap;
-            m_heightSprite = GenerateHeightSprite();
-            Scale = new Vector2f(desiredSize.X / (float)(m_heightSprite.Texture.Size.X), desiredSize.Y / (float)(m_heightSprite.Texture.Size.Y));
+            private get { return m_heightMap; }
+            set
+            {
+                m_heightMap = value;
+                GenerateSprite();
+            }
+        }
+
+        public Terrain(HeightMap heightMap)
+        {
+            HeightMap = heightMap;
+            GenerateSprite();
         }
 
         public void Draw(RenderTarget target, RenderStates states)
@@ -31,14 +41,37 @@ namespace EnviroGen
         }
 
         /// <summary>
+        /// Sets the heights for color mapping. Call ColorMap to actually update the sprite.
+        /// </summary>
+        /// <param name="seaLevel"></param>
+        /// <param name="sandHeight"></param>
+        /// <param name="forestHeight"></param>
+        /// <param name="mountainHeight"></param>
+        public void SetColorMapping(int seaLevel, int sandHeight, int forestHeight, int mountainHeight)
+        {
+            m_seaLevel = seaLevel;
+            m_sandHeight = sandHeight;
+            m_forestHeight = forestHeight;
+            m_mountainHeight = mountainHeight;
+        }
+
+        /// <summary>
+        /// Color maps the terrain according to its height map.
+        /// </summary>
+        public void ColorMap()
+        {
+            GenerateSprite();
+        }
+
+        /// <summary>
         /// Generate the height sprite based on the height map
         /// </summary>
         /// <returns></returns>
-        private Sprite GenerateHeightSprite()
+        private void GenerateSprite()
         {
-            var heightImage = new Image((uint)m_heightMap.GetLength(0), (uint)m_heightMap.GetLength(1));
+            var heightImage = new Image(HeightMap.Size.X, HeightMap.Size.Y);
             SetHeightPixels(heightImage);
-            return new Sprite(new Texture(heightImage));
+            m_heightSprite = new Sprite(new Texture(heightImage));
         }
 
         /// <summary>
@@ -57,7 +90,7 @@ namespace EnviroGen
                 for (uint i = 0; i < img.Size.X; i++)
                 {
                     //Scale the float value of the height map into a byte value
-                    var height = (byte)(m_heightMap[i, j] * Byte.MaxValue);
+                    var height = (byte)(HeightMap[i, j] * Byte.MaxValue);
                     if (IsWaterHeight(height))
                     {
                         water.A = height; //deep water is darker
@@ -65,14 +98,14 @@ namespace EnviroGen
                     }
                     else if (IsSandHeight(height))
                     {
-                        var fromWater = (byte)(height - SeaLevel);
+                        var fromWater = (byte)(height - m_seaLevel);
                         fromWater *= 10; //scale the distance so that we see a greater range of colors
                         sand.A = (byte)(240 - fromWater);
                         img.SetPixel(i, j, sand);
                     }
                     else if (IsForestHeight(height))
                     {
-                        var fromWater = (byte)(height - SeaLevel);
+                        var fromWater = (byte)(height - m_seaLevel);
                         forest.G = (byte)(height - (2 * fromWater)); //higher forest is darker colored
 
                         img.SetPixel(i, j, forest);
@@ -91,9 +124,9 @@ namespace EnviroGen
         /// </summary>
         /// <param name="height"></param>
         /// <returns></returns>
-        private static bool IsWaterHeight(byte height)
+        private bool IsWaterHeight(byte height)
         {
-            return height < SeaLevel;
+            return height < m_seaLevel;
         }
 
         /// <summary>
@@ -101,9 +134,9 @@ namespace EnviroGen
         /// </summary>
         /// <param name="height"></param>
         /// <returns></returns>
-        private static bool IsSandHeight(byte height)
+        private bool IsSandHeight(byte height)
         {
-            return height >= SeaLevel && height < SeaLevel + SandDistance;
+            return height >= m_seaLevel && height < m_seaLevel + m_sandHeight;
         }
 
         /// <summary>
@@ -111,9 +144,9 @@ namespace EnviroGen
         /// </summary>
         /// <param name="height"></param>
         /// <returns></returns>
-        private static bool IsForestHeight(byte height)
+        private bool IsForestHeight(byte height)
         {
-            return height >= SeaLevel + SandDistance && height < SeaLevel + ForestDistance;
+            return height >= m_seaLevel + m_sandHeight && height < m_seaLevel + m_forestHeight;
         }
 
         /// <summary>
@@ -121,9 +154,9 @@ namespace EnviroGen
         /// </summary>
         /// <param name="height"></param>
         /// <returns></returns>
-        private static bool IsMountainHeight(byte height)
+        private bool IsMountainHeight(byte height)
         {
-            return height >= SeaLevel + ForestDistance /*&& height < SeaLevel + MountainDistance*/;
+            return height >= m_seaLevel + m_forestHeight /*&& height < SeaLevel + MountainDistance*/;
         }
     }
 }
