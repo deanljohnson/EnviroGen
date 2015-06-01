@@ -1,60 +1,47 @@
 ﻿using System;
 using SFML.Graphics;
-using SFML.Window;
 
 namespace EnviroGen
 {
-    class Clouds : Transformable, Drawable
+    public class Clouds : Transformable, Drawable
     {
-        private readonly Sprite m_cloudSprite;
-        private readonly float[,] m_cloudMap;
-        private Vector2f m_size;
-
-        public Clouds(float[,] cloudMap)
-        {
-            m_cloudMap = cloudMap;
-            m_cloudSprite = GenerateCloudSprite();
-            m_size = new Vector2f(m_cloudSprite.Texture.Size.X, m_cloudSprite.Texture.Size.Y);
-        }
+        private Sprite m_cloudSprite { get; set; }
+        private HeightMap m_cloudMap;
 
         /// <summary>
-        /// Scrolls the clouds
+        /// Sets the Clouds height map. Setting this will cause a regeneration of the sprite.
         /// </summary>
-        public void Update()
+        public HeightMap CloudMap
         {
-            m_cloudSprite.Position += new Vector2f(.5f, 0);
-            if (m_cloudSprite.Position.X >= m_size.X)
+            get { return m_cloudMap; }
+            set
             {
-                m_cloudSprite.Position = new Vector2f(0, 0);
+                m_cloudMap = value;
+                GenerateCloudSprite();
             }
+        }
+
+        public Clouds(HeightMap cloudMap)
+        {
+            m_cloudMap = cloudMap;
+            GenerateCloudSprite();
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
             states.Transform.Combine(Transform);
-
             target.Draw(m_cloudSprite, states);
-
-            //Flip texture rect and set position for scrolling
-            //Allows never-ending scrolling, but not a very interesting cloud sequence
-            m_cloudSprite.Position -= new Vector2f(m_cloudSprite.Texture.Size.X, 0);
-            m_cloudSprite.TextureRect = new IntRect((int)m_cloudSprite.Texture.Size.X, 0, ((int)m_cloudSprite.Texture.Size.X) * -1, (int)m_cloudSprite.Texture.Size.Y);
-            target.Draw(m_cloudSprite);
-
-            //reset textureRect and position
-            m_cloudSprite.Position += new Vector2f(m_cloudSprite.Texture.Size.X, 0);
-            m_cloudSprite.TextureRect = new IntRect(0, 0, (int)m_cloudSprite.Texture.Size.X, (int)m_cloudSprite.Texture.Size.Y);
         }
 
         /// <summary>
         /// Generates a cloud sprite basd on the values from the cloud map
         /// </summary>
         /// <returns></returns>
-        private Sprite GenerateCloudSprite()
+        private void GenerateCloudSprite()
         {
-            var cloudImage = new Image((uint)m_cloudMap.GetLength(0), (uint)m_cloudMap.GetLength(1));
+            var cloudImage = new Image(m_cloudMap.Size.X, m_cloudMap.Size.Y);
             SetCloudPixels(cloudImage);
-            return new Sprite(new Texture(cloudImage));
+            m_cloudSprite = new Sprite(new Texture(cloudImage));
         }
 
         /// <summary>
