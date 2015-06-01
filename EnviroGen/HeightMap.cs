@@ -45,14 +45,13 @@ namespace EnviroGen
 
             var dif = maxValue - minValue;
 
-            for (uint y = 0; y < Size.X; y++)
+            for (uint y = 0; y < Size.Y; y++)
             {
-                for (uint x = 0; x < Size.Y; x++)
+                for (uint x = 0; x < Size.X; x++)
                 {
                     Map[x, y] = (Map[x, y] - minValue) / (dif);
                 }
             }
-        }
         }
     }
 }
