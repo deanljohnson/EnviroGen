@@ -1,0 +1,1 @@
+EnviroGen is an WIP environment generator that can quickly generate large 2d height maps. EnviroGen has easy to use classes that allow simple visualizations of the generated height maps along with support for simple cloud maps, continent, and river generation.
