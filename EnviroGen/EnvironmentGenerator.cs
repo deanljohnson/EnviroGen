@@ -1,9 +1,16 @@
-﻿using SFML.Window;
+﻿using System;
+using System.ComponentModel;
+using System.Threading;
 
 namespace EnviroGen
 {
     public class EnvironmentGenerator
     {
+        private Thread TerrainThread { get; set; }
+        private Thread CloudThread { get; set; }
+        private HeightMap TerrainHeightMap { get; set; }
+        private HeightMap CloudHeightMap { get; set; }
+
         public int SizeX { get; set; }
         public int SizeY { get; set; }
         public int HeightMapOctaveCount { get; set; }
@@ -17,17 +24,39 @@ namespace EnviroGen
         public int MountainDistance { get; set; }
         public int HeightMapSeed { get; set; }
         public int CloudMapSeed { get; set; }
+        public float NoiseRoughness { get; set; }
+        public float NoiseScale { get; set; }
+
+        public EnvironmentGenerator()
+        {
+            TerrainThread = new Thread(GenerateTerrainHeightMap);
+            CloudThread = new Thread(GenerateCloudHeightMap);
+        }
 
         public Environment Generate()
         {
-            var heightMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, HeightMapOctaveCount, NumContinents, MinimumContinentSize, MaximumContinentSize, HeightMapSeed);
-            var cloudMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, CloudMapOctaveCount, 0, 0, 0, CloudMapSeed);
-            
-            ContinentGenerator.BuildContinents(heightMap, NumContinents, MinimumContinentSize, MaximumContinentSize);
+            TerrainThread.Start();
+            CloudThread.Start();
+            TerrainThread.Join();
+            CloudThread.Join();
 
-            heightMap.Normalize();
+            return new Environment(new Terrain(TerrainHeightMap), new Clouds(CloudHeightMap));
+        }
 
-            return new Environment(new Terrain(heightMap), new Clouds(cloudMap));
+        private void GenerateTerrainHeightMap()
+        {
+            TerrainHeightMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, HeightMapOctaveCount, NoiseRoughness,
+                NoiseScale, HeightMapSeed);
+
+            ContinentGenerator.BuildContinents(TerrainHeightMap, NumContinents, MinimumContinentSize, MaximumContinentSize);
+
+            TerrainHeightMap.Normalize();
+        }
+
+        private void GenerateCloudHeightMap()
+        {
+            CloudHeightMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, CloudMapOctaveCount, NoiseRoughness,
+                NoiseScale, CloudMapSeed);
         }
     }
 }
