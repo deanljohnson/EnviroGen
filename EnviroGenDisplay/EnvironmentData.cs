@@ -236,6 +236,40 @@ namespace EnviroGenDisplay
             m_cloudMapSeed = -1;
             m_noiseRoughness = .55f;
             m_noiseScale = .005f;
+            m_erosionAngle = .022f;
+            m_erosionIterations = 40;
+        }
+
+        public EnvironmentGenerator BuildEnvironmentGenerator()
+        {
+            var seaColor = new SFML.Graphics.Color(m_seaColor.R, m_seaColor.G, m_seaColor.B, m_seaColor.A);
+            var sandColor = new SFML.Graphics.Color(m_sandColor.R, m_sandColor.G, m_sandColor.B, m_sandColor.A);
+            var forestColor = new SFML.Graphics.Color(m_forestColor.R, m_forestColor.G, m_forestColor.B, m_forestColor.A);
+            var mountainColor = new SFML.Graphics.Color(m_mountainColor.R, m_mountainColor.G, m_mountainColor.B, m_mountainColor.A);
+
+            return new EnvironmentGenerator
+            {
+                SizeX = m_sizeX,
+                SizeY = m_sizeY,
+                HeightMapOctaveCount = m_heightMapOctaveCount,
+                CloudMapOctaveCount = m_cloudMapOctaveCount,
+                NumContinents = m_numberOfContinents,
+                MinimumContinentSize = m_minimumContinentSize,
+                MaximumContinentSize = m_maximumContinentSize,
+                SeaLevel = m_seaLevel,
+                SandDistance = m_sandDistance,
+                ForestDistance = m_forestDistance,
+                HeightMapSeed = m_heightMapSeed,
+                CloudMapSeed = m_cloudMapSeed,
+                NoiseRoughness = m_noiseRoughness,
+                NoiseScale = m_noiseScale,
+                ErosionAngle = m_erosionAngle,
+                ErosionIterations = m_erosionIterations,
+                SeaColor = seaColor,
+                SandColor = sandColor,
+                ForestColor = forestColor,
+                MountainColor = mountainColor
+            };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
