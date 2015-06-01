@@ -1,0 +1,64 @@
+﻿<Window x:Class="EnviroGenDisplay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="EnviroGen Display" Height="400" Width="525"
+        xmlns:c="clr-namespace:EnviroGenDisplay">
+    <Grid Margin="10,10,10,10" Height="350" VerticalAlignment="Top" Name="Grid">
+        <Grid.Resources>
+            <c:EnvironmentData x:Key="EnvironmentData"/>
+        </Grid.Resources>
+        <Grid.DataContext>
+            <Binding Source="{StaticResource EnvironmentData}"/>
+        </Grid.DataContext>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Size X:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
+        <Label Content="Size Y:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+        <Label Content="Height Map Octave Count:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label Content="Cloud Map Octave Count:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"/>
+        <Label Content="Number of Continents:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"/>
+        <Label Content="Minimum Continent Size:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"/>
+        <Label Content="Maximum Continent Size:" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center"/>
+        <Label Content="Height Map Seed:" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center"/>
+        <Label Content="Cloud Map Seed:" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=HeightMapOctaveCount}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=CloudMapOctaveCount}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=NumberOfContinents}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=MinimumContinentSize}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="6" Text="{Binding Path=MaximumContinentSize}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="7" Text="{Binding Path=HeightMapSeed}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="8" Text="{Binding Path=CloudMapSeed}"/>
+        <Button Content="Generate" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Grid.Column="0" Grid.Row="9" Click="OnGenerateClick"/>
+        
+        <Label Content="Sea Level:" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
+        <Label Content="Sand Distance:" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
+        <Label Content="Forest Distance:" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label Content="Mountain Distance:" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="0" Text="{Binding Path=SeaLevel}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="1" Text="{Binding Path=SandDistance}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="2" Text="{Binding Path=ForestDistance}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="3" Text="{Binding Path=MountainDistance}"/>
+        <Button Content="Refresh" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Grid.Column="2" Grid.Row="4" Click="OnRefreshClick"/>
+    </Grid>
+    
+</Window>
