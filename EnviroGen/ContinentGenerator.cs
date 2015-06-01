@@ -47,7 +47,7 @@ namespace EnviroGen
         {
             MultiplyHeightAtPoint(heightMap, start.X, start.Y, scaleValue);
 
-            for (var d = 1; d < size; d++, scaleValue += scaleStep)
+            for (var d = 1; d < size + 1; d++, scaleValue += scaleStep)
             {
                 //Corner values
                 MultiplyHeightAtPoint(heightMap, start.X - d, start.Y - d, scaleValue);
