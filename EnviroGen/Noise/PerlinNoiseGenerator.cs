@@ -1,47 +1,29 @@
 ﻿using System;
-using SFML.Window;
 
-namespace EnviroGen
+namespace EnviroGen.Noise
 {
-    class PerlinNoiseGenerator
+    public static class PerlinNoiseGenerator
     {
-        /// <summary>
-        /// Controls the level of variation, higher = less variation.
-        /// </summary>
-        public int OctaveCount { get; set; }
-
-        /// <summary>
-        /// Sets size to be used for generation
-        /// </summary>
-        public Vector2i Size { get; set; }
-
-        protected PerlinNoiseGenerator(Vector2i size, int octaveCount)
-        {
-            OctaveCount = octaveCount;
-            Size = size;
-        }
-
         /// <summary>
         /// Generates a perlin noise map using the provided Random object
         /// </summary>
-        /// <param name="random"></param>
-        protected float[,] GenerateNoise(Random random)
+        public static float[,] GenerateNoise(int sizeX, int sizeY, int octaveCount, Random random)
         {
-            var noise = GenerateWhiteNoise(random);
-            return GeneratePerlinNoise(noise, OctaveCount);
+            var noise = GenerateWhiteNoise(sizeX, sizeY, random);
+            return GeneratePerlinNoise(noise, octaveCount);
         }
 
         /// <summary>
         /// Return an array of random floats, 0.0f to 1.0f.
         /// </summary>
         /// <returns></returns>
-        private float[,] GenerateWhiteNoise(Random random)
+        private static float[,] GenerateWhiteNoise(int sizeX, int sizeY, Random random)
         {
-            var whiteNoise = new float[Size.X, Size.Y];
+            var whiteNoise = new float[sizeX, sizeY];
 
-            for (var j = 0; j < Size.Y; j++)
+            for (var j = 0; j < sizeY; j++)
             {
-                for (var i = 0; i < Size.X; i++)
+                for (var i = 0; i < sizeX; i++)
                 {
                     whiteNoise[i, j] = (float)random.NextDouble();
                 }
@@ -50,11 +32,11 @@ namespace EnviroGen
             return whiteNoise;
         }
 
-        private float[,] GeneratePerlinNoise(float[,] baseNoise, int octaveCount)
+        private static float[,] GeneratePerlinNoise(float[,] baseNoise, int octaveCount)
         {
             const float persistence = .55f;
-            var width = Size.X;
-            var height = Size.Y;
+            var width = baseNoise.GetLength(0);
+            var height = baseNoise.GetLength(1);
 
             var perlinNoise = new float[width, height];
             var amplitude = 1.0f;
@@ -88,10 +70,10 @@ namespace EnviroGen
             return perlinNoise;
         }
 
-        private float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
+        private static float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
         {
-            var width = Size.X;
-            var height = Size.Y;
+            var width = baseNoise.GetLength(0);
+            var height = baseNoise.GetLength(1);
 
             var smoothNoise = new float[width, height];
 
