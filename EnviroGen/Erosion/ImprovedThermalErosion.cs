@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using SFML.Window;
-
-namespace EnviroGen.Erosion
+﻿namespace EnviroGen.Erosion
 {
-    class ImprovedThermalErosion
+    public class ImprovedThermalErosion : ThermalErosion
     {
-        public static void Erode(HeightMap heightMap, float talusAngle, int iterations)
+        public new static void Erode(HeightMap heightMap, float talusAngle, int iterations)
         {
             for (var i = 0; i < iterations; i++)
             {
@@ -27,25 +23,6 @@ namespace EnviroGen.Erosion
                     }
                 }
             }
-        }
-
-        private static Vector2i GetHighestSlopedNeighbor(HeightMap heightMap, int x, int y, IReadOnlyList<Vector2i> neighbors, out float slope)
-        {
-            var slopedNeighbor = neighbors[0];
-            var highestSlope = 0f;
-
-            foreach (var neighbor in neighbors)
-            {
-                var currentSlope = Math.Abs(heightMap[x, y] - heightMap[neighbor.X, neighbor.Y]);
-                if (currentSlope > highestSlope)
-                {
-                    highestSlope = currentSlope;
-                    slopedNeighbor = neighbor;
-                }
-            }
-
-            slope = highestSlope;
-            return slopedNeighbor;
         }
     }
 }

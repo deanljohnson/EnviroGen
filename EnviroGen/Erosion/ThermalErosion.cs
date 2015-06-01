@@ -4,7 +4,7 @@ using SFML.Window;
 
 namespace EnviroGen.Erosion
 {
-    public static class ThermalErosion
+    public class ThermalErosion
     {
         public static void Erode(HeightMap heightMap, float talusAngle, int iterations)
         {
@@ -29,7 +29,7 @@ namespace EnviroGen.Erosion
             }
         }
 
-        private static Vector2i GetHighestSlopedNeighbor(HeightMap heightMap, int x, int y, IReadOnlyList<Vector2i> neighbors, out float slope)
+        internal static Vector2i GetHighestSlopedNeighbor(HeightMap heightMap, int x, int y, IReadOnlyList<Vector2i> neighbors, out float slope)
         {
             var slopedNeighbor = neighbors[0];
             var highestSlope = 0f;
