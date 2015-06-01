@@ -2,27 +2,22 @@
 
 namespace EnviroGen
 {
-    class Environment : Transformable, Drawable
+    public class Environment : Transformable, Drawable
     {
-        private readonly Terrain m_terrain;
-        private readonly Clouds m_clouds;
+        public Terrain Terrain;
+        public Clouds Clouds;
 
         public Environment(Terrain terrain, Clouds clouds)
         {
-            m_terrain = terrain;
-            m_clouds = clouds;
-        }
-
-        public void Update()
-        {
-            m_clouds.Update();
+            Terrain = terrain;
+            Clouds = clouds;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
             states.Transform.Combine(Transform);
-            target.Draw(m_terrain, states);
-            target.Draw(m_clouds, states);
+            if (Terrain != null) target.Draw(Terrain, states);
+            if (Clouds != null) target.Draw(Clouds, states);
         }
     }
 }
