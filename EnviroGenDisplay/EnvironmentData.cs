@@ -203,14 +203,14 @@ namespace EnviroGenDisplay
             }
         }
 
-        public string NoiseScale
+        public string NoiseFrequency
         {
-            get { return GenOptions.NoiseScale.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.NoiseFrequency.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (GenOptions.NoiseScale.ToString(CultureInfo.CurrentCulture) != value)
+                if (GenOptions.NoiseFrequency.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    GenOptions.NoiseScale = float.Parse(value);
+                    GenOptions.NoiseFrequency = float.Parse(value);
                     OnPropertyChanged();
                 }
             }

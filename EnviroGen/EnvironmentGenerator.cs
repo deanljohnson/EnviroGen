@@ -36,7 +36,7 @@ namespace EnviroGen
         private void GenerateTerrainHeightMap()
         {
             TerrainHeightMap = HeightMapGenerator.GenerateHeightMap(GenOptions.SizeX, GenOptions.SizeY, GenOptions.HeightMapOctaveCount, GenOptions.NoiseRoughness,
-                GenOptions.NoiseScale, GenOptions.HeightMapSeed);
+                GenOptions.NoiseFrequency, GenOptions.HeightMapSeed);
 
             ContinentGenerator.BuildContinents(TerrainHeightMap, GenOptions.NumContinents, GenOptions.MinimumContinentSize, GenOptions.MaximumContinentSize);
 
@@ -48,7 +48,7 @@ namespace EnviroGen
         private void GenerateCloudHeightMap()
         {
             CloudHeightMap = HeightMapGenerator.GenerateHeightMap(GenOptions.SizeX, GenOptions.SizeY, GenOptions.CloudMapOctaveCount, GenOptions.NoiseRoughness,
-                GenOptions.NoiseScale, GenOptions.CloudMapSeed);
+                GenOptions.NoiseFrequency, GenOptions.CloudMapSeed);
         }
     }
 }

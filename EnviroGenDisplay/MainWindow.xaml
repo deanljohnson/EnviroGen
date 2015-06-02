@@ -47,7 +47,7 @@
         <Label Content="Height Map Seed:" Grid.Column="0" Grid.Row="7"/>
         <Label Content="Cloud Map Seed:" Grid.Column="0" Grid.Row="8"/>
         <Label Content="Noise Roughness:" Grid.Column="0" Grid.Row="9"/>
-        <Label Content="Noise Scale:" Grid.Column="0" Grid.Row="10"/>
+        <Label Content="Noise Frequency:" Grid.Column="0" Grid.Row="10"/>
         <Label Content="Erosion Angle:" Grid.Column="0" Grid.Row="11"/>
         <Label Content="Erosion Iterations:" Grid.Column="0" Grid.Row="12"/>
         <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="13" Click="OnGenerateClick"/>
@@ -61,7 +61,7 @@
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="7" Text="{Binding Path=HeightMapSeed}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="8" Text="{Binding Path=CloudMapSeed}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="9" Text="{Binding Path=NoiseRoughness}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="10" Text="{Binding Path=NoiseScale}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="10" Text="{Binding Path=NoiseFrequency}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="11" Text="{Binding Path=ErosionAngle}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="12" Text="{Binding Path=ErosionIterations}"/>
         

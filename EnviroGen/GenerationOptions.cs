@@ -18,7 +18,7 @@ namespace EnviroGen
         public int HeightMapSeed { get; set; }
         public int CloudMapSeed { get; set; }
         public float NoiseRoughness { get; set; }
-        public float NoiseScale { get; set; }
+        public float NoiseFrequency { get; set; }
         public float ErosionAngle { get; set; }
         public int ErosionIterations { get; set; }
         public Colorizer TerrainColorizer { get; set; }
@@ -39,7 +39,7 @@ namespace EnviroGen
             HeightMapSeed = -1;
             CloudMapSeed = -1;
             NoiseRoughness = .55f;
-            NoiseScale = .005f;
+            NoiseFrequency = .005f;
             ErosionAngle = .022f;
             ErosionIterations = 40;
             TerrainColorizer = new Colorizer();
