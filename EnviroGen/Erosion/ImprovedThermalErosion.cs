@@ -12,13 +12,11 @@
                     {
                         var neighbors = heightMap.GetVonNeumannNeighbors(x, y);
                         float highestSlope;
-                        var highestSlopedNeighbor = GetHighestSlopedNeighbor(heightMap, x, y, neighbors, out highestSlope);
+                        var highestSlopedNeighbor = GetHighestSlopedNeighbor(heightMap, neighbors, heightMap[x, y], out highestSlope);
 
                         if (highestSlope <= talusAngle)
                         {
-                            var heightDif = heightMap[x, y] - heightMap[highestSlopedNeighbor];
-                            heightMap[x, y] -= heightDif / 2f;
-                            heightMap[highestSlopedNeighbor] += heightDif / 2f;
+                            BalanceHeightsAtPoints(heightMap, x, y, highestSlopedNeighbor.X, highestSlopedNeighbor.Y);
                         }
                     }
                 }

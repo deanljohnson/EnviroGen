@@ -6,6 +6,10 @@ namespace EnviroGen.Erosion
 {
     public class ThermalErosion
     {
+        /// <summary>
+        /// Erodes the given HeightMap based on the idea of gravity leveling out steep areas.
+        /// Will completely remove cliffs.
+        /// </summary>
         public static void Erode(HeightMap heightMap, float talusAngle, int iterations)
         {
             for (var i = 0; i < iterations; i++)
@@ -16,27 +20,28 @@ namespace EnviroGen.Erosion
                     {
                         var neighbors = heightMap.GetVonNeumannNeighbors(x, y);
                         float highestSlope;
-                        var highestSlopedNeighbor = GetHighestSlopedNeighbor(heightMap, x, y, neighbors, out highestSlope);
+                        var highestSlopedNeighbor = GetHighestSlopedNeighbor(heightMap, neighbors, heightMap[x, y], out highestSlope);
 
                         if (highestSlope > talusAngle)
                         {
-                            var heightDif = heightMap[x, y] - heightMap[highestSlopedNeighbor];
-                            heightMap[x, y] -= heightDif / 2f;
-                            heightMap[highestSlopedNeighbor] += heightDif / 2f;
+                            BalanceHeightsAtPoints(heightMap, x, y, highestSlopedNeighbor.X, highestSlopedNeighbor.Y);
                         }
                     }
                 }
             }
         }
 
-        internal static Vector2i GetHighestSlopedNeighbor(HeightMap heightMap, int x, int y, IReadOnlyList<Vector2i> neighbors, out float slope)
+        /// <summary>
+        /// Returns the index of the neighboring height value that most differs from the given height.
+        /// </summary>
+        internal static Vector2i GetHighestSlopedNeighbor(HeightMap heightMap, IReadOnlyList<Vector2i> neighbors, float height, out float slope)
         {
             var slopedNeighbor = neighbors[0];
             var highestSlope = 0f;
 
             foreach (var neighbor in neighbors)
             {
-                var currentSlope = Math.Abs(heightMap[x, y] - heightMap[neighbor]);
+                var currentSlope = Math.Abs(height - heightMap[neighbor]);
                 if (currentSlope > highestSlope)
                 {
                     highestSlope = currentSlope;
@@ -46,6 +51,18 @@ namespace EnviroGen.Erosion
 
             slope = highestSlope;
             return slopedNeighbor;
+        }
+
+        /// <summary>
+        /// Makes the heights of the given coordinates equal by subtracting from the higher and adding to the lower.
+        /// </summary>
+        internal static void BalanceHeightsAtPoints(HeightMap heightMap, int x1, int y1, int x2, int y2)
+        {
+            var heightDif = heightMap[x1, y1] - heightMap[x2, y2];
+
+            //Balance this point and the neighboring point in height.
+            heightMap[x1, y1] -= heightDif / 2f;
+            heightMap[x2, y2] += heightDif / 2f;
         }
     }
 }
