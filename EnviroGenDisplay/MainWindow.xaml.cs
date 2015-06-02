@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 
 namespace EnviroGenDisplay
@@ -10,11 +11,15 @@ namespace EnviroGenDisplay
     public partial class MainWindow
     {
         private static BackgroundWorker DisplayWorker { get; set; }
+        private static Thread GenerationThread { get; set; }
 
         public MainWindow()
         {
             DisplayWorker = new BackgroundWorker();
+            GenerationThread = new Thread(EnvironmentDisplay.GenerateFromData);
+
             InitializeComponent();
+
             DisplayWorker.DoWork += EnvironmentDisplay.Update;
             DisplayWorker.RunWorkerAsync();
         }
@@ -27,8 +32,14 @@ namespace EnviroGenDisplay
             {
                 throw new ArgumentNullException();
             }
-            
-            EnvironmentDisplay.GenerateFromData(ed);
+
+            EnvironmentDisplay.EnvironmentData = ed;
+
+            if (!GenerationThread.IsAlive)
+            {
+                GenerationThread = new Thread(EnvironmentDisplay.GenerateFromData);
+                GenerationThread.Start();
+            }
         }
 
         private void OnRefreshClick(object sender, RoutedEventArgs e)
