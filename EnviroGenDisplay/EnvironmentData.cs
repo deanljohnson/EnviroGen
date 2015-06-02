@@ -11,23 +11,7 @@ namespace EnviroGenDisplay
 {
     public sealed class EnvironmentData : INotifyPropertyChanged
     {
-        private int m_sizeX;
-        private int m_sizeY;
-        private int m_heightMapOctaveCount;
-        private int m_cloudMapOctaveCount;
-        private float m_seaLevel;
-        private float m_sandDistance;
-        private float m_forestDistance;
-        private float m_mountainDistance;
-        private int m_numberOfContinents;
-        private int m_minimumContinentSize;
-        private int m_maximumContinentSize;
-        private int m_heightMapSeed;
-        private int m_cloudMapSeed;
-        private float m_noiseRoughness;
-        private float m_noiseScale;
-        private float m_erosionAngle;
-        private int m_erosionIterations;
+        private readonly GenerationOptions GenOptions;
         private Color m_seaColorLow;
         private Color m_sandColorLow;
         private Color m_forestColorLow;
@@ -39,12 +23,12 @@ namespace EnviroGenDisplay
 
         public string SizeX
         {
-            get { return m_sizeX.ToString(); }
+            get { return GenOptions.SizeX.ToString(); }
             set
             {
-                if (m_sizeX.ToString() != value)
+                if (GenOptions.SizeX.ToString() != value)
                 {
-                    m_sizeX = Int32.Parse(value);
+                    GenOptions.SizeX = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -52,12 +36,12 @@ namespace EnviroGenDisplay
 
         public string SizeY
         {
-            get { return m_sizeY.ToString(); }
+            get { return GenOptions.SizeY.ToString(); }
             set
             {
-                if (m_sizeY.ToString() != value)
+                if (GenOptions.SizeY.ToString() != value)
                 {
-                    m_sizeY = Int32.Parse(value);
+                    GenOptions.SizeY = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -65,12 +49,12 @@ namespace EnviroGenDisplay
 
         public string HeightMapOctaveCount
         {
-            get { return m_heightMapOctaveCount.ToString(); }
+            get { return GenOptions.HeightMapOctaveCount.ToString(); }
             set
             {
-                if (m_heightMapOctaveCount.ToString() != value)
+                if (GenOptions.HeightMapOctaveCount.ToString() != value)
                 {
-                    m_heightMapOctaveCount = Int32.Parse(value);
+                    GenOptions.HeightMapOctaveCount = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -78,12 +62,12 @@ namespace EnviroGenDisplay
 
         public string CloudMapOctaveCount
         {
-            get { return m_cloudMapOctaveCount.ToString(); }
+            get { return GenOptions.CloudMapOctaveCount.ToString(); }
             set
             {
-                if (m_cloudMapOctaveCount.ToString() != value)
+                if (GenOptions.CloudMapOctaveCount.ToString() != value)
                 {
-                    m_cloudMapOctaveCount = Int32.Parse(value);
+                    GenOptions.CloudMapOctaveCount = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -91,12 +75,12 @@ namespace EnviroGenDisplay
 
         public string SeaLevel
         {
-            get { return m_seaLevel.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.SeaLevel.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_seaLevel.ToString(CultureInfo.InvariantCulture) != value)
+                if (GenOptions.SeaLevel.ToString(CultureInfo.InvariantCulture) != value)
                 {
-                    m_seaLevel = float.Parse(value);
+                    GenOptions.SeaLevel = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -104,12 +88,12 @@ namespace EnviroGenDisplay
 
         public string SandDistance
         {
-            get { return m_sandDistance.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.SandDistance.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_sandDistance.ToString(CultureInfo.CurrentCulture) != value)
+                if (GenOptions.SandDistance.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_sandDistance = float.Parse(value);
+                    GenOptions.SandDistance = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -117,12 +101,12 @@ namespace EnviroGenDisplay
 
         public string ForestDistance
         {
-            get { return m_forestDistance.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.ForestDistance.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_forestDistance.ToString(CultureInfo.CurrentCulture) != value)
+                if (GenOptions.ForestDistance.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_forestDistance = float.Parse(value);
+                    GenOptions.ForestDistance = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -130,12 +114,12 @@ namespace EnviroGenDisplay
 
         public string MountainDistance
         {
-            get { return m_mountainDistance.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.MountainDistance.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_mountainDistance.ToString(CultureInfo.CurrentCulture) != value)
+                if (GenOptions.MountainDistance.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_mountainDistance = float.Parse(value);
+                    GenOptions.MountainDistance = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -143,12 +127,12 @@ namespace EnviroGenDisplay
 
         public string NumberOfContinents
         {
-            get { return m_numberOfContinents.ToString(); }
+            get { return GenOptions.NumContinents.ToString(); }
             set
             {
-                if (m_numberOfContinents.ToString() != value)
+                if (GenOptions.NumContinents.ToString() != value)
                 {
-                    m_numberOfContinents = Int32.Parse(value);
+                    GenOptions.NumContinents = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -156,12 +140,12 @@ namespace EnviroGenDisplay
 
         public string MinimumContinentSize
         {
-            get { return m_minimumContinentSize.ToString(); }
+            get { return GenOptions.MinimumContinentSize.ToString(); }
             set
             {
-                if (m_minimumContinentSize.ToString() != value)
+                if (GenOptions.MinimumContinentSize.ToString() != value)
                 {
-                    m_minimumContinentSize = Int32.Parse(value);
+                    GenOptions.MinimumContinentSize = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -169,12 +153,12 @@ namespace EnviroGenDisplay
 
         public string MaximumContinentSize
         {
-            get { return m_maximumContinentSize.ToString(); }
+            get { return GenOptions.MaximumContinentSize.ToString(); }
             set
             {
-                if (m_maximumContinentSize.ToString() != value)
+                if (GenOptions.MaximumContinentSize.ToString() != value)
                 {
-                    m_maximumContinentSize = Int32.Parse(value);
+                    GenOptions.MaximumContinentSize = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -182,12 +166,12 @@ namespace EnviroGenDisplay
 
         public string HeightMapSeed
         {
-            get { return m_heightMapSeed.ToString(); }
+            get { return GenOptions.HeightMapSeed.ToString(); }
             set
             {
-                if (m_heightMapSeed.ToString() != value)
+                if (GenOptions.HeightMapSeed.ToString() != value)
                 {
-                    m_heightMapSeed = Int32.Parse(value);
+                    GenOptions.HeightMapSeed = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -195,12 +179,12 @@ namespace EnviroGenDisplay
 
         public string CloudMapSeed
         {
-            get { return m_cloudMapSeed.ToString(); }
+            get { return GenOptions.CloudMapSeed.ToString(); }
             set
             {
-                if (m_cloudMapSeed.ToString() != value)
+                if (GenOptions.CloudMapSeed.ToString() != value)
                 {
-                    m_cloudMapSeed = Int32.Parse(value);
+                    GenOptions.CloudMapSeed = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -208,12 +192,12 @@ namespace EnviroGenDisplay
 
         public string NoiseRoughness
         {
-            get { return m_noiseRoughness.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.NoiseRoughness.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_noiseRoughness.ToString(CultureInfo.CurrentCulture) != value)
+                if (GenOptions.NoiseRoughness.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_noiseRoughness = float.Parse(value);
+                    GenOptions.NoiseRoughness = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -221,12 +205,12 @@ namespace EnviroGenDisplay
 
         public string NoiseScale
         {
-            get { return m_noiseScale.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.NoiseScale.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_noiseScale.ToString(CultureInfo.CurrentCulture) != value)
+                if (GenOptions.NoiseScale.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_noiseScale = float.Parse(value);
+                    GenOptions.NoiseScale = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -234,12 +218,12 @@ namespace EnviroGenDisplay
 
         public string ErosionAngle
         {
-            get { return m_erosionAngle.ToString(CultureInfo.CurrentCulture); }
+            get { return GenOptions.ErosionAngle.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_erosionAngle.ToString(CultureInfo.CurrentCulture) != value)
+                if (GenOptions.ErosionAngle.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_erosionAngle = float.Parse(value);
+                    GenOptions.ErosionAngle = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -247,12 +231,12 @@ namespace EnviroGenDisplay
 
         public string ErosionIterations
         {
-            get { return m_erosionIterations.ToString(); }
+            get { return GenOptions.ErosionIterations.ToString(); }
             set
             {
-                if (m_erosionIterations.ToString() != value)
+                if (GenOptions.ErosionIterations.ToString() != value)
                 {
-                    m_erosionIterations = Int32.Parse(value);
+                    GenOptions.ErosionIterations = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -364,23 +348,7 @@ namespace EnviroGenDisplay
 
         public EnvironmentData()
         {
-            m_sizeX = 1400;
-            m_sizeY = 800;
-            m_heightMapOctaveCount = 8;
-            m_cloudMapOctaveCount = 8;
-            m_seaLevel = .4f;
-            m_sandDistance = .45f;
-            m_forestDistance = .75f;
-            m_mountainDistance = 1f;
-            m_numberOfContinents = 1;
-            m_minimumContinentSize = 400;
-            m_maximumContinentSize = 450;
-            m_heightMapSeed = -1;
-            m_cloudMapSeed = -1;
-            m_noiseRoughness = .55f;
-            m_noiseScale = .005f;
-            m_erosionAngle = .022f;
-            m_erosionIterations = 40;
+            GenOptions = new GenerationOptions();
 
             m_seaColorLow = Color.FromArgb(255, 0, 0, 116);
             m_sandColorLow = Color.FromArgb(255, 170, 166, 27);
@@ -395,27 +363,11 @@ namespace EnviroGenDisplay
 
         public EnvironmentGenerator BuildEnvironmentGenerator()
         {
-            var terrainColorizer = BuildTerrainColorizer();
+            GenOptions.TerrainColorizer = BuildTerrainColorizer();
 
             return new EnvironmentGenerator
             {
-                SizeX = m_sizeX,
-                SizeY = m_sizeY,
-                HeightMapOctaveCount = m_heightMapOctaveCount,
-                CloudMapOctaveCount = m_cloudMapOctaveCount,
-                NumContinents = m_numberOfContinents,
-                MinimumContinentSize = m_minimumContinentSize,
-                MaximumContinentSize = m_maximumContinentSize,
-                SeaLevel = m_seaLevel,
-                SandDistance = m_sandDistance,
-                ForestDistance = m_forestDistance,
-                HeightMapSeed = m_heightMapSeed,
-                CloudMapSeed = m_cloudMapSeed,
-                NoiseRoughness = m_noiseRoughness,
-                NoiseScale = m_noiseScale,
-                ErosionAngle = m_erosionAngle,
-                ErosionIterations = m_erosionIterations,
-                TerrainColorizer = terrainColorizer
+                GenOptions = GenOptions
             };
         }
 
@@ -432,10 +384,10 @@ namespace EnviroGenDisplay
             var mountainColorHigh = FromSystemColor(m_mountainColorHigh);
 
             var terrainColorizer = new Colorizer();
-            terrainColorizer.AddColorRange(seaColorLow, seaColorHigh, 0f, m_seaLevel);
-            terrainColorizer.AddColorRange(sandColorLow, sandColorHigh, m_seaLevel, m_sandDistance);
-            terrainColorizer.AddColorRange(forestColorLow, forestColorHigh, m_sandDistance, m_forestDistance);
-            terrainColorizer.AddColorRange(mountainColorLow, mountainColorHigh, m_forestDistance, m_mountainDistance);
+            terrainColorizer.AddColorRange(seaColorLow, seaColorHigh, 0f, GenOptions.SeaLevel);
+            terrainColorizer.AddColorRange(sandColorLow, sandColorHigh, GenOptions.SeaLevel, GenOptions.SandDistance);
+            terrainColorizer.AddColorRange(forestColorLow, forestColorHigh, GenOptions.SandDistance, GenOptions.ForestDistance);
+            terrainColorizer.AddColorRange(mountainColorLow, mountainColorHigh, GenOptions.ForestDistance, GenOptions.MountainDistance);
 
             return terrainColorizer;
         }
@@ -452,6 +404,11 @@ namespace EnviroGenDisplay
         private static SFML.Graphics.Color FromSystemColor(Color sysColor)
         {
             return new SFML.Graphics.Color(sysColor.R, sysColor.G, sysColor.B, sysColor.A);
+        }
+
+        private static Color FromSFMLColor(SFML.Graphics.Color sfmlColor)
+        {
+            return Color.FromArgb(sfmlColor.A, sfmlColor.R, sfmlColor.G, sfmlColor.B);
         }
     }
 }

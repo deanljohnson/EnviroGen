@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using EnviroGen.Coloring;
 using EnviroGen.Erosion;
 using EnviroGen.RiverGen;
 
@@ -12,24 +11,7 @@ namespace EnviroGen
         private HeightMap TerrainHeightMap { get; set; }
         private HeightMap CloudHeightMap { get; set; }
 
-        public int SizeX { get; set; }
-        public int SizeY { get; set; }
-        public int HeightMapOctaveCount { get; set; }
-        public int CloudMapOctaveCount { get; set; }
-        public int NumContinents { get; set; }
-        public int MinimumContinentSize { get; set; }
-        public int MaximumContinentSize { get; set; }
-        public float SeaLevel { get; set; }
-        public float SandDistance { get; set; }
-        public float ForestDistance { get; set; }
-        public float MountainDistance { get; set; }
-        public int HeightMapSeed { get; set; }
-        public int CloudMapSeed { get; set; }
-        public float NoiseRoughness { get; set; }
-        public float NoiseScale { get; set; }
-        public float ErosionAngle { get; set; }
-        public int ErosionIterations { get; set; }
-        public Colorizer TerrainColorizer { get; set; }
+        public GenerationOptions GenOptions { get; set; }
 
         public EnvironmentGenerator()
         {
@@ -46,27 +28,27 @@ namespace EnviroGen
 
             var terrain = new Terrain(TerrainHeightMap,
                 RiverGenerator.GenerateRivers(TerrainHeightMap, 10, .9f, 1f, .3f));
-            terrain.Colorize(TerrainColorizer);
+            terrain.Colorize(GenOptions.TerrainColorizer);
 
             return new Environment(terrain, new Clouds(CloudHeightMap));
         }
 
         private void GenerateTerrainHeightMap()
         {
-            TerrainHeightMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, HeightMapOctaveCount, NoiseRoughness,
-                NoiseScale, HeightMapSeed);
+            TerrainHeightMap = HeightMapGenerator.GenerateHeightMap(GenOptions.SizeX, GenOptions.SizeY, GenOptions.HeightMapOctaveCount, GenOptions.NoiseRoughness,
+                GenOptions.NoiseScale, GenOptions.HeightMapSeed);
 
-            ContinentGenerator.BuildContinents(TerrainHeightMap, NumContinents, MinimumContinentSize, MaximumContinentSize);
+            ContinentGenerator.BuildContinents(TerrainHeightMap, GenOptions.NumContinents, GenOptions.MinimumContinentSize, GenOptions.MaximumContinentSize);
 
-            ImprovedThermalErosion.Erode(TerrainHeightMap, ErosionAngle, ErosionIterations);
+            ImprovedThermalErosion.Erode(TerrainHeightMap, GenOptions.ErosionAngle, GenOptions.ErosionIterations);
 
             TerrainHeightMap.Normalize();
         }
 
         private void GenerateCloudHeightMap()
         {
-            CloudHeightMap = HeightMapGenerator.GenerateHeightMap(SizeX, SizeY, CloudMapOctaveCount, NoiseRoughness,
-                NoiseScale, CloudMapSeed);
+            CloudHeightMap = HeightMapGenerator.GenerateHeightMap(GenOptions.SizeX, GenOptions.SizeY, GenOptions.CloudMapOctaveCount, GenOptions.NoiseRoughness,
+                GenOptions.NoiseScale, GenOptions.CloudMapSeed);
         }
     }
 }
