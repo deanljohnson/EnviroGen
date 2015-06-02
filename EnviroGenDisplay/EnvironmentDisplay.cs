@@ -125,7 +125,7 @@ namespace EnviroGenDisplay
             }
         }
 
-        public static void RefreshColorMappingHeights(EnvironmentData data)
+        public static void RefreshColorMapping(EnvironmentData data)
         {
             lock (EnvironmentData)
             {
@@ -134,8 +134,7 @@ namespace EnviroGenDisplay
 
             lock (Environment)
             {
-                Environment.Terrain.SetColorMappingHeights(Int32.Parse(data.SeaLevel), Int32.Parse(data.SandDistance), Int32.Parse(data.ForestDistance), Int32.Parse(data.MountainDistance));
-                Environment.Terrain.ColorMap();
+                Environment.Terrain.Colorize(data.BuildTerrainColorizer());
             }
         }
     }
