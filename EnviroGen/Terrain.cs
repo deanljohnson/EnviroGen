@@ -10,6 +10,10 @@ namespace EnviroGen
     /// </summary>
     public class Terrain : Transformable, Drawable
     {
+        /// <summary>
+        /// The default colorizer that Terrain objects start with, unless specified in a constructor.
+        /// Blends values from Black to White.
+        /// </summary>
         private static Colorizer DefaultColorizer { get; set; }
 
         private HeightMap m_heightMap;

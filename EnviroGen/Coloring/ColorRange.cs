@@ -4,9 +4,21 @@ namespace EnviroGen.Coloring
 {
     public class ColorRange
     {
+        /// <summary>
+        /// The Color a pixel should be at the lowest height in this ColorRange.
+        /// </summary>
         public Color LowColor { get; set; }
+        /// <summary>
+        /// The Color a pixel should be at the highest height in this ColorRange.
+        /// </summary>
         public Color HighColor { get; set; }
+        /// <summary>
+        /// The lowest height that this ColorRange handles.
+        /// </summary>
         public float LowHeight { get; set; }
+        /// <summary>
+        /// The highest height that this ColorRange handles.
+        /// </summary>
         public float HighHeight { get; set; }
 
         public ColorRange(Color lowColor, Color highColor, float lowHeight, float highHeight)
@@ -22,11 +34,17 @@ namespace EnviroGen.Coloring
         {
         }
 
+        /// <summary>
+        /// Returns whether or not the given height is within this ColorRange's range.
+        /// </summary>
         public bool InRange(float height)
         {
             return height >= LowHeight && height <= HighHeight;
         }
 
+        /// <summary>
+        /// Returns a Color based on a given height value. The given height should be within this ColorRange's range.
+        /// </summary>
         public Color GetColor(float height)
         {
             var heightRange = HighHeight - LowHeight;

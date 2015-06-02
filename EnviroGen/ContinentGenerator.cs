@@ -13,6 +13,9 @@ namespace EnviroGen
             Random = new Random();
         }
 
+        /// <summary>
+        /// Scales square areas on the given HeightMap to try and make more continent like shapes.
+        /// </summary>
         public static void BuildContinents(HeightMap heightMap, int numContinents, int minSize, int maxSize)
         {
             List<Vector2i> startPoints;
@@ -81,6 +84,14 @@ namespace EnviroGen
             }
         }
 
+        /// <summary>
+        /// Multiplies the height at the given point by mul, with bounds checking.
+        /// If the point is out of bounds, the method simply returns.
+        /// </summary>
+        /// <param name="heightMap"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="mul"></param>
         private static void MultiplyHeightAtPoint(HeightMap heightMap, int x, int y, float mul)
         {
             //if point is in bounds
@@ -90,6 +101,13 @@ namespace EnviroGen
             }
         }
 
+        /// <summary>
+        /// Returns a List of Vector2i with numPoints of random indices.
+        /// </summary>
+        /// <param name="numPoints"></param>
+        /// <param name="sizeX"></param>
+        /// <param name="sizeY"></param>
+        /// <returns></returns>
         private static List<Vector2i> GetRandomPoints(int numPoints, int sizeX, int sizeY)
         {
             var points = new List<Vector2i>(numPoints);

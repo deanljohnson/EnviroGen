@@ -31,27 +31,50 @@ namespace EnviroGen.Coloring
             return img;
         }
 
+        /// <summary>
+        /// Creates a new ColorRange object based on the given values and adds it to this Colorizer.
+        /// </summary>
         public void AddColorRange(Color lowColor, Color highColor, float lowHeight, float highHeight)
         {
             m_colorRanges.Add(new ColorRange(lowColor, highColor, lowHeight, highHeight));
         }
 
+        /// <summary>
+        /// Creates a new ColorRange object based on the given values and adds it to this Colorizer.
+        /// </summary>
         public void AddColorRange(Color color, float lowHeight, float highHeight)
         {
             AddColorRange(color, color, lowHeight, highHeight);
         }
 
+        /// <summary>
+        /// Adds the given ColorRange to this Colorizer's ColorRange list.
+        /// </summary>
         public void AddColorRange(ColorRange range)
         {
             m_colorRanges.Add(range);
         }
 
+        /// <summary>
+        /// Returns the Color provided by the first ColorRange found that handles the given height value.
+        /// Will return Color.Black if this Colorizer does not have a ColorRange for the provided height.
+        /// </summary>
         public Color GetColor(float height)
         {
-            var color = m_colorRanges.First(cr => cr.InRange(height)).GetColor(height);
-            return color;
+            var colorRange = m_colorRanges.FirstOrDefault(cr => cr.InRange(height));
+
+            if (colorRange != null)
+            {
+                var color = colorRange.GetColor(height);
+                return color;
+            }
+
+            return Color.Black;
         }
 
+        /// <summary>
+        /// Removes all ColorRanges from this Colorizer. Equivalent to creating a new Colorizer.
+        /// </summary>
         public void Clear()
         {
             m_colorRanges.Clear();

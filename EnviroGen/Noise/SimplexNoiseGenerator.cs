@@ -40,6 +40,10 @@ namespace EnviroGen.Noise
         // To remove the need for index wrapping, double the permutation table length
         private static readonly int[] Perm = new int[512];
 
+        /// <summary>
+        /// Returns a 2d array of float of the given size based on the given parameters.
+        /// With multiple octaves, subsequent octaves will have a higher frequency but less weight.
+        /// </summary>
         public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float frequency, int seed)
         {
             var arr = new float[xMax, yMax];

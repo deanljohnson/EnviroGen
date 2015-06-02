@@ -19,6 +19,9 @@ namespace EnviroGen
             CloudThread = new Thread(GenerateCloudHeightMap);
         }
 
+        /// <summary>
+        /// Returns an environment generated based off of the current GenOptions property.
+        /// </summary>
         public Environment Generate()
         {
             TerrainThread.Start();
@@ -33,6 +36,9 @@ namespace EnviroGen
             return new Environment(terrain, new Clouds(CloudHeightMap));
         }
 
+        /// <summary>
+        /// Generates a HeightMap and assigns TerrainHeightMap to the generated map.
+        /// </summary>
         private void GenerateTerrainHeightMap()
         {
             TerrainHeightMap = HeightMapGenerator.GenerateHeightMap(GenOptions.SizeX, GenOptions.SizeY, GenOptions.HeightMapOctaveCount, GenOptions.NoiseRoughness,
@@ -45,6 +51,9 @@ namespace EnviroGen
             TerrainHeightMap.Normalize();
         }
 
+        /// <summary>
+        /// Generates a HeightMap and assigns CloudHeightMap to the generated map.
+        /// </summary>
         private void GenerateCloudHeightMap()
         {
             CloudHeightMap = HeightMapGenerator.GenerateHeightMap(GenOptions.SizeX, GenOptions.SizeY, GenOptions.CloudMapOctaveCount, GenOptions.NoiseRoughness,

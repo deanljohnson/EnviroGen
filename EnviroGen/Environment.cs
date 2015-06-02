@@ -4,8 +4,8 @@ namespace EnviroGen
 {
     public class Environment : Transformable, Drawable
     {
-        public Terrain Terrain;
-        public Clouds Clouds;
+        public Terrain Terrain { get; set; }
+        public Clouds Clouds { get; set; }
 
         public Environment(Terrain terrain, Clouds clouds)
         {

@@ -39,6 +39,9 @@ namespace EnviroGen
             return Map.GetEnumerator();
         }
 
+        /// <summary>
+        /// Normalizes the values of the height map in the range [0,1]
+        /// </summary>
         public void Normalize()
         {
             var maxValue = Map[0, 0];
@@ -61,11 +64,17 @@ namespace EnviroGen
             }
         }
 
+        /// <summary>
+        /// Returns the Vector2i's to the left, right, top, and bottom of the given point.
+        /// </summary>
         public List<Vector2i> GetVonNeumannNeighbors(Vector2i point)
         {
             return GetVonNeumannNeighbors(point.X, point.Y);
         }
 
+        /// <summary>
+        /// Returns the Vector2i's to the left, right, top, and bottom of the given x,y value.
+        /// </summary>
         public List<Vector2i> GetVonNeumannNeighbors(int x, int y)
         {
             var points = new List<Vector2i>();
