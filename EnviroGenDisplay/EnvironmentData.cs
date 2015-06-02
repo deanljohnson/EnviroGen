@@ -4,20 +4,21 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using EnviroGen;
+using EnviroGen.Coloring;
 using EnviroGenDisplay.Annotations;
 
 namespace EnviroGenDisplay
 {
-    public class EnvironmentData : INotifyPropertyChanged
+    public sealed class EnvironmentData : INotifyPropertyChanged
     {
         private int m_sizeX;
         private int m_sizeY;
         private int m_heightMapOctaveCount;
         private int m_cloudMapOctaveCount;
-        private int m_seaLevel;
-        private int m_sandDistance;
-        private int m_forestDistance;
-        private int m_mountainDistance;
+        private float m_seaLevel;
+        private float m_sandDistance;
+        private float m_forestDistance;
+        private float m_mountainDistance;
         private int m_numberOfContinents;
         private int m_minimumContinentSize;
         private int m_maximumContinentSize;
@@ -27,10 +28,14 @@ namespace EnviroGenDisplay
         private float m_noiseScale;
         private float m_erosionAngle;
         private int m_erosionIterations;
-        private Color m_seaColor;
-        private Color m_sandColor;
-        private Color m_forestColor;
-        private Color m_mountainColor;
+        private Color m_seaColorLow;
+        private Color m_sandColorLow;
+        private Color m_forestColorLow;
+        private Color m_mountainColorLow;
+        private Color m_seaColorHigh;
+        private Color m_sandColorHigh;
+        private Color m_forestColorHigh;
+        private Color m_mountainColorHigh;
 
         public string SizeX
         {
@@ -86,12 +91,12 @@ namespace EnviroGenDisplay
 
         public string SeaLevel
         {
-            get { return m_seaLevel.ToString(); }
+            get { return m_seaLevel.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_seaLevel.ToString() != value)
+                if (m_seaLevel.ToString(CultureInfo.InvariantCulture) != value)
                 {
-                    m_seaLevel = Byte.Parse(value);
+                    m_seaLevel = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -99,12 +104,12 @@ namespace EnviroGenDisplay
 
         public string SandDistance
         {
-            get { return m_sandDistance.ToString(); }
+            get { return m_sandDistance.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_sandDistance.ToString() != value)
+                if (m_sandDistance.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_sandDistance = Byte.Parse(value);
+                    m_sandDistance = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -112,12 +117,12 @@ namespace EnviroGenDisplay
 
         public string ForestDistance
         {
-            get { return m_forestDistance.ToString(); }
+            get { return m_forestDistance.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_forestDistance.ToString() != value)
+                if (m_forestDistance.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_forestDistance = Byte.Parse(value);
+                    m_forestDistance = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -125,12 +130,12 @@ namespace EnviroGenDisplay
 
         public string MountainDistance
         {
-            get { return m_mountainDistance.ToString(); }
+            get { return m_mountainDistance.ToString(CultureInfo.CurrentCulture); }
             set
             {
-                if (m_mountainDistance.ToString() != value)
+                if (m_mountainDistance.ToString(CultureInfo.CurrentCulture) != value)
                 {
-                    m_mountainDistance = Byte.Parse(value);
+                    m_mountainDistance = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -253,53 +258,105 @@ namespace EnviroGenDisplay
             }
         }
 
-        public Color SeaColor
+        public Color SeaColorLow
         {
-            get { return m_seaColor; }
+            get { return m_seaColorLow; }
             set
             {
-                if (m_seaColor != value)
+                if (m_seaColorLow != value)
                 {
-                    m_seaColor = value;
+                    m_seaColorLow = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public Color SandColor
+        public Color SandColorLow
         {
-            get { return m_sandColor; }
+            get { return m_sandColorLow; }
             set
             {
-                if (m_sandColor != value)
+                if (m_sandColorLow != value)
                 {
-                    m_sandColor = value;
+                    m_sandColorLow = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public Color ForestColor
+        public Color ForestColorLow
         {
-            get { return m_forestColor; }
+            get { return m_forestColorLow; }
             set
             {
-                if (m_forestColor != value)
+                if (m_forestColorLow != value)
                 {
-                    m_forestColor = value;
+                    m_forestColorLow = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public Color MountainColor
+        public Color MountainColorLow
         {
-            get { return m_mountainColor; }
+            get { return m_mountainColorLow; }
             set
             {
-                if (m_mountainColor != value)
+                if (m_mountainColorLow != value)
                 {
-                    m_mountainColor = value;
+                    m_mountainColorLow = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color SeaColorHigh
+        {
+            get { return m_seaColorHigh; }
+            set
+            {
+                if (m_seaColorHigh != value)
+                {
+                    m_seaColorHigh = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color SandColorHigh
+        {
+            get { return m_sandColorHigh; }
+            set
+            {
+                if (m_sandColorHigh != value)
+                {
+                    m_sandColorHigh = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color ForestColorHigh
+        {
+            get { return m_forestColorHigh; }
+            set
+            {
+                if (m_forestColorHigh != value)
+                {
+                    m_forestColorHigh = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Color MountainColorHigh
+        {
+            get { return m_mountainColorHigh; }
+            set
+            {
+                if (m_mountainColorHigh != value)
+                {
+                    m_mountainColorHigh = value;
                     OnPropertyChanged();
                 }
             }
@@ -311,10 +368,10 @@ namespace EnviroGenDisplay
             m_sizeY = 800;
             m_heightMapOctaveCount = 8;
             m_cloudMapOctaveCount = 8;
-            m_seaLevel = 120;
-            m_sandDistance = 10;
-            m_forestDistance = 70;
-            m_mountainDistance = 135;
+            m_seaLevel = .4f;
+            m_sandDistance = .45f;
+            m_forestDistance = .75f;
+            m_mountainDistance = 1f;
             m_numberOfContinents = 1;
             m_minimumContinentSize = 400;
             m_maximumContinentSize = 450;
@@ -324,14 +381,21 @@ namespace EnviroGenDisplay
             m_noiseScale = .005f;
             m_erosionAngle = .022f;
             m_erosionIterations = 40;
+
+            m_seaColorLow = Color.FromArgb(255, 0, 0, 116);
+            m_sandColorLow = Color.FromArgb(255, 170, 166, 27);
+            m_forestColorLow = Color.FromArgb(255, 0, 159, 21);
+            m_mountainColorLow = Color.FromArgb(255, 197, 197, 202);
+
+            m_seaColorHigh = Color.FromArgb(255, 0, 0, 255);
+            m_sandColorHigh = Color.FromArgb(255, 206, 202, 49);
+            m_forestColorHigh = Color.FromArgb(255, 22, 88, 31);
+            m_mountainColorHigh = Color.FromArgb(255, 248, 248, 248);
         }
 
         public EnvironmentGenerator BuildEnvironmentGenerator()
         {
-            var seaColor = new SFML.Graphics.Color(m_seaColor.R, m_seaColor.G, m_seaColor.B, m_seaColor.A);
-            var sandColor = new SFML.Graphics.Color(m_sandColor.R, m_sandColor.G, m_sandColor.B, m_sandColor.A);
-            var forestColor = new SFML.Graphics.Color(m_forestColor.R, m_forestColor.G, m_forestColor.B, m_forestColor.A);
-            var mountainColor = new SFML.Graphics.Color(m_mountainColor.R, m_mountainColor.G, m_mountainColor.B, m_mountainColor.A);
+            var terrainColorizer = BuildTerrainColorizer();
 
             return new EnvironmentGenerator
             {
@@ -351,20 +415,43 @@ namespace EnviroGenDisplay
                 NoiseScale = m_noiseScale,
                 ErosionAngle = m_erosionAngle,
                 ErosionIterations = m_erosionIterations,
-                SeaColor = seaColor,
-                SandColor = sandColor,
-                ForestColor = forestColor,
-                MountainColor = mountainColor
+                TerrainColorizer = terrainColorizer
             };
+        }
+
+        public Colorizer BuildTerrainColorizer()
+        {
+            var seaColorLow = FromSystemColor(m_seaColorLow);
+            var sandColorLow = FromSystemColor(m_sandColorLow);
+            var forestColorLow = FromSystemColor(m_forestColorLow);
+            var mountainColorLow = FromSystemColor(m_mountainColorLow);
+
+            var seaColorHigh = FromSystemColor(m_seaColorHigh);
+            var sandColorHigh = FromSystemColor(m_sandColorHigh);
+            var forestColorHigh = FromSystemColor(m_forestColorHigh);
+            var mountainColorHigh = FromSystemColor(m_mountainColorHigh);
+
+            var terrainColorizer = new Colorizer();
+            terrainColorizer.AddColorRange(seaColorLow, seaColorHigh, 0f, m_seaLevel);
+            terrainColorizer.AddColorRange(sandColorLow, sandColorHigh, m_seaLevel, m_sandDistance);
+            terrainColorizer.AddColorRange(forestColorLow, forestColorHigh, m_sandDistance, m_forestDistance);
+            terrainColorizer.AddColorRange(mountainColorLow, mountainColorHigh, m_forestDistance, m_mountainDistance);
+
+            return terrainColorizer;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private static SFML.Graphics.Color FromSystemColor(Color sysColor)
+        {
+            return new SFML.Graphics.Color(sysColor.R, sysColor.G, sysColor.B, sysColor.A);
         }
     }
 }
