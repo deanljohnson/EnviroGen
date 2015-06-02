@@ -59,6 +59,7 @@
     <Compile Include="EnvironmentGenerator.cs" />
     <Compile Include="Erosion\ImprovedThermalErosion.cs" />
     <Compile Include="Erosion\ThermalErosion.cs" />
+    <Compile Include="GenerationOptions.cs" />
     <Compile Include="HeightMap.cs" />
     <Compile Include="HeightMapGenerator.cs" />
     <Compile Include="Noise\PerlinNoiseGenerator.cs" />
