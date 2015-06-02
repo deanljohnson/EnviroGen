@@ -10,8 +10,9 @@ namespace EnviroGenDisplay
     static class EnvironmentDisplay
     {
         private static Environment Environment { get; set; }
-        private static EnvironmentData EnvironmentData { get; set; }
         private static RenderWindow Window { get; set; }
+
+        public static EnvironmentData EnvironmentData { get; set; }
 
         static EnvironmentDisplay()
         {
@@ -99,22 +100,20 @@ namespace EnviroGenDisplay
             Window.SetView(view);
         }
 
-        public static void GenerateFromData(EnvironmentData data)
+        public static void GenerateFromData()
         {
             EnvironmentGenerator enviroGen;
 
             lock (EnvironmentData)
             {
-                EnvironmentData = data;
-
                 var random = new Random();
                 var heightSeed = Int32.Parse(EnvironmentData.HeightMapSeed);
                 heightSeed = heightSeed == -1 ? random.Next(5000) : heightSeed;
                 var cloudSeed = Int32.Parse(EnvironmentData.CloudMapSeed);
                 cloudSeed = cloudSeed == -1 ? random.Next(5000) : cloudSeed;
 
-                data.HeightMapSeed = heightSeed.ToString();
-                data.CloudMapSeed = cloudSeed.ToString();
+                EnvironmentData.HeightMapSeed = heightSeed.ToString();
+                EnvironmentData.CloudMapSeed = cloudSeed.ToString();
 
                 enviroGen = EnvironmentData.BuildEnvironmentGenerator();
             }
