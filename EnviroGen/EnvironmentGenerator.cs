@@ -1,7 +1,7 @@
 ﻿using System.Threading;
+using EnviroGen.Coloring;
 using EnviroGen.Erosion;
 using EnviroGen.RiverGen;
-using SFML.Graphics;
 
 namespace EnviroGen
 {
@@ -19,20 +19,17 @@ namespace EnviroGen
         public int NumContinents { get; set; }
         public int MinimumContinentSize { get; set; }
         public int MaximumContinentSize { get; set; }
-        public int SeaLevel { get; set; }
-        public int SandDistance { get; set; }
-        public int ForestDistance { get; set; }
-        public int MountainDistance { get; set; }
+        public float SeaLevel { get; set; }
+        public float SandDistance { get; set; }
+        public float ForestDistance { get; set; }
+        public float MountainDistance { get; set; }
         public int HeightMapSeed { get; set; }
         public int CloudMapSeed { get; set; }
         public float NoiseRoughness { get; set; }
         public float NoiseScale { get; set; }
         public float ErosionAngle { get; set; }
         public int ErosionIterations { get; set; }
-        public Color SeaColor { get; set; }
-        public Color SandColor { get; set; }
-        public Color ForestColor { get; set; }
-        public Color MountainColor { get; set; }
+        public Colorizer TerrainColorizer { get; set; }
 
         public EnvironmentGenerator()
         {
@@ -47,12 +44,11 @@ namespace EnviroGen
             TerrainThread.Join();
             CloudThread.Join();
 
-            Terrain.SeaColor = SeaColor;
-            Terrain.SandColor = SandColor;
-            Terrain.ForestColor = ForestColor;
-            Terrain.MountainColor = MountainColor;
+            var terrain = new Terrain(TerrainHeightMap,
+                RiverGenerator.GenerateRivers(TerrainHeightMap, 10, .9f, 1f, .3f));
+            terrain.Colorize(TerrainColorizer);
 
-            return new Environment(new Terrain(TerrainHeightMap, RiverGenerator.GenerateRivers(TerrainHeightMap, 10, .9f, 1f, .3f)), new Clouds(CloudHeightMap));
+            return new Environment(terrain, new Clouds(CloudHeightMap));
         }
 
         private void GenerateTerrainHeightMap()
