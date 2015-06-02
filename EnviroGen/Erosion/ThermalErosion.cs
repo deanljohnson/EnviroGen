@@ -36,7 +36,7 @@ namespace EnviroGen.Erosion
 
             foreach (var neighbor in neighbors)
             {
-                var currentSlope = Math.Abs(heightMap[x, y] - heightMap[neighbor.X, neighbor.Y]);
+                var currentSlope = Math.Abs(heightMap[x, y] - heightMap[neighbor]);
                 if (currentSlope > highestSlope)
                 {
                     highestSlope = currentSlope;

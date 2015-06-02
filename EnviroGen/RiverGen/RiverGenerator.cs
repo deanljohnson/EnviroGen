@@ -38,7 +38,7 @@ namespace EnviroGen.RiverGen
             while (startPoints.Count < numRivers)
             {
                 var point = new Vector2i(Random.Next((int)HeightMap.Size.X), Random.Next((int)HeightMap.Size.Y));
-                var height = HeightMap[point.X, point.Y];
+                var height = HeightMap[point];
 
                 if (height > riverStartMin && height < riverStartMax)
                 {
@@ -126,8 +126,8 @@ namespace EnviroGen.RiverGen
 
         private static double DistanceBetweenNodes(Vector2i a, Vector2i b)
         {
-            var aHeight = HeightMap[a.X, a.Y];
-            var bHeight = HeightMap[b.X, b.Y];
+            var aHeight = HeightMap[a];
+            var bHeight = HeightMap[b];
             var heightDif = Math.Abs(aHeight - bHeight);
             var dist = Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
 
