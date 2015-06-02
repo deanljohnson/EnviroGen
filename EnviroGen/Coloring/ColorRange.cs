@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 
 namespace EnviroGen.Coloring
 {
@@ -29,7 +24,7 @@ namespace EnviroGen.Coloring
 
         public bool InRange(float height)
         {
-            return height > LowHeight && height < HighHeight;
+            return height >= LowHeight && height <= HighHeight;
         }
 
         public Color GetColor(float height)
