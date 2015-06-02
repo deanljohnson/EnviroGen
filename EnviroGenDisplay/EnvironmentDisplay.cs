@@ -113,6 +113,9 @@ namespace EnviroGenDisplay
                 var cloudSeed = Int32.Parse(EnvironmentData.CloudMapSeed);
                 cloudSeed = cloudSeed == -1 ? random.Next(5000) : cloudSeed;
 
+                data.HeightMapSeed = heightSeed.ToString();
+                data.CloudMapSeed = cloudSeed.ToString();
+
                 enviroGen = EnvironmentData.BuildEnvironmentGenerator();
             }
 
