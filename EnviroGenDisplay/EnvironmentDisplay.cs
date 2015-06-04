@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using EnviroGen;
+using EnviroGen.Continents;
+using EnviroGen.Erosion;
+using EnviroGen.HeightMaps;
 using SFML.Graphics;
 using SFML.Window;
 using Environment = EnviroGen.Environment;
@@ -100,31 +103,27 @@ namespace EnviroGenDisplay
             Window.SetView(view);
         }
 
-        public static void GenerateFromData()
+        public static void GenerateHeightMap()
         {
-            EnvironmentGenerator enviroGen;
-
             lock (EnvironmentData)
             {
                 var random = new Random();
                 var heightSeed = Int32.Parse(EnvironmentData.HeightMapSeed);
                 heightSeed = heightSeed == -1 ? random.Next(5000) : heightSeed;
-                var cloudSeed = Int32.Parse(EnvironmentData.CloudMapSeed);
-                cloudSeed = cloudSeed == -1 ? random.Next(5000) : cloudSeed;
 
-                EnvironmentData.HeightMapSeed = heightSeed.ToString();
-                EnvironmentData.CloudMapSeed = cloudSeed.ToString();
+                var terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.GenOptions.SizeX, EnvironmentData.GenOptions.SizeY, EnvironmentData.GenOptions.HeightMapOctaveCount, EnvironmentData.GenOptions.NoiseRoughness, EnvironmentData.GenOptions.NoiseFrequency, heightSeed);
+                terrainHeightMap.Normalize();
 
-                enviroGen = EnvironmentData.BuildEnvironmentGenerator();
-            }
+                var terrain = new Terrain(terrainHeightMap);
 
-            lock (Environment)
-            {
-                Environment = enviroGen.Generate();
+                lock (Environment)
+                {
+                    Environment.Terrain = terrain;
+                }
             }
         }
 
-        public static void RefreshColorMapping(EnvironmentData data)
+        public static void SetColorMapping(EnvironmentData data)
         {
             lock (EnvironmentData)
             {
@@ -133,7 +132,39 @@ namespace EnviroGenDisplay
 
             lock (Environment)
             {
-                Environment.Terrain.Colorize(data.BuildTerrainColorizer());
+                if (Environment.Terrain == null) return;
+
+                Environment.Terrain.Colorizer = data.BuildTerrainColorizer();
+                Environment.Terrain.Colorize();
+            }
+        }
+
+        public static void BuildContinents(ContinentGenerationData data)
+        {
+            lock (Environment)
+            {
+                if (Environment.Terrain == null) return;
+                ContinentGenerator.BuildContinents(Environment.Terrain.HeightMap, data);
+                Environment.Terrain.HeightMap.Normalize();
+                Environment.Terrain.Colorize();
+            }
+        }
+
+        public static void ErodeHeightMap(ErosionData data)
+        {
+            lock (Environment)
+            {
+                if (Environment.Terrain == null) return;
+                if (data is ThermalErosionData)
+                {
+                    ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, (ThermalErosionData) data);
+                }
+                else if (data is HydraulicErosionData)
+                {
+                    HydraulicErosion.Erode(Environment.Terrain.HeightMap, (HydraulicErosionData)data);
+                }
+
+                Environment.Terrain.Colorize();
             }
         }
     }
