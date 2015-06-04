@@ -11,7 +11,7 @@ namespace EnviroGenDisplay
 {
     public sealed class EnvironmentData : INotifyPropertyChanged
     {
-        private readonly GenerationOptions GenOptions;
+        public GenerationOptions GenOptions { get; private set; }
         private Color m_seaColorLow;
         private Color m_sandColorLow;
         private Color m_forestColorLow;
@@ -125,45 +125,6 @@ namespace EnviroGenDisplay
             }
         }
 
-        public string NumberOfContinents
-        {
-            get { return GenOptions.NumContinents.ToString(); }
-            set
-            {
-                if (GenOptions.NumContinents.ToString() != value)
-                {
-                    GenOptions.NumContinents = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string MinimumContinentSize
-        {
-            get { return GenOptions.MinimumContinentSize.ToString(); }
-            set
-            {
-                if (GenOptions.MinimumContinentSize.ToString() != value)
-                {
-                    GenOptions.MinimumContinentSize = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string MaximumContinentSize
-        {
-            get { return GenOptions.MaximumContinentSize.ToString(); }
-            set
-            {
-                if (GenOptions.MaximumContinentSize.ToString() != value)
-                {
-                    GenOptions.MaximumContinentSize = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public string HeightMapSeed
         {
             get { return GenOptions.HeightMapSeed.ToString(); }
@@ -211,32 +172,6 @@ namespace EnviroGenDisplay
                 if (GenOptions.NoiseFrequency.ToString(CultureInfo.CurrentCulture) != value)
                 {
                     GenOptions.NoiseFrequency = float.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string ErosionAngle
-        {
-            get { return GenOptions.ErosionAngle.ToString(CultureInfo.CurrentCulture); }
-            set
-            {
-                if (GenOptions.ErosionAngle.ToString(CultureInfo.CurrentCulture) != value)
-                {
-                    GenOptions.ErosionAngle = float.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string ErosionIterations
-        {
-            get { return GenOptions.ErosionIterations.ToString(); }
-            set
-            {
-                if (GenOptions.ErosionIterations.ToString() != value)
-                {
-                    GenOptions.ErosionIterations = Int32.Parse(value);
                     OnPropertyChanged();
                 }
             }
@@ -359,16 +294,6 @@ namespace EnviroGenDisplay
             m_sandColorHigh = Color.FromArgb(255, 206, 202, 49);
             m_forestColorHigh = Color.FromArgb(255, 22, 88, 31);
             m_mountainColorHigh = Color.FromArgb(255, 248, 248, 248);
-        }
-
-        public EnvironmentGenerator BuildEnvironmentGenerator()
-        {
-            GenOptions.TerrainColorizer = BuildTerrainColorizer();
-
-            return new EnvironmentGenerator
-            {
-                GenOptions = GenOptions
-            };
         }
 
         public Colorizer BuildTerrainColorizer()
