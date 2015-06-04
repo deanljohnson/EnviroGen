@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using EnviroGen.HeightMaps;
 using SFML.Window;
 
-namespace EnviroGen
+namespace EnviroGen.Continents
 {
-    static class ContinentGenerator
+    public static class ContinentGenerator
     {
         private static Random Random { get; set; }
 
@@ -13,10 +14,15 @@ namespace EnviroGen
             Random = new Random();
         }
 
+        public static void BuildContinents(HeightMap heightMap, ContinentGenerationData data)
+        {
+            BuildContinents(heightMap, data.NumContinents, data.MinimumContinentSize, data.MinimumContinentSize);
+        }
+
         /// <summary>
         /// Scales square areas on the given HeightMap to try and make more continent like shapes.
         /// </summary>
-        public static void BuildContinents(HeightMap heightMap, int numContinents, int minSize, int maxSize)
+        private static void BuildContinents(HeightMap heightMap, int numContinents, int minSize, int maxSize)
         {
             List<Vector2i> startPoints;
             var mapSize = new Vector2i((int)heightMap.Size.X, (int)heightMap.Size.Y);
