@@ -1,10 +1,12 @@
-﻿namespace EnviroGen.Erosion
+﻿using EnviroGen.HeightMaps;
+
+namespace EnviroGen.Erosion
 {
     public class ImprovedThermalErosion : ThermalErosion
     {
-        public new static void Erode(HeightMap heightMap, float talusAngle, int iterations)
+        public new static void Erode(HeightMap heightMap, ThermalErosionData data)
         {
-            for (var i = 0; i < iterations; i++)
+            for (var i = 0; i < data.Iterations; i++)
             {
                 for (var y = 0; y < heightMap.Size.Y; y++)
                 {
@@ -14,7 +16,7 @@
                         float highestSlope;
                         var highestSlopedNeighbor = GetHighestSlopedNeighbor(heightMap, neighbors, heightMap[x, y], out highestSlope);
 
-                        if (highestSlope <= talusAngle)
+                        if (highestSlope <= data.TalusAngle)
                         {
                             BalanceHeightsAtPoints(heightMap, x, y, highestSlopedNeighbor.X, highestSlopedNeighbor.Y);
                         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EnviroGen.HeightMaps;
 using SFML.Window;
 
 namespace EnviroGen.Erosion
@@ -10,9 +11,9 @@ namespace EnviroGen.Erosion
         /// Erodes the given HeightMap based on the idea of gravity leveling out steep areas.
         /// Will completely remove cliffs.
         /// </summary>
-        public static void Erode(HeightMap heightMap, float talusAngle, int iterations)
+        public static void Erode(HeightMap heightMap, ThermalErosionData data)
         {
-            for (var i = 0; i < iterations; i++)
+            for (var i = 0; i < data.Iterations; i++)
             {
                 for (var y = 0; y < heightMap.Size.Y; y++)
                 {
@@ -22,7 +23,7 @@ namespace EnviroGen.Erosion
                         float highestSlope;
                         var highestSlopedNeighbor = GetHighestSlopedNeighbor(heightMap, neighbors, heightMap[x, y], out highestSlope);
 
-                        if (highestSlope > talusAngle)
+                        if (highestSlope > data.TalusAngle)
                         {
                             BalanceHeightsAtPoints(heightMap, x, y, highestSlopedNeighbor.X, highestSlopedNeighbor.Y);
                         }
