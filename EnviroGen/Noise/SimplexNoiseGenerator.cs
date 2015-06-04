@@ -49,7 +49,6 @@ namespace EnviroGen.Noise
             var arr = new float[xMax, yMax];
             var layerFrequency = frequency;
             var layerWeight = 1f;
-            var weightSum = 0f;
 
             for (var y = seed; y < yMax + seed; y++)
             {
@@ -59,12 +58,10 @@ namespace EnviroGen.Noise
                     {
                         arr[x - seed, y - seed] += Noise2d(x * layerFrequency, y * layerFrequency) * layerWeight;
                         layerFrequency *= 2;
-                        weightSum += layerWeight;
                         layerWeight *= roughness;
                     }
                     layerFrequency = frequency;
                     layerWeight = 1f;
-                    weightSum = 0f;
                 }
             }
             arr = Normalize(arr);
