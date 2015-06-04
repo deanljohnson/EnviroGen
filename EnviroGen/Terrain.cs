@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EnviroGen.Coloring;
+using EnviroGen.HeightMaps;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -24,13 +25,15 @@ namespace EnviroGen
         /// </summary>
         public HeightMap HeightMap
         {
-            private get { return m_heightMap; }
+            get { return m_heightMap; }
             set
             {
                 m_heightMap = value;
-                Colorize(DefaultColorizer);
+                Colorize(Colorizer);
             }
         }
+
+        public Colorizer Colorizer { get; set; }
 
         public List<Vector2i> RiverTiles { get; set; }
 
@@ -41,16 +44,13 @@ namespace EnviroGen
         }
 
         public Terrain(HeightMap heightMap)
-            : this(heightMap, new List<Vector2i>())
+            : this(heightMap, new List<Vector2i>(), DefaultColorizer)
         {
         }
 
-        public Terrain(HeightMap heightMap, List<Vector2i> riverTiles, Colorizer colorizer = null)
+        public Terrain(HeightMap heightMap, List<Vector2i> riverTiles, Colorizer colorizer)
         {
-            if (colorizer == null)
-            {
-                colorizer = DefaultColorizer;
-            }
+            Colorizer = colorizer;
 
             m_heightMap = heightMap;
             RiverTiles = riverTiles;
@@ -69,6 +69,14 @@ namespace EnviroGen
         public void Colorize(Colorizer colorizer)
         {
             m_heightSprite = new Sprite(new Texture(colorizer.Colorize(m_heightMap)));
+        }
+
+        /// <summary>
+        /// Uses Colorizer property to set the Terrain's Colors.
+        /// </summary>
+        public void Colorize()
+        {
+            m_heightSprite = new Sprite(new Texture(Colorizer.Colorize(m_heightMap)));
         }
     }
 }
