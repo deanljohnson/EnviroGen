@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SFML.Window;
 
-namespace EnviroGen
+namespace EnviroGen.HeightMaps
 {
     public class HeightMap : IEnumerable
     {
@@ -83,6 +83,34 @@ namespace EnviroGen
             if (x < Size.X - 1) points.Add(new Vector2i(x + 1, y));
             if (y > 0) points.Add(new Vector2i(x, y - 1));
             if (y < Size.Y - 1) points.Add(new Vector2i(x, y + 1));
+
+            return points;
+        }
+
+        /// <summary>
+        /// Returns all points adjacent to the given point as Vector2i's.
+        /// </summary>
+        public List<Vector2i> GetMooreNeighbors(Vector2i point)
+        {
+            return GetMooreNeighbors(point.X, point.Y);
+        }
+
+        /// <summary>
+        /// Returns all points adjacent to the given x and y positions as Vector2i's.
+        /// </summary>
+        public List<Vector2i> GetMooreNeighbors(int x, int y)
+        {
+            var points = new List<Vector2i>();
+
+            if (x > 0) points.Add(new Vector2i(x - 1, y));
+            if (x < Size.X - 1) points.Add(new Vector2i(x + 1, y));
+            if (y > 0) points.Add(new Vector2i(x, y - 1));
+            if (y < Size.Y - 1) points.Add(new Vector2i(x, y + 1));
+
+            if (x > 0 && y > 0) points.Add(new Vector2i(x - 1, y - 1));
+            if (x < Size.X - 1 && y > 0) points.Add(new Vector2i(x + 1, y - 1));
+            if (x > 0 && y < Size.Y - 1) points.Add(new Vector2i(x - 1, y + 1));
+            if (x < Size.X - 1 && y < Size.Y - 1) points.Add(new Vector2i(x + 1, y + 1));
 
             return points;
         }
