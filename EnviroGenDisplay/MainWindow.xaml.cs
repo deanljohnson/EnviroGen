@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
+using EnviroGenDisplay.DataProcessors;
 
 namespace EnviroGenDisplay
 {
@@ -16,7 +17,7 @@ namespace EnviroGenDisplay
         public MainWindow()
         {
             DisplayWorker = new BackgroundWorker();
-            GenerationThread = new Thread(EnvironmentDisplay.GenerateFromData);
+            GenerationThread = new Thread(EnvironmentDisplay.GenerateHeightMap);
 
             InitializeComponent();
 
@@ -37,12 +38,12 @@ namespace EnviroGenDisplay
 
             if (!GenerationThread.IsAlive)
             {
-                GenerationThread = new Thread(EnvironmentDisplay.GenerateFromData);
+                GenerationThread = new Thread(EnvironmentDisplay.GenerateHeightMap);
                 GenerationThread.Start();
             }
         }
 
-        private void OnRefreshClick(object sender, RoutedEventArgs e)
+        private void OnSetColoringClick(object sender, RoutedEventArgs e)
         {
             var ed = Grid.FindResource("EnvironmentData") as EnvironmentData;
             
@@ -51,7 +52,31 @@ namespace EnviroGenDisplay
                 throw new ArgumentNullException();
             }
 
-            EnvironmentDisplay.RefreshColorMapping(ed);
+            EnvironmentDisplay.SetColorMapping(ed);
+        }
+
+        private void OnBuildContinentsClick(object sender, RoutedEventArgs e)
+        {
+            var ed = Grid.FindResource("ContinentData") as ContinentDataProcessor;
+
+            if (ed == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            EnvironmentDisplay.BuildContinents(ed.Data);
+        }
+
+        private void OnErodeClick(object sender, RoutedEventArgs e)
+        {
+            var ed = Grid.FindResource("ThermalErosionData") as ThermalErosionDataProcessor;
+
+            if (ed == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            EnvironmentDisplay.ErodeHeightMap(ed.Data);
         }
     }
 }
