@@ -1,6 +1,6 @@
 ﻿using EnviroGen.Noise;
 
-namespace EnviroGen
+namespace EnviroGen.HeightMaps
 {
     public static class HeightMapGenerator
     {
