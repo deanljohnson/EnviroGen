@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using EnviroGen;
@@ -21,110 +20,6 @@ namespace EnviroGenDisplay
         private Color m_forestColorHigh;
         private Color m_mountainColorHigh;
 
-        public string SizeX
-        {
-            get { return GenOptions.SizeX.ToString(); }
-            set
-            {
-                if (GenOptions.SizeX.ToString() != value)
-                {
-                    GenOptions.SizeX = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SizeY
-        {
-            get { return GenOptions.SizeY.ToString(); }
-            set
-            {
-                if (GenOptions.SizeY.ToString() != value)
-                {
-                    GenOptions.SizeY = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string HeightMapOctaveCount
-        {
-            get { return GenOptions.HeightMapOctaveCount.ToString(); }
-            set
-            {
-                if (GenOptions.HeightMapOctaveCount.ToString() != value)
-                {
-                    GenOptions.HeightMapOctaveCount = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string CloudMapOctaveCount
-        {
-            get { return GenOptions.CloudMapOctaveCount.ToString(); }
-            set
-            {
-                if (GenOptions.CloudMapOctaveCount.ToString() != value)
-                {
-                    GenOptions.CloudMapOctaveCount = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SeaLevel
-        {
-            get { return GenOptions.SeaLevel.ToString(CultureInfo.CurrentCulture); }
-            set
-            {
-                if (GenOptions.SeaLevel.ToString(CultureInfo.InvariantCulture) != value)
-                {
-                    GenOptions.SeaLevel = float.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string SandDistance
-        {
-            get { return GenOptions.SandDistance.ToString(CultureInfo.CurrentCulture); }
-            set
-            {
-                if (GenOptions.SandDistance.ToString(CultureInfo.CurrentCulture) != value)
-                {
-                    GenOptions.SandDistance = float.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string ForestDistance
-        {
-            get { return GenOptions.ForestDistance.ToString(CultureInfo.CurrentCulture); }
-            set
-            {
-                if (GenOptions.ForestDistance.ToString(CultureInfo.CurrentCulture) != value)
-                {
-                    GenOptions.ForestDistance = float.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string MountainDistance
-        {
-            get { return GenOptions.MountainDistance.ToString(CultureInfo.CurrentCulture); }
-            set
-            {
-                if (GenOptions.MountainDistance.ToString(CultureInfo.CurrentCulture) != value)
-                {
-                    GenOptions.MountainDistance = float.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public string HeightMapSeed
         {
             get { return GenOptions.HeightMapSeed.ToString(); }
@@ -133,45 +28,6 @@ namespace EnviroGenDisplay
                 if (GenOptions.HeightMapSeed.ToString() != value)
                 {
                     GenOptions.HeightMapSeed = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string CloudMapSeed
-        {
-            get { return GenOptions.CloudMapSeed.ToString(); }
-            set
-            {
-                if (GenOptions.CloudMapSeed.ToString() != value)
-                {
-                    GenOptions.CloudMapSeed = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string NoiseRoughness
-        {
-            get { return GenOptions.NoiseRoughness.ToString(CultureInfo.CurrentCulture); }
-            set
-            {
-                if (GenOptions.NoiseRoughness.ToString(CultureInfo.CurrentCulture) != value)
-                {
-                    GenOptions.NoiseRoughness = float.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public string NoiseFrequency
-        {
-            get { return GenOptions.NoiseFrequency.ToString(CultureInfo.CurrentCulture); }
-            set
-            {
-                if (GenOptions.NoiseFrequency.ToString(CultureInfo.CurrentCulture) != value)
-                {
-                    GenOptions.NoiseFrequency = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
