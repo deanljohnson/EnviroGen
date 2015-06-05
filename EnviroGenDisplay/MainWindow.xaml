@@ -49,6 +49,7 @@
         <Label Content="Noise Roughness:" Grid.Column="0" Grid.Row="6"/>
         <Label Content="Noise Frequency:" Grid.Column="0" Grid.Row="7"/>
         <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="8" Click="OnGenerateClick"/>
+        <CheckBox Content="Combine w/ Current" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Name="CombineCheckBox"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY}"/>
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=HeightMapOctaveCount}"/>
@@ -92,16 +93,18 @@
         <Label Content="Number of Continents:" Grid.Column="2" Grid.Row="7"/>
         <Label Content="Minimum Continent Size:" Grid.Column="2" Grid.Row="8"/>
         <Label Content="Maximum Continent Size:" Grid.Column="2" Grid.Row="9"/>
-        <Button Content="Build Continents" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Grid.Column="2" Grid.Row="10" Click="OnBuildContinentsClick"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="7" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=NumberOfContinents}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="8" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MinimumContinentSize}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="9" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MaximumContinentSize}"/>
-        
+        <Label Content="Continent Scale:" Grid.Column="2" Grid.Row="10"/>
+        <Button Content="Build Continents" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Grid.Column="2" Grid.Row="11" Click="OnBuildContinentsClick"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="7" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=NumberOfContinents}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="8" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MinimumContinentSize}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="9" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MaximumContinentSize}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="10" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=ContinentScale}"/>
+
         <Label Content="Talus Angle:" Grid.Column="5" Grid.Row="7"/>
         <Label Content="Iterations:" Grid.Column="5" Grid.Row="8"/>
         <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="5" Grid.Row="9" Click="OnErodeClick"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="6" Grid.Row="7" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=TalusAngle}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="6" Grid.Row="8" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=Iterations}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="6" Grid.Row="7" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=TalusAngle}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="6" Grid.Row="8" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=Iterations}"/>
     </Grid>
     
 </Window>
