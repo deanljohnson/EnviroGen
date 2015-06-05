@@ -39,7 +39,7 @@ namespace EnviroGenDisplay
             if (!GenerationThread.IsAlive)
             {
                 GenerationThread = new Thread(EnvironmentDisplay.GenerateHeightMap);
-                GenerationThread.Start();
+                GenerationThread.Start(CombineCheckBox.IsChecked);
             }
         }
 
