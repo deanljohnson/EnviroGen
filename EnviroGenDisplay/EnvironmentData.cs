@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Media;
+using SFML.Graphics;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGenDisplay.Annotations;
@@ -36,13 +36,10 @@ namespace EnviroGenDisplay
         public Color SeaColorLow
         {
             get { return m_seaColorLow; }
-            set
+            set 
             {
-                if (m_seaColorLow != value)
-                {
-                    m_seaColorLow = value;
-                    OnPropertyChanged();
-                }
+                m_seaColorLow = value;
+                OnPropertyChanged();
             }
         }
 
@@ -51,11 +48,8 @@ namespace EnviroGenDisplay
             get { return m_sandColorLow; }
             set
             {
-                if (m_sandColorLow != value)
-                {
-                    m_sandColorLow = value;
-                    OnPropertyChanged();
-                }
+                m_sandColorLow = value;
+                OnPropertyChanged();
             }
         }
 
@@ -64,11 +58,9 @@ namespace EnviroGenDisplay
             get { return m_forestColorLow; }
             set
             {
-                if (m_forestColorLow != value)
-                {
-                    m_forestColorLow = value;
-                    OnPropertyChanged();
-                }
+
+                m_forestColorLow = value;
+                OnPropertyChanged();
             }
         }
 
@@ -77,11 +69,8 @@ namespace EnviroGenDisplay
             get { return m_mountainColorLow; }
             set
             {
-                if (m_mountainColorLow != value)
-                {
-                    m_mountainColorLow = value;
-                    OnPropertyChanged();
-                }
+                m_mountainColorLow = value;
+                OnPropertyChanged();
             }
         }
 
@@ -90,11 +79,8 @@ namespace EnviroGenDisplay
             get { return m_seaColorHigh; }
             set
             {
-                if (m_seaColorHigh != value)
-                {
-                    m_seaColorHigh = value;
-                    OnPropertyChanged();
-                }
+                m_seaColorHigh = value;
+                OnPropertyChanged();
             }
         }
 
@@ -103,11 +89,8 @@ namespace EnviroGenDisplay
             get { return m_sandColorHigh; }
             set
             {
-                if (m_sandColorHigh != value)
-                {
-                    m_sandColorHigh = value;
-                    OnPropertyChanged();
-                }
+                m_sandColorHigh = value;
+                OnPropertyChanged();
             }
         }
 
@@ -116,11 +99,8 @@ namespace EnviroGenDisplay
             get { return m_forestColorHigh; }
             set
             {
-                if (m_forestColorHigh != value)
-                {
-                    m_forestColorHigh = value;
-                    OnPropertyChanged();
-                }
+                m_forestColorHigh = value;
+                OnPropertyChanged();
             }
         }
 
@@ -129,11 +109,8 @@ namespace EnviroGenDisplay
             get { return m_mountainColorHigh; }
             set
             {
-                if (m_mountainColorHigh != value)
-                {
-                    m_mountainColorHigh = value;
-                    OnPropertyChanged();
-                }
+                m_mountainColorHigh = value;
+                OnPropertyChanged();
             }
         }
 
@@ -141,34 +118,24 @@ namespace EnviroGenDisplay
         {
             GenOptions = new GenerationOptions();
 
-            m_seaColorLow = Color.FromArgb(255, 0, 0, 116);
-            m_sandColorLow = Color.FromArgb(255, 170, 166, 27);
-            m_forestColorLow = Color.FromArgb(255, 0, 159, 21);
-            m_mountainColorLow = Color.FromArgb(255, 197, 197, 202);
+            m_seaColorLow = new Color(0, 0, 116, 255);
+            m_sandColorLow = new Color(170, 166, 27, 255);
+            m_forestColorLow = new Color(0, 159, 21, 255);
+            m_mountainColorLow = new Color(197, 197, 202, 255);
 
-            m_seaColorHigh = Color.FromArgb(255, 0, 0, 255);
-            m_sandColorHigh = Color.FromArgb(255, 206, 202, 49);
-            m_forestColorHigh = Color.FromArgb(255, 22, 88, 31);
-            m_mountainColorHigh = Color.FromArgb(255, 248, 248, 248);
+            m_seaColorHigh = new Color(0, 0, 255, 255);
+            m_sandColorHigh = new Color(206, 202, 49, 255);
+            m_forestColorHigh = new Color(22, 88, 31, 255);
+            m_mountainColorHigh = new Color(248, 248, 248, 255);
         }
 
         public Colorizer BuildTerrainColorizer()
         {
-            var seaColorLow = FromSystemColor(m_seaColorLow);
-            var sandColorLow = FromSystemColor(m_sandColorLow);
-            var forestColorLow = FromSystemColor(m_forestColorLow);
-            var mountainColorLow = FromSystemColor(m_mountainColorLow);
-
-            var seaColorHigh = FromSystemColor(m_seaColorHigh);
-            var sandColorHigh = FromSystemColor(m_sandColorHigh);
-            var forestColorHigh = FromSystemColor(m_forestColorHigh);
-            var mountainColorHigh = FromSystemColor(m_mountainColorHigh);
-
             var terrainColorizer = new Colorizer();
-            terrainColorizer.AddColorRange(seaColorLow, seaColorHigh, 0f, GenOptions.SeaLevel);
-            terrainColorizer.AddColorRange(sandColorLow, sandColorHigh, GenOptions.SeaLevel, GenOptions.SandDistance);
-            terrainColorizer.AddColorRange(forestColorLow, forestColorHigh, GenOptions.SandDistance, GenOptions.ForestDistance);
-            terrainColorizer.AddColorRange(mountainColorLow, mountainColorHigh, GenOptions.ForestDistance, GenOptions.MountainDistance);
+            terrainColorizer.AddColorRange(m_seaColorLow, m_seaColorHigh, 0f, GenOptions.SeaLevel);
+            terrainColorizer.AddColorRange(m_sandColorLow, m_sandColorHigh, GenOptions.SeaLevel, GenOptions.SandDistance);
+            terrainColorizer.AddColorRange(m_forestColorLow, m_forestColorHigh, GenOptions.SandDistance, GenOptions.ForestDistance);
+            terrainColorizer.AddColorRange(m_mountainColorLow, m_mountainColorHigh, GenOptions.ForestDistance, GenOptions.MountainDistance);
 
             return terrainColorizer;
         }
@@ -180,16 +147,6 @@ namespace EnviroGenDisplay
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private static SFML.Graphics.Color FromSystemColor(Color sysColor)
-        {
-            return new SFML.Graphics.Color(sysColor.R, sysColor.G, sysColor.B, sysColor.A);
-        }
-
-        private static Color FromSFMLColor(SFML.Graphics.Color sfmlColor)
-        {
-            return Color.FromArgb(sfmlColor.A, sfmlColor.R, sfmlColor.G, sfmlColor.B);
         }
     }
 }
