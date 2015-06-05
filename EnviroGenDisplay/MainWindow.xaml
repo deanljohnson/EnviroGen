@@ -52,14 +52,14 @@
         <Label Content="Noise Frequency:" Grid.Column="0" Grid.Row="7"/>
         <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="8" Click="OnGenerateClick"/>
         <CheckBox Content="Combine w/ Current" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Name="CombineCheckBox"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=GenOptions.SizeX, Converter={converters:IntToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=GenOptions.SizeY, Converter={converters:IntToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=GenOptions.HeightMapOctaveCount, Converter={converters:IntToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=GenOptions.CloudMapOctaveCount, Converter={converters:IntToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=GenOptions.HeightMapSeed, Converter={converters:IntToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=GenOptions.CloudMapSeed, Converter={converters:IntToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="6" Text="{Binding Path=GenOptions.NoiseRoughness, Converter={converters:FloatToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="1" Grid.Row="7" Text="{Binding Path=GenOptions.NoiseFrequency, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=GenOptions.SizeX, Converter={converters:IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=GenOptions.SizeY, Converter={converters:IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=GenOptions.HeightMapOctaveCount, Converter={converters:IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=GenOptions.CloudMapOctaveCount, Converter={converters:IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=GenOptions.HeightMapSeed, Converter={converters:IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=GenOptions.CloudMapSeed, Converter={converters:IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="6" Text="{Binding Path=GenOptions.NoiseRoughness, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="7" Text="{Binding Path=GenOptions.NoiseFrequency, Converter={converters:FloatToStringConverter}}"/>
         
         <Label Content="Sea Level:" Grid.Column="2" Grid.Row="1"/>
         <Label Content="Sand Distance:" Grid.Column="2" Grid.Row="2"/>
@@ -67,15 +67,15 @@
         <Label Content="Mountain Distance:" Grid.Column="2" Grid.Row="4"/>
         <Button Content="Set Coloring" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="2" Grid.Row="5" Click="OnSetColoringClick"/>
         <Label Content="Low" FontWeight="Bold" Grid.Column="3" Grid.Row="0"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="1" Text="{Binding Path=GenOptions.SeaLevel, Converter={converters:FloatToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="2" Text="{Binding Path=GenOptions.SandDistance, Converter={converters:FloatToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="3" Text="{Binding Path=GenOptions.ForestDistance, Converter={converters:FloatToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="3" Grid.Row="4" Text="{Binding Path=GenOptions.MountainDistance, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="1" Text="{Binding Path=GenOptions.SeaLevel, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="2" Text="{Binding Path=GenOptions.SandDistance, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="3" Text="{Binding Path=GenOptions.ForestDistance, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="3" Grid.Row="4" Text="{Binding Path=GenOptions.MountainDistance, Converter={converters:FloatToStringConverter}}"/>
         <Label Content="High" FontWeight="Bold" Grid.Column="4" Grid.Row="0"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="4" Grid.Row="1" Text="{Binding Path=GenOptions.SeaLevel, Converter={converters:FloatToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="4" Grid.Row="2" Text="{Binding Path=GenOptions.SandDistance, Converter={converters:FloatToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="4" Grid.Row="3" Text="{Binding Path=GenOptions.ForestDistance, Converter={converters:FloatToStringConverter}}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="40" Grid.Column="4" Grid.Row="4" Text="{Binding Path=GenOptions.MountainDistance, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="4" Grid.Row="1" Text="{Binding Path=GenOptions.SeaLevel, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="4" Grid.Row="2" Text="{Binding Path=GenOptions.SandDistance, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="4" Grid.Row="3" Text="{Binding Path=GenOptions.ForestDistance, Converter={converters:FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="4" Grid.Row="4" Text="{Binding Path=GenOptions.MountainDistance, Converter={converters:FloatToStringConverter}}"/>
 
         <Label Content="Sea Color:" Grid.Column="5" Grid.Row="1"/>
         <Label Content="Sand Color:" Grid.Column="5" Grid.Row="2"/>
