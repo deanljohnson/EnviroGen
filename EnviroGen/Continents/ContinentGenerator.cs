@@ -16,13 +16,13 @@ namespace EnviroGen.Continents
 
         public static void BuildContinents(HeightMap heightMap, ContinentGenerationData data)
         {
-            BuildContinents(heightMap, data.NumContinents, data.MinimumContinentSize, data.MinimumContinentSize);
+            BuildContinents(heightMap, data.NumContinents, data.MinimumContinentSize, data.MinimumContinentSize, data.Scale);
         }
 
         /// <summary>
         /// Scales square areas on the given HeightMap to try and make more continent like shapes.
         /// </summary>
-        private static void BuildContinents(HeightMap heightMap, int numContinents, int minSize, int maxSize)
+        private static void BuildContinents(HeightMap heightMap, int numContinents, int minSize, int maxSize, float scale)
         {
             List<Vector2i> startPoints;
             var mapSize = new Vector2i((int)heightMap.Size.X, (int)heightMap.Size.Y);
@@ -40,9 +40,7 @@ namespace EnviroGen.Continents
             foreach (var start in startPoints)
             {
                 var size = Random.Next(maxSize - minSize) + minSize;
-
-                const float scale = 2.5f;
-                var scaleStep = -1.5f / size;
+                var scaleStep = -(scale - 1f) / size;
 
                 ScaleSquareAroundPoint(heightMap, start, Random.Next(maxSize - minSize) + minSize, scale, scaleStep);
             }
