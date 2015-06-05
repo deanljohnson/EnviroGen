@@ -103,23 +103,45 @@ namespace EnviroGenDisplay
             Window.SetView(view);
         }
 
-        public static void GenerateHeightMap()
+        public static void GenerateHeightMap(object o)
         {
+            if (o is bool)
+            {
+                GenerateHeightMap((bool)o);
+            }
+            else
+            {
+                GenerateHeightMap(false);
+            }
+        }
+
+        public static void GenerateHeightMap(bool combine)
+        {
+            HeightMap terrainHeightMap;
+
             lock (EnvironmentData)
             {
                 var random = new Random();
                 var heightSeed = Int32.Parse(EnvironmentData.HeightMapSeed);
                 heightSeed = heightSeed == -1 ? random.Next(5000) : heightSeed;
 
-                var terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.GenOptions.SizeX, EnvironmentData.GenOptions.SizeY, EnvironmentData.GenOptions.HeightMapOctaveCount, EnvironmentData.GenOptions.NoiseRoughness, EnvironmentData.GenOptions.NoiseFrequency, heightSeed);
-                terrainHeightMap.Normalize();
+                terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.GenOptions.SizeX, EnvironmentData.GenOptions.SizeY, EnvironmentData.GenOptions.HeightMapOctaveCount, EnvironmentData.GenOptions.NoiseRoughness, EnvironmentData.GenOptions.NoiseFrequency, heightSeed);
+            }
 
-                var terrain = new Terrain(terrainHeightMap);
+            if (terrainHeightMap == null)
+            {
+                throw new NullReferenceException("Error in terrain height map generation, EnvironmentDisplay.GenerateHeightMap");
+            }
+            terrainHeightMap.Normalize();
 
-                lock (Environment)
+            lock (Environment)
+            {
+                if (combine && Environment.Terrain != null && Environment.Terrain.HeightMap != null)
                 {
-                    Environment.Terrain = terrain;
+                    terrainHeightMap.CombineWith(Environment.Terrain.HeightMap);
                 }
+
+                Environment.Terrain = new Terrain(terrainHeightMap);
             }
         }
 
