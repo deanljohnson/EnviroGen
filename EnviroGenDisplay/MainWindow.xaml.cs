@@ -2,7 +2,8 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
-using EnviroGenDisplay.DataProcessors;
+using EnviroGen.Continents;
+using EnviroGen.Erosion;
 
 namespace EnviroGenDisplay
 {
@@ -27,14 +28,14 @@ namespace EnviroGenDisplay
 
         private void OnGenerateClick(object sender, RoutedEventArgs e)
         {
-            var ed = Grid.FindResource("EnvironmentData") as EnvironmentData;
+            var data = Grid.FindResource("EnvironmentData") as EnvironmentData;
 
-            if (ed == null)
+            if (data == null)
             {
                 throw new ArgumentNullException();
             }
 
-            EnvironmentDisplay.EnvironmentData = ed;
+            EnvironmentDisplay.EnvironmentData = data;
 
             if (!GenerationThread.IsAlive)
             {
@@ -45,38 +46,38 @@ namespace EnviroGenDisplay
 
         private void OnSetColoringClick(object sender, RoutedEventArgs e)
         {
-            var ed = Grid.FindResource("EnvironmentData") as EnvironmentData;
+            var data = Grid.FindResource("EnvironmentData") as EnvironmentData;
             
-            if (ed == null)
+            if (data == null)
             {
                 throw new ArgumentNullException();
             }
 
-            EnvironmentDisplay.SetColorMapping(ed);
+            EnvironmentDisplay.SetColorMapping(data);
         }
 
         private void OnBuildContinentsClick(object sender, RoutedEventArgs e)
         {
-            var ed = Grid.FindResource("ContinentData") as ContinentDataProcessor;
+            var data = Grid.FindResource("ContinentData") as ContinentGenerationData;
 
-            if (ed == null)
+            if (data == null)
             {
                 throw new ArgumentNullException();
             }
 
-            EnvironmentDisplay.BuildContinents(ed.Data);
+            EnvironmentDisplay.BuildContinents(data);
         }
 
         private void OnErodeClick(object sender, RoutedEventArgs e)
         {
-            var ed = Grid.FindResource("ThermalErosionData") as ThermalErosionDataProcessor;
+            var data = Grid.FindResource("ThermalErosionData") as ThermalErosionData;
 
-            if (ed == null)
+            if (data == null)
             {
                 throw new ArgumentNullException();
             }
 
-            EnvironmentDisplay.ErodeHeightMap(ed.Data);
+            EnvironmentDisplay.ErodeHeightMap(data);
         }
     }
 }
