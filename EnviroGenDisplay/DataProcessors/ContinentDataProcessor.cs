@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using EnviroGen.Continents;
 using EnviroGenDisplay.Annotations;
@@ -44,6 +45,19 @@ namespace EnviroGenDisplay.DataProcessors
                 if (Data.MaximumContinentSize.ToString() != value)
                 {
                     Data.MaximumContinentSize = Int32.Parse(value);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string ContinentScale
+        {
+            get { return Data.Scale.ToString(CultureInfo.CurrentCulture); }
+            set
+            {
+                if (Data.Scale.ToString(CultureInfo.CurrentCulture) != value)
+                {
+                    Data.Scale = float.Parse(value);
                     OnPropertyChanged();
                 }
             }
