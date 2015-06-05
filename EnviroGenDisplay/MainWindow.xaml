@@ -14,6 +14,7 @@
             <continents:ContinentGenerationData x:Key="ContinentData"/>
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
+            <converters:SFMLColorToSystemColorConverter x:Key="ColorConverter"/>
         </Grid.Resources>
         <Grid.DataContext>
             <Binding Source="{StaticResource EnvironmentData}"/>
@@ -84,15 +85,15 @@
         <Label Content="Forest Color:" Grid.Column="5" Grid.Row="3"/>
         <Label Content="Mountain Color:" Grid.Column="5" Grid.Row="4"/>
         <Label Content="Low" FontWeight="Bold" Grid.Column="6" Grid.Row="0" HorizontalAlignment="Center"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="1" SelectedColor="{Binding Path=SeaColorLow}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="2" SelectedColor="{Binding Path=SandColorLow}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="3" SelectedColor="{Binding Path=ForestColorLow}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="4" SelectedColor="{Binding Path=MountainColorLow}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="1" SelectedColor="{Binding Path=SeaColorLow, Converter={StaticResource ColorConverter}}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="2" SelectedColor="{Binding Path=SandColorLow, Converter={StaticResource ColorConverter}}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="3" SelectedColor="{Binding Path=ForestColorLow, Converter={StaticResource ColorConverter}}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="6" Grid.Row="4" SelectedColor="{Binding Path=MountainColorLow, Converter={StaticResource ColorConverter}}"/>
         <Label Content="High" FontWeight="Bold" Grid.Column="7" Grid.Row="0" HorizontalAlignment="Center"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="1" SelectedColor="{Binding Path=SeaColorHigh}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="2" SelectedColor="{Binding Path=SandColorHigh}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="3" SelectedColor="{Binding Path=ForestColorHigh}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="4" SelectedColor="{Binding Path=MountainColorHigh}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="1" SelectedColor="{Binding Path=SeaColorHigh, Converter={StaticResource ColorConverter}}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="2" SelectedColor="{Binding Path=SandColorHigh, Converter={StaticResource ColorConverter}}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="3" SelectedColor="{Binding Path=ForestColorHigh, Converter={StaticResource ColorConverter}}"/>
+        <xctk:ColorPicker ColorMode="ColorPalette" Grid.Column="7" Grid.Row="4" SelectedColor="{Binding Path=MountainColorHigh, Converter={StaticResource ColorConverter}}"/>
 
         <Label Content="Number of Continents:" Grid.Column="2" Grid.Row="7"/>
         <Label Content="Minimum Continent Size:" Grid.Column="2" Grid.Row="8"/>
