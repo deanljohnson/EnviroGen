@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using SFML.Window;
 
@@ -113,6 +114,24 @@ namespace EnviroGen.HeightMaps
             if (x < Size.X - 1 && y < Size.Y - 1) points.Add(new Vector2i(x + 1, y + 1));
 
             return points;
+        }
+
+        public void CombineWith(HeightMap other, float weight = 1f)
+        {
+            if (Size.X != other.Size.X || Size.Y != other.Size.Y)
+            {
+                throw new ArgumentException("HeightMaps cannot be combined if they have different sizes");
+            }
+
+            for (var y = 0; y < Size.Y; y++)
+            {
+                for (var x = 0; x < Size.X; x++)
+                {
+                    Map[x, y] += (other.Map[x, y] * weight);
+                }
+            }
+
+            Normalize();
         }
     }
 }
