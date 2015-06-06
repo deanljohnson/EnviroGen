@@ -1,14 +1,13 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using SFML.Graphics;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGenDisplay.Annotations;
+using SFML.Graphics;
 
 namespace EnviroGenDisplay
 {
-    public sealed class EnvironmentData : INotifyPropertyChanged
+    public class EnvironmentData : INotifyPropertyChanged
     {
         public GenerationOptions GenOptions { get; private set; }
         private Color m_seaColorLow;
@@ -19,19 +18,6 @@ namespace EnviroGenDisplay
         private Color m_sandColorHigh;
         private Color m_forestColorHigh;
         private Color m_mountainColorHigh;
-
-        public string HeightMapSeed
-        {
-            get { return GenOptions.HeightMapSeed.ToString(); }
-            set
-            {
-                if (GenOptions.HeightMapSeed.ToString() != value)
-                {
-                    GenOptions.HeightMapSeed = Int32.Parse(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         public Color SeaColorLow
         {
