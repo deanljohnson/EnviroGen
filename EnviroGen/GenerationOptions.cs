@@ -22,8 +22,8 @@ namespace EnviroGen
         {
             SizeX = 1400;
             SizeY = 800;
-            HeightMapOctaveCount = 8;
-            CloudMapOctaveCount = 8;
+            HeightMapOctaveCount = 6;
+            CloudMapOctaveCount = 6;
             SeaLevel = .4f;
             SandDistance = .45f;
             ForestDistance = .75f;
