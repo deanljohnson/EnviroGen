@@ -4,6 +4,7 @@ using EnviroGen;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
 using EnviroGen.HeightMaps;
+using EnviroGenDisplay.Converters;
 using SFML.Graphics;
 using SFML.Window;
 using Environment = EnviroGen.Environment;
@@ -122,7 +123,7 @@ namespace EnviroGenDisplay
             lock (EnvironmentData)
             {
                 var random = new Random();
-                var heightSeed = Int32.Parse(EnvironmentData.HeightMapSeed);
+                var heightSeed = EnvironmentData.GenOptions.HeightMapSeed;
                 heightSeed = heightSeed == -1 ? random.Next(5000) : heightSeed;
 
                 terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.GenOptions.SizeX, EnvironmentData.GenOptions.SizeY, EnvironmentData.GenOptions.HeightMapOctaveCount, EnvironmentData.GenOptions.NoiseRoughness, EnvironmentData.GenOptions.NoiseFrequency, heightSeed);
@@ -172,14 +173,17 @@ namespace EnviroGenDisplay
             }
         }
 
-        public static void ErodeHeightMap(ErosionData data)
+        public static void ErodeHeightMap(ErosionData data, bool improvedThermal = false)
         {
             lock (Environment)
             {
                 if (Environment.Terrain == null) return;
+
                 if (data is ThermalErosionData)
                 {
-                    ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, (ThermalErosionData) data);
+                    if (improvedThermal) ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, (ThermalErosionData)data);
+                    else ThermalErosion.Erode(Environment.Terrain.HeightMap, (ThermalErosionData)data);
+                    
                 }
                 else if (data is HydraulicErosionData)
                 {
