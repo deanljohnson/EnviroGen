@@ -58,7 +58,7 @@ namespace EnviroGenDisplay
 
         private void OnBuildContinentsClick(object sender, RoutedEventArgs e)
         {
-            var data = Grid.FindResource("ContinentData") as ContinentGenerationData;
+            var data = ContinentsGrid.FindResource("ContinentData") as ContinentGenerationData;
 
             if (data == null)
             {
@@ -68,9 +68,33 @@ namespace EnviroGenDisplay
             EnvironmentDisplay.BuildContinents(data);
         }
 
-        private void OnErodeClick(object sender, RoutedEventArgs e)
+        private void OnImprovedThermalErodeClick(object sender, RoutedEventArgs e)
         {
-            var data = Grid.FindResource("ThermalErosionData") as ThermalErosionData;
+            var data = ImprovedThermalErosionGrid.FindResource("ThermalErosionData") as ThermalErosionData;
+
+            if (data == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            EnvironmentDisplay.ErodeHeightMap(data, true);
+        }
+
+        private void OnThermalErodeClick(object sender, RoutedEventArgs e)
+        {
+            var data = ThermalErosionGrid.FindResource("ThermalErosionData") as ThermalErosionData;
+
+            if (data == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            EnvironmentDisplay.ErodeHeightMap(data);
+        }
+
+        private void OnHydraulicErodeClick(object sender, RoutedEventArgs e)
+        {
+            var data = HydraulicErosionGrid.FindResource("HydraulicErosionData") as HydraulicErosionData;
 
             if (data == null)
             {
