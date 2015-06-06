@@ -116,18 +116,21 @@ namespace EnviroGen.HeightMaps
             return points;
         }
 
-        public void CombineWith(HeightMap other, float weight = 1f)
+        public void CombineWith(HeightMap other)
         {
-            if (Size.X != other.Size.X || Size.Y != other.Size.Y)
-            {
-                throw new ArgumentException("HeightMaps cannot be combined if they have different sizes");
-            }
+            CombineWith(other, new Vector2i(0, 0));
+        }
 
-            for (var y = 0; y < Size.Y; y++)
+        public void CombineWith(HeightMap other, Vector2i offset)
+        {
+            var maxX = Math.Min(Size.X, offset.X + other.Size.X);
+            var maxY = Math.Min(Size.Y, offset.Y + other.Size.Y);
+
+            for (var y = offset.Y; y < maxY; y++)
             {
-                for (var x = 0; x < Size.X; x++)
+                for (var x = offset.X; x < maxX; x++)
                 {
-                    Map[x, y] += (other.Map[x, y] * weight);
+                    Map[x, y] += other.Map[x - offset.X, y - offset.Y];
                 }
             }
 
