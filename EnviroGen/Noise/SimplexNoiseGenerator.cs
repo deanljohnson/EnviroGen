@@ -44,7 +44,7 @@ namespace EnviroGen.Noise
         /// Returns a 2d array of float of the given size based on the given parameters.
         /// With multiple octaves, subsequent octaves will have a higher frequency but less weight.
         /// </summary>
-        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float frequency, int seed)
+        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float frequency, int seed, bool ridged = false)
         {
             var arr = new float[xMax, yMax];
             var layerFrequency = frequency;
@@ -54,7 +54,7 @@ namespace EnviroGen.Noise
             {
                 for (var x = seed; x < xMax + seed; x++)
                 {
-                    for (var o = 0; o < numOctaves - 1; o++)
+                    for (var o = 0; o < numOctaves; o++)
                     {
                         arr[x - seed, y - seed] += Noise2d(x * layerFrequency, y * layerFrequency) * layerWeight;
                         layerFrequency *= 2;
@@ -64,6 +64,18 @@ namespace EnviroGen.Noise
                     layerWeight = 1f;
                 }
             }
+
+            if (ridged)
+            {
+                for (var y = 0; y < arr.GetLength(1); y++)
+                {
+                    for (var x = 0; x < arr.GetLength(0); x++)
+                    {
+                        arr[x, y] = Math.Abs(arr[x, y]);
+                    }
+                }
+            }
+
             arr = Normalize(arr);
             return arr;
         }
