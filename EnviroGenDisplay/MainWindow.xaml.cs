@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
+using EnviroGen.Coloring;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
+using SFML.Graphics;
 
 namespace EnviroGenDisplay
 {
@@ -18,6 +19,7 @@ namespace EnviroGenDisplay
         private static BackgroundWorker DisplayWorker { get; set; }
         private static Thread GenerationThread { get; set; }
         private int AddedHeightMapCount { get; set; }
+        private int AddedColorRangeCount { get; set; }
 
         public MainWindow()
         {
@@ -26,8 +28,11 @@ namespace EnviroGenDisplay
 
             InitializeComponent();
 
-            AddedHeightMapCount = 0;
+            AddDefaultColors();
 
+            AddedHeightMapCount = -1;
+            AddMap();
+            
             DisplayWorker.DoWork += EnvironmentDisplay.Update;
             DisplayWorker.RunWorkerAsync();
         }
@@ -46,20 +51,16 @@ namespace EnviroGenDisplay
             if (!GenerationThread.IsAlive)
             {
                 GenerationThread = new Thread(EnvironmentDisplay.GenerateHeightMap);
-                GenerationThread.Start(CombineCheckBox.IsChecked);
+                GenerationThread.Start(data.Combining);
             }
         }
 
         private void OnSetColoringClick(object sender, RoutedEventArgs e)
         {
-            var data = ((FrameworkElement)sender).DataContext as EnvironmentData;
-            
-            if (data == null)
-            {
-                throw new ArgumentNullException();
-            }
+            //Voodoo magic, gets all ColorRange objects from the ColorGrid xml control.
+            var ranges = (from object elem in ColorGrid.Children select elem as ContentControl).Select(contentControl => contentControl.Content).OfType<ColorRange>().ToList();
 
-            EnvironmentDisplay.SetColorMapping(data);
+            EnvironmentDisplay.SetColorMapping(ranges);
         }
 
         private void OnBuildContinentsClick(object sender, RoutedEventArgs e)
@@ -112,108 +113,107 @@ namespace EnviroGenDisplay
 
         private void OnAddMapClick(object sender, RoutedEventArgs e)
         {
-            var data = new EnvironmentData();
-            data.GenOptions.SizeX = ((EnvironmentData)(GlobalGrid.FindResource("EnvironmentData"))).GenOptions.SizeX;
-            data.GenOptions.SizeY = ((EnvironmentData)(GlobalGrid.FindResource("EnvironmentData"))).GenOptions.SizeY;
-            var intConverter = (IValueConverter) GlobalGrid.FindResource("IntToStringConverter");
-            var floatConverter = (IValueConverter) GlobalGrid.FindResource("FloatToStringConverter");
-            var heightOctaveBinding = new Binding("GenOptions.HeightMapOctaveCount") { Source = data, Converter = intConverter };
-            var cloudOctaveBinding = new Binding("GenOptions.CloudMapOctaveCount") { Source = data, Converter = intConverter };
-            var heightMapSeedBinding = new Binding("GenOptions.HeightMapSeed") { Source = data, Converter = intConverter };
-            var cloudMapSeedBinding = new Binding("GenOptions.CloudMapSeed") { Source = data, Converter = intConverter };
-            var noiseRoughnessBinding = new Binding("GenOptions.NoiseRoughness") { Source = data, Converter = floatConverter };
-            var noiseFrequencyBinding = new Binding("GenOptions.NoiseFrequency") { Source = data, Converter = floatConverter };
+            AddMap();
+        }
 
+        private void AddMap()
+        {
             AddedHeightMapCount++;
+            var newHeightMapFields = new ContentControl { Content = new EnvironmentData() };
+            Grid.SetColumn(newHeightMapFields, AddedHeightMapCount);
 
-            var column = AddedHeightMapCount * 2;
-
-            HeightMapGrid.ColumnDefinitions.Add(new ColumnDefinition{ Width = GridLength.Auto });
             HeightMapGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-            var heightOctaveCountLabel = new Label { Content = "Height Map Octave Count:" };
-            Grid.SetColumn(heightOctaveCountLabel, column);
-            Grid.SetRow(heightOctaveCountLabel, 2);
-            var cloudOctavecountLabel = new Label { Content = "Cloud Map Octave Count:" };
-            Grid.SetColumn(cloudOctavecountLabel, column);
-            Grid.SetRow(cloudOctavecountLabel, 3);
-            var heightMapSeedLabel = new Label { Content = "Height Map Seed:" };
-            Grid.SetColumn(heightMapSeedLabel, column);
-            Grid.SetRow(heightMapSeedLabel, 4);
-            var cloudMapSeedLabel = new Label { Content = "Cloud Map Seed:" };
-            Grid.SetColumn(cloudMapSeedLabel, column);
-            Grid.SetRow(cloudMapSeedLabel, 5);
-            var noiseRoughnessLabel = new Label { Content = "Noise Roughness:" };
-            Grid.SetColumn(noiseRoughnessLabel, column);
-            Grid.SetRow(noiseRoughnessLabel, 6);
-            var noiseFrequencyLabel = new Label { Content = "Noise Frequency:" };
-            Grid.SetColumn(noiseFrequencyLabel, column);
-            Grid.SetRow(noiseFrequencyLabel, 7);
-            var generateButton = new Button { Content = "Generate", HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Width = 75};
-            generateButton.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(OnGenerateClick));
-            generateButton.DataContext = data;
-            Grid.SetColumn(generateButton, column);
-            Grid.SetRow(generateButton, 8);
-            var heightOctaveCountTextBox = new TextBox { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Width = 40, Height = double.NaN, TextWrapping = TextWrapping.NoWrap };
-            heightOctaveCountTextBox.SetBinding(TextBox.TextProperty, heightOctaveBinding);
-            Grid.SetColumn(heightOctaveCountTextBox, column + 1);
-            Grid.SetRow(heightOctaveCountTextBox, 2);
-            var cloudOctaveCountTextBox = new TextBox { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Width = 40, Height = double.NaN, TextWrapping = TextWrapping.NoWrap };
-            cloudOctaveCountTextBox.SetBinding(TextBox.TextProperty, cloudOctaveBinding);
-            Grid.SetColumn(cloudOctaveCountTextBox, column + 1);
-            Grid.SetRow(cloudOctaveCountTextBox, 3);
-            var heightMapSeedTextBox = new TextBox { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Width = 40, Height = double.NaN, TextWrapping = TextWrapping.NoWrap };
-            heightMapSeedTextBox.SetBinding(TextBox.TextProperty, heightMapSeedBinding);
-            Grid.SetColumn(heightMapSeedTextBox, column + 1);
-            Grid.SetRow(heightMapSeedTextBox, 4);
-            var cloudMapSeedTextBox = new TextBox { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Width = 40, Height = double.NaN, TextWrapping = TextWrapping.NoWrap };
-            cloudMapSeedTextBox.SetBinding(TextBox.TextProperty, cloudMapSeedBinding);
-            Grid.SetColumn(cloudMapSeedTextBox, column + 1);
-            Grid.SetRow(cloudMapSeedTextBox, 5);
-            var noiseRoughnessTextBox = new TextBox { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Width = 40, Height = double.NaN, TextWrapping = TextWrapping.NoWrap };
-            noiseRoughnessTextBox.SetBinding(TextBox.TextProperty, noiseRoughnessBinding);
-            Grid.SetColumn(noiseRoughnessTextBox, column + 1);
-            Grid.SetRow(noiseRoughnessTextBox, 6);
-            var noiseFrequencyTextBox = new TextBox { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Center, Width = 40, Height = double.NaN, TextWrapping = TextWrapping.NoWrap };
-            noiseFrequencyTextBox.SetBinding(TextBox.TextProperty, noiseFrequencyBinding);
-            Grid.SetColumn(noiseFrequencyTextBox, column + 1);
-            Grid.SetRow(noiseFrequencyTextBox, 7);
-            var minusButton = new Button { Content = "-", HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Width = 20};
-            minusButton.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(OnRemoveMapClick));
-            Grid.SetColumn(minusButton, column + 1);
-            Grid.SetRow(minusButton, 8);
-
-            HeightMapGrid.Children.Add(heightOctaveCountLabel);
-            HeightMapGrid.Children.Add(cloudOctavecountLabel);
-            HeightMapGrid.Children.Add(heightMapSeedLabel);
-            HeightMapGrid.Children.Add(cloudMapSeedLabel);
-            HeightMapGrid.Children.Add(noiseRoughnessLabel);
-            HeightMapGrid.Children.Add(noiseFrequencyLabel);
-            HeightMapGrid.Children.Add(generateButton);
-            HeightMapGrid.Children.Add(heightOctaveCountTextBox);
-            HeightMapGrid.Children.Add(cloudOctaveCountTextBox);
-            HeightMapGrid.Children.Add(heightMapSeedTextBox);
-            HeightMapGrid.Children.Add(cloudMapSeedTextBox);
-            HeightMapGrid.Children.Add(noiseRoughnessTextBox);
-            HeightMapGrid.Children.Add(noiseFrequencyTextBox);
-            HeightMapGrid.Children.Add(minusButton);
+            HeightMapGrid.Children.Add(newHeightMapFields);
         }
 
         private void OnRemoveMapClick(object sender, RoutedEventArgs e)
         {
-            for (var i = 0; i < HeightMapGrid.Children.Count; i++)
-            {
-                var elem = HeightMapGrid.Children[i];
+            RemoveMap();
+        }
 
-                if (Grid.GetColumn(elem) == (AddedHeightMapCount * 2) ||
-                    Grid.GetColumn(elem) == (AddedHeightMapCount * 2) + 1)
+        private void RemoveMap()
+        {
+            if (AddedHeightMapCount > 0)
+            {
+                HeightMapGrid.Children.RemoveAt(HeightMapGrid.Children.Count - 1);
+                AddedHeightMapCount--;
+            }
+        }
+
+        private void AddDefaultColors()
+        {
+            AddedColorRangeCount++;
+            var waterField = new ContentControl 
+            {
+                    Content = new ColorRange(new Color(0, 0, 116, 255), new Color(0, 0, 255, 255), .0f, .45f) 
+            };
+            Grid.SetRow(waterField, AddedColorRangeCount);
+            AddedColorRangeCount++;
+            var sandField = new ContentControl
+            {
+                Content = new ColorRange(new Color(170, 166, 27, 255), new Color(206, 202, 49, 255), .45f, .5f)
+            };
+            Grid.SetRow(sandField, AddedColorRangeCount);
+            AddedColorRangeCount++;
+            var forestField = new ContentControl
+            {
+                Content = new ColorRange(new Color(0, 159, 21, 255), new Color(22, 88, 31, 255), .5f, .75f)
+            };
+            Grid.SetRow(forestField, AddedColorRangeCount);
+            AddedColorRangeCount++;
+            var mountainField = new ContentControl
+            {
+                Content = new ColorRange(new Color(197, 197, 202, 255), new Color(248, 248, 248, 255), .75f, 1f)
+            };
+            Grid.SetRow(mountainField, AddedColorRangeCount);
+
+            ColorGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            ColorGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            ColorGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            ColorGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            ColorGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            ColorGrid.Children.Add(waterField);
+            ColorGrid.Children.Add(sandField);
+            ColorGrid.Children.Add(forestField);
+            ColorGrid.Children.Add(mountainField);
+        }
+
+        private void OnAddColorRangeClick(object sender, RoutedEventArgs e)
+        {
+            AddColorRange();
+        }
+
+        private void AddColorRange()
+        {
+            AddedColorRangeCount++;
+
+            var newRange = new ContentControl
+            {
+                Content = new ColorRange(new Color(0, 0, 0, 255), new Color(255, 255, 255, 255), 1f, 1f)
+            };
+            Grid.SetRow(newRange, AddedColorRangeCount);
+
+            ColorGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto } );
+
+            ColorGrid.Children.Add(newRange);
+        }
+
+        private void OnRemoveColorRangeClick(object sender, RoutedEventArgs e)
+        {
+            RemoveColorRange(((FrameworkElement)sender).DataContext as ColorRange);
+        }
+
+        private void RemoveColorRange(ColorRange range)
+        {
+            for (var i = 0; i < ColorGrid.Children.Count; i++)
+            {
+                var child = ColorGrid.Children[i];
+                if ((((ContentControl) child).Content as ColorRange) == range)
                 {
-                    HeightMapGrid.Children.Remove(elem);
-                    i--;
+                    ColorGrid.Children.Remove(child);
                 }
             }
-
-            AddedHeightMapCount--;
         }
     }
 }
