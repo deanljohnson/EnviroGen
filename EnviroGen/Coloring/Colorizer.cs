@@ -14,6 +14,11 @@ namespace EnviroGen.Coloring
             m_colorRanges = new List<ColorRange>();
         }
 
+        public Colorizer(List<ColorRange> colorRanges)
+        {
+            m_colorRanges = colorRanges;
+        }
+
         /// <summary>
         /// Returns an Image with coloring applied based on the given HeightMap
         /// </summary>
