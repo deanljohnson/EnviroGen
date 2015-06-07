@@ -1,4 +1,8 @@
 syntax: glob
+EnviroGen/obj/
+EnviroGen/bin/
 EnviroGen.v12.suo
+EnviroGenDisplay/obj/
+EnviroGenDisplay/bin/
 packages/Extended.Wpf.Toolkit.2.4/
 EnviroGen/bin/Debug/
