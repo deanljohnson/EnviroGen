@@ -5,3 +5,7 @@ EnviroGenDisplay/obj/
 packages/Extended.Wpf.Toolkit.2.4/
 EnviroGen/bin/Debug/
 EnviroGenDisplay/bin/Debug/
+EnviroGen/bin/x86/
+EnviroGen/bin/x64/
+EnviroGenDisplay/bin/x86/
+EnviroGenDisplay/bin/x64/Release/
