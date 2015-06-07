@@ -1,3 +1,4 @@
 syntax: glob
 EnviroGen.v12.suo
 packages/Extended.Wpf.Toolkit.2.4/
+EnviroGen/bin/Debug/
