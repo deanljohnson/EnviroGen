@@ -1,7 +1,6 @@
 syntax: glob
 EnviroGen/obj/
 EnviroGen/bin/
-EnviroGen/App.config
 EnviroGen.v12.suo
 EnviroGenDisplay/obj/
 EnviroGenDisplay/bin/
