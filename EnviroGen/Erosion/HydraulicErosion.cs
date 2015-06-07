@@ -42,6 +42,9 @@ namespace EnviroGen.Erosion
             }
         }
 
+        /// <summary>
+        /// Moves water downhill
+        /// </summary>
         private static void DoMovement(HeightMap heightMap, ref float[,] waterMap)
         {
             for (var y = 0; y < heightMap.Size.Y; y++)
@@ -71,6 +74,9 @@ namespace EnviroGen.Erosion
             }
         }
 
+        /// <summary>
+        /// Evaporates water and deposits sediment if needed.
+        /// </summary>
         private static void DoEvaporation(HeightMap heightMap, ref float[,] waterMap, ref float[,] sedimentMap, float evaporation, float capacity)
         {
             for (var y = 0; y < heightMap.Size.Y; y++)
