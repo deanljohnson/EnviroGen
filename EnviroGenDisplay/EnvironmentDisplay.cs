@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using EnviroGen;
+using EnviroGen.Coloring;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
 using EnviroGen.HeightMaps;
@@ -148,18 +150,13 @@ namespace EnviroGenDisplay
             }
         }
 
-        public static void SetColorMapping(EnvironmentData data)
+        public static void SetColorMapping(List<ColorRange> colorRanges)
         {
-            lock (EnvironmentData)
-            {
-                EnvironmentData = data;
-            }
-
             lock (Environment)
             {
                 if (Environment.Terrain == null) return;
 
-                Environment.Terrain.Colorizer = data.BuildTerrainColorizer();
+                Environment.Terrain.Colorizer = new Colorizer(colorRanges);
                 Environment.Terrain.Colorize();
             }
         }
@@ -181,15 +178,20 @@ namespace EnviroGenDisplay
             {
                 if (Environment.Terrain == null) return;
 
-                if (data is ThermalErosionData)
+                var erosionData = data as ThermalErosionData;
+                if (erosionData != null)
                 {
-                    if (improvedThermal) ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, (ThermalErosionData)data);
-                    else ThermalErosion.Erode(Environment.Terrain.HeightMap, (ThermalErosionData)data);
+                    if (improvedThermal) ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
+                    else ThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
                     
                 }
-                else if (data is HydraulicErosionData)
+                else
                 {
-                    HydraulicErosion.Erode(Environment.Terrain.HeightMap, (HydraulicErosionData)data);
+                    var hydraulicErosionData = data as HydraulicErosionData;
+                    if (hydraulicErosionData != null)
+                    {
+                        HydraulicErosion.Erode(Environment.Terrain.HeightMap, hydraulicErosionData);
+                    }
                 }
 
                 Environment.Terrain.Colorize();
