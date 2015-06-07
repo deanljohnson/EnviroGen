@@ -7,7 +7,7 @@
         xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
         xmlns:continents="clr-namespace:EnviroGen.Continents;assembly=EnviroGen"
         xmlns:erosion="clr-namespace:EnviroGen.Erosion;assembly=EnviroGen">
-    <Grid>
+    <Grid Name="GlobalGrid">
         <Grid.Resources>
             <c:EnvironmentData x:Key="EnvironmentData"/>
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
@@ -16,7 +16,7 @@
         </Grid.Resources>
         <TabControl>
             <TabItem Header="Height Map">
-                <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="Grid">
+                <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="HeightMapGrid">
                     <Grid.DataContext>
                         <Binding Source="{StaticResource EnvironmentData}"/>
                     </Grid.DataContext>
@@ -54,7 +54,7 @@
                     <Label Content="Cloud Map Seed:" Grid.Column="0" Grid.Row="5"/>
                     <Label Content="Noise Roughness:" Grid.Column="0" Grid.Row="6"/>
                     <Label Content="Noise Frequency:" Grid.Column="0" Grid.Row="7"/>
-                    <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="8" Click="OnGenerateClick"/>
+                    <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="8" Click="OnGenerateClick" DataContext="{Binding Source={StaticResource EnvironmentData}}"/>
                     <CheckBox Content="Combine w/ Current" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Name="CombineCheckBox"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=GenOptions.SizeX, Converter={StaticResource IntToStringConverter}}"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=GenOptions.SizeY, Converter={StaticResource IntToStringConverter}}"/>
@@ -63,7 +63,8 @@
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=GenOptions.HeightMapSeed, Converter={StaticResource IntToStringConverter}}"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=GenOptions.CloudMapSeed, Converter={StaticResource IntToStringConverter}}"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="6" Text="{Binding Path=GenOptions.NoiseRoughness, Converter={StaticResource FloatToStringConverter}}"/>
-                    <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="7" Text="{Binding Path=GenOptions.NoiseFrequency, Converter={StaticResource FloatToStringConverter}}"/> 
+                    <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="7" Text="{Binding Path=GenOptions.NoiseFrequency, Converter={StaticResource FloatToStringConverter}}"/>
+                    <Button Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Grid.Column="1" Grid.Row="8" Click="OnAddMapClick"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Continents">
@@ -102,7 +103,7 @@
                     <Label Content="Minimum Continent Size:" Grid.Column="0" Grid.Row="1"/>
                     <Label Content="Maximum Continent Size:" Grid.Column="0" Grid.Row="2"/>
                     <Label Content="Continent Scale:" Grid.Column="0" Grid.Row="3"/>
-                    <Button Content="Build Continents" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Grid.Column="0" Grid.Row="4" Click="OnBuildContinentsClick"/>
+                    <Button Content="Build Continents" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Grid.Column="0" Grid.Row="4" Click="OnBuildContinentsClick" DataContext="{Binding Source={StaticResource ContinentData}}"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=NumContinents, Converter={StaticResource IntToStringConverter}}"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MinimumContinentSize, Converter={StaticResource IntToStringConverter}}"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MaximumContinentSize, Converter={StaticResource IntToStringConverter}}"/>
@@ -112,7 +113,7 @@
             <TabItem Header="Erosion">
                 <TabControl>
                     <TabItem Header="Improved Thermal">
-                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="ImprovedThermalErosionGrid">
+                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
                             <Grid.Resources>
                                 <erosion:ThermalErosionData x:Key="ThermalErosionData"/>
                             </Grid.Resources>
@@ -127,13 +128,13 @@
                             </Grid.RowDefinitions>
                             <Label Content="Talus Angle:" Grid.Column="0" Grid.Row="0"/>
                             <Label Content="Iterations:" Grid.Column="0" Grid.Row="1"/>
-                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="2" Click="OnImprovedThermalErodeClick"/>
+                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="2" Click="OnImprovedThermalErodeClick" DataContext="{Binding Source={StaticResource ThermalErosionData}}"/>
                             <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=TalusAngle, Converter={StaticResource FloatToStringConverter}}"/>
                             <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=Iterations, Converter={StaticResource IntToStringConverter}}"/>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Thermal">
-                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="ThermalErosionGrid">
+                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
                             <Grid.Resources>
                                 <erosion:ThermalErosionData x:Key="ThermalErosionData"/>
                             </Grid.Resources>
@@ -148,13 +149,13 @@
                             </Grid.RowDefinitions>
                             <Label Content="Talus Angle:" Grid.Column="0" Grid.Row="0"/>
                             <Label Content="Iterations:" Grid.Column="0" Grid.Row="1"/>
-                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="2" Click="OnThermalErodeClick"/>
+                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="2" Click="OnThermalErodeClick" DataContext="{Binding Source={StaticResource ThermalErosionData}}"/>
                             <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=TalusAngle, Converter={StaticResource FloatToStringConverter}}"/>
                             <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=Iterations, Converter={StaticResource IntToStringConverter}}"/>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Hydraulic">
-                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="HydraulicErosionGrid">
+                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
                             <Grid.Resources>
                                 <erosion:HydraulicErosionData x:Key="HydraulicErosionData"/>
                             </Grid.Resources>
@@ -175,7 +176,7 @@
                             <Label Content="Evaporation:" Grid.Column="0" Grid.Row="2"/>
                             <Label Content="Capacity:" Grid.Column="0" Grid.Row="3"/>
                             <Label Content="Iterations:" Grid.Column="0" Grid.Row="4"/>
-                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="5" Click="OnHydraulicErodeClick"/>
+                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="5" Click="OnHydraulicErodeClick" DataContext="{Binding Source={StaticResource HydraulicErosionData}}"/>
                             <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=RainAmount, Converter={StaticResource FloatToStringConverter}}"/>
                             <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=Solubility, Converter={StaticResource FloatToStringConverter}}"/>
                             <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=Evaporation, Converter={StaticResource FloatToStringConverter}}"/>
@@ -186,7 +187,7 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="Coloring">
-                <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="ColoringGrid">
+                <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
                     <Grid.DataContext>
                         <Binding Source="{StaticResource EnvironmentData}"/>
                     </Grid.DataContext>
@@ -210,7 +211,7 @@
                     <Label Content="Sand Distance:" Grid.Column="0" Grid.Row="2"/>
                     <Label Content="Forest Distance:" Grid.Column="0" Grid.Row="3"/>
                     <Label Content="Mountain Distance:" Grid.Column="0" Grid.Row="4"/>
-                    <Button Content="Set Coloring" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="5" Click="OnSetColoringClick"/>
+                    <Button Content="Set Coloring" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="5" Click="OnSetColoringClick" DataContext="{Binding Source={StaticResource EnvironmentData}}"/>
                     <Label Content="Low" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=GenOptions.SeaLevel, Converter={StaticResource FloatToStringConverter}}"/>
                     <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=GenOptions.SandDistance, Converter={StaticResource FloatToStringConverter}}"/>
