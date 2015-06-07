@@ -4,7 +4,6 @@ using EnviroGen;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
 using EnviroGen.HeightMaps;
-using EnviroGenDisplay.Converters;
 using SFML.Graphics;
 using SFML.Window;
 using Environment = EnviroGen.Environment;
@@ -139,10 +138,13 @@ namespace EnviroGenDisplay
             {
                 if (combine && Environment.Terrain != null && Environment.Terrain.HeightMap != null)
                 {
-                    terrainHeightMap.CombineWith(Environment.Terrain.HeightMap);
+                    Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
+                    Environment.Terrain.Colorize();
                 }
-
-                Environment.Terrain = new Terrain(terrainHeightMap);
+                else
+                {
+                    Environment.Terrain = new Terrain(terrainHeightMap);
+                }
             }
         }
 
