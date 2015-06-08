@@ -2,7 +2,7 @@
 {
     public class ScaleModifier : IModifier
     {
-        private float Scale { get; set; }
+        public float Scale { get; set; }
 
         public ScaleModifier(float scale)
         {

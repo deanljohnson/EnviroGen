@@ -4,7 +4,7 @@ namespace EnviroGen.Noise.Modifiers
 {
     public class ExponentModifier : IModifier
     {
-        private float Exponent { get; set; }
+        public float Exponent { get; set; }
 
         public ExponentModifier(float exp)
         {
