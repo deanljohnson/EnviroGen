@@ -102,6 +102,18 @@ namespace EnviroGenDisplay
             Window.SetView(view);
         }
 
+        public static void GenerateHeightMap(object sender, DoWorkEventArgs e)
+        {
+            var arg = e.Argument as EnvironmentData;
+
+            if (arg == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            GenerateHeightMap(arg);
+        }
+
         public static void GenerateHeightMap(EnvironmentData data)
         {
             var options = data.ToGenerationOptions();
@@ -115,54 +127,66 @@ namespace EnviroGenDisplay
                 throw new NullReferenceException("Error in terrain height map generation, EnvironmentDisplay.GenerateHeightMap");
             }
 
-            if (data.Combining && Environment.Terrain != null && Environment.Terrain.HeightMap != null)
+            lock (Environment)
             {
-                Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
-                Environment.Terrain.Colorize();
-            }
-            else
-            {
-                Environment.Terrain = new Terrain(terrainHeightMap);
+                if (data.Combining && Environment.Terrain != null && Environment.Terrain.HeightMap != null)
+                {
+                    Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
+                    Environment.Terrain.Colorize();
+                }
+                else
+                {
+                    Environment.Terrain = new Terrain(terrainHeightMap);
+                }
             }
         }
 
         public static void SetColorMapping(List<ColorRange> colorRanges)
         {
-            if (Environment.Terrain == null) return;
+            lock (Environment)
+            {
+                if (Environment.Terrain == null) return;
 
-            Environment.Terrain.Colorizer = new Colorizer(colorRanges);
-            Environment.Terrain.Colorize();
+                Environment.Terrain.Colorizer = new Colorizer(colorRanges);
+                Environment.Terrain.Colorize();
+            }
         }
 
         public static void BuildContinents(ContinentGenerationData data)
         {
-            if (Environment.Terrain == null) return;
-            ContinentGenerator.BuildContinents(Environment.Terrain.HeightMap, data);
-            Environment.Terrain.HeightMap.Normalize();
-            Environment.Terrain.Colorize();
+            lock (Environment)
+            {
+                if (Environment.Terrain == null) return;
+                ContinentGenerator.BuildContinents(Environment.Terrain.HeightMap, data);
+                Environment.Terrain.HeightMap.Normalize();
+                Environment.Terrain.Colorize();
+            }
         }
 
         public static void ErodeHeightMap(ErosionData data, bool improvedThermal = false)
         {
-            if (Environment.Terrain == null) return;
+            lock (Environment)
+            {
+                if (Environment.Terrain == null) return;
 
-            var erosionData = data as ThermalErosionData;
-            if (erosionData != null)
-            {
-                if (improvedThermal) ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
-                else ThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
-                    
-            }
-            else
-            {
-                var hydraulicErosionData = data as HydraulicErosionData;
-                if (hydraulicErosionData != null)
+                var erosionData = data as ThermalErosionData;
+                if (erosionData != null)
                 {
-                    HydraulicErosion.Erode(Environment.Terrain.HeightMap, hydraulicErosionData);
-                }
-            }
+                    if (improvedThermal) ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
+                    else ThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
 
-            Environment.Terrain.Colorize();
+                }
+                else
+                {
+                    var hydraulicErosionData = data as HydraulicErosionData;
+                    if (hydraulicErosionData != null)
+                    {
+                        HydraulicErosion.Erode(Environment.Terrain.HeightMap, hydraulicErosionData);
+                    }
+                }
+
+                Environment.Terrain.Colorize();
+            }
         }
     }
 }
