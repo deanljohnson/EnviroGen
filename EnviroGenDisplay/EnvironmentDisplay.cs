@@ -114,10 +114,10 @@ namespace EnviroGenDisplay
             {
                 combine = EnvironmentData.Combining;
                 var random = new Random();
-                var heightSeed = EnvironmentData.GenOptions.HeightMapSeed;
-                heightSeed = heightSeed == -1 ? random.Next(5000) : heightSeed;
+                var seed = EnvironmentData.GenOptions.Seed;
+                seed = seed == -1 ? random.Next(5000) : seed;
 
-                terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.GenOptions.SizeX, EnvironmentData.GenOptions.SizeY, EnvironmentData.GenOptions.HeightMapOctaveCount, EnvironmentData.GenOptions.NoiseRoughness, EnvironmentData.GenOptions.NoiseFrequency, heightSeed);
+                terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.GenOptions.SizeX, EnvironmentData.GenOptions.SizeY, EnvironmentData.GenOptions.OctaveCount, EnvironmentData.GenOptions.Gain, EnvironmentData.GenOptions.Frequency, seed);
             }
 
             if (terrainHeightMap == null)
