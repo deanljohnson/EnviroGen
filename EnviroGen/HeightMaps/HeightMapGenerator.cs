@@ -53,16 +53,9 @@ namespace EnviroGen.HeightMaps
                 }
             }
 
-            //Make HeightMap object in order to normalize
+            ApplyModifiers(ref arr, modifiers);
+
             var map = new HeightMap(arr);
-            map.Normalize();
-
-            //Need variable to pass as ref
-            var newMap = map.Map;
-
-            ApplyModifiers(ref newMap, modifiers);
-
-            map.Map = newMap;
 
             return map;
         }
