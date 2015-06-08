@@ -113,10 +113,13 @@ namespace EnviroGenDisplay
             lock (EnvironmentData)
             {
                 combine = EnvironmentData.Combining;
-                var random = new Random();
-                EnvironmentData.Seed = (EnvironmentData.Seed == -1) ? random.Next(5000) : EnvironmentData.Seed;
 
-                terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.ToGenerationOptions());
+                var options = EnvironmentData.ToGenerationOptions();
+
+                var random = new Random();
+                options.Seed = (options.Seed == -1) ? random.Next(5000) : options.Seed;
+
+                terrainHeightMap = HeightMapGenerator.GenerateHeightMap(options);
             }
 
             if (terrainHeightMap == null)
