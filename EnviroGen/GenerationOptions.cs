@@ -23,5 +23,16 @@ namespace EnviroGen
             Frequency = .005f;
             Modifiers = new List<IModifier>();
         }
+
+        public GenerationOptions(GenerationOptions copy)
+        {
+            SizeX = copy.SizeX;
+            SizeY = copy.SizeY;
+            OctaveCount = copy.OctaveCount;
+            Seed = copy.Seed;
+            Gain = copy.Gain;
+            Frequency = copy.Frequency;
+            Modifiers = copy.Modifiers;
+        }
     }
 }
