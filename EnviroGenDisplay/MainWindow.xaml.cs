@@ -46,9 +46,7 @@ namespace EnviroGenDisplay
                 throw new ArgumentNullException();
             }
 
-            EnvironmentDisplay.EnvironmentData = data;
-
-            EnvironmentDisplay.GenerateHeightMap();
+            EnvironmentDisplay.GenerateHeightMap(data);
         }
 
         private void OnSetColoringClick(object sender, RoutedEventArgs e)
