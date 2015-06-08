@@ -14,12 +14,15 @@
         <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         <converters:SFMLColorToSystemColorConverter x:Key="ColorConverter"/>
         <DataTemplate DataType="{x:Type c:EnvironmentData}">
-            <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="HeightMapGrid">
+            <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -38,12 +41,12 @@
                 <Label Content="Frequency:" Grid.Column="0" Grid.Row="5"/>
                 <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="6" Click="OnGenerateClick" />
                 <CheckBox Content="Combine w/ Current" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Name="CombineCheckBox" IsChecked="{Binding Path=Combining}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=GenOptions.SizeX, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=GenOptions.SizeY, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=GenOptions.OctaveCount, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=GenOptions.Seed, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=GenOptions.Gain, Converter={StaticResource FloatToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=GenOptions.Frequency, Converter={StaticResource FloatToStringConverter}}"/>
+                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX, Converter={StaticResource IntToStringConverter}}"/>
+                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY, Converter={StaticResource IntToStringConverter}}"/>
+                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=OctaveCount, Converter={StaticResource IntToStringConverter}}"/>
+                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=Seed, Converter={StaticResource IntToStringConverter}}"/>
+                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=Gain, Converter={StaticResource FloatToStringConverter}}"/>
+                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=Frequency, Converter={StaticResource FloatToStringConverter}}"/>
                 <Grid Grid.Column="1" Grid.Row="6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -52,6 +55,11 @@
                     <Button Content="-" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Grid.Column="0" Click="OnRemoveMapClick"/>
                     <Button Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Grid.Column="1" Click="OnAddMapClick"/>
                 </Grid>
+                <Label Content="Modifiers" FontWeight="Bold" Grid.Column="0" Grid.Row="8"/>
+                <ListBox Name="ModifiersListBox" ItemsSource="{Binding Path=Modifiers}" Grid.Column="0" Grid.Row="9" />
+                <Button Content="Add Modifier" Grid.Column="0" Grid.Row="10" Click="AddModifierClick"/>
+                <Button Content="Remove Modifiers" Grid.Column="0" Grid.Row="11" Click="RemoveModifierClick"/>
+                
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type coloring:ColorRange}">
@@ -77,10 +85,8 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Content="Ridged Modifier" Grid.Column="0" Grid.Row="0"/>
-                <CheckBox Content="Apply" HorizontalAlignment="Left" VerticalAlignment="Center" Name="ApplyCheckBox" IsChecked="True" Grid.Column="0" Grid.Row="1"/>
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type modifiers:ScaleModifier}">
@@ -114,7 +120,7 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <Grid Name="GlobalGrid">
+    <Grid>
         <TabControl>
             <TabItem Header="Height Map">
                 <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="HeightMapGrid">

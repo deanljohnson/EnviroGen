@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -9,6 +10,7 @@ using EnviroGen.Continents;
 using EnviroGen.Erosion;
 using EnviroGen.Noise.Modifiers;
 using SFML.Graphics;
+using Xceed.Wpf.AvalonDock.Controls;
 
 namespace EnviroGenDisplay
 {
@@ -214,6 +216,32 @@ namespace EnviroGenDisplay
                 {
                     ColorGrid.Children.Remove(child);
                 }
+            }
+        }
+
+        private void AddModifierClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var data = button.DataContext as EnvironmentData;
+                if (data != null) data.Modifiers.Add(new RidgedModifier());
+            }
+        }
+
+        private void RemoveModifierClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+
+            if (button == null) return;
+
+            var listBox = button.Parent.FindLogicalChildren<ListBox>().First(lb => lb.Name == "ModifiersListBox");
+
+            // ReSharper disable once ForCanBeConvertedToForeach
+            for (var i = 0; i < listBox.SelectedItems.Count; i++)
+            {
+                var selectedItem = (IModifier) listBox.SelectedItems[i];
+                ((ObservableCollection<IModifier>) listBox.ItemsSource).Remove(selectedItem);
             }
         }
     }
