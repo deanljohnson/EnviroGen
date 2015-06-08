@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using EnviroGen.Noise;
 using EnviroGen.Noise.Modifiers;
 
@@ -6,7 +6,7 @@ namespace EnviroGen.HeightMaps
 {
     public static class HeightMapGenerator
     {
-        public static HeightMap GenerateHeightMap(int sizeX, int sizeY, int octaveCount, float gain, float frequency, int seed, ModifierOptions modOptions = null)
+        public static HeightMap GenerateHeightMap(int sizeX, int sizeY, int octaveCount, float gain, float frequency, int seed = 0, List<IModifier> modifiers = null)
         {
             var arr = new float[sizeX, sizeY];
 
@@ -19,7 +19,7 @@ namespace EnviroGen.HeightMaps
                 }
             }
 
-            if (modOptions != null) ApplyModifiers(ref arr, modOptions);
+            if (modifiers != null) ApplyModifiers(ref arr, modifiers);
 
             var map = new HeightMap(arr);
             map.Normalize();
@@ -27,21 +27,11 @@ namespace EnviroGen.HeightMaps
             return map;
         }
 
-        private static void ApplyModifiers(ref float[,] arr, ModifierOptions modOptions)
+        private static void ApplyModifiers(ref float[,] arr, IEnumerable<IModifier> modifiers)
         {
-            if (modOptions.Ridged)
+            foreach (var modifier in modifiers)
             {
-                RidgedModifier.Modify(ref arr);
-            }
-
-            if (Math.Abs(modOptions.Exponent - 1f) > float.Epsilon)
-            {
-                ExponentModifier.Modify(ref arr, modOptions.Exponent);
-            }
-
-            if (Math.Abs(modOptions.Scale - 1f) > float.Epsilon)
-            {
-                ScaleModifier.Modify(ref arr, modOptions.Scale);
+                modifier.Modify(ref arr);
             }
         }
     }
