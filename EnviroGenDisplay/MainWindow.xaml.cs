@@ -259,6 +259,12 @@ namespace EnviroGenDisplay
                     case "Clamp":
                         data.Modifiers.Add(new ClampModifier(0f, 1f));
                         break;
+                    case "Addition":
+                        data.Modifiers.Add(new AddModifier(0f));
+                        break;
+                    case "Invert":
+                        data.Modifiers.Add(new InvertModifier());
+                        break;
                 }
             }
         }

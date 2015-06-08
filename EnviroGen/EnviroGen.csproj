@@ -100,6 +100,7 @@
     <Compile Include="Erosion\ThermalErosion.cs" />
     <Compile Include="Erosion\ThermalErosionData.cs" />
     <Compile Include="GenerationOptions.cs" />
+    <Compile Include="Noise\Modifiers\AddModifier.cs" />
     <Compile Include="Noise\Modifiers\ClampModifier.cs" />
     <Compile Include="Noise\Modifiers\IModifier.cs" />
     <Compile Include="Noise\Modifiers\ExponentModifier.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="HeightMaps\HeightMap.cs" />
     <Compile Include="HeightMaps\HeightMapDrawable.cs" />
     <Compile Include="HeightMaps\HeightMapGenerator.cs" />
+    <Compile Include="Noise\Modifiers\InvertModifier.cs" />
     <Compile Include="Noise\Modifiers\NormalizeModifier.cs" />
     <Compile Include="Noise\Modifiers\RidgedModifier.cs" />
     <Compile Include="Noise\Modifiers\ScaleModifier.cs" />
