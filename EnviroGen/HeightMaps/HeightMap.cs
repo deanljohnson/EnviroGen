@@ -119,7 +119,12 @@ namespace EnviroGen.HeightMaps
             CombineWith(other, new Vector2i(0, 0));
         }
 
-        public void CombineWith(HeightMap other, Vector2i offset)
+        public void CombineWith(HeightMap other, float weight)
+        {
+            CombineWith(other, new Vector2i(0, 0), weight);
+        }
+
+        public void CombineWith(HeightMap other, Vector2i offset, float weight = 1f)
         {
             var maxX = Math.Min(Size.X, offset.X + other.Size.X);
             var maxY = Math.Min(Size.Y, offset.Y + other.Size.Y);
@@ -128,11 +133,11 @@ namespace EnviroGen.HeightMaps
             {
                 for (var x = offset.X; x < maxX; x++)
                 {
-                    Map[x, y] += other.Map[x - offset.X, y - offset.Y];
+                    Map[x, y] += (other.Map[x - offset.X, y - offset.Y] * weight);
                 }
             }
 
             Normalize();
-        }
+        } 
     }
 }
