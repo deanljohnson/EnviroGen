@@ -6,6 +6,9 @@ namespace EnviroGen.HeightMaps
 {
     public static class HeightMapGenerator
     {
+        /// <summary>
+        /// Returns a HeightMap based on the given parameters, normalized [0,1]
+        /// </summary>
         public static HeightMap GenerateHeightMap(int sizeX, int sizeY, int octaveCount, float gain, float frequency, int seed = 0, List<IModifier> modifiers = null)
         {
             var arr = new float[sizeX, sizeY];
