@@ -2,9 +2,9 @@
 
 namespace EnviroGen.Noise.Modifiers
 {
-    public static class RidgedModifier
+    public class RidgedModifier : IModifier
     {
-        public static void Modify(ref float[,] map)
+        public void Modify(ref float[,] map)
         {
             for (var y = 0; y < map.GetLength(1); y++)
             {

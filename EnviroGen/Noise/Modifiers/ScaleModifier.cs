@@ -1,14 +1,21 @@
 ﻿namespace EnviroGen.Noise.Modifiers
 {
-    public static class ScaleModifier
+    public class ScaleModifier : IModifier
     {
-        public static void Modify(ref float[,] map, float scale)
+        private float Scale { get; set; }
+
+        public ScaleModifier(float scale)
+        {
+            Scale = scale;
+        }
+
+        public void Modify(ref float[,] map)
         {
             for (var y = 0; y < map.GetLength(1); y++)
             {
                 for (var x = 0; x < map.GetLength(0); x++)
                 {
-                    map[x, y] *= scale;
+                    map[x, y] *= Scale;
                 }
             }
         }
