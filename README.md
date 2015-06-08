@@ -2,6 +2,8 @@ EnviroGen is a WIP environment generator that can quickly generate large 2d heig
 
 EnviroGen is built to integrate easily with SFML.net and comes with SFML based classes that allow easy visualization of the environment. The EnviroGen Display project in the source code gives an easy to use configuration screen and automatically displays the environment in a separate window, allowing you to experiment with generation parameters.
 
+EnviroGen's goal is to be completely procedural and not require definitive placement of terrain features such as continents. 
+
 Current focus of development is to give users more options for how to control the output of the height map and modify it's appearance.
 
 To try it out:
