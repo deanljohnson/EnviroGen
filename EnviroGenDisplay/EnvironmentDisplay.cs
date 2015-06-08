@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Net;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
@@ -68,14 +67,7 @@ namespace EnviroGenDisplay
         {
             var view = Window.GetView();
 
-            if (e.Delta > 0)
-            {
-                view.Zoom(.9f);
-            }
-            else
-            {
-                view.Zoom(1.1f);
-            }
+            view.Zoom(e.Delta > 0 ? .9f : 1.1f);
 
             Window.SetView(view);
         }
@@ -131,7 +123,7 @@ namespace EnviroGenDisplay
         {
             var options = data.ToGenerationOptions();
             var random = new Random();
-            options.Seed = (options.Seed == -1) ? random.Next(5000) : options.Seed;
+            options.Seed = (options.Seed == -1) ? random.Next(10000) : options.Seed;
 
             var terrainHeightMap = HeightMapGenerator.GenerateHeightMap(options);
 
