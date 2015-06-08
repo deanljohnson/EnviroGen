@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
+using EnviroGen.Noise.Modifiers;
 using SFML.Graphics;
 
 namespace EnviroGenDisplay
