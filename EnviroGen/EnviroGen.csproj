@@ -100,7 +100,7 @@
     <Compile Include="Erosion\ThermalErosion.cs" />
     <Compile Include="Erosion\ThermalErosionData.cs" />
     <Compile Include="GenerationOptions.cs" />
-    <Compile Include="Noise\Modifiers\ModifierOptions.cs" />
+    <Compile Include="Noise\Modifiers\Modifier.cs" />
     <Compile Include="Noise\Modifiers\ExponentModifier.cs" />
     <Compile Include="Noise\FractalBrownianMotion.cs" />
     <Compile Include="HeightMaps\HeightMap.cs" />
