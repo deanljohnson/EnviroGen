@@ -243,6 +243,9 @@ namespace EnviroGenDisplay
                     case "Normalize":
                         data.Modifiers.Add(new NormalizeModifier(0f, 1f));
                         break;
+                    case "Clamp":
+                        data.Modifiers.Add(new ClampModifier(0f, 1f));
+                        break;
                 }
             }
         }

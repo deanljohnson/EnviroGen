@@ -63,6 +63,7 @@
                     <ComboBoxItem>Scale</ComboBoxItem>
                     <ComboBoxItem>Exponent</ComboBoxItem>
                     <ComboBoxItem>Normalize</ComboBoxItem>
+                    <ComboBoxItem>Clamp</ComboBoxItem>
                 </ComboBox>
                 <Button Content="Remove Modifiers" Grid.Column="0" Grid.Row="11" Click="RemoveModifierClick"/>
             </Grid>
@@ -136,6 +137,24 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Content="Normalize Modifier" Grid.Column="0" Grid.Row="0"/>
+                <Label Content="Low Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Low, Converter={StaticResource FloatToStringConverter}}"/>
+                <Label Content="High Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
+                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=High, Converter={StaticResource FloatToStringConverter}}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:ClampModifier}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Clamp Modifier" Grid.Column="0" Grid.Row="0"/>
                 <Label Content="Low Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
                 <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Low, Converter={StaticResource FloatToStringConverter}}"/>
                 <Label Content="High Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
