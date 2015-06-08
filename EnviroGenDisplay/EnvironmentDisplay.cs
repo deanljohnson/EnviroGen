@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Net;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
@@ -108,10 +110,21 @@ namespace EnviroGenDisplay
 
             if (arg == null)
             {
-                throw new ArgumentNullException();
-            }
+                var argList = e.Argument as IEnumerable<EnvironmentData>;
 
-            GenerateHeightMap(arg);
+                if (argList == null) throw new ArgumentNullException();
+
+                GenerateHeightMap(argList.ToList());
+            }
+            else
+            {
+                GenerateHeightMap(arg);
+            }        
+        }
+
+        public static void GenerateHeightMap(List<EnvironmentData> dataList)
+        {
+            throw new NotImplementedException();
         }
 
         public static void GenerateHeightMap(EnvironmentData data)
