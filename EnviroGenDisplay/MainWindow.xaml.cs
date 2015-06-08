@@ -51,7 +51,7 @@ namespace EnviroGenDisplay
             if (!GenerationThread.IsAlive)
             {
                 GenerationThread = new Thread(EnvironmentDisplay.GenerateHeightMap);
-                GenerationThread.Start(data.Combining);
+                GenerationThread.Start();
             }
         }
 
