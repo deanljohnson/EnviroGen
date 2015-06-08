@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using EnviroGen.Coloring;
@@ -20,14 +19,12 @@ namespace EnviroGenDisplay
     public partial class MainWindow
     {
         private static BackgroundWorker DisplayWorker { get; set; }
-        private static Thread GenerationThread { get; set; }
         private int AddedHeightMapCount { get; set; }
         private int AddedColorRangeCount { get; set; }
 
         public MainWindow()
         {
             DisplayWorker = new BackgroundWorker();
-            GenerationThread = new Thread(EnvironmentDisplay.GenerateHeightMap);
 
             InitializeComponent();
 
@@ -51,11 +48,7 @@ namespace EnviroGenDisplay
 
             EnvironmentDisplay.EnvironmentData = data;
 
-            if (!GenerationThread.IsAlive)
-            {
-                GenerationThread = new Thread(EnvironmentDisplay.GenerateHeightMap);
-                GenerationThread.Start();
-            }
+            EnvironmentDisplay.GenerateHeightMap();
         }
 
         private void OnSetColoringClick(object sender, RoutedEventArgs e)
