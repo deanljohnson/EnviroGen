@@ -40,75 +40,8 @@ namespace EnviroGen.Noise
         // To remove the need for index wrapping, double the permutation table length
         private static readonly int[] Perm = new int[512];
 
-        /// <summary>
-        /// Returns a 2d array of float of the given size based on the given parameters.
-        /// With multiple octaves, subsequent octaves will have a higher frequency but less weight.
-        /// </summary>
-        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float gain, float frequency, int seed, bool ridged = false)
-        {
-            var arr = new float[xMax, yMax];
-            const float lacunarity = 2f;
-
-            for (var y = seed; y < yMax + seed; y++)
-            {
-                for (var x = seed; x < xMax + seed; x++)
-                {
-                    var total = 0f;
-                    var layerFrequency = frequency;
-                    var amplitude = gain;
-
-                    for (var o = 0; o < numOctaves; o++)
-                    {
-                        total += Noise2d(x * layerFrequency, y * layerFrequency) * amplitude;
-                        layerFrequency *= lacunarity;
-                        amplitude *= gain;
-                    }
-
-                    arr[x - seed, y - seed] = total;
-                }
-            }
-
-            if (ridged)
-            {
-                for (var y = 0; y < arr.GetLength(1); y++)
-                {
-                    for (var x = 0; x < arr.GetLength(0); x++)
-                    {
-                        arr[x, y] = Math.Abs(arr[x, y]);
-                    }
-                }
-            }
-
-            arr = Normalize(arr);
-            return arr;
-        }
-
-        private static float[,] Normalize(float[,] heightMap)
-        {
-            var maxValue = heightMap[0, 0];
-            var minValue = heightMap[0, 0];
-
-            foreach (var h in heightMap)
-            {
-                maxValue = h > maxValue ? h : maxValue;
-                minValue = h < minValue ? h : minValue;
-            }
-
-            var dif = maxValue - minValue;
-
-            for (var y = 0; y < heightMap.GetLength(1); y++)
-            {
-                for (var x = 0; x < heightMap.GetLength(0); x++)
-                {
-                    heightMap[x, y] = (heightMap[x, y] - minValue) / (dif);
-                }
-            }
-
-            return heightMap;
-        }
-
         // 2D simplex noise
-        private static float Noise2d(float xin, float yin)
+        public static float Noise2d(float xin, float yin)
         {
             float n0, n1, n2; 
 
