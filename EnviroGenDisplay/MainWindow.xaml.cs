@@ -224,8 +224,23 @@ namespace EnviroGenDisplay
             var button = sender as Button;
             if (button != null)
             {
+                var typeBox = button.Parent.FindLogicalChildren<ComboBox>().First(cb => cb.Name == "ModifierTypeBox").SelectedItem as ComboBoxItem;
                 var data = button.DataContext as EnvironmentData;
-                if (data != null) data.Modifiers.Add(new RidgedModifier());
+
+                if (data == null || typeBox == null) return;
+
+                switch (typeBox.Content.ToString())
+                {
+                    case "Ridge":
+                        data.Modifiers.Add(new RidgedModifier());
+                        break;
+                    case "Scale":
+                        data.Modifiers.Add(new ScaleModifier(1f));
+                        break;
+                    case "Exponent":
+                        data.Modifiers.Add(new ExponentModifier(1f));
+                        break;
+                }
             }
         }
 
