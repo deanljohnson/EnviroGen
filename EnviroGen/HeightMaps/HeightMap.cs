@@ -7,7 +7,7 @@ namespace EnviroGen.HeightMaps
 {
     public class HeightMap : IEnumerable
     {
-        private float[,] Map { get; set; }
+        public float[,] Map { get; set; }
 
         public Vector2u Size { get; private set; }
 
@@ -40,10 +40,7 @@ namespace EnviroGen.HeightMaps
             return Map.GetEnumerator();
         }
 
-        /// <summary>
-        /// Normalizes the values of the height map in the range [0,1]
-        /// </summary>
-        public void Normalize()
+        public void Normalize(float min = 0f, float max = 1f)
         {
             var maxValue = Map[0, 0];
             var minValue = Map[0, 0];
@@ -54,13 +51,14 @@ namespace EnviroGen.HeightMaps
                 minValue = h < minValue ? h : minValue;
             }
 
-            var dif = maxValue - minValue;
+            var valueDif = maxValue - minValue;
+            var scaleDif = max - min;
 
             for (uint y = 0; y < Size.Y; y++)
             {
                 for (uint x = 0; x < Size.X; x++)
                 {
-                    Map[x, y] = (Map[x, y] - minValue) / (dif);
+                    Map[x, y] = (scaleDif * (Map[x, y] - minValue)) / (valueDif) + min;
                 }
             }
         }
