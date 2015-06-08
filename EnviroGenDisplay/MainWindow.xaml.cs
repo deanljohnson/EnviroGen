@@ -19,12 +19,14 @@ namespace EnviroGenDisplay
     public partial class MainWindow
     {
         private static BackgroundWorker DisplayWorker { get; set; }
+        private static BackgroundWorker GenerationWorker { get; set; }
         private int AddedHeightMapCount { get; set; }
         private int AddedColorRangeCount { get; set; }
 
         public MainWindow()
         {
             DisplayWorker = new BackgroundWorker();
+            GenerationWorker = new BackgroundWorker();
 
             InitializeComponent();
 
@@ -35,6 +37,7 @@ namespace EnviroGenDisplay
             
             DisplayWorker.DoWork += EnvironmentDisplay.Update;
             DisplayWorker.RunWorkerAsync();
+            GenerationWorker.DoWork += EnvironmentDisplay.GenerateHeightMap;
         }
 
         private void OnGenerateClick(object sender, RoutedEventArgs e)
@@ -46,7 +49,10 @@ namespace EnviroGenDisplay
                 throw new ArgumentNullException();
             }
 
-            EnvironmentDisplay.GenerateHeightMap(data);
+            if (!GenerationWorker.IsBusy)
+            {
+                GenerationWorker.RunWorkerAsync(data);
+            }
         }
 
         private void OnSetColoringClick(object sender, RoutedEventArgs e)
