@@ -29,6 +29,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Content="Size X:" Grid.Column="0" Grid.Row="0"/>
                 <Label Content="Size Y:" Grid.Column="0" Grid.Row="1"/>
@@ -39,7 +40,7 @@
                 <Label Content="Noise Roughness:" Grid.Column="0" Grid.Row="6"/>
                 <Label Content="Noise Frequency:" Grid.Column="0" Grid.Row="7"/>
                 <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="8" Click="OnGenerateClick" />
-                <CheckBox Content="Combine w/ Current" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Name="CombineCheckBox" IsChecked="{Binding Path=Combining}"/>
+                <CheckBox Content="Combine w/ Current" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Name="CombineCheckBox" IsChecked="{Binding Path=Combining}"/>
                 <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=GenOptions.SizeX, Converter={StaticResource IntToStringConverter}}"/>
                 <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=GenOptions.SizeY, Converter={StaticResource IntToStringConverter}}"/>
                 <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=GenOptions.HeightMapOctaveCount, Converter={StaticResource IntToStringConverter}}"/>
