@@ -1,13 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using EnviroGen;
+using EnviroGen.Noise.Modifiers;
 using EnviroGenDisplay.Annotations;
 
 namespace EnviroGenDisplay
 {
-    public class EnvironmentData : INotifyPropertyChanged
+    public class EnvironmentData : GenerationOptions, INotifyPropertyChanged
     {
-        public GenerationOptions GenOptions { get; private set; }
+        public new ObservableCollection<IModifier> Modifiers { get; set; }
         private bool m_combining;
 
         public bool Combining
@@ -22,7 +24,7 @@ namespace EnviroGenDisplay
 
         public EnvironmentData()
         {
-            GenOptions = new GenerationOptions();
+            Modifiers = new ObservableCollection<IModifier>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
