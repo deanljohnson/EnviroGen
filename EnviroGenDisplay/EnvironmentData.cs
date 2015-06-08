@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using EnviroGen;
 using EnviroGen.Noise.Modifiers;
@@ -25,6 +26,13 @@ namespace EnviroGenDisplay
         public EnvironmentData()
         {
             Modifiers = new ObservableCollection<IModifier>();
+        }
+
+        public GenerationOptions ToGenerationOptions()
+        {
+            // ReSharper disable once ArrangeThisQualifier
+            var options = new GenerationOptions(this) { Modifiers = this.Modifiers.ToList() };
+            return options;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
