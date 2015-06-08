@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
@@ -115,10 +114,9 @@ namespace EnviroGenDisplay
             {
                 combine = EnvironmentData.Combining;
                 var random = new Random();
-                var seed = EnvironmentData.Seed;
-                seed = seed == -1 ? random.Next(5000) : seed;
+                EnvironmentData.Seed = (EnvironmentData.Seed == -1) ? random.Next(5000) : EnvironmentData.Seed;
 
-                terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.SizeX, EnvironmentData.SizeY, EnvironmentData.OctaveCount, EnvironmentData.Gain, EnvironmentData.Frequency, seed, EnvironmentData.Modifiers.ToList());
+                terrainHeightMap = HeightMapGenerator.GenerateHeightMap(EnvironmentData.ToGenerationOptions());
             }
 
             if (terrainHeightMap == null)
