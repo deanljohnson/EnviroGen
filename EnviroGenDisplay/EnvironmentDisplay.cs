@@ -105,24 +105,14 @@ namespace EnviroGenDisplay
             Window.SetView(view);
         }
 
-        public static void GenerateHeightMap(object o)
-        {
-            if (o is bool)
-            {
-                GenerateHeightMap((bool)o);
-            }
-            else
-            {
-                GenerateHeightMap(false);
-            }
-        }
-
-        public static void GenerateHeightMap(bool combine)
+        public static void GenerateHeightMap()
         {
             HeightMap terrainHeightMap;
+            bool combine;
 
             lock (EnvironmentData)
             {
+                combine = EnvironmentData.Combining;
                 var random = new Random();
                 var heightSeed = EnvironmentData.GenOptions.HeightMapSeed;
                 heightSeed = heightSeed == -1 ? random.Next(5000) : heightSeed;
