@@ -125,7 +125,6 @@ namespace EnviroGenDisplay
             {
                 throw new NullReferenceException("Error in terrain height map generation, EnvironmentDisplay.GenerateHeightMap");
             }
-            //terrainHeightMap.Normalize();
 
             lock (Environment)
             {
