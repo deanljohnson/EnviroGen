@@ -58,8 +58,12 @@
                 <Label Content="Modifiers" FontWeight="Bold" Grid.Column="0" Grid.Row="8"/>
                 <ListBox Name="ModifiersListBox" ItemsSource="{Binding Path=Modifiers}" Grid.Column="0" Grid.Row="9" />
                 <Button Content="Add Modifier" Grid.Column="0" Grid.Row="10" Click="AddModifierClick"/>
+                <ComboBox Name="ModifierTypeBox" Grid.Column="1" Grid.Row="10">
+                    <ComboBoxItem IsSelected="True">Ridge</ComboBoxItem>
+                    <ComboBoxItem>Scale</ComboBoxItem>
+                    <ComboBoxItem>Exponent</ComboBoxItem>
+                </ComboBox>
                 <Button Content="Remove Modifiers" Grid.Column="0" Grid.Row="11" Click="RemoveModifierClick"/>
-                
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type coloring:ColorRange}">
