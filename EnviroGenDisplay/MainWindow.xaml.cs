@@ -263,7 +263,7 @@ namespace EnviroGenDisplay
                         data.Modifiers.Add(new AddModifier(0f));
                         break;
                     case "Invert":
-                        data.Modifiers.Add(new InvertModifier());
+                        data.Modifiers.Add(new InvertModifier(1f));
                         break;
                 }
             }
