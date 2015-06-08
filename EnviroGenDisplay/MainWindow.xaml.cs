@@ -240,6 +240,9 @@ namespace EnviroGenDisplay
                     case "Exponent":
                         data.Modifiers.Add(new ExponentModifier(1f));
                         break;
+                    case "Normalize":
+                        data.Modifiers.Add(new NormalizeModifier(0f, 1f));
+                        break;
                 }
             }
         }

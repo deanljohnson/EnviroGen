@@ -106,6 +106,7 @@
     <Compile Include="HeightMaps\HeightMap.cs" />
     <Compile Include="HeightMaps\HeightMapDrawable.cs" />
     <Compile Include="HeightMaps\HeightMapGenerator.cs" />
+    <Compile Include="Noise\Modifiers\NormalizeModifier.cs" />
     <Compile Include="Noise\Modifiers\RidgedModifier.cs" />
     <Compile Include="Noise\Modifiers\ScaleModifier.cs" />
     <Compile Include="Noise\ValueNoiseGenerator.cs" />
