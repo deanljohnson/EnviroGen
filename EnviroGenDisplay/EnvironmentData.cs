@@ -1,47 +1,26 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using EnviroGen;
-using EnviroGen.Noise.Modifiers;
-using EnviroGenDisplay.Annotations;
+using EnviroGenDisplay.ViewModels.Modifiers;
 
 namespace EnviroGenDisplay
 {
-    public class EnvironmentData : GenerationOptions, INotifyPropertyChanged
+    class EnvironmentData : GenerationOptions
     {
-        public new ObservableCollection<IModifier> Modifiers { get; set; }
-        private bool m_combining;
+        public new ObservableCollection<ModifierViewModel> Modifiers { get; set; }
 
-        public bool Combining
-        {
-            get { return m_combining; }
-            set
-            {
-                m_combining = value; 
-                OnPropertyChanged();
-            }
-        }
+        public bool Combining { get; set; }
 
         public EnvironmentData()
         {
-            Modifiers = new ObservableCollection<IModifier>();
+            Modifiers = new ObservableCollection<ModifierViewModel>();
         }
 
         public GenerationOptions ToGenerationOptions()
         {
             // ReSharper disable once ArrangeThisQualifier
-            var options = new GenerationOptions(this) { Modifiers = this.Modifiers.ToList() };
+            var options = new GenerationOptions(this) { Modifiers = this.Modifiers.Select(m => m.ToIModifier()).ToList() };
             return options;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

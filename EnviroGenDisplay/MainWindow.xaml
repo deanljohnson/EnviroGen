@@ -1,205 +1,55 @@
 ﻿<Window x:Class="EnviroGenDisplay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="EnviroGen Display" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight"
-        xmlns:c="clr-namespace:EnviroGenDisplay"
-        xmlns:modifiers="clr-namespace:EnviroGen.Noise.Modifiers;assembly=EnviroGen"
-        xmlns:coloring="clr-namespace:EnviroGen.Coloring;assembly=EnviroGen"
         xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
         xmlns:continents="clr-namespace:EnviroGen.Continents;assembly=EnviroGen"
-        xmlns:erosion="clr-namespace:EnviroGen.Erosion;assembly=EnviroGen">
+        xmlns:views="clr-namespace:EnviroGenDisplay.Views"
+        xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
+        xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers">
     <Window.Resources>
         <converters:IntToStringConverter x:Key="IntToStringConverter"/>
         <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
-        <converters:SFMLColorToSystemColorConverter x:Key="ColorConverter"/>
-        <DataTemplate DataType="{x:Type c:EnvironmentData}">
-            <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Size X:" Grid.Column="0" Grid.Row="0"/>
-                <Label Content="Size Y:" Grid.Column="0" Grid.Row="1"/>
-                <Label Content="Octave Count:" Grid.Column="0" Grid.Row="2"/>
-                <Label Content="Seed:" Grid.Column="0" Grid.Row="3"/>
-                <Label Content="Roughness:" Grid.Column="0" Grid.Row="4"/>
-                <Label Content="Frequency:" Grid.Column="0" Grid.Row="5"/>
-                <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="6" Click="OnGenerateClick" />
-                <CheckBox Content="Combine w/ Current" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Name="CombineCheckBox" IsChecked="{Binding Path=Combining}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=OctaveCount, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=Seed, Converter={StaticResource IntToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=Gain, Converter={StaticResource FloatToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=Frequency, Converter={StaticResource FloatToStringConverter}}"/>
-                <Grid Grid.Column="1" Grid.Row="6">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Content="-" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Grid.Column="0" Click="OnRemoveMapClick"/>
-                    <Button Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Grid.Column="1" Click="OnAddMapClick"/>
-                </Grid>
-                <Label Content="Modifiers" FontWeight="Bold" Grid.Column="0" Grid.Row="8"/>
-                <ListBox Name="ModifiersListBox" ItemsSource="{Binding Path=Modifiers}" Grid.Column="0" Grid.Row="9" />
-                <Button Content="Add Modifier" Grid.Column="0" Grid.Row="10" Click="AddModifierClick"/>
-                <ComboBox Name="ModifierTypeBox" Grid.Column="1" Grid.Row="10">
-                    <ComboBoxItem IsSelected="True">Ridge</ComboBoxItem>
-                    <ComboBoxItem>Scale</ComboBoxItem>
-                    <ComboBoxItem>Exponent</ComboBoxItem>
-                    <ComboBoxItem>Normalize</ComboBoxItem>
-                    <ComboBoxItem>Clamp</ComboBoxItem>
-                    <ComboBoxItem>Addition</ComboBoxItem>
-                    <ComboBoxItem>Invert</ComboBoxItem>
-                </ComboBox>
-                <Button Content="Remove Modifiers" Grid.Column="0" Grid.Row="11" Click="RemoveModifierClick"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type modifiers:RidgedModifierViewModel}">
+            <views:RidgedModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type coloring:ColorRange}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="0" Grid.Row="0" Text="{Binding Path=LowHeight, Converter={StaticResource FloatToStringConverter}}"/>
-                <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=HighHeight, Converter={StaticResource FloatToStringConverter}}"/>
-                <xctk:ColorPicker ColorMode="ColorPalette" Width="80" Height="Auto" Grid.Column="2" Grid.Row="0" SelectedColor="{Binding Path=LowColor, Converter={StaticResource ColorConverter}}"/>
-                <xctk:ColorPicker ColorMode="ColorPalette" Width="80" Height="Auto" Grid.Column="3" Grid.Row="0" SelectedColor="{Binding Path=HighColor, Converter={StaticResource ColorConverter}}"/>
-                <Button Content="-" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Grid.Column="4" Grid.Row="0" Click="OnRemoveColorRangeClick"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type modifiers:InvertModifierViewModel}">
+            <views:InvertModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:RidgedModifier}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Ridged Modifier" Grid.Column="0" Grid.Row="0"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type modifiers:ScaleModifierViewModel}">
+            <views:ScaleModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:InvertModifier}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Invert Modifier" Grid.Column="0" Grid.Row="0"/>
-                <Label Content="Max Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=MaxValue, Converter={StaticResource FloatToStringConverter}}"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type modifiers:ExponentModifierViewModel}">
+            <views:ExponentModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ScaleModifier}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Scale Modifier" Grid.Column="0" Grid.Row="0"/>
-                <Label Content="Scale Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Scale, Converter={StaticResource FloatToStringConverter}}"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type modifiers:NormalizeModifierViewModel}">
+            <views:NormalizeModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ExponentModifier}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Exponent Modifier" Grid.Column="0" Grid.Row="0"/>
-                <Label Content="Exponent Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Exponent, Converter={StaticResource FloatToStringConverter}}"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type modifiers:ClampModifierViewModel}">
+            <views:ClampModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:NormalizeModifier}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Normalize Modifier" Grid.Column="0" Grid.Row="0"/>
-                <Label Content="Low Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Low, Converter={StaticResource FloatToStringConverter}}"/>
-                <Label Content="High Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=High, Converter={StaticResource FloatToStringConverter}}"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type modifiers:AddModifierViewModel}">
+            <views:AddModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ClampModifier}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Clamp Modifier" Grid.Column="0" Grid.Row="0"/>
-                <Label Content="Low Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Low, Converter={StaticResource FloatToStringConverter}}"/>
-                <Label Content="High Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=High, Converter={StaticResource FloatToStringConverter}}"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type viewModels:HydraulicErosionViewModel}">
+            <views:HydraulicErosionView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:AddModifier}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Content="Addition Modifier" Grid.Column="0" Grid.Row="0"/>
-                <Label Content="Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Value, Converter={StaticResource FloatToStringConverter}}"/>
-            </Grid>
+        <DataTemplate DataType="{x:Type viewModels:ThermalErosionViewModel}">
+            <views:ThermalErosionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ImprovedThermalErosionViewModel}">
+            <views:ImprovedThermalErosionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">
+            <views:ColorizerView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:EnvironmentDataViewModel}">
+            <views:EnvironmentDataView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
         <TabControl>
-            <TabItem Header="Height Map">
-                <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="HeightMapGrid">
-                    <!-- First controls are added via code in Mainwindow constructor-->
-                </Grid>
+            <TabItem Header="Height Map" Name="HeightMapTab">
             </TabItem>
             <TabItem Header="Continents">
                 <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="ContinentsGrid">
@@ -246,90 +96,15 @@
             </TabItem>
             <TabItem Header="Erosion">
                 <TabControl>
-                    <TabItem Header="Improved Thermal">
-                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
-                            <Grid.Resources>
-                                <erosion:ThermalErosionData x:Key="ThermalErosionData"/>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Talus Angle:" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="Iterations:" Grid.Column="0" Grid.Row="1"/>
-                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="2" Click="OnImprovedThermalErodeClick" DataContext="{Binding Source={StaticResource ThermalErosionData}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=TalusAngle, Converter={StaticResource FloatToStringConverter}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=Iterations, Converter={StaticResource IntToStringConverter}}"/>
-                        </Grid>
+                    <TabItem Header="Improved Thermal" Name="ImprovedThermalErosionTab">
                     </TabItem>
-                    <TabItem Header="Thermal">
-                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
-                            <Grid.Resources>
-                                <erosion:ThermalErosionData x:Key="ThermalErosionData"/>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Talus Angle:" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="Iterations:" Grid.Column="0" Grid.Row="1"/>
-                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="2" Click="OnThermalErodeClick" DataContext="{Binding Source={StaticResource ThermalErosionData}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=TalusAngle, Converter={StaticResource FloatToStringConverter}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource ThermalErosionData}}" Text="{Binding Path=Iterations, Converter={StaticResource IntToStringConverter}}"/>
-                        </Grid>
+                    <TabItem Header="Thermal" Name="ThermalErosionTab">
                     </TabItem>
-                    <TabItem Header="Hydraulic">
-                        <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top">
-                            <Grid.Resources>
-                                <erosion:HydraulicErosionData x:Key="HydraulicErosionData"/>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Rain Amount:" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="Solubility:" Grid.Column="0" Grid.Row="1"/>
-                            <Label Content="Evaporation:" Grid.Column="0" Grid.Row="2"/>
-                            <Label Content="Capacity:" Grid.Column="0" Grid.Row="3"/>
-                            <Label Content="Iterations:" Grid.Column="0" Grid.Row="4"/>
-                            <Button Content="Erode Map" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="5" Click="OnHydraulicErodeClick" DataContext="{Binding Source={StaticResource HydraulicErosionData}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=RainAmount, Converter={StaticResource FloatToStringConverter}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=Solubility, Converter={StaticResource FloatToStringConverter}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=Evaporation, Converter={StaticResource FloatToStringConverter}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=Capacity, Converter={StaticResource FloatToStringConverter}}"/>
-                            <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" DataContext="{Binding Source={StaticResource HydraulicErosionData}}" Text="{Binding Path=Iterations, Converter={StaticResource IntToStringConverter}}"/>
-                        </Grid>
+                    <TabItem Header="Hydraulic" Name="HydraulicErosionTab">
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Coloring">
-                <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="ColorGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Content="Set Coloring" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="0" Click="OnSetColoringClick"/>
-                    <Button Content="+" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Grid.Column="1" Grid.Row="0" Click="OnAddColorRangeClick"/>
-                </Grid>
+            <TabItem Header="Coloring" Name="ColoringTab">
             </TabItem>
         </TabControl>
     </Grid>

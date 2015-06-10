@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="EnviroGenDisplay.Views.EnvironmentDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
+             xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:EnvironmentDataViewModel}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+            <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
+        </Grid.Resources>
+        <Label Content="Size X:" Grid.Column="0" Grid.Row="0"/>
+        <Label Content="Size Y:" Grid.Column="0" Grid.Row="1"/>
+        <Label Content="Octave Count:" Grid.Column="0" Grid.Row="2"/>
+        <Label Content="Seed:" Grid.Column="0" Grid.Row="3"/>
+        <Label Content="Roughness:" Grid.Column="0" Grid.Row="4"/>
+        <Label Content="Frequency:" Grid.Column="0" Grid.Row="5"/>
+        <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="6" Command="{Binding Path=GenerateCommand}"/>
+        <CheckBox Content="Combine w/ Current" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" IsChecked="{Binding Path=Combining}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX, Converter={StaticResource IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY, Converter={StaticResource IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=OctaveCount, Converter={StaticResource IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=Seed, Converter={StaticResource IntToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=Gain, Converter={StaticResource FloatToStringConverter}}"/>
+        <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=Frequency, Converter={StaticResource FloatToStringConverter}}"/>
+        <Grid Grid.Column="1" Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!--<Button Content="-" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Grid.Column="0" Click="OnRemoveMapClick"/>
+            <Button Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Grid.Column="1" Click="OnAddMapClick"/>-->
+        </Grid>
+        <Label Content="Modifiers" FontWeight="Bold" Grid.Column="0" Grid.Row="8"/>
+        <ListBox Name="ModifiersListBox" ItemsSource="{Binding Path=Modifiers}" Grid.Column="0" Grid.Row="9" />
+        <Button Content="Add Modifier" Grid.Column="0" Grid.Row="10" Command="{Binding Path=AddModifierCommand}" CommandParameter="{Binding ElementName=ModifierTypeBox, Path=SelectedItem}"/>
+        <ComboBox Name="ModifierTypeBox" Grid.Column="1" Grid.Row="10">
+            <ComboBoxItem IsSelected="True">Ridge</ComboBoxItem>
+            <ComboBoxItem>Scale</ComboBoxItem>
+            <ComboBoxItem>Exponent</ComboBoxItem>
+            <ComboBoxItem>Normalize</ComboBoxItem>
+            <ComboBoxItem>Clamp</ComboBoxItem>
+            <ComboBoxItem>Addition</ComboBoxItem>
+            <ComboBoxItem>Invert</ComboBoxItem>
+        </ComboBox>
+        <Button Content="Remove Modifiers" Grid.Column="0" Grid.Row="11" Command="{Binding Path=RemoveModifierCommand}" CommandParameter="{Binding ElementName=ModifiersListBox, Path=SelectedIndex}"/>
+    </Grid>
+</UserControl>

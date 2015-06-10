@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
@@ -143,6 +144,17 @@ namespace EnviroGenDisplay
                 {
                     Environment.Terrain = new Terrain(terrainHeightMap);
                 }
+            }
+        }
+
+        public static void SetColorMapping(Colorizer colorizer)
+        {
+            lock (Environment)
+            {
+                if (Environment.Terrain == null) return;
+
+                Environment.Terrain.Colorizer = colorizer;
+                Environment.Terrain.Colorize();
             }
         }
 
