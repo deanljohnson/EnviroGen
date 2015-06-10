@@ -7,7 +7,7 @@ namespace EnviroGenDisplay.ViewModels
 {
     class ColorizerViewModel : ViewModelBase
     {
-        public ObservableCollection<ColorRangeViewModel> ColorRanges { get; set; }
+        public ObservableCollection<ColorRangeViewModel> ColorRanges { get; private set; }
 
         public ICommand AddColorCommand { get; set; }
         public ICommand RemoveColorCommand { get; set; }

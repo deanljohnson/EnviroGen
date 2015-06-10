@@ -7,16 +7,21 @@ namespace EnviroGen.Coloring
 {
     public class Colorizer
     {
-        private List<ColorRange> m_colorRanges { get; set; }
+        public List<ColorRange> ColorRanges { get; set; }
 
         public Colorizer()
         {
-            m_colorRanges = new List<ColorRange>();
+            ColorRanges = new List<ColorRange>();
         }
 
         public Colorizer(List<ColorRange> colorRanges)
         {
-            m_colorRanges = colorRanges;
+            ColorRanges = colorRanges;
+        }
+
+        public Colorizer(IEnumerable<ColorRange> colorRanges)
+        {
+            ColorRanges = colorRanges.ToList();
         }
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace EnviroGen.Coloring
         /// </summary>
         public void AddColorRange(Color lowColor, Color highColor, float lowHeight, float highHeight)
         {
-            m_colorRanges.Add(new ColorRange(lowColor, highColor, lowHeight, highHeight));
+            ColorRanges.Add(new ColorRange(lowColor, highColor, lowHeight, highHeight));
         }
 
         /// <summary>
@@ -58,7 +63,7 @@ namespace EnviroGen.Coloring
         /// </summary>
         public void AddColorRange(ColorRange range)
         {
-            m_colorRanges.Add(range);
+            ColorRanges.Add(range);
         }
 
         /// <summary>
@@ -67,7 +72,7 @@ namespace EnviroGen.Coloring
         /// </summary>
         public Color GetColor(float height)
         {
-            var colorRange = m_colorRanges.FirstOrDefault(cr => cr.InRange(height));
+            var colorRange = ColorRanges.FirstOrDefault(cr => cr.InRange(height));
 
             if (colorRange != null)
             {
@@ -83,7 +88,7 @@ namespace EnviroGen.Coloring
         /// </summary>
         public void Clear()
         {
-            m_colorRanges.Clear();
+            ColorRanges.Clear();
         }
     }
 }

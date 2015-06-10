@@ -1,6 +1,6 @@
 ﻿namespace EnviroGen.Erosion
 {
-    public class ErosionData
+    public abstract class ErosionData
     {
         public int Iterations { get; set; }
     }

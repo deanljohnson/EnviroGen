@@ -4,7 +4,7 @@ EnviroGen is built to integrate easily with SFML.net and comes with SFML based c
 
 EnviroGen's goal is to be completely procedural and infinite in the way it generates it's terrain, not based on predetermined placement of features such as continents.
 
-Current focus of development is to give users more options for how to control the output of the height map and modify it's appearance.
+Current focus of development is to remove various sources of "Code Debt" that have accrued, primarily by implementing the Model-View-ViewModel design pattern in the EnviroGenDisplay project.
 
 To try it out:
 1) Download the repository from the link on the left.
