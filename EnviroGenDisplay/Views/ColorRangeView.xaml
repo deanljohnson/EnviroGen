@@ -6,10 +6,9 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
-             xmlns:coloring="clr-namespace:EnviroGen.Coloring;assembly=EnviroGen"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid d:DataContext="{d:DesignInstance coloring:ColorRange}">
+    <Grid d:DataContext="{d:DesignInstance viewModels:ColorRangeViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -28,5 +27,6 @@
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=HighHeight, Mode=TwoWay, Converter={StaticResource FloatToStringConverter}}"/>
         <xctk:ColorPicker ColorMode="ColorPalette" Width="80" Height="Auto" Grid.Column="2" Grid.Row="0" SelectedColor="{Binding Path=LowColor, Mode=TwoWay, Converter={StaticResource ColorConverter}}"/>
         <xctk:ColorPicker ColorMode="ColorPalette" Width="80" Height="Auto" Grid.Column="3" Grid.Row="0" SelectedColor="{Binding Path=HighColor, Mode=TwoWay, Converter={StaticResource ColorConverter}}"/>
+        <Label Content="Select" Height="Auto" Width="Auto" Grid.Column="4" Grid.Row="0"/>
     </Grid>
 </UserControl>
