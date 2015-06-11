@@ -20,8 +20,6 @@ namespace EnviroGen.Erosion
                 DoMovement(heightMap, ref waterMap);
                 DoEvaporation(heightMap, ref waterMap, ref sedimentMap, data.Evaporation, data.Capacity);
             }
-            
-            heightMap.Normalize();
         }
 
         /// <summary>
