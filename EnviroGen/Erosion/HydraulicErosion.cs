@@ -6,7 +6,8 @@ namespace EnviroGen.Erosion
     public static class HydraulicErosion
     {
         /// <summary>
-        /// 
+        /// Erodes the given HeightMap based on the supplied data in such a way as to simulate the process of
+        /// rain water picking up sediment at higher elevations and moving it to lower elevations.
         /// </summary>
         public static void Erode(HeightMap heightMap, HydraulicErosionData data)
         {
@@ -35,7 +36,10 @@ namespace EnviroGen.Erosion
             {
                 for (var x = 0; x < heightMap.Size.X; x++)
                 {
+                    //Rainfall Steps
                     waterMap[x, y] += rainAmount;
+
+                    //Erosion Steps
                     heightMap[x, y] -= solubility;
                     sedimentMap[x, y] += solubility;
                 }
@@ -115,12 +119,18 @@ namespace EnviroGen.Erosion
             return lowest;
         }
 
+        /// <summary>
+        /// Moves all water from the index (x1,y1) to (x2,y2)
+        /// </summary>
         private static void MoveAllWater(ref float[,] waterMap, int x1, int y1, int x2, int y2)
         {
             waterMap[x2, y2] += waterMap[x1, y1];
             waterMap[x1, y1] = 0f;
         }
 
+        /// <summary>
+        /// Moves water from (x1,y1) to (x2,y2) until the ground height plus the water height are level.
+        /// </summary>
         private static void LevelWater(HeightMap heightMap, ref float[,] waterMap, int x1, int y1, int x2, int y2)
         {
             var heightDif = (heightMap[x1, y1] + waterMap[x1, y1]) - (heightMap[x2, y2] + waterMap[x2, y2]);

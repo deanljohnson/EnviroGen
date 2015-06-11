@@ -5,6 +5,9 @@ using SFML.Graphics;
 
 namespace EnviroGen.Coloring
 {
+    /// <summary>
+    /// Represents a class that can color a HeightMap object based on provided ColorRanges
+    /// </summary>
     public class Colorizer
     {
         public List<ColorRange> ColorRanges { get; set; }

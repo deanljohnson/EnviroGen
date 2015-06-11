@@ -22,7 +22,7 @@ namespace EnviroGen
         public override void Draw(RenderTarget target, RenderStates states)
         {
             states.Transform.Combine(Transform);
-            target.Draw(m_sprite, states);
+            target.Draw(Sprite, states);
         }
     }
 }

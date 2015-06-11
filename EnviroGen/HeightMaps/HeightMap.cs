@@ -7,8 +7,14 @@ namespace EnviroGen.HeightMaps
 {
     public class HeightMap : IEnumerable
     {
+        /// <summary>
+        /// The height values associated with this HeightMap
+        /// </summary>
         public float[,] Map { get; set; }
 
+        /// <summary>
+        /// The dimensions of the HeightMap
+        /// </summary>
         public Vector2u Size { get; private set; }
 
         public HeightMap(float[,] map)
@@ -114,16 +120,27 @@ namespace EnviroGen.HeightMaps
             return points;
         }
 
+        /// <summary>
+        /// Combines this HeightMap with the given HeightMap, with equal weight given to each HeightMap
+        /// </summary>
         public void CombineWith(HeightMap other)
         {
             CombineWith(other, new Vector2i(0, 0));
         }
 
+        /// <summary>
+        /// Combines this HeightMap with the given HeightMap. Modifies the given HeightMap by the given weight value before combining.
+        /// </summary>
         public void CombineWith(HeightMap other, float weight)
         {
             CombineWith(other, new Vector2i(0, 0), weight);
         }
 
+        /// <summary>
+        /// Combines this HeightMap with the given HeightMap, starting at the given offset in this HeightMap.
+        /// Modifies the given HeightMap by the given weight value before combining.
+        /// Normalizes this HeightMap [0,1].
+        /// </summary>
         public void CombineWith(HeightMap other, Vector2i offset, float weight = 1f)
         {
             var maxX = Math.Min(Size.X, offset.X + other.Size.X);

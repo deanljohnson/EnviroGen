@@ -4,6 +4,9 @@ namespace EnviroGen.Erosion
 {
     public class ImprovedThermalErosion : ThermalErosion
     {
+        /// <summary>
+        /// Erodes the given HeightMap based on the given data. Will preserve steep declines while flattening out most areas.
+        /// </summary>
         public new static void Erode(HeightMap heightMap, ThermalErosionData data)
         {
             for (var i = 0; i < data.Iterations; i++)
@@ -16,6 +19,7 @@ namespace EnviroGen.Erosion
                         float highestSlope;
                         var highestSlopedNeighbor = GetHighestSlopedNeighbor(heightMap, neighbors, heightMap[x, y], out highestSlope);
 
+                        //This if condition is the only difference between ImprovedThermalErosion and ThermalErosion
                         if (highestSlope <= data.TalusAngle)
                         {
                             BalanceHeightsAtPoints(heightMap, x, y, highestSlopedNeighbor.X, highestSlopedNeighbor.Y);

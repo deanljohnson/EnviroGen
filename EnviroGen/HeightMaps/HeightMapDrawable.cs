@@ -3,12 +3,15 @@ using SFML.Graphics;
 
 namespace EnviroGen.HeightMaps
 {
+    /// <summary>
+    /// Represents a base class from which a HeightMap can be drawn on the screen.
+    /// </summary>
     public abstract class HeightMapDrawable : Transformable, Drawable
     {
         protected static Colorizer DefaultColorizer { get; private set; }
 
         protected HeightMap m_heightMap;
-        protected Sprite m_sprite;
+        protected Sprite Sprite;
 
         public HeightMap HeightMap
         {
@@ -33,7 +36,7 @@ namespace EnviroGen.HeightMaps
         /// </summary>
         public void Colorize(Colorizer colorizer)
         {
-            m_sprite = new Sprite(new Texture(colorizer.Colorize(m_heightMap)));
+            Sprite = new Sprite(new Texture(colorizer.Colorize(m_heightMap)));
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace EnviroGen.HeightMaps
         /// </summary>
         public void Colorize()
         {
-            m_sprite = new Sprite(new Texture(Colorizer.Colorize(m_heightMap)));
+            Sprite = new Sprite(new Texture(Colorizer.Colorize(m_heightMap)));
         }
 
         public abstract void Draw(RenderTarget target, RenderStates states);
