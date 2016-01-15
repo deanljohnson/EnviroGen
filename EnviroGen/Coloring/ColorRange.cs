@@ -1,4 +1,4 @@
-﻿using SFML.Graphics;
+﻿using System.Windows.Media;
 
 namespace EnviroGen.Coloring
 {
@@ -58,7 +58,7 @@ namespace EnviroGen.Coloring
             var b = (byte)(((HighColor.B - LowColor.B) * heightRatio) + (LowColor.B));
             var a = (byte)(((HighColor.A - LowColor.A) * heightRatio) + (LowColor.A));
 
-            return new Color(r, g, b, a);
+            return Color.FromArgb(a, r, g, b);
         }
     }
 }

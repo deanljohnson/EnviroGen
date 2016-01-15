@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using SFML.Window;
+using EnviroGen.Internals;
 
 namespace EnviroGen.HeightMaps
 {
@@ -15,11 +15,11 @@ namespace EnviroGen.HeightMaps
         /// <summary>
         /// The dimensions of the HeightMap
         /// </summary>
-        public Vector2u Size { get; private set; }
+        public IntPoint Size { get; }
 
         public HeightMap(float[,] map)
         {
-            Size = new Vector2u((uint)map.GetLength(0), (uint)map.GetLength(1));
+            Size = new IntPoint(map.GetLength(0), map.GetLength(1));
             Map = map;
         }
 
@@ -35,7 +35,7 @@ namespace EnviroGen.HeightMaps
             set { Map[x, y] = value; }
         }
 
-        public float this[Vector2i v]
+        public float this[IntPoint v]
         {
             get { return Map[v.X, v.Y]; }
             set { Map[v.X, v.Y] = value; }
@@ -72,7 +72,7 @@ namespace EnviroGen.HeightMaps
         /// <summary>
         /// Returns the Vector2i's to the left, right, top, and bottom of the given point.
         /// </summary>
-        public List<Vector2i> GetVonNeumannNeighbors(Vector2i point)
+        public List<IntPoint> GetVonNeumannNeighbors(IntPoint point)
         {
             return GetVonNeumannNeighbors(point.X, point.Y);
         }
@@ -80,14 +80,14 @@ namespace EnviroGen.HeightMaps
         /// <summary>
         /// Returns the Vector2i's to the left, right, top, and bottom of the given x,y value.
         /// </summary>
-        public List<Vector2i> GetVonNeumannNeighbors(int x, int y)
+        public List<IntPoint> GetVonNeumannNeighbors(int x, int y)
         {
-            var points = new List<Vector2i>();
+            var points = new List<IntPoint>();
 
-            if (x > 0) points.Add(new Vector2i(x - 1, y));
-            if (x < Size.X - 1) points.Add(new Vector2i(x + 1, y));
-            if (y > 0) points.Add(new Vector2i(x, y - 1));
-            if (y < Size.Y - 1) points.Add(new Vector2i(x, y + 1));
+            if (x > 0) points.Add(new IntPoint(x - 1, y));
+            if (x < Size.X - 1) points.Add(new IntPoint(x + 1, y));
+            if (y > 0) points.Add(new IntPoint(x, y - 1));
+            if (y < Size.Y - 1) points.Add(new IntPoint(x, y + 1));
 
             return points;
         }
@@ -95,7 +95,7 @@ namespace EnviroGen.HeightMaps
         /// <summary>
         /// Returns all points adjacent to the given point as Vector2i's.
         /// </summary>
-        public List<Vector2i> GetMooreNeighbors(Vector2i point)
+        public List<IntPoint> GetMooreNeighbors(IntPoint point)
         {
             return GetMooreNeighbors(point.X, point.Y);
         }
@@ -103,19 +103,19 @@ namespace EnviroGen.HeightMaps
         /// <summary>
         /// Returns all points adjacent to the given x and y positions as Vector2i's.
         /// </summary>
-        public List<Vector2i> GetMooreNeighbors(int x, int y)
+        public List<IntPoint> GetMooreNeighbors(int x, int y)
         {
-            var points = new List<Vector2i>();
+            var points = new List<IntPoint>();
 
-            if (x > 0) points.Add(new Vector2i(x - 1, y));
-            if (x < Size.X - 1) points.Add(new Vector2i(x + 1, y));
-            if (y > 0) points.Add(new Vector2i(x, y - 1));
-            if (y < Size.Y - 1) points.Add(new Vector2i(x, y + 1));
+            if (x > 0) points.Add(new IntPoint(x - 1, y));
+            if (x < Size.X - 1) points.Add(new IntPoint(x + 1, y));
+            if (y > 0) points.Add(new IntPoint(x, y - 1));
+            if (y < Size.Y - 1) points.Add(new IntPoint(x, y + 1));
 
-            if (x > 0 && y > 0) points.Add(new Vector2i(x - 1, y - 1));
-            if (x < Size.X - 1 && y > 0) points.Add(new Vector2i(x + 1, y - 1));
-            if (x > 0 && y < Size.Y - 1) points.Add(new Vector2i(x - 1, y + 1));
-            if (x < Size.X - 1 && y < Size.Y - 1) points.Add(new Vector2i(x + 1, y + 1));
+            if (x > 0 && y > 0) points.Add(new IntPoint(x - 1, y - 1));
+            if (x < Size.X - 1 && y > 0) points.Add(new IntPoint(x + 1, y - 1));
+            if (x > 0 && y < Size.Y - 1) points.Add(new IntPoint(x - 1, y + 1));
+            if (x < Size.X - 1 && y < Size.Y - 1) points.Add(new IntPoint(x + 1, y + 1));
 
             return points;
         }
@@ -125,7 +125,7 @@ namespace EnviroGen.HeightMaps
         /// </summary>
         public void CombineWith(HeightMap other)
         {
-            CombineWith(other, new Vector2i(0, 0));
+            CombineWith(other, new IntPoint());
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace EnviroGen.HeightMaps
         /// </summary>
         public void CombineWith(HeightMap other, float weight)
         {
-            CombineWith(other, new Vector2i(0, 0), weight);
+            CombineWith(other, new IntPoint(), weight);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace EnviroGen.HeightMaps
         /// Modifies the given HeightMap by the given weight value before combining.
         /// Normalizes this HeightMap [0,1].
         /// </summary>
-        public void CombineWith(HeightMap other, Vector2i offset, float weight = 1f)
+        public void CombineWith(HeightMap other, IntPoint offset, float weight = 1f)
         {
             var maxX = Math.Min(Size.X, offset.X + other.Size.X);
             var maxY = Math.Min(Size.Y, offset.Y + other.Size.Y);

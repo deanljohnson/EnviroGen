@@ -71,16 +71,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AStar">
-      <HintPath>..\..\AStar\AStar\bin\Release\AStar.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="sfmlnet-graphics-2">
-      <HintPath>..\..\..\extlibs\SFML\References\sfmlnet-graphics-2.dll</HintPath>
-    </Reference>
-    <Reference Include="sfmlnet-window-2">
-      <HintPath>..\..\..\extlibs\SFML\References\sfmlnet-window-2.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
@@ -100,13 +91,14 @@
     <Compile Include="Erosion\ThermalErosion.cs" />
     <Compile Include="Erosion\ThermalErosionData.cs" />
     <Compile Include="GenerationOptions.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="Internals\IntPoint.cs" />
     <Compile Include="Noise\Modifiers\AddModifier.cs" />
     <Compile Include="Noise\Modifiers\ClampModifier.cs" />
     <Compile Include="Noise\Modifiers\IModifier.cs" />
     <Compile Include="Noise\Modifiers\ExponentModifier.cs" />
     <Compile Include="Noise\FractalBrownianMotion.cs" />
     <Compile Include="HeightMaps\HeightMap.cs" />
-    <Compile Include="HeightMaps\HeightMapDrawable.cs" />
     <Compile Include="HeightMaps\HeightMapGenerator.cs" />
     <Compile Include="Noise\Modifiers\InvertModifier.cs" />
     <Compile Include="Noise\Modifiers\NormalizeModifier.cs" />
@@ -114,7 +106,6 @@
     <Compile Include="Noise\Modifiers\ScaleModifier.cs" />
     <Compile Include="Noise\ValueNoiseGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RiverGen\RiverGenerator.cs" />
     <Compile Include="Noise\SimplexNoiseGenerator.cs" />
     <Compile Include="Terrain.cs" />
   </ItemGroup>

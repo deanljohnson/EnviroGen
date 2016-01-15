@@ -1,41 +1,41 @@
 ﻿using System;
+using System.Windows.Media;
 using EnviroGen.Coloring;
-using SFML.Graphics;
 
 namespace EnviroGenDisplay.ViewModels
 {
     class ColorRangeViewModel : ViewModelBase
     {
-        private readonly ColorRange m_range;
+        private readonly ColorRange m_Range;
 
         public Color LowColor
         {
-            get { return m_range.LowColor; }
+            get { return m_Range.LowColor; }
             set
             {
-                m_range.LowColor = value;
+                m_Range.LowColor = value;
                 OnPropertyChanged();
             }
         }
 
         public Color HighColor
         {
-            get { return m_range.HighColor; }
+            get { return m_Range.HighColor; }
             set
             {
-                m_range.HighColor = value;
+                m_Range.HighColor = value;
                 OnPropertyChanged();
             }
         }
 
         public float LowHeight
         {
-            get { return m_range.LowHeight; }
+            get { return m_Range.LowHeight; }
             set
             {
-                if (Math.Abs(m_range.LowHeight - value) > float.Epsilon)
+                if (Math.Abs(m_Range.LowHeight - value) > float.Epsilon)
                 {
-                    m_range.LowHeight = value;
+                    m_Range.LowHeight = value;
                     OnPropertyChanged();
                 }
             }
@@ -43,12 +43,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float HighHeight
         {
-            get { return m_range.HighHeight; }
+            get { return m_Range.HighHeight; }
             set
             {
-                if (Math.Abs(m_range.HighHeight - value) > float.Epsilon)
+                if (Math.Abs(m_Range.HighHeight - value) > float.Epsilon)
                 {
-                    m_range.HighHeight = value;
+                    m_Range.HighHeight = value;
                     OnPropertyChanged();
                 }
             }
@@ -56,12 +56,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public ColorRangeViewModel()
         {
-            m_range = new ColorRange(Color.White, Color.Black, 0f, 1f);
+            m_Range = new ColorRange(Color.FromRgb(255, 255, 255), Color.FromRgb(0, 0, 0), 0f, 1f);
         }
 
         public ColorRange GetColorRange()
         {
-            return m_range;
+            return m_Range;
         }
     }
 }

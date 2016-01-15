@@ -2,43 +2,42 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
 using EnviroGen.HeightMaps;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
-using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay
 {
     static class EnvironmentDisplay
     {
-        private static Environment Environment { get; set; }
-        private static RenderWindow Window { get; set; }
+        private static EnvironmentDrawable m_Environment { get; }
+        private static RenderWindow m_Window { get; }
 
         static EnvironmentDisplay()
         {
-            Window = new RenderWindow(new VideoMode(1400, 800, 32), "EnviroGen Display", Styles.Default);
-            Window.SetVerticalSyncEnabled(true);
-            Window.SetActive(false);
-            Window.SetVisible(true);
-            Window.SetKeyRepeatEnabled(true);
+            m_Window = new RenderWindow(new VideoMode(1400, 800, 32), "EnviroGen Display", Styles.Default);
+            m_Window.SetVerticalSyncEnabled(true);
+            m_Window.SetActive(false);
+            m_Window.SetVisible(true);
+            m_Window.SetKeyRepeatEnabled(true);
 
-            Window.Closed += WindowClosedEvent;
-            Window.MouseWheelMoved += MouseWheelEvent;
-            Window.KeyPressed += KeyPressedEvent;
+            m_Window.Closed += WindowClosedEvent;
+            m_Window.MouseWheelMoved += MouseWheelEvent;
+            m_Window.KeyPressed += KeyPressedEvent;
 
-            Environment = new Environment(null, null);
+            m_Environment = new EnvironmentDrawable(null, null);
         }
 
         public static void Update(object sender, DoWorkEventArgs doWorkEventArgs)
         {
-            lock (Window)
+            lock (m_Window)
             {
-                while (Window.IsOpen())
+                while (m_Window.IsOpen)
                 {
                     UpdateDisplay();
                 }
@@ -47,35 +46,37 @@ namespace EnviroGenDisplay
 
         private static void UpdateDisplay()
         {
-            Window.DispatchEvents();
+            m_Window.DispatchEvents();
 
-            Window.Clear(Color.Black);
-
-            lock (Environment)
+            lock (m_Environment)
             {
-                Window.Draw(Environment);
+                if (m_Environment.Dirty)
+                {
+                    m_Environment.Dirty = false;
+                    m_Window.Clear(Color.Black);
+                    m_Window.Draw(m_Environment);
+                    m_Window.Display();
+                }
             }
-
-            Window.Display();
         }
 
         private static void WindowClosedEvent(object sender, EventArgs e)
         {
-            Window.Close();
+            m_Window.Close();
         }
 
         private static void MouseWheelEvent(object sender, MouseWheelEventArgs e)
         {
-            var view = Window.GetView();
+            var view = m_Window.GetView();
 
             view.Zoom(e.Delta > 0 ? .9f : 1.1f);
 
-            Window.SetView(view);
+            m_Window.SetView(view);
         }
 
         private static void KeyPressedEvent(object sender, KeyEventArgs e)
         {
-            var view = Window.GetView();
+            var view = m_Window.GetView();
             const float speed = 10f;
 
             switch (e.Code)
@@ -94,7 +95,7 @@ namespace EnviroGenDisplay
                     break;
             }
 
-            Window.SetView(view);
+            m_Window.SetView(view);
         }
 
         public static void GenerateHeightMap(object sender, DoWorkEventArgs e)
@@ -133,64 +134,69 @@ namespace EnviroGenDisplay
                 throw new NullReferenceException("Error in terrain height map generation, EnvironmentDisplay.GenerateHeightMap");
             }
 
-            lock (Environment)
+            lock (m_Environment)
             {
-                if (data.Combining && Environment.Terrain != null && Environment.Terrain.HeightMap != null)
+                if (data.Combining && m_Environment.Terrain?.HeightMap != null)
                 {
-                    Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
-                    Environment.Terrain.Colorize();
+                    m_Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
+                    m_Environment.Terrain.Colorize();
                 }
                 else
                 {
-                    Environment.Terrain = new Terrain(terrainHeightMap);
+                    m_Environment.Terrain = new Terrain(terrainHeightMap);
                 }
+
+                m_Environment.Dirty = true;
             }
         }
 
         public static void SetColorMapping(Colorizer colorizer)
         {
-            lock (Environment)
+            lock (m_Environment)
             {
-                if (Environment.Terrain == null) return;
+                if (m_Environment.Terrain == null) return;
 
-                Environment.Terrain.Colorizer = colorizer;
-                Environment.Terrain.Colorize();
+                m_Environment.Terrain.Colorizer = colorizer;
+                m_Environment.Terrain.Colorize();
+
+                m_Environment.Dirty = true;
             }
         }
 
         public static void SetColorMapping(List<ColorRange> colorRanges)
         {
-            lock (Environment)
+            lock (m_Environment)
             {
-                if (Environment.Terrain == null) return;
+                if (m_Environment.Terrain == null) return;
 
-                Environment.Terrain.Colorizer = new Colorizer(colorRanges);
-                Environment.Terrain.Colorize();
+                m_Environment.Terrain.Colorizer = new Colorizer(colorRanges);
+                m_Environment.Dirty = true;
             }
         }
 
         public static void BuildContinents(ContinentGenerationData data)
         {
-            lock (Environment)
+            lock (m_Environment)
             {
-                if (Environment.Terrain == null) return;
-                ContinentGenerator.BuildContinents(Environment.Terrain.HeightMap, data);
-                Environment.Terrain.HeightMap.Normalize();
-                Environment.Terrain.Colorize();
+                if (m_Environment.Terrain == null) return;
+                ContinentGenerator.BuildContinents(m_Environment.Terrain.HeightMap, data);
+                m_Environment.Terrain.HeightMap.Normalize();
+                m_Environment.Terrain.Colorize();
+                m_Environment.Dirty = true;
             }
         }
 
         public static void ErodeHeightMap(ErosionData data, bool improvedThermal = false)
         {
-            lock (Environment)
+            lock (m_Environment)
             {
-                if (Environment.Terrain == null) return;
+                if (m_Environment.Terrain == null) return;
 
                 var erosionData = data as ThermalErosionData;
                 if (erosionData != null)
                 {
-                    if (improvedThermal) ImprovedThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
-                    else ThermalErosion.Erode(Environment.Terrain.HeightMap, erosionData);
+                    if (improvedThermal) ImprovedThermalErosion.Erode(m_Environment.Terrain.HeightMap, erosionData);
+                    else ThermalErosion.Erode(m_Environment.Terrain.HeightMap, erosionData);
 
                 }
                 else
@@ -198,11 +204,12 @@ namespace EnviroGenDisplay
                     var hydraulicErosionData = data as HydraulicErosionData;
                     if (hydraulicErosionData != null)
                     {
-                        HydraulicErosion.Erode(Environment.Terrain.HeightMap, hydraulicErosionData);
+                        HydraulicErosion.Erode(m_Environment.Terrain.HeightMap, hydraulicErosionData);
                     }
                 }
 
-                Environment.Terrain.Colorize();
+                m_Environment.Terrain.Colorize();
+                m_Environment.Dirty = true;
             }
         }
     }

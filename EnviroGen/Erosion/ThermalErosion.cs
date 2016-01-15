@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EnviroGen.HeightMaps;
-using SFML.Window;
+using EnviroGen.Internals;
 
 namespace EnviroGen.Erosion
 {
@@ -35,7 +35,7 @@ namespace EnviroGen.Erosion
         /// <summary>
         /// Returns the index of the neighboring height value that most differs from the given height.
         /// </summary>
-        internal static Vector2i GetHighestSlopedNeighbor(HeightMap heightMap, IReadOnlyList<Vector2i> neighbors, float height, out float slope)
+        internal static IntPoint GetHighestSlopedNeighbor(HeightMap heightMap, IReadOnlyList<IntPoint> neighbors, float height, out float slope)
         {
             var slopedNeighbor = neighbors[0];
             var highestSlope = 0f;

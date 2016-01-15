@@ -18,8 +18,7 @@ namespace EnviroGenDisplay
 
         public GenerationOptions ToGenerationOptions()
         {
-            // ReSharper disable once ArrangeThisQualifier
-            var options = new GenerationOptions(this) { Modifiers = this.Modifiers.Select(m => m.ToIModifier()).ToList() };
+            var options = new GenerationOptions(this) { Modifiers = Modifiers.Select(m => m.ToIModifier()).ToList() };
             return options;
         }
     }

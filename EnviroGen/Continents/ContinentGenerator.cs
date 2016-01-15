@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using EnviroGen.HeightMaps;
-using SFML.Window;
+using EnviroGen.Internals;
 
 namespace EnviroGen.Continents
 {
     public static class ContinentGenerator
     {
-        private static Random Random { get; set; }
+        private static Random m_Random { get; }
 
         static ContinentGenerator()
         {
-            Random = new Random();
+            m_Random = new Random();
         }
 
         public static void BuildContinents(HeightMap heightMap, ContinentGenerationData data)
@@ -24,8 +24,8 @@ namespace EnviroGen.Continents
         /// </summary>
         private static void BuildContinents(HeightMap heightMap, int numContinents, int minSize, int maxSize, float scale)
         {
-            List<Vector2i> startPoints;
-            var mapSize = new Vector2i((int)heightMap.Size.X, (int)heightMap.Size.Y);
+            List<IntPoint> startPoints;
+            var mapSize = new IntPoint((int)heightMap.Size.X, (int)heightMap.Size.Y);
 
             if (numContinents != 1)
             {
@@ -33,16 +33,16 @@ namespace EnviroGen.Continents
             }
             else
             {
-                startPoints = new List<Vector2i> { new Vector2i(mapSize.X / 2, mapSize.Y / 2) };
+                startPoints = new List<IntPoint> { new IntPoint(mapSize.X / 2, mapSize.Y / 2) };
             }
 
 
             foreach (var start in startPoints)
             {
-                var size = Random.Next(maxSize - minSize) + minSize;
+                var size = m_Random.Next(maxSize - minSize) + minSize;
                 var scaleStep = -(scale - 1f) / size;
 
-                ScaleSquareAroundPoint(heightMap, start, Random.Next(maxSize - minSize) + minSize, scale, scaleStep);
+                ScaleSquareAroundPoint(heightMap, start, m_Random.Next(maxSize - minSize) + minSize, scale, scaleStep);
             }
         }
 
@@ -50,7 +50,7 @@ namespace EnviroGen.Continents
         /// From a start point, scales a box of given size on the HeightMap. The start point will be scaled by the given
         /// scaleValue. scaleValue will then be incremented by scaleStep as we begin scaling points further from the start.
         /// </summary>
-        private static void ScaleSquareAroundPoint(HeightMap heightMap, Vector2i start, int size, float scaleValue, float scaleStep)
+        private static void ScaleSquareAroundPoint(HeightMap heightMap, IntPoint start, int size, float scaleValue, float scaleStep)
         {
             MultiplyHeightAtPoint(heightMap, start.X, start.Y, scaleValue);
 
@@ -112,13 +112,13 @@ namespace EnviroGen.Continents
         /// <param name="sizeX"></param>
         /// <param name="sizeY"></param>
         /// <returns></returns>
-        private static List<Vector2i> GetRandomPoints(int numPoints, int sizeX, int sizeY)
+        private static List<IntPoint> GetRandomPoints(int numPoints, int sizeX, int sizeY)
         {
-            var points = new List<Vector2i>(numPoints);
+            var points = new List<IntPoint>(numPoints);
 
             for (var i = 0; i < numPoints; i++)
             {
-                points.Add(new Vector2i(Random.Next(sizeX), Random.Next(sizeY)));
+                points.Add(new IntPoint(m_Random.Next(sizeX), m_Random.Next(sizeY)));
             }
 
             return points;

@@ -1,11 +1,35 @@
 ﻿using EnviroGen.Coloring;
 using EnviroGen.HeightMaps;
-using SFML.Graphics;
 
 namespace EnviroGen
 {
-    public class Clouds : HeightMapDrawable
+    public class Clouds
     {
+        public static Colorizer DefaultColorizer { get; }
+
+        private Colorizer m_Colorizer;
+
+        public HeightMap HeightMap { get; }
+        public Image Image { get; private set; }
+
+        static Clouds()
+        {
+            var colorRange = new ColorRange(System.Windows.Media.Color.FromRgb(0, 0, 0),
+                System.Windows.Media.Color.FromRgb(255, 255, 255), 0f, 1f);
+
+            DefaultColorizer = new Colorizer(colorRange);
+        }
+
+        public Colorizer Colorizer
+        {
+            get { return m_Colorizer; }
+            set
+            {
+                m_Colorizer = value;
+                Colorize(m_Colorizer);
+            }
+        }
+
         public Clouds(HeightMap heightMap)
             : this(heightMap, DefaultColorizer)
         {
@@ -13,16 +37,25 @@ namespace EnviroGen
 
         public Clouds(HeightMap heightMap, Colorizer colorizer)
         {
+            HeightMap = heightMap;
             Colorizer = colorizer;
-
-            m_heightMap = heightMap;
             Colorize(colorizer);
         }
 
-        public override void Draw(RenderTarget target, RenderStates states)
+        /// <summary>
+        /// Uses the given colorizer to set the pixel colors of the Terrains sprite.
+        /// </summary>
+        public void Colorize(Colorizer colorizer)
         {
-            states.Transform.Combine(Transform);
-            target.Draw(Sprite, states);
+            Image = new Image(colorizer.Colorize(HeightMap));
+        }
+
+        /// <summary>
+        /// Uses Colorizer property to set the Terrain's Colors.
+        /// </summary>
+        public void Colorize()
+        {
+            Image = new Image(Colorizer.Colorize(HeightMap));
         }
     }
 }

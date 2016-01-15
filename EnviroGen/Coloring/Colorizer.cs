@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 using EnviroGen.HeightMaps;
-using SFML.Graphics;
 
 namespace EnviroGen.Coloring
 {
@@ -17,6 +17,11 @@ namespace EnviroGen.Coloring
             ColorRanges = new List<ColorRange>();
         }
 
+        public Colorizer(params ColorRange[] colorRanges)
+        {
+            ColorRanges = colorRanges.ToList();
+        }
+
         public Colorizer(List<ColorRange> colorRanges)
         {
             ColorRanges = colorRanges;
@@ -30,15 +35,15 @@ namespace EnviroGen.Coloring
         /// <summary>
         /// Returns an Image with coloring applied based on the given HeightMap
         /// </summary>
-        public Image Colorize(HeightMap map)
+        public Color[,] Colorize(HeightMap map)
         {
-            var img = new Image(map.Size.X, map.Size.Y);
+            var img = new Color[map.Size.X, map.Size.Y];
 
             for (uint y = 0; y < map.Size.Y; y++)
             {
                 for (uint x = 0; x < map.Size.X; x++)
                 {
-                    img.SetPixel(x, y, GetColor(map[x, y]));
+                    img[x, y] = GetColor(map[x, y]);
                 }
             }
 
@@ -83,7 +88,7 @@ namespace EnviroGen.Coloring
                 return color;
             }
 
-            return Color.Black;
+            return Color.FromRgb(0, 0, 0);
         }
 
         /// <summary>

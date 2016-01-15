@@ -1,5 +1,5 @@
 ﻿using EnviroGen.HeightMaps;
-using SFML.Window;
+using EnviroGen.Internals;
 
 namespace EnviroGen.Erosion
 {
@@ -101,11 +101,11 @@ namespace EnviroGen.Erosion
         /// <summary>
         /// Returns the lowest neighboring cell, or the current cell if the current cell is the lowest.
         /// </summary>
-        private static Vector2i GetLowestNeighbor(HeightMap heightMap, int x, int y)
+        private static IntPoint GetLowestNeighbor(HeightMap heightMap, int x, int y)
         {
             var neighbors = heightMap.GetVonNeumannNeighbors(x, y);
 
-            var lowest = new Vector2i(x, y);
+            var lowest = new IntPoint(x, y);
             foreach (var neighbor in neighbors)
             {
                 if (heightMap[neighbor] < heightMap[lowest])
