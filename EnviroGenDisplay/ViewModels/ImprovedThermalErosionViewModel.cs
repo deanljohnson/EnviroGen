@@ -6,16 +6,16 @@ namespace EnviroGenDisplay.ViewModels
 {
     class ImprovedThermalErosionViewModel : ViewModelBase
     {
-        private readonly ThermalErosionData m_data;
+        private readonly ImprovedThermalEroder m_Eroder;
 
         public int Iterations
         {
-            get { return m_data.Iterations; }
+            get { return m_Eroder.Iterations; }
             set
             {
-                if (m_data.Iterations != value)
+                if (m_Eroder.Iterations != value)
                 {
-                    m_data.Iterations = value;
+                    m_Eroder.Iterations = value;
                     OnPropertyChanged();
                 }
             }
@@ -23,12 +23,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float TalusAngle
         {
-            get { return m_data.TalusAngle; }
+            get { return m_Eroder.TalusAngle; }
             set
             {
-                if (Math.Abs(m_data.TalusAngle - value) > float.Epsilon)
+                if (Math.Abs(m_Eroder.TalusAngle - value) > float.Epsilon)
                 {
-                    m_data.TalusAngle = value;
+                    m_Eroder.TalusAngle = value;
                     OnPropertyChanged();
                 }
             }
@@ -36,15 +36,18 @@ namespace EnviroGenDisplay.ViewModels
 
         public ICommand ErodeMapCommand { get; set; }
 
-        public ImprovedThermalErosionViewModel()
+        public IEnvironment Environment { get; set; }
+
+        public ImprovedThermalErosionViewModel(IEnvironment environment)
         {
-            m_data = new ThermalErosionData();
+            m_Eroder = new ImprovedThermalEroder();
             ErodeMapCommand = new RelayCommand(ErodeMap);
+            Environment = environment;
         }
 
         private void ErodeMap(object n = null)
         {
-            EnvironmentDisplay.ErodeHeightMap(m_data, true);
+            Environment?.ErodeHeightMap(m_Eroder);
         }
     }
 }

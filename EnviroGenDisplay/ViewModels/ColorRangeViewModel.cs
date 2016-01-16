@@ -56,7 +56,7 @@ namespace EnviroGenDisplay.ViewModels
 
         public ColorRangeViewModel()
         {
-            m_Range = new ColorRange(Color.FromRgb(255, 255, 255), Color.FromRgb(0, 0, 0), 0f, 1f);
+            m_Range = new ColorRange(Color.FromRgb(0, 0, 0), Color.FromRgb(255, 255, 255), 0f, 1f);
         }
 
         public ColorRange GetColorRange()

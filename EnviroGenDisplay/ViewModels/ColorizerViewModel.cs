@@ -7,11 +7,13 @@ namespace EnviroGenDisplay.ViewModels
 {
     class ColorizerViewModel : ViewModelBase
     {
-        public ObservableCollection<ColorRangeViewModel> ColorRanges { get; private set; }
+        public ObservableCollection<ColorRangeViewModel> ColorRanges { get; }
 
         public ICommand AddColorCommand { get; set; }
         public ICommand RemoveColorCommand { get; set; }
         public ICommand SetColorsCommand { get; set; }
+
+        public IEnvironment Map { get; set; }
 
         public ColorizerViewModel()
         {
@@ -28,14 +30,18 @@ namespace EnviroGenDisplay.ViewModels
 
         private void RemoveColor(object c = null)
         {
-
+            if (ColorRanges.Any())
+            {
+                ColorRanges.RemoveAt(ColorRanges.Count - 1);
+            }
         }
 
         private void SetColors(object c = null)
         {
             var colorRanges = ColorRanges.Select(cr => cr.GetColorRange());
             var colorizer = new Colorizer(colorRanges);
-            EnvironmentDisplay.SetColorMapping(colorizer);
+
+            Map.SetColorMapping(colorizer);
         }
     }
 }

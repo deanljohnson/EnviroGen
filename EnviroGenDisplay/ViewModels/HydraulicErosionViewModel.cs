@@ -6,16 +6,16 @@ namespace EnviroGenDisplay.ViewModels
 {
     class HydraulicErosionViewModel : ViewModelBase
     {
-        private readonly HydraulicErosionData m_data;
+        private readonly HydraulicEroder m_Eroder;
 
         public int Iterations
         {
-            get { return m_data.Iterations; }
+            get { return m_Eroder.Iterations; }
             set
             {
-                if (m_data.Iterations != value)
+                if (m_Eroder.Iterations != value)
                 {
-                    m_data.Iterations = value;
+                    m_Eroder.Iterations = value;
                     OnPropertyChanged();
                 }
             }
@@ -23,12 +23,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float RainAmount
         {
-            get { return m_data.RainAmount; }
+            get { return m_Eroder.RainAmount; }
             set
             {
-                if (Math.Abs(m_data.RainAmount - value) > float.Epsilon)
+                if (Math.Abs(m_Eroder.RainAmount - value) > float.Epsilon)
                 {
-                    m_data.RainAmount = value;
+                    m_Eroder.RainAmount = value;
                     OnPropertyChanged();
                 }
             }
@@ -36,12 +36,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float Solubility
         {
-            get { return m_data.Solubility; }
+            get { return m_Eroder.Solubility; }
             set
             {
-                if (Math.Abs(m_data.Solubility - value) > float.Epsilon)
+                if (Math.Abs(m_Eroder.Solubility - value) > float.Epsilon)
                 {
-                    m_data.Solubility = value;
+                    m_Eroder.Solubility = value;
                     OnPropertyChanged();
                 }
             }
@@ -49,12 +49,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float Evaporation
         {
-            get { return m_data.Evaporation; }
+            get { return m_Eroder.Evaporation; }
             set
             {
-                if (Math.Abs(m_data.Evaporation - value) > float.Epsilon)
+                if (Math.Abs(m_Eroder.Evaporation - value) > float.Epsilon)
                 {
-                    m_data.Evaporation = value;
+                    m_Eroder.Evaporation = value;
                     OnPropertyChanged();
                 }
             }
@@ -62,12 +62,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float Capacity
         {
-            get { return m_data.Capacity; }
+            get { return m_Eroder.Capacity; }
             set
             {
-                if (Math.Abs(m_data.Capacity - value) > float.Epsilon)
+                if (Math.Abs(m_Eroder.Capacity - value) > float.Epsilon)
                 {
-                    m_data.Capacity = value;
+                    m_Eroder.Capacity = value;
                     OnPropertyChanged();
                 }
             }
@@ -75,15 +75,18 @@ namespace EnviroGenDisplay.ViewModels
 
         public ICommand ErodeMapCommand { get; set; }
 
-        public HydraulicErosionViewModel()
+        public IEnvironment Environment { get; set; }
+
+        public HydraulicErosionViewModel(IEnvironment environment)
         {
-            m_data = new HydraulicErosionData();
+            m_Eroder = new HydraulicEroder();
             ErodeMapCommand = new RelayCommand(ErodeMap);
+            Environment = environment;
         }
 
         private void ErodeMap(object n = null)
         {
-            EnvironmentDisplay.ErodeHeightMap(m_data);
+            Environment?.ErodeHeightMap(m_Eroder);
         }
     }
 }

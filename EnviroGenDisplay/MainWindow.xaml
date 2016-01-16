@@ -1,15 +1,11 @@
 ﻿<Window x:Class="EnviroGenDisplay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EnviroGen Display" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight"
-        xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
-        xmlns:continents="clr-namespace:EnviroGen.Continents;assembly=EnviroGen"
+        Title="EnviroGen Display" Height="846" Width="1308" SizeToContent="WidthAndHeight"
         xmlns:views="clr-namespace:EnviroGenDisplay.Views"
         xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
         xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers">
     <Window.Resources>
-        <converters:IntToStringConverter x:Key="IntToStringConverter"/>
-        <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         <DataTemplate DataType="{x:Type modifiers:RidgedModifierViewModel}">
             <views:RidgedModifierView/>
         </DataTemplate>
@@ -46,53 +42,26 @@
         <DataTemplate DataType="{x:Type viewModels:EnvironmentDataViewModel}">
             <views:EnvironmentDataView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
+            <views:HeightMapView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:SquareContinentViewModel}">
+            <views:SquareContinentView/>
+        </DataTemplate>
     </Window.Resources>
-    <Grid>
-        <TabControl>
+    <Grid HorizontalAlignment="Left" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TabControl HorizontalAlignment="Left" Width="280" Height="Auto" Margin="0,0,0,10">
             <TabItem Header="Height Map" Name="HeightMapTab">
             </TabItem>
             <TabItem Header="Continents">
-                <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" Name="ContinentsGrid">
-                    <Grid.Resources>
-                        <continents:ContinentGenerationData x:Key="ContinentData"/>
-                    </Grid.Resources>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                
-                    <Label Content="Number of Continents:" Grid.Column="0" Grid.Row="0"/>
-                    <Label Content="Minimum Continent Size:" Grid.Column="0" Grid.Row="1"/>
-                    <Label Content="Maximum Continent Size:" Grid.Column="0" Grid.Row="2"/>
-                    <Label Content="Continent Scale:" Grid.Column="0" Grid.Row="3"/>
-                    <Button Content="Build Continents" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Grid.Column="0" Grid.Row="4" Click="OnBuildContinentsClick" DataContext="{Binding Source={StaticResource ContinentData}}"/>
-                    <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=NumContinents, Converter={StaticResource IntToStringConverter}}"/>
-                    <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MinimumContinentSize, Converter={StaticResource IntToStringConverter}}"/>
-                    <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=MaximumContinentSize, Converter={StaticResource IntToStringConverter}}"/>
-                    <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" DataContext="{Binding Source={StaticResource ContinentData}}" Text="{Binding Path=Scale, Converter={StaticResource FloatToStringConverter}}"/>
-                </Grid>
+                <TabControl>
+                    <TabItem Header="Square" Name="SquareContinentTab">
+                    </TabItem>
+                </TabControl>
             </TabItem>
             <TabItem Header="Erosion">
                 <TabControl>
@@ -107,5 +76,6 @@
             <TabItem Header="Coloring" Name="ColoringTab">
             </TabItem>
         </TabControl>
+        <ContentControl Name="HeightMapView" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Window>

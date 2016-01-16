@@ -15,8 +15,8 @@ namespace EnviroGen
 
         public GenerationOptions()
         {
-            SizeX = 1400;
-            SizeY = 800;
+            SizeX = 1000;
+            SizeY = 780;
             OctaveCount = 6;
             Seed = -1;
             Gain = .55f;

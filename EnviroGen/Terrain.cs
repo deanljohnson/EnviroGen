@@ -44,6 +44,11 @@ namespace EnviroGen
             Colorize(colorizer);
         }
 
+        public void UpdateImage()
+        {
+            Image = new Image(Colorizer.Colorize(HeightMap));
+        }
+
         /// <summary>
         /// Uses the given colorizer to set the pixel colors of the Terrains sprite.
         /// </summary>

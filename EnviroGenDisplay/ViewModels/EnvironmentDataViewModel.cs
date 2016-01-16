@@ -8,22 +8,22 @@ namespace EnviroGenDisplay.ViewModels
 {
     class EnvironmentDataViewModel : ViewModelBase
     {
-        private readonly EnvironmentData m_data;
+        private readonly EnvironmentData m_Data;
 
         public ObservableCollection<ModifierViewModel> Modifiers
         {
-            get { return m_data.Modifiers; }
-            set { m_data.Modifiers = value; }
+            get { return m_Data.Modifiers; }
+            set { m_Data.Modifiers = value; }
         }
 
         public bool Combining
         {
-            get { return m_data.Combining; }
+            get { return m_Data.Combining; }
             set
             {
-                if (m_data.Combining != value)
+                if (m_Data.Combining != value)
                 {
-                    m_data.Combining = value;
+                    m_Data.Combining = value;
                     OnPropertyChanged();
                 }
             }
@@ -31,12 +31,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public int SizeX
         {
-            get { return m_data.SizeX; }
+            get { return m_Data.SizeX; }
             set
             {
-                if (m_data.SizeX != value)
+                if (m_Data.SizeX != value)
                 {
-                    m_data.SizeX = value;
+                    m_Data.SizeX = value;
                     OnPropertyChanged();
                 }
             }
@@ -44,12 +44,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public int SizeY
         {
-            get { return m_data.SizeY; }
+            get { return m_Data.SizeY; }
             set
             {
-                if (m_data.SizeY != value)
+                if (m_Data.SizeY != value)
                 {
-                    m_data.SizeY = value;
+                    m_Data.SizeY = value;
                     OnPropertyChanged();
                 }
             }
@@ -57,25 +57,27 @@ namespace EnviroGenDisplay.ViewModels
 
         public int OctaveCount
         {
-            get { return m_data.OctaveCount; }
+            get { return m_Data.OctaveCount; }
             set
             {
-                if (m_data.OctaveCount != value)
+                if (m_Data.OctaveCount != value)
                 {
-                    m_data.OctaveCount = value;
+                    m_Data.OctaveCount = value;
                     OnPropertyChanged();
                 }
             }
         }
 
+        public IEnvironment Map { get; set; }
+
         public int Seed
         {
-            get { return m_data.Seed; }
+            get { return m_Data.Seed; }
             set
             {
-                if (m_data.Seed != value)
+                if (m_Data.Seed != value)
                 {
-                    m_data.Seed = value;
+                    m_Data.Seed = value;
                     OnPropertyChanged();
                 }
             }
@@ -83,12 +85,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float Gain
         {
-            get { return m_data.Gain; }
+            get { return m_Data.Gain; }
             set
             {
-                if (Math.Abs(m_data.Gain - value) > float.Epsilon)
+                if (Math.Abs(m_Data.Gain - value) > float.Epsilon)
                 {
-                    m_data.Gain = value;
+                    m_Data.Gain = value;
                     OnPropertyChanged();
                 }
             }
@@ -96,12 +98,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float Frequency
         {
-            get { return m_data.Frequency; }
+            get { return m_Data.Frequency; }
             set
             {
-                if (Math.Abs(m_data.Frequency - value) > float.Epsilon)
+                if (Math.Abs(m_Data.Frequency - value) > float.Epsilon)
                 {
-                    m_data.Frequency = value;
+                    m_Data.Frequency = value;
                     OnPropertyChanged();
                 }
             }
@@ -113,7 +115,7 @@ namespace EnviroGenDisplay.ViewModels
 
         public EnvironmentDataViewModel()
         {
-            m_data = new EnvironmentData();
+            m_Data = new EnvironmentData();
             GenerateCommand = new RelayCommand(Generate);
             AddModifierCommand = new RelayCommand(AddModifier);
             RemoveModifierCommand = new RelayCommand(RemoveModifier);
@@ -121,7 +123,7 @@ namespace EnviroGenDisplay.ViewModels
 
         private void Generate(object n = null)
         {
-            EnvironmentDisplay.GenerateHeightMap(m_data);
+            Map.GenerateHeightMap(m_Data);
         }
 
         private void AddModifier(object m = null)
@@ -158,7 +160,7 @@ namespace EnviroGenDisplay.ViewModels
 
         private void RemoveModifier(object m = null)
         {
-            var index = m is int ? (int) m : -1;
+            var index = m as int? ?? -1;
 
             if (index >= 0)
             {

@@ -5,11 +5,11 @@ namespace EnviroGenDisplay
 {
     class RelayCommand : ICommand
     {
-        private readonly Action<object> m_action;
+        private readonly Action<object> m_Action;
 
         public RelayCommand(Action<object> action)
         {
-            m_action = action;
+            m_Action = action;
         }
 
         public bool CanExecute(object parameter)
@@ -19,7 +19,7 @@ namespace EnviroGenDisplay
 
         public void Execute(object parameter)
         {
-            m_action(parameter);
+            m_Action(parameter);
         }
 
         public event EventHandler CanExecuteChanged;

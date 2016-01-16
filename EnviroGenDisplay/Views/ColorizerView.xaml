@@ -24,7 +24,11 @@
         </Grid.Resources>
         <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Path=ColorRanges}">
         </ListBox>
-        <Button Content="Set Coloring" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="0" Command="{Binding Path=SetColorsCommand}"/>
-        <Button Content="+" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Grid.Column="1" Grid.Row="0" Command="{Binding Path=AddColorCommand}"/>
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+            <Button Content="Set Coloring" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Command="{Binding Path=SetColorsCommand}"/>
+            <Button Content="+" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Command="{Binding Path=AddColorCommand}"/>
+            <Button Content="-" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Command="{Binding Path=RemoveColorCommand}"/>
+        </StackPanel>
     </Grid>
+    
 </UserControl>

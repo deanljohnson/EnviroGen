@@ -1,11 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using EnviroGen.Continents;
-using EnviroGenDisplay.ViewModels;
-using Xceed.Wpf.AvalonDock.Controls;
+﻿using EnviroGenDisplay.ViewModels;
 
 namespace EnviroGenDisplay
 {
@@ -14,62 +7,62 @@ namespace EnviroGenDisplay
     /// </summary>
     public partial class MainWindow
     {
-        private static BackgroundWorker DisplayWorker { get; set; }
-        private static BackgroundWorker GenerateAllWorker { get; set; }
-        private static BackgroundWorker GenerationWorker { get; set; }
+        //private static BackgroundWorker DisplayWorker { get; set; }
+        //private static BackgroundWorker GenerateAllWorker { get; set; }
+        //private static BackgroundWorker GenerationWorker { get; set; }
 
         public MainWindow()
         {
-            DisplayWorker = new BackgroundWorker();
-            GenerationWorker = new BackgroundWorker();
-            GenerateAllWorker = new BackgroundWorker();
+            //DisplayWorker = new BackgroundWorker();
+            //GenerationWorker = new BackgroundWorker();
+            //GenerateAllWorker = new BackgroundWorker();
 
             InitializeComponent();
 
             SetupUI();
 
-            //AddMap();
+            ////AddMap();
             
-            DisplayWorker.DoWork += EnvironmentDisplay.Update;
-            DisplayWorker.RunWorkerAsync();
-            GenerationWorker.DoWork += EnvironmentDisplay.GenerateHeightMap;
-            GenerateAllWorker.DoWork += EnvironmentDisplay.GenerateHeightMap;
+            //DisplayWorker.DoWork += EnvironmentDisplay.Update;
+            //DisplayWorker.RunWorkerAsync();
+            //GenerationWorker.DoWork += EnvironmentDisplay.GenerateHeightMap;
+            //GenerateAllWorker.DoWork += EnvironmentDisplay.GenerateHeightMap;
         }
 
         private void SetupUI()
         {
-            HeightMapTab.Content = new EnvironmentDataViewModel();
-            HydraulicErosionTab.Content = new HydraulicErosionViewModel();
-            ThermalErosionTab.Content = new ThermalErosionViewModel();
-            ImprovedThermalErosionTab.Content = new ImprovedThermalErosionViewModel();
-            ColoringTab.Content = new ColorizerViewModel();
-        }
-
-        private void OnGenerateAllClick(object sender, RoutedEventArgs e)
-        {
-            var button = sender as FrameworkElement;
-
-            if (button == null) return;
-
-            var contentControls = button.Parent.FindLogicalChildren<ContentControl>().Where(cc => cc.Content is EnvironmentData);
-            var objects = contentControls.Select(cc => cc.Content as EnvironmentData);
-
-            if (!GenerateAllWorker.IsBusy)
+            HeightMapView.Content = new EnvironmentViewModel();
+            HeightMapTab.Content = new EnvironmentDataViewModel
             {
-                GenerateAllWorker.RunWorkerAsync(objects);
-            }
-        }
+                Map = (IEnvironment) HeightMapView.Content
+            };
 
-        private void OnBuildContinentsClick(object sender, RoutedEventArgs e)
-        {
-            var data = ((FrameworkElement)sender).DataContext as ContinentGenerationData;
+            HydraulicErosionTab.Content = new HydraulicErosionViewModel((IEnvironment)HeightMapView.Content);
+            ThermalErosionTab.Content = new ThermalErosionViewModel((IEnvironment)HeightMapView.Content);
+            ImprovedThermalErosionTab.Content = new ImprovedThermalErosionViewModel((IEnvironment)HeightMapView.Content);
 
-            if (data == null)
+            SquareContinentTab.Content = new SquareContinentViewModel((IEnvironment)HeightMapView.Content);
+
+            ColoringTab.Content = new ColorizerViewModel
             {
-                throw new ArgumentNullException();
-            }
+                Map = (IEnvironment)HeightMapView.Content
+            };
 
-            EnvironmentDisplay.BuildContinents(data);
         }
+
+        //private void OnGenerateAllClick(object sender, RoutedEventArgs e)
+        //{
+        //    var button = sender as FrameworkElement;
+
+        //    if (button == null) return;
+
+        //    var contentControls = button.Parent.FindLogicalChildren<ContentControl>().Where(cc => cc.Content is EnvironmentData);
+        //    var objects = contentControls.Select(cc => cc.Content as EnvironmentData);
+
+        //    if (!GenerateAllWorker.IsBusy)
+        //    {
+        //        GenerateAllWorker.RunWorkerAsync(objects);
+        //    }
+        //}
     }
 }
