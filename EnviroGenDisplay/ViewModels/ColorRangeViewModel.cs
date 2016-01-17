@@ -6,36 +6,36 @@ namespace EnviroGenDisplay.ViewModels
 {
     class ColorRangeViewModel : ViewModelBase
     {
-        private readonly ColorRange m_Range;
+        public ColorRange ColorRange { get; }
 
         public Color LowColor
         {
-            get { return m_Range.LowColor; }
+            get { return ColorRange.LowColor; }
             set
             {
-                m_Range.LowColor = value;
+                ColorRange.LowColor = value;
                 OnPropertyChanged();
             }
         }
 
         public Color HighColor
         {
-            get { return m_Range.HighColor; }
+            get { return ColorRange.HighColor; }
             set
             {
-                m_Range.HighColor = value;
+                ColorRange.HighColor = value;
                 OnPropertyChanged();
             }
         }
 
         public float LowHeight
         {
-            get { return m_Range.LowHeight; }
+            get { return ColorRange.LowHeight; }
             set
             {
-                if (Math.Abs(m_Range.LowHeight - value) > float.Epsilon)
+                if (Math.Abs(ColorRange.LowHeight - value) > float.Epsilon)
                 {
-                    m_Range.LowHeight = value;
+                    ColorRange.LowHeight = value;
                     OnPropertyChanged();
                 }
             }
@@ -43,12 +43,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float HighHeight
         {
-            get { return m_Range.HighHeight; }
+            get { return ColorRange.HighHeight; }
             set
             {
-                if (Math.Abs(m_Range.HighHeight - value) > float.Epsilon)
+                if (Math.Abs(ColorRange.HighHeight - value) > float.Epsilon)
                 {
-                    m_Range.HighHeight = value;
+                    ColorRange.HighHeight = value;
                     OnPropertyChanged();
                 }
             }
@@ -56,12 +56,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public ColorRangeViewModel()
         {
-            m_Range = new ColorRange(Color.FromRgb(0, 0, 0), Color.FromRgb(255, 255, 255), 0f, 1f);
+            ColorRange = new ColorRange(Color.FromRgb(0, 0, 0), Color.FromRgb(255, 255, 255), 0f, 1f);
         }
 
-        public ColorRange GetColorRange()
+        public ColorRangeViewModel(ColorRange colorRange)
         {
-            return m_Range;
+            ColorRange = colorRange;
         }
     }
 }

@@ -67,9 +67,43 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
+        public void ApplyColorizer()
+        {
+            lock (m_Environment)
+            {
+                if (m_Environment.Terrain == null) return;
+
+                m_Environment.Terrain.Colorize();
+
+                UpdateBitmap();
+            }
+        }
+
+        public Colorizer GetColorizer()
+        {
+            return m_Environment.Terrain?.Colorizer ?? Terrain.DefaultColorizer;
+        }
+
+        public void AddColor(ColorRange c)
+        {
+            m_Environment.Terrain.Colorizer.AddColorRange(c);
+        }
+
+        public void RemoveColor(ColorRange c)
+        {
+            m_Environment.Terrain.Colorizer.RemoveColorRange(c);
+        }
+
         public void ErodeHeightMap(IEroder eroder)
         {
             eroder.Erode(m_Environment.Terrain.HeightMap);
+            m_Environment.Terrain.UpdateImage();
+            UpdateBitmap();
+        }
+
+        public void GenerateContinents(IContinentGenerator generator)
+        {
+            generator.GenerateContinents(m_Environment.Terrain.HeightMap);
             m_Environment.Terrain.UpdateImage();
             UpdateBitmap();
         }
@@ -110,14 +144,6 @@ namespace EnviroGenDisplay.ViewModels
 
             HeightMapBitmap.AddDirtyRect(new Int32Rect(0, 0, HeightMapBitmap.PixelWidth, HeightMapBitmap.PixelHeight));
             HeightMapBitmap.Unlock();
-        }
-
-        public void GenerateContinents(IContinentGenerator generator)
-        {
-            generator.GenerateContinents(m_Environment.Terrain.HeightMap);
-            m_Environment.Terrain.UpdateImage();
-            UpdateBitmap();
-
         }
     }
 }

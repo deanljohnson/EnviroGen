@@ -33,7 +33,7 @@ namespace EnviroGen.Coloring
         }
 
         /// <summary>
-        /// Returns an Image with coloring applied based on the given HeightMap
+        /// Returns an 2d Color array with coloring applied based on the given HeightMap
         /// </summary>
         public Color[,] Colorize(HeightMap map)
         {
@@ -75,6 +75,14 @@ namespace EnviroGen.Coloring
         }
 
         /// <summary>
+        /// Removes the given ColorRange to this Colorizer's ColorRange list.
+        /// </summary>
+        public void RemoveColorRange(ColorRange range)
+        {
+            ColorRanges.Remove(range);
+        }
+
+        /// <summary>
         /// Returns the Color provided by the first ColorRange found that handles the given height value.
         /// Will return Color.Black if this Colorizer does not have a ColorRange for the provided height.
         /// </summary>
@@ -92,7 +100,7 @@ namespace EnviroGen.Coloring
         }
 
         /// <summary>
-        /// Removes all ColorRanges from this Colorizer. Equivalent to creating a new Colorizer.
+        /// Removes all ColorRanges from this Colorizer.
         /// </summary>
         public void Clear()
         {

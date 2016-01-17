@@ -32,21 +32,21 @@ namespace EnviroGenDisplay
         private void SetupUI()
         {
             HeightMapView.Content = new EnvironmentViewModel();
+            var environment = (IEnvironment) HeightMapView.Content;
+
+
             HeightMapTab.Content = new EnvironmentDataViewModel
             {
-                Map = (IEnvironment) HeightMapView.Content
+                Map = environment
             };
 
-            HydraulicErosionTab.Content = new HydraulicErosionViewModel((IEnvironment)HeightMapView.Content);
-            ThermalErosionTab.Content = new ThermalErosionViewModel((IEnvironment)HeightMapView.Content);
-            ImprovedThermalErosionTab.Content = new ImprovedThermalErosionViewModel((IEnvironment)HeightMapView.Content);
+            HydraulicErosionTab.Content = new HydraulicErosionViewModel(environment);
+            ThermalErosionTab.Content = new ThermalErosionViewModel(environment);
+            ImprovedThermalErosionTab.Content = new ImprovedThermalErosionViewModel(environment);
 
-            SquareContinentTab.Content = new SquareContinentViewModel((IEnvironment)HeightMapView.Content);
+            SquareContinentTab.Content = new SquareContinentViewModel(environment);
 
-            ColoringTab.Content = new ColorizerViewModel
-            {
-                Map = (IEnvironment)HeightMapView.Content
-            };
+            ColoringTab.Content = new ColorizerViewModel(environment);
 
         }
 
