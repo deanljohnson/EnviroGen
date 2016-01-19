@@ -4,7 +4,7 @@ namespace EnviroGen.Noise.Modifiers
 {
     public class RidgedModifier : IModifier
     {
-        public void InvertModify(ref float[,] map)
+        public void Modify(ref float[,] map)
         {
             for (var y = 0; y < map.GetLength(1); y++)
             {

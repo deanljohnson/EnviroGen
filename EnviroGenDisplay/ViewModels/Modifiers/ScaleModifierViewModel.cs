@@ -25,7 +25,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             m_Modifier = new ScaleModifier(1f);
         }
 
-        public override void InvertModify(ref float[,] map)
+        public override void Modify(ref float[,] map)
         {
             m_Modifier.Modify(ref map);
         }

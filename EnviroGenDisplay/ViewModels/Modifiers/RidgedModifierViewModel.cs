@@ -11,9 +11,9 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             m_Modifier = new RidgedModifier();
         }
 
-        public override void InvertModify(ref float[,] map)
+        public override void Modify(ref float[,] map)
         {
-            m_Modifier.InvertModify(ref map);
+            m_Modifier.Modify(ref map);
         }
     }
 }

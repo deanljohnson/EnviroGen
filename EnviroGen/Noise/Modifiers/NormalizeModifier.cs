@@ -12,7 +12,7 @@
         }
 
 
-        public void InvertModify(ref float[,] map)
+        public void Modify(ref float[,] map)
         {
             var maxValue = map[0, 0];
             var minValue = map[0, 0];
