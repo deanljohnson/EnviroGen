@@ -94,6 +94,7 @@
     <Compile Include="Internals\IntPoint.cs" />
     <Compile Include="Noise\Modifiers\AddModifier.cs" />
     <Compile Include="Noise\Modifiers\ClampModifier.cs" />
+    <Compile Include="Noise\Modifiers\IInvertableModifier.cs" />
     <Compile Include="Noise\Modifiers\IModifier.cs" />
     <Compile Include="Noise\Modifiers\ExponentModifier.cs" />
     <Compile Include="Noise\FractalBrownianMotion.cs" />

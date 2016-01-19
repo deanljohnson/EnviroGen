@@ -64,7 +64,7 @@ namespace EnviroGen.HeightMaps
         {
             foreach (var modifier in modifiers)
             {
-                modifier.Modify(ref arr);
+                modifier.InvertModify(ref arr);
             }
         }
     }

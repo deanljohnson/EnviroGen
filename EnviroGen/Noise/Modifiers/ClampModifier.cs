@@ -11,7 +11,7 @@
             High = high;
         }
 
-        public void Modify(ref float[,] map)
+        public void InvertModify(ref float[,] map)
         {
             for (uint y = 0; y < map.GetLength(1); y++)
             {

@@ -2,6 +2,6 @@
 {
     public interface IModifier
     {
-        void Modify(ref float[,] map);
+        void InvertModify(ref float[,] map);
     }
 }

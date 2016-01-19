@@ -38,9 +38,9 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             m_Modifier = new NormalizeModifier(0f, 1f);
         }
 
-        public override void Modify(ref float[,] map)
+        public override void InvertModify(ref float[,] map)
         {
-            m_Modifier.Modify(ref map);
+            m_Modifier.InvertModify(ref map);
         }
     }
 }
