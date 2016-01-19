@@ -17,11 +17,22 @@ namespace EnviroGenDisplay.ViewModels
     {
         private static readonly Random Random = new Random();
 
+        private WriteableBitmap m_HeightBitmap;
         private BackgroundWorker m_TerrainWorker { get; } = new BackgroundWorker();
         private BackgroundWorker m_ErosionWorker { get; } = new BackgroundWorker();
         private Environment m_Environment { get; }
 
-        public WriteableBitmap HeightMapBitmap { get; }
+        public WriteableBitmap HeightMapBitmap {
+            get { return m_HeightBitmap; }
+            private set
+            {
+                if (!ReferenceEquals(m_HeightBitmap, value))
+                {
+                    m_HeightBitmap = value;
+                    OnPropertyChanged(nameof(HeightMapBitmap));
+                }
+            }
+        }
         public IStatusTracker StatusTracker { get; set; }
 
         public EnvironmentViewModel(int w = 1000, int h = 780)
@@ -58,7 +69,7 @@ namespace EnviroGenDisplay.ViewModels
                 m_Environment.Terrain.Colorizer = colorizer;
                 m_Environment.Terrain.Colorize();
 
-                UpdateBitmap();
+                UpdateWholeBitmap();
             }
         }
 
@@ -70,7 +81,7 @@ namespace EnviroGenDisplay.ViewModels
 
                 m_Environment.Terrain.Colorize();
 
-                UpdateBitmap();
+                UpdateWholeBitmap();
             }
         }
 
@@ -93,7 +104,7 @@ namespace EnviroGenDisplay.ViewModels
         {
             generator.GenerateContinents(m_Environment.Terrain.HeightMap);
             m_Environment.Terrain.UpdateImage();
-            UpdateBitmap();
+            UpdateWholeBitmap();
         }
 
         private void OnGenerationProcedureComplete(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
@@ -102,7 +113,7 @@ namespace EnviroGenDisplay.ViewModels
             {
                 //We have to execute this after the background worker is finished
                 //because writeablebitmap's can only lock on the owning thread
-                UpdateBitmap();
+                UpdateWholeBitmap();
             }
         }
 
@@ -158,7 +169,7 @@ namespace EnviroGenDisplay.ViewModels
             StatusTracker.PopMessage();
         }
 
-        private void UpdateBitmap()
+        private void UpdateWholeBitmap()
         {
             //Get pixels to place in the Bitmap
             var pixels = new Color[m_Environment.Terrain.Image.Width * m_Environment.Terrain.Image.Height];
@@ -171,6 +182,15 @@ namespace EnviroGenDisplay.ViewModels
                 {
                     pixels[i + countSoFar] = m_Environment.Terrain.Image[i, j];
                 }
+            }
+
+            //Resize the bitmap if needed
+            if (m_Environment.Terrain.Image.Width != HeightMapBitmap.PixelWidth ||
+                m_Environment.Terrain.Image.Height != HeightMapBitmap.PixelHeight)
+            {
+                HeightMapBitmap = new WriteableBitmap((int) m_Environment.Terrain.Image.Width, 
+                                                        (int) m_Environment.Terrain.Image.Height, 
+                                                        96, 96, PixelFormats.Bgra32, null);
             }
 
             HeightMapBitmap.Lock();
