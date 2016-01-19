@@ -68,8 +68,6 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
-        public IEnvironment Map { get; set; }
-
         public int Seed
         {
             get { return m_Data.Seed; }
@@ -109,12 +107,15 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
+        public IEnvironment Map { get; set; }
+
         public ICommand GenerateCommand { get; set; }
         public ICommand AddModifierCommand { get; set; }
         public ICommand RemoveModifierCommand { get; set; }
 
-        public EnvironmentDataViewModel()
+        public EnvironmentDataViewModel(IEnvironment map)
         {
+            Map = map;
             m_Data = new EnvironmentData();
             GenerateCommand = new RelayCommand(Generate);
             AddModifierCommand = new RelayCommand(AddModifier);

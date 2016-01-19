@@ -30,5 +30,4 @@
             <Button Content="-" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Command="{Binding Path=RemoveColorCommand}"/>
         </StackPanel>
     </Grid>
-    
 </UserControl>

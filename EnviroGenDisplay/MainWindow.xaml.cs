@@ -1,4 +1,5 @@
 ﻿using EnviroGenDisplay.ViewModels;
+using EnviroGenDisplay.ViewModels.Erosion;
 
 namespace EnviroGenDisplay
 {
@@ -7,38 +8,25 @@ namespace EnviroGenDisplay
     /// </summary>
     public partial class MainWindow
     {
-        //private static BackgroundWorker DisplayWorker { get; set; }
-        //private static BackgroundWorker GenerateAllWorker { get; set; }
-        //private static BackgroundWorker GenerationWorker { get; set; }
-
         public MainWindow()
         {
-            //DisplayWorker = new BackgroundWorker();
-            //GenerationWorker = new BackgroundWorker();
-            //GenerateAllWorker = new BackgroundWorker();
-
             InitializeComponent();
 
             SetupUI();
-
-            ////AddMap();
-            
-            //DisplayWorker.DoWork += EnvironmentDisplay.Update;
-            //DisplayWorker.RunWorkerAsync();
-            //GenerationWorker.DoWork += EnvironmentDisplay.GenerateHeightMap;
-            //GenerateAllWorker.DoWork += EnvironmentDisplay.GenerateHeightMap;
         }
 
         private void SetupUI()
         {
-            HeightMapView.Content = new EnvironmentViewModel();
-            var environment = (IEnvironment) HeightMapView.Content;
+            var statusTracker = new StatusTrackerViewModel();
+            StatusTracker.DataContext = statusTracker;
 
-
-            HeightMapTab.Content = new EnvironmentDataViewModel
+            MapView.Content = new EnvironmentViewModel
             {
-                Map = environment
+                StatusTracker = statusTracker
             };
+            var environment = (IEnvironment) MapView.Content;
+
+            HeightMapTab.Content = new EnvironmentDataViewModel(environment);
 
             HydraulicErosionTab.Content = new HydraulicErosionViewModel(environment);
             ThermalErosionTab.Content = new ThermalErosionViewModel(environment);
@@ -47,22 +35,6 @@ namespace EnviroGenDisplay
             SquareContinentTab.Content = new SquareContinentViewModel(environment);
 
             ColoringTab.Content = new ColorizerViewModel(environment);
-
         }
-
-        //private void OnGenerateAllClick(object sender, RoutedEventArgs e)
-        //{
-        //    var button = sender as FrameworkElement;
-
-        //    if (button == null) return;
-
-        //    var contentControls = button.Parent.FindLogicalChildren<ContentControl>().Where(cc => cc.Content is EnvironmentData);
-        //    var objects = contentControls.Select(cc => cc.Content as EnvironmentData);
-
-        //    if (!GenerateAllWorker.IsBusy)
-        //    {
-        //        GenerateAllWorker.RunWorkerAsync(objects);
-        //    }
-        //}
     }
 }

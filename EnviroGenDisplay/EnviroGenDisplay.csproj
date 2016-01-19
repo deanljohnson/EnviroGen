@@ -119,6 +119,7 @@
     <Compile Include="Converters\FloatToStringConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="IEnvironment.cs" />
+    <Compile Include="IStatusTracker.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModels\EnvironmentViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\AddModifierViewModel.cs" />
@@ -127,15 +128,16 @@
     <Compile Include="ViewModels\ColorRangeViewModel.cs" />
     <Compile Include="ViewModels\EnvironmentDataViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ExponentModifierViewModel.cs" />
-    <Compile Include="ViewModels\HydraulicErosionViewModel.cs" />
-    <Compile Include="ViewModels\ImprovedThermalErosionViewModel.cs" />
+    <Compile Include="ViewModels\Erosion\HydraulicErosionViewModel.cs" />
+    <Compile Include="ViewModels\Erosion\ImprovedThermalErosionViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\InvertModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\NormalizeModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\RidgedModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ScaleModifierViewModel.cs" />
     <Compile Include="ViewModels\SquareContinentViewModel.cs" />
-    <Compile Include="ViewModels\ThermalErosionViewModel.cs" />
+    <Compile Include="ViewModels\Erosion\ThermalErosionViewModel.cs" />
+    <Compile Include="ViewModels\StatusTrackerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\EnvironmentDataView.xaml.cs">
       <DependentUpon>EnvironmentDataView.xaml</DependentUpon>
@@ -158,10 +160,10 @@
     <Compile Include="Views\Modifiers\ExponentModifierView.xaml.cs">
       <DependentUpon>ExponentModifierView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\HydraulicErosionView.xaml.cs">
+    <Compile Include="Views\Erosion\HydraulicErosionView.xaml.cs">
       <DependentUpon>HydraulicErosionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ImprovedThermalErosionView.xaml.cs">
+    <Compile Include="Views\Erosion\ImprovedThermalErosionView.xaml.cs">
       <DependentUpon>ImprovedThermalErosionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Modifiers\InvertModifierView.xaml.cs">
@@ -179,8 +181,11 @@
     <Compile Include="Views\SquareContinentView.xaml.cs">
       <DependentUpon>SquareContinentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ThermalErosionView.xaml.cs">
+    <Compile Include="Views\Erosion\ThermalErosionView.xaml.cs">
       <DependentUpon>ThermalErosionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatusTrackerView.xaml.cs">
+      <DependentUpon>StatusTrackerView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -223,11 +228,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\HydraulicErosionView.xaml">
+    <Page Include="Views\Erosion\HydraulicErosionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ImprovedThermalErosionView.xaml">
+    <Page Include="Views\Erosion\ImprovedThermalErosionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -251,7 +256,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ThermalErosionView.xaml">
+    <Page Include="Views\Erosion\ThermalErosionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatusTrackerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

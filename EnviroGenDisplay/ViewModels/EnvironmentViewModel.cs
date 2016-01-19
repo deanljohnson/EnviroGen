@@ -20,7 +20,8 @@ namespace EnviroGenDisplay.ViewModels
         private BackgroundWorker m_ErosionWorker { get; } = new BackgroundWorker();
         private Environment m_Environment { get; }
 
-        public WriteableBitmap HeightMapBitmap { get; set; }
+        public WriteableBitmap HeightMapBitmap { get; }
+        public IStatusTracker StatusTracker { get; set; }
 
         public EnvironmentViewModel(int w = 1000, int h = 780)
         {
@@ -106,6 +107,8 @@ namespace EnviroGenDisplay.ViewModels
 
         private void GenerateTerrain(object sender, DoWorkEventArgs doWorkEventArgs)
         {
+            StatusTracker.PushMessage("Generating Terrain...");
+
             var data = (EnvironmentData)doWorkEventArgs.Argument;
             var options = data.ToGenerationOptions();
             //pick a random seed if the seed is -1
@@ -130,10 +133,14 @@ namespace EnviroGenDisplay.ViewModels
                     m_Environment.Terrain = new Terrain(terrainHeightMap);
                 }
             }
+
+            StatusTracker.PopMessage();
         }
 
         private void ErodeTerrain(object sender, DoWorkEventArgs doWorkEventArgs)
         {
+            StatusTracker.PushMessage("Eroding Terrain...");
+
             var eroder = (IEroder)doWorkEventArgs.Argument;
 
             lock (m_Environment)
@@ -141,6 +148,8 @@ namespace EnviroGenDisplay.ViewModels
                 eroder.Erode(m_Environment.Terrain.HeightMap);
                 m_Environment.Terrain.UpdateImage();
             }
+
+            StatusTracker.PopMessage();
         }
 
         private void UpdateBitmap()

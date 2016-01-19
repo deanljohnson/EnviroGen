@@ -4,7 +4,9 @@
         Title="EnviroGen Display" Height="846" Width="1308" SizeToContent="WidthAndHeight"
         xmlns:views="clr-namespace:EnviroGenDisplay.Views"
         xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
-        xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers">
+        xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
+        xmlns:erosion="clr-namespace:EnviroGenDisplay.ViewModels.Erosion"
+        xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion">
     <Window.Resources>
         <DataTemplate DataType="{x:Type modifiers:RidgedModifierViewModel}">
             <views:RidgedModifierView/>
@@ -27,14 +29,14 @@
         <DataTemplate DataType="{x:Type modifiers:AddModifierViewModel}">
             <views:AddModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:HydraulicErosionViewModel}">
-            <views:HydraulicErosionView/>
+        <DataTemplate DataType="{x:Type erosion:HydraulicErosionViewModel}">
+            <erosion1:HydraulicErosionView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ThermalErosionViewModel}">
-            <views:ThermalErosionView/>
+        <DataTemplate DataType="{x:Type erosion:ThermalErosionViewModel}">
+            <erosion1:ThermalErosionView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ImprovedThermalErosionViewModel}">
-            <views:ImprovedThermalErosionView/>
+        <DataTemplate DataType="{x:Type erosion:ImprovedThermalErosionViewModel}">
+            <erosion1:ImprovedThermalErosionView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">
             <views:ColorizerView/>
@@ -54,7 +56,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TabControl HorizontalAlignment="Left" Width="280" Height="Auto" Margin="0,0,0,10">
+        <TabControl HorizontalAlignment="Left" Width="280" Height="Auto" Margin="0,0,0,18">
             <TabItem Header="Height Map" Name="HeightMapTab">
             </TabItem>
             <TabItem Header="Continents">
@@ -76,6 +78,7 @@
             <TabItem Header="Coloring" Name="ColoringTab">
             </TabItem>
         </TabControl>
-        <ContentControl Name="HeightMapView" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <views:HeightMapView x:Name="MapView" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>
+        <views:StatusTrackerView x:Name="StatusTracker" Grid.Column="1" HorizontalAlignment="Left" Margin="10,782,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
