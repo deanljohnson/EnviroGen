@@ -2,8 +2,8 @@
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    abstract class ModifierViewModel : ViewModelBase
+    abstract class ModifierViewModel : ViewModelBase, IModifier
     {
-        public abstract IModifier ToIModifier();
+        public abstract void Modify(ref float[,] map);
     }
 }

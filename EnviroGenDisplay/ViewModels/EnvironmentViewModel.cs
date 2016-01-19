@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -110,6 +111,9 @@ namespace EnviroGenDisplay.ViewModels
             StatusTracker.PushMessage("Generating Terrain...");
 
             var data = (EnvironmentData)doWorkEventArgs.Argument;
+
+            Debug.Assert(data != null, $"The passed argument was not of the expected type {typeof(EnvironmentData)}");
+
             var options = data.ToGenerationOptions();
             //pick a random seed if the seed is -1
             options.Seed = (options.Seed == -1) ? Random.Next(10000) : options.Seed;
@@ -142,6 +146,8 @@ namespace EnviroGenDisplay.ViewModels
             StatusTracker.PushMessage("Eroding Terrain...");
 
             var eroder = (IEroder)doWorkEventArgs.Argument;
+
+            Debug.Assert(eroder != null, $"The passed argument was not of the expected type {typeof(IEroder)}");
 
             lock (m_Environment)
             {

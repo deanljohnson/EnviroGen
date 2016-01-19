@@ -4,16 +4,16 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 {
     class RidgedModifierViewModel : ModifierViewModel
     {
-        private readonly RidgedModifier m_modifier;
+        private readonly RidgedModifier m_Modifier;
 
         public RidgedModifierViewModel()
         {
-            m_modifier = new RidgedModifier();
+            m_Modifier = new RidgedModifier();
         }
 
-        public override IModifier ToIModifier()
+        public override void Modify(ref float[,] map)
         {
-            return m_modifier;
+            m_Modifier.Modify(ref map);
         }
     }
 }

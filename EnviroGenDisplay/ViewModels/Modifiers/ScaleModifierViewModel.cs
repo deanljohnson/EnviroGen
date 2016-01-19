@@ -5,16 +5,16 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 {
     class ScaleModifierViewModel : ModifierViewModel
     {
-        private readonly ScaleModifier m_modifier;
+        private readonly ScaleModifier m_Modifier;
 
         public float Scale
         {
-            get { return m_modifier.Scale; }
+            get { return m_Modifier.Scale; }
             set
             {
-                if (Math.Abs(m_modifier.Scale - value) > float.Epsilon)
+                if (Math.Abs(m_Modifier.Scale - value) > float.Epsilon)
                 {
-                    m_modifier.Scale = value;
+                    m_Modifier.Scale = value;
                     OnPropertyChanged();
                 }
             }
@@ -22,12 +22,12 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 
         public ScaleModifierViewModel()
         {
-            m_modifier = new ScaleModifier(1f);
+            m_Modifier = new ScaleModifier(1f);
         }
 
-        public override IModifier ToIModifier()
+        public override void Modify(ref float[,] map)
         {
-            return m_modifier;
+            m_Modifier.Modify(ref map);
         }
     }
 }

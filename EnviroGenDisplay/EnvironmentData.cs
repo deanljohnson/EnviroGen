@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using EnviroGen;
+using EnviroGen.Noise.Modifiers;
 using EnviroGenDisplay.ViewModels.Modifiers;
 
 namespace EnviroGenDisplay
@@ -18,7 +19,7 @@ namespace EnviroGenDisplay
 
         public GenerationOptions ToGenerationOptions()
         {
-            var options = new GenerationOptions(this) { Modifiers = Modifiers.Select(m => m.ToIModifier()).ToList() };
+            var options = new GenerationOptions(this) {Modifiers = Modifiers.Select(m => m as IModifier).ToList()};
             return options;
         }
     }

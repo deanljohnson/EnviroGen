@@ -5,16 +5,16 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 {
     class InvertModifierViewModel : ModifierViewModel
     {
-        private readonly InvertModifier m_modifier;
+        private readonly InvertModifier m_Modifier;
 
         public float MaxValue
         {
-            get { return m_modifier.MaxValue; }
+            get { return m_Modifier.MaxValue; }
             set
             {
-                if (Math.Abs(m_modifier.MaxValue - value) > float.Epsilon)
+                if (Math.Abs(m_Modifier.MaxValue - value) > float.Epsilon)
                 {
-                    m_modifier.MaxValue = value;
+                    m_Modifier.MaxValue = value;
                     OnPropertyChanged();
                 }
                 
@@ -23,12 +23,12 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 
         public InvertModifierViewModel()
         {
-            m_modifier = new InvertModifier(1f);
+            m_Modifier = new InvertModifier(1f);
         }
 
-        public override IModifier ToIModifier()
+        public override void Modify(ref float[,] map)
         {
-            return m_modifier;
+            m_Modifier.Modify(ref map);
         }
     }
 }

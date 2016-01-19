@@ -5,16 +5,16 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 {
     class ClampModifierViewModel : ModifierViewModel
     {
-        private readonly ClampModifier m_modifier;
+        private readonly ClampModifier m_Modifier;
 
         public float LowValue
         {
-            get { return m_modifier.Low; }
+            get { return m_Modifier.Low; }
             set
             {
-                if (Math.Abs(m_modifier.Low - value) > float.Epsilon)
+                if (Math.Abs(m_Modifier.Low - value) > float.Epsilon)
                 {
-                    m_modifier.Low = value;
+                    m_Modifier.Low = value;
                     OnPropertyChanged();
                 }
             }
@@ -22,12 +22,12 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 
         public float HighValue
         {
-            get { return m_modifier.High; }
+            get { return m_Modifier.High; }
             set
             {
-                if (Math.Abs(m_modifier.High - value) > float.Epsilon)
+                if (Math.Abs(m_Modifier.High - value) > float.Epsilon)
                 {
-                    m_modifier.High = value;
+                    m_Modifier.High = value;
                     OnPropertyChanged();
                 }
             }
@@ -35,12 +35,12 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 
         public ClampModifierViewModel()
         {
-            m_modifier = new ClampModifier(0f, 1f);
+            m_Modifier = new ClampModifier(0f, 1f);
         }
 
-        public override IModifier ToIModifier()
+        public override void Modify(ref float[,] map)
         {
-            return m_modifier;
+            m_Modifier.Modify(ref map);
         }
     }
 }

@@ -5,16 +5,16 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 {
     class ExponentModifierViewModel : ModifierViewModel
     {
-        private readonly ExponentModifier m_modifier;
+        private readonly ExponentModifier m_Modifier;
 
         public float Exponent
         {
-            get { return m_modifier.Exponent; }
+            get { return m_Modifier.Exponent; }
             set
             {
-                if (Math.Abs(m_modifier.Exponent - value) > float.Epsilon)
+                if (Math.Abs(m_Modifier.Exponent - value) > float.Epsilon)
                 {
-                    m_modifier.Exponent = value;
+                    m_Modifier.Exponent = value;
                     OnPropertyChanged();
                 }
             }
@@ -22,12 +22,12 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 
         public ExponentModifierViewModel()
         {
-            m_modifier = new ExponentModifier(1f);
+            m_Modifier = new ExponentModifier(1f);
         }
 
-        public override IModifier ToIModifier()
+        public override void Modify(ref float[,] map)
         {
-            return m_modifier;
+            m_Modifier.Modify(ref map);
         }
     }
 }
