@@ -81,6 +81,7 @@
     <Compile Include="Clouds.cs" />
     <Compile Include="Coloring\Colorizer.cs" />
     <Compile Include="Coloring\ColorRange.cs" />
+    <Compile Include="Coloring\IColorizer.cs" />
     <Compile Include="Continents\IContinentGenerator.cs" />
     <Compile Include="Continents\SquareContinentGenerator.cs" />
     <Compile Include="Environment.cs" />

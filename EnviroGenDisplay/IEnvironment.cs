@@ -6,7 +6,7 @@ namespace EnviroGenDisplay
 {
     interface IEnvironment
     {
-        void GenerateHeightMap(EnvironmentData data);
+        void GenerateTerrain(EnvironmentData data);
 
         void SetColorMapping(Colorizer colorizer);
         Colorizer GetColorizer();
@@ -14,7 +14,7 @@ namespace EnviroGenDisplay
         void RemoveColor(ColorRange c);
         void ApplyColorizer();
 
-        void ErodeHeightMap(IEroder eroder);
+        void ErodeTerrain(IEroder eroder);
         void GenerateContinents(IContinentGenerator generator);
     }
 }

@@ -86,7 +86,7 @@ namespace EnviroGenDisplay.ViewModels
 
         private void ErodeMap(object n = null)
         {
-            Environment?.ErodeHeightMap(m_Eroder);
+            Environment?.ErodeTerrain(m_Eroder);
         }
     }
 }

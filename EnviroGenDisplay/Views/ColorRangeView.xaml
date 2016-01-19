@@ -24,7 +24,7 @@
         </Grid.Resources>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="0" Grid.Row="0" Text="{Binding Path=LowHeight, Mode=TwoWay, Converter={StaticResource FloatToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=HighHeight, Mode=TwoWay, Converter={StaticResource FloatToStringConverter}}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Width="80" Height="Auto" Grid.Column="2" Grid.Row="0" SelectedColor="{Binding Path=LowColor, Mode=TwoWay}"/>
-        <xctk:ColorPicker ColorMode="ColorPalette" Width="80" Height="Auto" Grid.Column="3" Grid.Row="0" SelectedColor="{Binding Path=HighColor, Mode=TwoWay}"/>
+        <xctk:ColorPicker ColorMode="ColorCanvas" Width="80" Height="Auto" Grid.Column="2" Grid.Row="0" SelectedColor="{Binding Path=LowColor, Mode=TwoWay}"/>
+        <xctk:ColorPicker ColorMode="ColorCanvas" Width="80" Height="Auto" Grid.Column="3" Grid.Row="0" SelectedColor="{Binding Path=HighColor, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

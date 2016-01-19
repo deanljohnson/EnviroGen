@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,6 +15,9 @@ namespace EnviroGenDisplay.ViewModels
     internal class EnvironmentViewModel : ViewModelBase, IEnvironment
     {
         private static readonly Random Random = new Random();
+
+        private BackgroundWorker m_TerrainWorker { get; } = new BackgroundWorker();
+        private BackgroundWorker m_ErosionWorker { get; } = new BackgroundWorker();
         private Environment m_Environment { get; }
 
         public WriteableBitmap HeightMapBitmap { get; set; }
@@ -23,35 +27,24 @@ namespace EnviroGenDisplay.ViewModels
             m_Environment = new Environment(null, null);
             //why 96? idk, it works
             HeightMapBitmap = new WriteableBitmap(w, h, 96, 96, PixelFormats.Bgra32, null);
+
+            m_TerrainWorker.DoWork += GenerateTerrain;
+            m_TerrainWorker.RunWorkerCompleted += OnGenerationProcedureComplete;
+
+            m_ErosionWorker.DoWork += ErodeTerrain;
+            m_ErosionWorker.RunWorkerCompleted += OnGenerationProcedureComplete;
         }
 
-        public void GenerateHeightMap(EnvironmentData data)
+        public void GenerateTerrain(EnvironmentData data)
         {
-            var options = data.ToGenerationOptions();
-            //pick a random seed if the seed is -1
-            options.Seed = (options.Seed == -1) ? Random.Next(10000) : options.Seed;
+            if (!m_TerrainWorker.IsBusy)
+                m_TerrainWorker.RunWorkerAsync(data);
+        }
 
-            var terrainHeightMap = HeightMapGenerator.GenerateHeightMap(options);
-
-            if (terrainHeightMap == null)
-            {
-                throw new NullReferenceException("Error in terrain height map generation, EnvironmentDisplay.GenerateHeightMap");
-            }
-
-            lock (m_Environment)
-            {
-                if (data.Combining && m_Environment.Terrain?.HeightMap != null)
-                {
-                    m_Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
-                    m_Environment.Terrain.UpdateImage();
-                }
-                else
-                {
-                    m_Environment.Terrain = new Terrain(terrainHeightMap);
-                }
-
-                UpdateBitmap();
-            }
+        public void ErodeTerrain(IEroder eroder)
+        {
+            if (!m_ErosionWorker.IsBusy)
+                m_ErosionWorker.RunWorkerAsync(eroder);
         }
 
         public void SetColorMapping(Colorizer colorizer)
@@ -94,18 +87,60 @@ namespace EnviroGenDisplay.ViewModels
             m_Environment.Terrain.Colorizer.RemoveColorRange(c);
         }
 
-        public void ErodeHeightMap(IEroder eroder)
-        {
-            eroder.Erode(m_Environment.Terrain.HeightMap);
-            m_Environment.Terrain.UpdateImage();
-            UpdateBitmap();
-        }
-
         public void GenerateContinents(IContinentGenerator generator)
         {
             generator.GenerateContinents(m_Environment.Terrain.HeightMap);
             m_Environment.Terrain.UpdateImage();
             UpdateBitmap();
+        }
+
+        private void OnGenerationProcedureComplete(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        {
+            lock (m_Environment)
+            {
+                //We have to execute this after the background worker is finished
+                //because writeablebitmap's can only lock on the owning thread
+                UpdateBitmap();
+            }
+        }
+
+        private void GenerateTerrain(object sender, DoWorkEventArgs doWorkEventArgs)
+        {
+            var data = (EnvironmentData)doWorkEventArgs.Argument;
+            var options = data.ToGenerationOptions();
+            //pick a random seed if the seed is -1
+            options.Seed = (options.Seed == -1) ? Random.Next(10000) : options.Seed;
+
+            var terrainHeightMap = HeightMapGenerator.GenerateHeightMap(options);
+
+            if (terrainHeightMap == null)
+            {
+                throw new NullReferenceException("Error in terrain height map generation, EnvironmentDisplay.GenerateHeightMap");
+            }
+
+            lock (m_Environment)
+            {
+                if (data.Combining && m_Environment.Terrain?.HeightMap != null)
+                {
+                    m_Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
+                    m_Environment.Terrain.UpdateImage();
+                }
+                else
+                {
+                    m_Environment.Terrain = new Terrain(terrainHeightMap);
+                }
+            }
+        }
+
+        private void ErodeTerrain(object sender, DoWorkEventArgs doWorkEventArgs)
+        {
+            var eroder = (IEroder)doWorkEventArgs.Argument;
+
+            lock (m_Environment)
+            {
+                eroder.Erode(m_Environment.Terrain.HeightMap);
+                m_Environment.Terrain.UpdateImage();
+            }
         }
 
         private void UpdateBitmap()

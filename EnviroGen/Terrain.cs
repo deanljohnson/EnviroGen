@@ -50,9 +50,9 @@ namespace EnviroGen
         }
 
         /// <summary>
-        /// Uses the given colorizer to set the pixel colors of the Terrains sprite.
+        /// Uses the given colorizer to set the pixel colors of the Terrains Image property.
         /// </summary>
-        public void Colorize(Colorizer colorizer)
+        public void Colorize(IColorizer colorizer)
         {
             Image = new Image(colorizer.Colorize(HeightMap));
         }

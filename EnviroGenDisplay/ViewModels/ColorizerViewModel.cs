@@ -24,7 +24,7 @@ namespace EnviroGenDisplay.ViewModels
 
             Map = environment;
 
-            var colorRangeViewModels = Map.GetColorizer().ColorRanges
+            var colorRangeViewModels = Map.GetColorizer().BaseColorRanges
                 .Select(colorRange => new ColorRangeViewModel(colorRange)).ToList();
 
             ColorRanges = new ObservableCollection<ColorRangeViewModel>(colorRangeViewModels);

@@ -123,7 +123,7 @@ namespace EnviroGenDisplay.ViewModels
 
         private void Generate(object n = null)
         {
-            Map.GenerateHeightMap(m_Data);
+            Map.GenerateTerrain(m_Data);
         }
 
         private void AddModifier(object m = null)

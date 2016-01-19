@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using EnviroGen.HeightMaps;
@@ -8,28 +9,29 @@ namespace EnviroGen.Coloring
     /// <summary>
     /// Represents a class that can color a HeightMap object based on provided ColorRanges
     /// </summary>
-    public class Colorizer
+    public class Colorizer : IColorizer
     {
-        public List<ColorRange> ColorRanges { get; set; }
+        private static readonly Random Random = new Random();
+        public List<ColorRange> BaseColorRanges { get; set; }
 
         public Colorizer()
         {
-            ColorRanges = new List<ColorRange>();
+            BaseColorRanges = new List<ColorRange>();
         }
 
         public Colorizer(params ColorRange[] colorRanges)
         {
-            ColorRanges = colorRanges.ToList();
+            BaseColorRanges = colorRanges.ToList();
         }
 
-        public Colorizer(List<ColorRange> colorRanges)
+        public Colorizer(List<ColorRange> baseColorRanges)
         {
-            ColorRanges = colorRanges;
+            BaseColorRanges = baseColorRanges;
         }
 
         public Colorizer(IEnumerable<ColorRange> colorRanges)
         {
-            ColorRanges = colorRanges.ToList();
+            BaseColorRanges = colorRanges.ToList();
         }
 
         /// <summary>
@@ -43,7 +45,7 @@ namespace EnviroGen.Coloring
             {
                 for (uint x = 0; x < map.Size.X; x++)
                 {
-                    img[x, y] = GetColor(map[x, y]);
+                    img[x, y] = GetBaseColor(map[x, y], true);
                 }
             }
 
@@ -55,7 +57,7 @@ namespace EnviroGen.Coloring
         /// </summary>
         public void AddColorRange(Color lowColor, Color highColor, float lowHeight, float highHeight)
         {
-            ColorRanges.Add(new ColorRange(lowColor, highColor, lowHeight, highHeight));
+            BaseColorRanges.Add(new ColorRange(lowColor, highColor, lowHeight, highHeight));
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace EnviroGen.Coloring
         /// </summary>
         public void AddColorRange(ColorRange range)
         {
-            ColorRanges.Add(range);
+            BaseColorRanges.Add(range);
         }
 
         /// <summary>
@@ -79,32 +81,34 @@ namespace EnviroGen.Coloring
         /// </summary>
         public void RemoveColorRange(ColorRange range)
         {
-            ColorRanges.Remove(range);
+            BaseColorRanges.Remove(range);
         }
 
         /// <summary>
         /// Returns the Color provided by the first ColorRange found that handles the given height value.
         /// Will return Color.Black if this Colorizer does not have a ColorRange for the provided height.
         /// </summary>
-        public Color GetColor(float height)
+        public Color GetBaseColor(float height, bool allowOverlap = false)
         {
-            var colorRange = ColorRanges.FirstOrDefault(cr => cr.InRange(height));
+            var colorRanges = BaseColorRanges.Where(cr => cr.InRange(height)).ToList();
 
-            if (colorRange != null)
+            Color color;
+
+            if (allowOverlap && colorRanges.Count > 1)
             {
-                var color = colorRange.GetColor(height);
-                return color;
+                var i = Random.Next(colorRanges.Count);
+                color = colorRanges[i].GetColor(height);
+            }
+            else if (colorRanges.Count > 0)
+            {
+                color = colorRanges[0].GetColor(height);
+            }
+            else
+            {
+                color = Color.FromRgb(0, 0, 0);
             }
 
-            return Color.FromRgb(0, 0, 0);
-        }
-
-        /// <summary>
-        /// Removes all ColorRanges from this Colorizer.
-        /// </summary>
-        public void Clear()
-        {
-            ColorRanges.Clear();
+            return color;
         }
     }
 }
