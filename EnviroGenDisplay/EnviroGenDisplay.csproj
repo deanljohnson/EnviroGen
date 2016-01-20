@@ -126,10 +126,11 @@
     <Compile Include="ViewModels\Modifiers\ClampModifierViewModel.cs" />
     <Compile Include="ViewModels\ColorizerViewModel.cs" />
     <Compile Include="ViewModels\ColorRangeViewModel.cs" />
-    <Compile Include="ViewModels\EnvironmentDataViewModel.cs" />
+    <Compile Include="ViewModels\GenerationOptionsViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ExponentModifierViewModel.cs" />
     <Compile Include="ViewModels\Erosion\HydraulicErosionViewModel.cs" />
     <Compile Include="ViewModels\Erosion\ImprovedThermalErosionViewModel.cs" />
+    <Compile Include="ViewModels\Modifiers\InvertableModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\InvertModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\NormalizeModifierViewModel.cs" />
@@ -139,8 +140,8 @@
     <Compile Include="ViewModels\Erosion\ThermalErosionViewModel.cs" />
     <Compile Include="ViewModels\StatusTrackerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\EnvironmentDataView.xaml.cs">
-      <DependentUpon>EnvironmentDataView.xaml</DependentUpon>
+    <Compile Include="Views\GenerationOptionsView.xaml.cs">
+      <DependentUpon>GenerationOptionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HeightMapView.xaml.cs">
       <DependentUpon>HeightMapView.xaml</DependentUpon>
@@ -169,6 +170,9 @@
     <Compile Include="Views\Modifiers\InvertModifierView.xaml.cs">
       <DependentUpon>InvertModifierView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Modifiers\ModifierView.xaml.cs">
+      <DependentUpon>ModifierView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Modifiers\NormalizeModifierView.xaml.cs">
       <DependentUpon>NormalizeModifierView.xaml</DependentUpon>
     </Compile>
@@ -195,12 +199,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EnvironmentData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\EnvironmentDataView.xaml">
+    <Page Include="Views\GenerationOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -237,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Modifiers\InvertModifierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Modifiers\ModifierView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,21 +1,18 @@
 ﻿using System;
-using EnviroGen.HeightMaps;
 using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    class ClampModifierViewModel : ModifierViewModel
+    class ClampModifierViewModel : ModifierViewModel<ClampModifier>
     {
-        private readonly ClampModifier m_Modifier;
-
         public float LowValue
         {
-            get { return m_Modifier.Low; }
+            get { return Modifier.Low; }
             set
             {
-                if (Math.Abs(m_Modifier.Low - value) > float.Epsilon)
+                if (Math.Abs(Modifier.Low - value) > float.Epsilon)
                 {
-                    m_Modifier.Low = value;
+                    Modifier.Low = value;
                     OnPropertyChanged();
                 }
             }
@@ -23,25 +20,21 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
 
         public float HighValue
         {
-            get { return m_Modifier.High; }
+            get { return Modifier.High; }
             set
             {
-                if (Math.Abs(m_Modifier.High - value) > float.Epsilon)
+                if (Math.Abs(Modifier.High - value) > float.Epsilon)
                 {
-                    m_Modifier.High = value;
+                    Modifier.High = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public ClampModifierViewModel()
+        public ClampModifierViewModel(IEnvironment environment)
+            : base(environment)
         {
-            m_Modifier = new ClampModifier(0f, 1f);
-        }
-
-        public override void Modify(HeightMap map)
-        {
-            m_Modifier.Modify(map);
+            Modifier = new ClampModifier(0f, 1f);
         }
     }
 }

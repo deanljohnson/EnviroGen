@@ -1,5 +1,8 @@
-﻿using EnviroGenDisplay.ViewModels;
+﻿using System.Windows.Controls;
+using EnviroGenDisplay.ViewModels;
 using EnviroGenDisplay.ViewModels.Erosion;
+using EnviroGenDisplay.ViewModels.Modifiers;
+using EnviroGenDisplay.Views.Modifiers;
 
 namespace EnviroGenDisplay
 {
@@ -26,7 +29,7 @@ namespace EnviroGenDisplay
             };
             var environment = (IEnvironment) MapView.Content;
 
-            HeightMapTab.Content = new EnvironmentDataViewModel(environment);
+            HeightMapTab.Content = new GenerationOptionsViewModel(environment);
 
             HydraulicErosionTab.Content = new HydraulicErosionViewModel(environment);
             ThermalErosionTab.Content = new ThermalErosionViewModel(environment);
@@ -35,6 +38,8 @@ namespace EnviroGenDisplay
             SquareContinentTab.Content = new SquareContinentViewModel(environment);
 
             ColoringTab.Content = new ColorizerViewModel(environment);
+
+            ModifiersTab.Content = new ModifierView(environment);
         }
     }
 }

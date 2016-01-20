@@ -8,6 +8,7 @@ using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
+using EnviroGen.Noise.Modifiers;
 using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels
@@ -47,7 +48,7 @@ namespace EnviroGenDisplay.ViewModels
             m_ErosionWorker.RunWorkerCompleted += OnGenerationProcedureComplete;
         }
 
-        public void GenerateTerrain(EnvironmentData data)
+        public void GenerateTerrain(GenerationOptions data)
         {
             if (!m_TerrainWorker.IsBusy)
                 m_TerrainWorker.RunWorkerAsync(data);
@@ -95,6 +96,24 @@ namespace EnviroGenDisplay.ViewModels
             UpdateWholeBitmap();
         }
 
+        public void ApplyTerrainModifier(IModifier modifier)
+        {
+            lock (m_Environment)
+            {
+                m_Environment.ApplyTerrainModifier(modifier);
+            }
+            UpdateWholeBitmap();
+        }
+
+        public void ApplyTerrainModifierInverted(IInvertableModifier modifier)
+        {
+            lock (m_Environment)
+            {
+                m_Environment.ApplyTerrainModifierInverted(modifier);
+            }
+            UpdateWholeBitmap();
+        }
+
         private void OnGenerationProcedureComplete(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
             lock (m_Environment)
@@ -109,11 +128,10 @@ namespace EnviroGenDisplay.ViewModels
         {
             StatusTracker.PushMessage("Generating Terrain...");
 
-            var data = (EnvironmentData)doWorkEventArgs.Argument;
+            var options = (GenerationOptions)doWorkEventArgs.Argument;
 
-            Debug.Assert(data != null, $"The passed argument was not of the expected type {typeof(EnvironmentData)}");
+            Debug.Assert(options != null, $"The passed argument was not of the expected type {typeof(GenerationOptions)}");
 
-            var options = data.ToGenerationOptions();
             //pick a random seed if the seed is -1
             options.Seed = (options.Seed == -1) ? Random.Next(10000) : options.Seed;
 

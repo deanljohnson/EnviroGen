@@ -1,34 +1,27 @@
 ﻿using System;
-using EnviroGen.HeightMaps;
 using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    class ExponentModifierViewModel : ModifierViewModel
+    class ExponentModifierViewModel : InvertableModifierViewModel<ExponentModifier>
     {
-        private readonly ExponentModifier m_Modifier;
-
         public float Exponent
         {
-            get { return m_Modifier.Exponent; }
+            get { return Modifier.Exponent; }
             set
             {
-                if (Math.Abs(m_Modifier.Exponent - value) > float.Epsilon)
+                if (Math.Abs(Modifier.Exponent - value) > float.Epsilon)
                 {
-                    m_Modifier.Exponent = value;
+                    Modifier.Exponent = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public ExponentModifierViewModel()
+        public ExponentModifierViewModel(IEnvironment environment)
+            : base(environment)
         {
-            m_Modifier = new ExponentModifier(1f);
-        }
-
-        public override void Modify(HeightMap map)
-        {
-            m_Modifier.Modify(map);
+            Modifier = new ExponentModifier(1f);
         }
     }
 }

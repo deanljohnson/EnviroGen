@@ -6,28 +6,29 @@
         xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
         xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
         xmlns:erosion="clr-namespace:EnviroGenDisplay.ViewModels.Erosion"
-        xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion">
+        xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion"
+        xmlns:modifiers1="clr-namespace:EnviroGenDisplay.Views.Modifiers">
     <Window.Resources>
         <DataTemplate DataType="{x:Type modifiers:RidgedModifierViewModel}">
-            <views:RidgedModifierView/>
+            <modifiers1:RidgedModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type modifiers:InvertModifierViewModel}">
-            <views:InvertModifierView/>
+            <modifiers1:InvertModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type modifiers:ScaleModifierViewModel}">
-            <views:ScaleModifierView/>
+            <modifiers1:ScaleModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type modifiers:ExponentModifierViewModel}">
-            <views:ExponentModifierView/>
+            <modifiers1:ExponentModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type modifiers:NormalizeModifierViewModel}">
-            <views:NormalizeModifierView/>
+            <modifiers1:NormalizeModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type modifiers:ClampModifierViewModel}">
-            <views:ClampModifierView/>
+            <modifiers1:ClampModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type modifiers:AddModifierViewModel}">
-            <views:AddModifierView/>
+            <modifiers1:AddModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type erosion:HydraulicErosionViewModel}">
             <erosion1:HydraulicErosionView/>
@@ -41,7 +42,7 @@
         <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">
             <views:ColorizerView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:EnvironmentDataViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:GenerationOptionsViewModel}">
             <views:EnvironmentDataView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
@@ -76,6 +77,8 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="Coloring" Name="ColoringTab">
+            </TabItem>
+            <TabItem Header="Modifiers" Name="ModifiersTab">
             </TabItem>
         </TabControl>
         <views:HeightMapView x:Name="MapView" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>

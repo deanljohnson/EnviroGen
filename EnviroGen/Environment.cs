@@ -2,6 +2,7 @@
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
 using EnviroGen.HeightMaps;
+using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGen
 {
@@ -43,6 +44,18 @@ namespace EnviroGen
         public void ErodeTerrain(IEroder eroder)
         {
             eroder.Erode(Terrain);
+            Terrain.UpdateImage();
+        }
+
+        public void ApplyTerrainModifier(IModifier modifier)
+        {
+            modifier.Modify(Terrain);
+            Terrain.UpdateImage();
+        }
+
+        public void ApplyTerrainModifierInverted(IInvertableModifier modifier)
+        {
+            modifier.InvertModify(Terrain);
             Terrain.UpdateImage();
         }
     }

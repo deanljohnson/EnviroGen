@@ -1,12 +1,14 @@
-﻿using EnviroGen.Coloring;
+﻿using EnviroGen;
+using EnviroGen.Coloring;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
+using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay
 {
-    interface IEnvironment
+    public interface IEnvironment
     {
-        void GenerateTerrain(EnvironmentData data);
+        void GenerateTerrain(GenerationOptions data);
 
         Colorizer GetColorizer();
         void AddColor(ColorRange c);
@@ -15,5 +17,8 @@ namespace EnviroGenDisplay
 
         void ErodeTerrain(IEroder eroder);
         void GenerateContinents(IContinentGenerator generator);
+
+        void ApplyTerrainModifier(IModifier modifier);
+        void ApplyTerrainModifierInverted(IInvertableModifier modifier);
     }
 }

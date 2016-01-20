@@ -1,20 +1,13 @@
-﻿using EnviroGen.HeightMaps;
-using EnviroGen.Noise.Modifiers;
+﻿using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    class RidgedModifierViewModel : ModifierViewModel
+    class RidgedModifierViewModel : ModifierViewModel<RidgedModifier>
     {
-        private readonly RidgedModifier m_Modifier;
-
-        public RidgedModifierViewModel()
+        public RidgedModifierViewModel(IEnvironment environment)
+            : base(environment)
         {
-            m_Modifier = new RidgedModifier();
-        }
-
-        public override void Modify(HeightMap map)
-        {
-            m_Modifier.Modify(map);
+            Modifier = new RidgedModifier();
         }
     }
 }

@@ -1,29 +1,30 @@
-﻿<UserControl x:Class="EnviroGenDisplay.Views.NormalizeModifierView"
+﻿<UserControl x:Class="EnviroGenDisplay.Views.Modifiers.NormalizeModifierView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid d:DataContext="{d:DesignInstance modifiers:NormalizeModifierViewModel}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.Resources>
-            <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
-        </Grid.Resources>
-        <Label Content="Normalize Modifier" Grid.Column="0" Grid.Row="0"/>
-        <Label Content="Low Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=LowValue, Converter={StaticResource FloatToStringConverter}}"/>
-        <Label Content="High Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=HighValue, Converter={StaticResource FloatToStringConverter}}"/>
-    </Grid>
+             mc:Ignorable="d">
+    <Expander Header="Normalize">
+        <Grid d:DataContext="{d:DesignInstance modifiers:NormalizeModifierViewModel}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
+            </Grid.Resources>
+            <Label Content="Low Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+            <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=LowValue, Converter={StaticResource FloatToStringConverter}}"/>
+            <Label Content="High Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+            <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=HighValue, Converter={StaticResource FloatToStringConverter}}"/>
+            <Button x:Name="ApplyButton" Content="Apply" Width="Auto" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2" Command="{Binding Path=ApplyCommand}"/>
+        </Grid>
+    </Expander>
 </UserControl>
