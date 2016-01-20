@@ -62,7 +62,7 @@
             </Label.ToolTip>
         </Label>
         <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="6" Command="{Binding Path=GenerateCommand}"/>
-        <CheckBox Content="Combine w/ Current" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" IsChecked="{Binding Path=Combining}"/>
+        <CheckBox Content="Combine w/ Current" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" IsChecked="{Binding Path=CombineWithExisting}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX, Converter={StaticResource IntToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY, Converter={StaticResource IntToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=OctaveCount, Converter={StaticResource IntToStringConverter}}"/>

@@ -8,7 +8,6 @@ namespace EnviroGenDisplay
     {
         void GenerateTerrain(EnvironmentData data);
 
-        void SetColorMapping(Colorizer colorizer);
         Colorizer GetColorizer();
         void AddColor(ColorRange c);
         void RemoveColor(ColorRange c);

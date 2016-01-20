@@ -12,6 +12,7 @@ namespace EnviroGen
         public float Gain { get; set; }
         public float Frequency { get; set; }
         public List<IModifier> Modifiers { get; set; }
+        public bool CombineWithExisting { get; set; }
 
         public GenerationOptions()
         {

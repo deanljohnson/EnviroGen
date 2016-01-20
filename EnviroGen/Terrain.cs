@@ -4,13 +4,12 @@ using System.Windows.Media;
 
 namespace EnviroGen
 {
-    public class Terrain
+    public class Terrain : HeightMap
     {
         public static Colorizer DefaultColorizer { get; }
 
         private Colorizer m_Colorizer;
 
-        public HeightMap HeightMap { get; }
         public Image Image { get; private set; }
 
         public Colorizer Colorizer
@@ -32,21 +31,31 @@ namespace EnviroGen
                 new ColorRange(Color.FromRgb(255, 0, 0), Color.FromRgb(255, 255, 255), .5f, 1f));
         }
 
-        public Terrain(HeightMap heightMap)
-            : this(heightMap, DefaultColorizer)
+        public Terrain(HeightMap map, Colorizer colorizer)
+            : this(map.Map, colorizer)
         {
         }
 
-        public Terrain(HeightMap heightMap, Colorizer colorizer)
+        public Terrain(HeightMap map)
+            : this(map.Map, DefaultColorizer)
         {
-            HeightMap = heightMap;
+        }
+
+        public Terrain(float[,] heights)
+            : this(heights, DefaultColorizer)
+        {
+        }
+
+        public Terrain(float[,] heights, Colorizer colorizer)
+            : base(heights)
+        {
             Colorizer = colorizer;
             Colorize(colorizer);
         }
 
         public void UpdateImage()
         {
-            Image = new Image(Colorizer.Colorize(HeightMap));
+            Image = new Image(Colorizer.Colorize(this));
         }
 
         /// <summary>
@@ -54,7 +63,7 @@ namespace EnviroGen
         /// </summary>
         public void Colorize(IColorizer colorizer)
         {
-            Image = new Image(colorizer.Colorize(HeightMap));
+            Image = new Image(colorizer.Colorize(this));
         }
 
         /// <summary>
@@ -62,7 +71,7 @@ namespace EnviroGen
         /// </summary>
         public void Colorize()
         {
-            Image = new Image(Colorizer.Colorize(HeightMap));
+            Image = new Image(Colorizer.Colorize(this));
         }
     }
 }

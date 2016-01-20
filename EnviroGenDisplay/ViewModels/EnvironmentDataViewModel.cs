@@ -16,14 +16,14 @@ namespace EnviroGenDisplay.ViewModels
             set { m_Data.Modifiers = value; }
         }
 
-        public bool Combining
+        public bool CombineWithExisting
         {
-            get { return m_Data.Combining; }
+            get { return m_Data.CombineWithExisting; }
             set
             {
-                if (m_Data.Combining != value)
+                if (m_Data.CombineWithExisting != value)
                 {
-                    m_Data.Combining = value;
+                    m_Data.CombineWithExisting = value;
                     OnPropertyChanged();
                 }
             }

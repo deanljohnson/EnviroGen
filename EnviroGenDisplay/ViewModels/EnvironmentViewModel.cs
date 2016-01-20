@@ -8,7 +8,6 @@ using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Continents;
 using EnviroGen.Erosion;
-using EnviroGen.HeightMaps;
 using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels
@@ -37,7 +36,7 @@ namespace EnviroGenDisplay.ViewModels
 
         public EnvironmentViewModel(int w = 1000, int h = 780)
         {
-            m_Environment = new Environment(null, null);
+            m_Environment = new Environment(null);
             //why 96? idk, it works
             HeightMapBitmap = new WriteableBitmap(w, h, 96, 96, PixelFormats.Bgra32, null);
 
@@ -58,19 +57,6 @@ namespace EnviroGenDisplay.ViewModels
         {
             if (!m_ErosionWorker.IsBusy)
                 m_ErosionWorker.RunWorkerAsync(eroder);
-        }
-
-        public void SetColorMapping(Colorizer colorizer)
-        {
-            lock (m_Environment)
-            {
-                if (m_Environment.Terrain == null) return;
-
-                m_Environment.Terrain.Colorizer = colorizer;
-                m_Environment.Terrain.Colorize();
-
-                UpdateWholeBitmap();
-            }
         }
 
         public void ApplyColorizer()
@@ -102,8 +88,10 @@ namespace EnviroGenDisplay.ViewModels
 
         public void GenerateContinents(IContinentGenerator generator)
         {
-            generator.GenerateContinents(m_Environment.Terrain.HeightMap);
-            m_Environment.Terrain.UpdateImage();
+            lock (m_Environment)
+            {
+                m_Environment.GenerateContinents(generator);
+            }
             UpdateWholeBitmap();
         }
 
@@ -129,24 +117,9 @@ namespace EnviroGenDisplay.ViewModels
             //pick a random seed if the seed is -1
             options.Seed = (options.Seed == -1) ? Random.Next(10000) : options.Seed;
 
-            var terrainHeightMap = HeightMapGenerator.GenerateHeightMap(options);
-
-            if (terrainHeightMap == null)
-            {
-                throw new NullReferenceException("Error in terrain height map generation, EnvironmentDisplay.GenerateHeightMap");
-            }
-
             lock (m_Environment)
             {
-                if (data.Combining && m_Environment.Terrain?.HeightMap != null)
-                {
-                    m_Environment.Terrain.HeightMap.CombineWith(terrainHeightMap);
-                    m_Environment.Terrain.UpdateImage();
-                }
-                else
-                {
-                    m_Environment.Terrain = new Terrain(terrainHeightMap);
-                }
+                m_Environment.GenerateTerrain(options);
             }
 
             StatusTracker.PopMessage();
@@ -162,8 +135,7 @@ namespace EnviroGenDisplay.ViewModels
 
             lock (m_Environment)
             {
-                eroder.Erode(m_Environment.Terrain.HeightMap);
-                m_Environment.Terrain.UpdateImage();
+                m_Environment.ErodeTerrain(eroder);
             }
 
             StatusTracker.PopMessage();

@@ -10,8 +10,6 @@ namespace EnviroGenDisplay
     {
         public new ObservableCollection<ModifierViewModel> Modifiers { get; set; }
 
-        public bool Combining { get; set; }
-
         public EnvironmentData()
         {
             Modifiers = new ObservableCollection<ModifierViewModel>();
