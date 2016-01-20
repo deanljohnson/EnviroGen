@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using EnviroGen.Noise.Modifiers;
-
-namespace EnviroGen
+﻿namespace EnviroGen
 {
     public class GenerationOptions
     {
@@ -11,7 +8,6 @@ namespace EnviroGen
         public int Seed { get; set; }
         public float Gain { get; set; }
         public float Frequency { get; set; }
-        public List<IModifier> Modifiers { get; set; }
         public bool CombineWithExisting { get; set; }
 
         public GenerationOptions()
@@ -22,7 +18,6 @@ namespace EnviroGen
             Seed = -1;
             Gain = .55f;
             Frequency = .005f;
-            Modifiers = new List<IModifier>();
         }
 
         public GenerationOptions(GenerationOptions copy)
@@ -33,7 +28,6 @@ namespace EnviroGen
             Seed = copy.Seed;
             Gain = copy.Gain;
             Frequency = copy.Frequency;
-            Modifiers = copy.Modifiers;
         }
     }
 }

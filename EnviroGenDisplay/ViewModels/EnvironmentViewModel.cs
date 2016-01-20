@@ -118,7 +118,7 @@ namespace EnviroGenDisplay.ViewModels
         {
             lock (m_Environment)
             {
-                //We have to execute this after the background worker is finished
+                //We have to execute this after any background workers are finished
                 //because writeablebitmap's can only lock on the owning thread
                 UpdateWholeBitmap();
             }

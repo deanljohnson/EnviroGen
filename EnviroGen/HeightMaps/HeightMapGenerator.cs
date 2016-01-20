@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using EnviroGen.Noise;
-using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGen.HeightMaps
 {
@@ -34,13 +33,13 @@ namespace EnviroGen.HeightMaps
         /// </summary>
         public static HeightMap GenerateHeightMap(GenerationOptions options)
         {
-            return GenerateHeightMap(options.SizeX, options.SizeY, options.OctaveCount, options.Gain, options.Frequency, options.Seed, options.Modifiers);
+            return GenerateHeightMap(options.SizeX, options.SizeY, options.OctaveCount, options.Gain, options.Frequency, options.Seed);
         }
 
         /// <summary>
         /// Returns a HeightMap based on the given parameters
         /// </summary>
-        public static HeightMap GenerateHeightMap(int sizeX, int sizeY, int octaveCount, float gain, float frequency, int seed = 0, IEnumerable<IModifier> modifiers = null)
+        public static HeightMap GenerateHeightMap(int sizeX, int sizeY, int octaveCount, float gain, float frequency, int seed = 0)
         {
             var arr = new float[sizeX, sizeY];
 
@@ -55,19 +54,7 @@ namespace EnviroGen.HeightMaps
 
             var map = new HeightMap(arr);
 
-            ApplyModifiers(map, modifiers);
-
-            
-
             return map;
-        }
-
-        private static void ApplyModifiers(HeightMap map, IEnumerable<IModifier> modifiers)
-        {
-            foreach (var modifier in modifiers)
-            {
-                modifier.Modify(map);
-            }
         }
     }
 }
