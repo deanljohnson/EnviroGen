@@ -1,4 +1,5 @@
 ﻿using System;
+using EnviroGen.HeightMaps;
 
 namespace EnviroGen.Noise.Modifiers
 {
@@ -11,24 +12,24 @@ namespace EnviroGen.Noise.Modifiers
             Exponent = exp;
         }
 
-        public void Modify(ref float[,] map)
+        public void Modify(HeightMap map)
         {
-            for (var y = 0; y < map.GetLength(1); y++)
+            for (var y = 0; y < map.Size.Y; y++)
             {
-                for (var x = 0; x < map.GetLength(0); x++)
+                for (var x = 0; x < map.Size.X; x++)
                 {
                     map[x, y] = (float)Math.Pow(map[x, y], Exponent);
                 }
             }
         }
 
-        public void InvertModify(ref float[,] map)
+        public void InvertModify(HeightMap map)
         {
             var exp = 1 / Exponent;
 
-            for (var y = 0; y < map.GetLength(1); y++)
+            for (var y = 0; y < map.Size.Y; y++)
             {
-                for (var x = 0; x < map.GetLength(0); x++)
+                for (var x = 0; x < map.Size.X; x++)
                 {
                     map[x, y] = (float)Math.Pow(map[x, y], exp);
                 }

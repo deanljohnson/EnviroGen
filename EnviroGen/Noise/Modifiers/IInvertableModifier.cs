@@ -1,7 +1,9 @@
-﻿namespace EnviroGen.Noise.Modifiers
+﻿using EnviroGen.HeightMaps;
+
+namespace EnviroGen.Noise.Modifiers
 {
     public interface IInvertableModifier : IModifier
     {
-        void InvertModify(ref float[,] map);
+        void InvertModify(HeightMap map);
     }
 }

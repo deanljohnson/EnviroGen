@@ -1,4 +1,6 @@
-﻿namespace EnviroGen.Noise.Modifiers
+﻿using EnviroGen.HeightMaps;
+
+namespace EnviroGen.Noise.Modifiers
 {
     public class NormalizeModifier : IModifier
     {
@@ -12,12 +14,12 @@
         }
 
 
-        public void Modify(ref float[,] map)
+        public void Modify(HeightMap map)
         {
             var maxValue = map[0, 0];
             var minValue = map[0, 0];
 
-            foreach (var h in map)
+            foreach (var h in map.Map)
             {
                 maxValue = h > maxValue ? h : maxValue;
                 minValue = h < minValue ? h : minValue;
@@ -26,9 +28,9 @@
             var valueDif = maxValue - minValue;
             var scaleDif = High - Low;
 
-            for (uint y = 0; y < map.GetLength(1); y++)
+            for (uint y = 0; y < map.Size.Y; y++)
             {
-                for (uint x = 0; x < map.GetLength(0); x++)
+                for (uint x = 0; x < map.Size.X; x++)
                 {
                     map[x, y] = (scaleDif * (map[x, y] - minValue)) / (valueDif) + Low;
                 }

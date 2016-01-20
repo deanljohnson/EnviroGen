@@ -1,4 +1,5 @@
-﻿using EnviroGen.Noise.Modifiers;
+﻿using EnviroGen.HeightMaps;
+using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
@@ -11,9 +12,9 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             m_Modifier = new RidgedModifier();
         }
 
-        public override void Modify(ref float[,] map)
+        public override void Modify(HeightMap map)
         {
-            m_Modifier.Modify(ref map);
+            m_Modifier.Modify(map);
         }
     }
 }

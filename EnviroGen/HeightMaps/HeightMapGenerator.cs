@@ -53,18 +53,20 @@ namespace EnviroGen.HeightMaps
                 }
             }
 
-            ApplyModifiers(ref arr, modifiers);
-
             var map = new HeightMap(arr);
+
+            ApplyModifiers(map, modifiers);
+
+            
 
             return map;
         }
 
-        private static void ApplyModifiers(ref float[,] arr, IEnumerable<IModifier> modifiers)
+        private static void ApplyModifiers(HeightMap map, IEnumerable<IModifier> modifiers)
         {
             foreach (var modifier in modifiers)
             {
-                modifier.Modify(ref arr);
+                modifier.Modify(map);
             }
         }
     }

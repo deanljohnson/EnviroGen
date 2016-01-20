@@ -7,43 +7,52 @@ namespace EnviroGen.HeightMaps
 {
     public class HeightMap : IEnumerable
     {
+        private float[,] m_Map;
         /// <summary>
         /// The height values associated with this HeightMap
         /// </summary>
-        public float[,] Map { get; set; }
+        public float[,] Map
+        {
+            get { return m_Map; }
+            set
+            {
+                m_Map = value;
+                Size = new IntPoint(m_Map.GetLength(0), m_Map.GetLength(1));
+            }
+        }
 
         /// <summary>
         /// The dimensions of the HeightMap
         /// </summary>
-        public IntPoint Size { get; }
+        public IntPoint Size { get; private set; }
 
         public HeightMap(float[,] map)
         {
             Size = new IntPoint(map.GetLength(0), map.GetLength(1));
-            Map = map;
+            m_Map = map;
         }
 
         public float this[uint x, uint y]
         {
-            get { return Map[x, y]; }
-            set { Map[x, y] = value; }
+            get { return m_Map[x, y]; }
+            set { m_Map[x, y] = value; }
         }
 
         public float this[int x, int y]
         {
-            get { return Map[x, y]; }
-            set { Map[x, y] = value; }
+            get { return m_Map[x, y]; }
+            set { m_Map[x, y] = value; }
         }
 
         public float this[IntPoint v]
         {
-            get { return Map[v.X, v.Y]; }
-            set { Map[v.X, v.Y] = value; }
+            get { return m_Map[v.X, v.Y]; }
+            set { m_Map[v.X, v.Y] = value; }
         }
 
         public IEnumerator GetEnumerator()
         {
-            return Map.GetEnumerator();
+            return m_Map.GetEnumerator();
         }
 
         public void Normalize(float min = 0f, float max = 1f)
@@ -64,7 +73,7 @@ namespace EnviroGen.HeightMaps
             {
                 for (uint x = 0; x < Size.X; x++)
                 {
-                    Map[x, y] = (scaleDif * (Map[x, y] - minValue)) / (valueDif) + min;
+                    m_Map[x, y] = (scaleDif * (m_Map[x, y] - minValue)) / (valueDif) + min;
                 }
             }
         }
@@ -150,11 +159,9 @@ namespace EnviroGen.HeightMaps
             {
                 for (var x = offset.X; x < maxX; x++)
                 {
-                    Map[x, y] += (other.Map[x - offset.X, y - offset.Y] * weight);
+                    m_Map[x, y] += (other.m_Map[x - offset.X, y - offset.Y] * weight);
                 }
             }
-
-            Normalize();
-        } 
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using EnviroGen.HeightMaps;
 using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
@@ -25,9 +26,9 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             m_Modifier = new ExponentModifier(1f);
         }
 
-        public override void Modify(ref float[,] map)
+        public override void Modify(HeightMap map)
         {
-            m_Modifier.Modify(ref map);
+            m_Modifier.Modify(map);
         }
     }
 }

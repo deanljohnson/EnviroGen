@@ -1,9 +1,10 @@
-﻿using EnviroGen.Noise.Modifiers;
+﻿using EnviroGen.HeightMaps;
+using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
     abstract class ModifierViewModel : ViewModelBase, IModifier
     {
-        public abstract void Modify(ref float[,] map);
+        public abstract void Modify(HeightMap map);
     }
 }

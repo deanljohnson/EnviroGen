@@ -1,4 +1,6 @@
-﻿namespace EnviroGen.Noise.Modifiers
+﻿using EnviroGen.HeightMaps;
+
+namespace EnviroGen.Noise.Modifiers
 {
     public class ClampModifier : IModifier
     {
@@ -11,11 +13,11 @@
             High = high;
         }
 
-        public void Modify(ref float[,] map)
+        public void Modify(HeightMap map)
         {
-            for (uint y = 0; y < map.GetLength(1); y++)
+            for (uint y = 0; y < map.Size.Y; y++)
             {
-                for (uint x = 0; x < map.GetLength(0); x++)
+                for (uint x = 0; x < map.Size.X; x++)
                 {
                     if (map[x, y] < Low)
                     {
