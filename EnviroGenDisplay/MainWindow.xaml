@@ -1,7 +1,7 @@
 ﻿<Window x:Class="EnviroGenDisplay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EnviroGen Display" Height="846" Width="1308" SizeToContent="WidthAndHeight"
+        Title="EnviroGen Display" Height="859.5" Width="1308" SizeToContent="WidthAndHeight"
         xmlns:views="clr-namespace:EnviroGenDisplay.Views"
         xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
         xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
@@ -81,7 +81,14 @@
             <TabItem Header="Modifiers" Name="ModifiersTab">
             </TabItem>
         </TabControl>
-        <views:HeightMapView x:Name="MapView" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>
-        <views:StatusTrackerView x:Name="StatusTracker" Grid.Column="1" HorizontalAlignment="Left" Margin="10,782,0,0" VerticalAlignment="Top"/>
+        <TabControl Grid.Column="1">
+            <TabItem Header="Environment" Name="EnvironmentTab">
+                <views:HeightMapView x:Name="MapView" HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>
+            </TabItem>
+            <TabItem Header="NodeEditor" Name="NodeEditorTab">
+                <views:NodeEditor HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>
+            </TabItem>
+        </TabControl>
+        <views:StatusTrackerView x:Name="StatusTracker" Grid.Column="1" HorizontalAlignment="Left" Margin="10,806,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

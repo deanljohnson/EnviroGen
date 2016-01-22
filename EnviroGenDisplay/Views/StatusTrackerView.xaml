@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EnviroGenDisplay.Views"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid d:DataContext="{d:DesignInstance viewModels:StatusTrackerViewModel}">
+             mc:Ignorable="d">
+    <Grid d:DataContext="{d:DesignInstance viewModels:StatusTrackerViewModel, IsDesignTimeCreatable=True}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -19,6 +18,6 @@
                 <local:StatusTrackerView/>
             </DataTemplate>
         </Grid.Resources>
-        <Label Content="{Binding Path=CurrentMessage}"/>
+        <Label Content="{Binding Path=CurrentMessage, FallbackValue=None}"/>
     </Grid>
 </UserControl>

@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="EnviroGenDisplay.Views.NodeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EnviroGenDisplay.Views"
+             mc:Ignorable="d"
+             Height="Auto" Width="Auto">
+    <UserControl.Resources>
+        <ContextMenu x:Key="NodeMenu">
+            <MenuItem Header="Terrain Generators">
+                <MenuItem Header="Simplex Noise"/>
+            </MenuItem>
+            <MenuItem Header="Terrain Modifiers">
+                <MenuItem Header="Add"/>
+                <MenuItem Header="Clamp"/>
+                <MenuItem Header="Exponent"/>
+                <MenuItem Header="Invert"/>
+                <MenuItem Header="Normalize"/>
+                <MenuItem Header="Ridged"/>
+                <MenuItem Header="Scale"/>
+            </MenuItem>
+            <MenuItem Header="Erosion Processes">
+                <MenuItem Header="Hydraulic"/>
+                <MenuItem Header="Thermal"/>
+                <MenuItem Header="Improved Thermal"/>
+            </MenuItem>
+            <MenuItem Header="Continent Generators">
+                <MenuItem Header="Square"/>
+            </MenuItem>
+        </ContextMenu>
+    </UserControl.Resources>
+    <Border BorderThickness="1" BorderBrush="Black" VerticalAlignment="Top" Margin="10,10,10,10">
+        <Canvas ContextMenu="{StaticResource NodeMenu}" Width="1000" Height="780" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent">
+        </Canvas>
+    </Border>
+</UserControl>

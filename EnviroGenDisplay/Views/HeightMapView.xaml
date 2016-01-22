@@ -8,7 +8,7 @@
              Height="Auto" Width="Auto">
     <Grid>
         <Border BorderThickness="1" BorderBrush="Black" VerticalAlignment="Top" Margin="10,10,10,10">
-            <Image d:DataContext="{d:DesignInstance viewModels:EnvironmentViewModel}" HorizontalAlignment="Left" Height="780" VerticalAlignment="Top" Width="1000" Margin="0,0,0,0" Source="{Binding Path=HeightMapBitmap}"/>
+            <Image d:DataContext="{d:DesignInstance viewModels:EnvironmentViewModel}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1000" Height="780" Source="{Binding Path=HeightMapBitmap}"/>
         </Border>
     </Grid>
 </UserControl>
