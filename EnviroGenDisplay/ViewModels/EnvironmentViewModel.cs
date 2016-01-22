@@ -62,10 +62,10 @@ namespace EnviroGenDisplay.ViewModels
 
         public void ApplyColorizer()
         {
+            if (m_Environment?.Terrain == null) return;
+
             lock (m_Environment)
             {
-                if (m_Environment.Terrain == null) return;
-
                 m_Environment.Terrain.Colorize();
 
                 UpdateWholeBitmap();
@@ -79,25 +79,30 @@ namespace EnviroGenDisplay.ViewModels
 
         public void AddColor(ColorRange c)
         {
-            m_Environment.Terrain.Colorizer.AddColorRange(c);
+            m_Environment.Terrain?.Colorizer.AddColorRange(c);
         }
 
         public void RemoveColor(ColorRange c)
         {
-            m_Environment.Terrain.Colorizer.RemoveColorRange(c);
+            m_Environment.Terrain?.Colorizer.RemoveColorRange(c);
         }
 
         public void GenerateContinents(IContinentGenerator generator)
         {
+            if (m_Environment?.Terrain == null) return;
+
             lock (m_Environment)
             {
                 m_Environment.GenerateContinents(generator);
             }
+
             UpdateWholeBitmap();
         }
 
         public void ApplyTerrainModifier(IModifier modifier)
         {
+            if (m_Environment?.Terrain == null) return;
+
             lock (m_Environment)
             {
                 m_Environment.ApplyTerrainModifier(modifier);
@@ -107,6 +112,8 @@ namespace EnviroGenDisplay.ViewModels
 
         public void ApplyTerrainModifierInverted(IInvertableModifier modifier)
         {
+            if (m_Environment?.Terrain == null) return;
+
             lock (m_Environment)
             {
                 m_Environment.ApplyTerrainModifierInverted(modifier);
@@ -116,6 +123,8 @@ namespace EnviroGenDisplay.ViewModels
 
         private void OnGenerationProcedureComplete(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
+            if (m_Environment?.Terrain == null) return;
+
             lock (m_Environment)
             {
                 //We have to execute this after any background workers are finished
@@ -145,6 +154,8 @@ namespace EnviroGenDisplay.ViewModels
 
         private void ErodeTerrain(object sender, DoWorkEventArgs doWorkEventArgs)
         {
+            if (m_Environment?.Terrain == null) return;
+
             StatusTracker.PushMessage("Eroding Terrain...");
 
             var eroder = (IEroder)doWorkEventArgs.Argument;

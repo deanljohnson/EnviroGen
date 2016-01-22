@@ -18,7 +18,9 @@ namespace EnviroGen.Noise.Modifiers
             {
                 for (var x = 0; x < map.Size.X; x++)
                 {
-                    map[x, y] = (float)Math.Pow(map[x, y], Exponent);
+                    var powed = (float) Math.Pow(Math.Abs(map[x, y]), Exponent);
+                    powed *= Math.Sign(map[x, y]);
+                    map[x, y] = powed;
                 }
             }
         }
@@ -31,7 +33,9 @@ namespace EnviroGen.Noise.Modifiers
             {
                 for (var x = 0; x < map.Size.X; x++)
                 {
-                    map[x, y] = (float)Math.Pow(map[x, y], exp);
+                    var powed = (float)Math.Pow(Math.Abs(map[x, y]), exp);
+                    powed *= Math.Sign(map[x, y]);
+                    map[x, y] = powed;
                 }
             }
         }
