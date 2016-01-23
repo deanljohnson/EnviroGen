@@ -9,48 +9,7 @@
         xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion"
         xmlns:modifiers1="clr-namespace:EnviroGenDisplay.Views.Modifiers">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type modifiers:RidgedModifierViewModel}">
-            <modifiers1:RidgedModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:InvertModifierViewModel}">
-            <modifiers1:InvertModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ScaleModifierViewModel}">
-            <modifiers1:ScaleModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ExponentModifierViewModel}">
-            <modifiers1:ExponentModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:NormalizeModifierViewModel}">
-            <modifiers1:NormalizeModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ClampModifierViewModel}">
-            <modifiers1:ClampModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:AddModifierViewModel}">
-            <modifiers1:AddModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:HydraulicErosionViewModel}">
-            <erosion1:HydraulicErosionView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:ThermalErosionViewModel}">
-            <erosion1:ThermalErosionView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:ImprovedThermalErosionViewModel}">
-            <erosion1:ImprovedThermalErosionView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">
-            <views:ColorizerView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:GenerationOptionsViewModel}">
-            <views:EnvironmentDataView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
-            <views:HeightMapView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:SquareContinentViewModel}">
-            <views:SquareContinentView/>
-        </DataTemplate>
+        
     </Window.Resources>
     <Grid HorizontalAlignment="Left" Width="Auto">
         <Grid.ColumnDefinitions>
@@ -86,7 +45,6 @@
                 <views:HeightMapView x:Name="MapView" HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>
             </TabItem>
             <TabItem Header="NodeEditor" Name="NodeEditorTab">
-                <views:NodeEditor HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>
             </TabItem>
         </TabControl>
         <views:StatusTrackerView x:Name="StatusTracker" Grid.Column="1" HorizontalAlignment="Left" Margin="10,806,0,0" VerticalAlignment="Top"/>

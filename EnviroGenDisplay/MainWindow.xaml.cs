@@ -40,6 +40,8 @@ namespace EnviroGenDisplay
             ColoringTab.Content = new ColorizerViewModel(environment);
 
             ModifiersTab.Content = new ModifierView(environment);
+
+            NodeEditorTab.Content = new NodeEditorViewModel(environment);
         }
     }
 }

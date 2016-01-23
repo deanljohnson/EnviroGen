@@ -1,5 +1,10 @@
 ﻿namespace EnviroGen
 {
+    public enum NoiseType
+    {
+        Simplex
+    }
+
     public class GenerationOptions
     {
         public int SizeX { get; set; }
@@ -8,7 +13,8 @@
         public int Seed { get; set; }
         public float Gain { get; set; }
         public float Frequency { get; set; }
-        public bool CombineWithExisting { get; set; }
+
+        public NoiseType NoiseType { get; set; } = NoiseType.Simplex;
 
         public GenerationOptions()
         {
@@ -28,6 +34,7 @@
             Seed = copy.Seed;
             Gain = copy.Gain;
             Frequency = copy.Frequency;
+            NoiseType = copy.NoiseType;
         }
     }
 }

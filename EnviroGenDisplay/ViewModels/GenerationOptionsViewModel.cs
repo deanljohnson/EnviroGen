@@ -8,19 +8,6 @@ namespace EnviroGenDisplay.ViewModels
     {
         private readonly GenerationOptions m_Data;
 
-        public bool CombineWithExisting
-        {
-            get { return m_Data.CombineWithExisting; }
-            set
-            {
-                if (m_Data.CombineWithExisting != value)
-                {
-                    m_Data.CombineWithExisting = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public int SizeX
         {
             get { return m_Data.SizeX; }

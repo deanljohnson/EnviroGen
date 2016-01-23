@@ -120,6 +120,7 @@
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="IEnvironment.cs" />
     <Compile Include="IStatusTracker.cs" />
+    <Compile Include="ViewModels\NodeEditorViewModel.cs" />
     <Compile Include="Views\NodeEditor.xaml.cs">
       <DependentUpon>NodeEditor.xaml</DependentUpon>
     </Compile>
@@ -184,6 +185,9 @@
     </Compile>
     <Compile Include="Views\Modifiers\ScaleModifierView.xaml.cs">
       <DependentUpon>ScaleModifierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Nodes\NodeView.xaml.cs">
+      <DependentUpon>NodeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SquareContinentView.xaml.cs">
       <DependentUpon>SquareContinentView.xaml</DependentUpon>
@@ -263,6 +267,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Modifiers\ScaleModifierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Nodes\NodeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

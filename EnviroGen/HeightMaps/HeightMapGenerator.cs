@@ -33,13 +33,13 @@ namespace EnviroGen.HeightMaps
         /// </summary>
         public static HeightMap GenerateHeightMap(GenerationOptions options)
         {
-            return GenerateHeightMap(options.SizeX, options.SizeY, options.OctaveCount, options.Gain, options.Frequency, options.Seed);
+            return GenerateHeightMap(options.SizeX, options.SizeY, options.OctaveCount, options.Gain, options.Frequency, options.Seed, options.NoiseType);
         }
 
         /// <summary>
         /// Returns a HeightMap based on the given parameters
         /// </summary>
-        public static HeightMap GenerateHeightMap(int sizeX, int sizeY, int octaveCount, float gain, float frequency, int seed = 0)
+        private static HeightMap GenerateHeightMap(int sizeX, int sizeY, int octaveCount, float gain, float frequency, int seed, NoiseType noiseType)
         {
             var arr = new float[sizeX, sizeY];
 
@@ -47,8 +47,11 @@ namespace EnviroGen.HeightMaps
             {
                 for (var x = seed; x < sizeX + seed; x++)
                 {
-                    arr[x - seed, y - seed] = FractalBrownianMotion.GenerateNoise(x, y, octaveCount, gain, frequency, 2f,
+                    if (noiseType == NoiseType.Simplex)
+                    {
+                        arr[x - seed, y - seed] = FractalBrownianMotion.GenerateNoise(x, y, octaveCount, gain, frequency, 2f,
                         SimplexNoiseGenerator.Noise2d);
+                    }
                 }
             }
 

@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EnviroGenDisplay.Views"
+             xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              mc:Ignorable="d"
              Height="Auto" Width="Auto">
     <UserControl.Resources>
-        <ContextMenu x:Key="NodeMenu">
-            <MenuItem Header="Terrain Generators">
-                <MenuItem Header="Simplex Noise"/>
+        <ContextMenu x:Key="NodeMenu" d:DataContext="{d:DesignInstance viewModels:NodeEditorViewModel}">
+            <MenuItem Header="Terrain Noise Generators">
+                <MenuItem Header="Simplex Noise" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Terrain Modifiers">
                 <MenuItem Header="Add"/>
@@ -31,7 +32,9 @@
         </ContextMenu>
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="Black" VerticalAlignment="Top" Margin="10,10,10,10">
-        <Canvas ContextMenu="{StaticResource NodeMenu}" Width="1000" Height="780" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent">
+        <Canvas Name="NodeCanvas" ContextMenu="{StaticResource NodeMenu}" 
+                Width="1000" Height="780" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Background="GhostWhite" MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp" ClipToBounds="True">
         </Canvas>
     </Border>
 </UserControl>

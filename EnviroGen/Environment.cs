@@ -24,15 +24,7 @@ namespace EnviroGen
                 throw new NullReferenceException($"Error in terrain height map generation, {nameof(GenerateTerrain)}");
             }
 
-            if (options.CombineWithExisting && Terrain != null)
-            {
-                Terrain.CombineWith(terrainHeightMap);
-                Terrain.UpdateImage();
-            }
-            else
-            {
-                Terrain = new Terrain(terrainHeightMap);
-            }
+            Terrain = new Terrain(terrainHeightMap);
         }
 
         public void GenerateContinents(IContinentGenerator generator)

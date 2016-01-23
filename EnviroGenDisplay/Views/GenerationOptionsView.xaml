@@ -1,12 +1,11 @@
-﻿<UserControl x:Class="EnviroGenDisplay.Views.EnvironmentDataView"
+﻿<UserControl x:Class="EnviroGenDisplay.Views.GenerationOptionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:GenerationOptionsViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -62,18 +61,11 @@
             </Label.ToolTip>
         </Label>
         <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="6" Command="{Binding Path=GenerateCommand}"/>
-        <CheckBox Content="Combine w/ Current" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" IsChecked="{Binding Path=CombineWithExisting}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX, Converter={StaticResource IntToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY, Converter={StaticResource IntToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=OctaveCount, Converter={StaticResource IntToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="3" Text="{Binding Path=Seed, Converter={StaticResource IntToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="4" Text="{Binding Path=Gain, Converter={StaticResource FloatToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="5" Text="{Binding Path=Frequency, Converter={StaticResource FloatToStringConverter}}"/>
-        <Grid Grid.Column="1" Grid.Row="6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
     </Grid>
 </UserControl>

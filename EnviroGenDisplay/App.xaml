@@ -1,8 +1,58 @@
 ﻿<Application x:Class="EnviroGenDisplay.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
+             xmlns:modifiers1="clr-namespace:EnviroGenDisplay.Views.Modifiers"
+             xmlns:erosion="clr-namespace:EnviroGenDisplay.ViewModels.Erosion"
+             xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion"
+             xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
+             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <DataTemplate DataType="{x:Type modifiers:RidgedModifierViewModel}">
+            <modifiers1:RidgedModifierView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:InvertModifierViewModel}">
+            <modifiers1:InvertModifierView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:ScaleModifierViewModel}">
+            <modifiers1:ScaleModifierView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:ExponentModifierViewModel}">
+            <modifiers1:ExponentModifierView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:NormalizeModifierViewModel}">
+            <modifiers1:NormalizeModifierView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:ClampModifierViewModel}">
+            <modifiers1:ClampModifierView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:AddModifierViewModel}">
+            <modifiers1:AddModifierView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type erosion:HydraulicErosionViewModel}">
+            <erosion1:HydraulicErosionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type erosion:ThermalErosionViewModel}">
+            <erosion1:ThermalErosionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type erosion:ImprovedThermalErosionViewModel}">
+            <erosion1:ImprovedThermalErosionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">
+            <views:ColorizerView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:GenerationOptionsViewModel}">
+            <views:GenerationOptionsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
+            <views:HeightMapView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:SquareContinentViewModel}">
+            <views:SquareContinentView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:NodeEditorViewModel}">
+            <views:NodeEditor/>
+        </DataTemplate>
     </Application.Resources>
 </Application>
