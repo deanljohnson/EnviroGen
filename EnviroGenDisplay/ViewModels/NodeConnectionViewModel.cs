@@ -7,48 +7,48 @@ namespace EnviroGenDisplay.ViewModels
     {
         private Panel m_GraphContainer { get; }
 
-        private Control m_SourceControl;
-        private Control m_DestControl;
-        private Point m_One;
-        private Point m_Two;
+        private Control m_InputControl;
+        private Control m_OutputControl;
+        private Point m_InputPosition;
+        private Point m_OutputPosition;
 
-        public Point One
+        public Point InputPosition
         {
-            get { return m_One; }
+            get { return m_InputPosition; }
             set
             {
-                m_One = value;
+                m_InputPosition = value;
                 OnPropertyChanged();
             }
         }
 
-        public Point Two
+        public Point OutputPosition
         {
-            get { return m_Two; }
+            get { return m_OutputPosition; }
             set
             {
-                m_Two = value;
+                m_OutputPosition = value;
                 OnPropertyChanged();
             }
         }
 
-        public Control SourceControl
+        public Control InputControl
         {
-            get { return m_SourceControl; }
+            get { return m_InputControl; }
             set
             {
-                One = PositionOfElement(value);
-                m_SourceControl = value;
+                InputPosition = CenterPositionOfElement(value);
+                m_InputControl = value;
             }
         }
 
-        public Control DestControl
+        public Control OutputControl
         {
-            get { return m_DestControl; }
+            get { return m_OutputControl; }
             set
             {
-                Two = PositionOfElement(value);
-                m_DestControl = value;
+                OutputPosition = CenterPositionOfElement(value);
+                m_OutputControl = value;
             }
         }
 
@@ -59,20 +59,21 @@ namespace EnviroGenDisplay.ViewModels
 
         public void SetLineEndsToControlLocations()
         {
-            if (m_SourceControl != null)
+            if (m_InputControl != null)
             {
-                One = PositionOfElement(m_SourceControl);
+                InputPosition = CenterPositionOfElement(m_InputControl);
             }
-            if (m_DestControl != null)
+            if (m_OutputControl != null)
             {
-                Two = PositionOfElement(m_DestControl);
+                OutputPosition = CenterPositionOfElement(m_OutputControl);
             }
         }
 
-        private Point PositionOfElement(FrameworkElement c)
+        private Point CenterPositionOfElement(FrameworkElement c)
         {
             var pos = c.TransformToAncestor(m_GraphContainer).Transform(new Point(0, 0));
 
+            //Adjust to be in the center of the element
             pos.X += c.ActualWidth / 2.0;
             pos.Y += c.ActualHeight / 2.0;
 

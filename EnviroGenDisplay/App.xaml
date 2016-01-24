@@ -39,14 +39,14 @@
         <DataTemplate DataType="{x:Type erosion:ImprovedThermalErosionNodeViewModel}">
             <erosion1:ImprovedThermalErosionView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:ColorizerNodeViewModel}">
             <views:ColorizerView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:TerrainGeneratorNodeViewModel}">
             <views:TerrainGeneratorView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
-            <views:HeightMapView/>
+            <views:EnvironmentView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type continents:SquareContinentNodeViewModel}">
             <continents1:SquareContinentView/>

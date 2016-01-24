@@ -1,8 +1,4 @@
-﻿using System.Windows.Controls;
-using EnviroGenDisplay.ViewModels;
-using EnviroGenDisplay.ViewModels.Erosion;
-using EnviroGenDisplay.ViewModels.Modifiers;
-using EnviroGenDisplay.Views.Modifiers;
+﻿using EnviroGenDisplay.ViewModels;
 
 namespace EnviroGenDisplay
 {
@@ -28,18 +24,6 @@ namespace EnviroGenDisplay
                 StatusTracker = statusTracker
             };
             var environment = (IEnvironment)EnvironmentTab.Content;
-
-            /*HeightMapTab.Content = new TerrainGeneratorNodeViewModel(environment);
-
-            HydraulicErosionTab.Content = new HydraulicErosionNodeViewModel(environment);
-            ThermalErosionTab.Content = new ThermalErosionNodeViewModel(environment);
-            ImprovedThermalErosionTab.Content = new ImprovedThermalErosionNodeViewModel(environment);
-
-            SquareContinentTab.Content = new SquareContinentNodeViewModel(environment);
-
-            ColoringTab.Content = new ColorizerViewModel(environment);
-
-            ModifiersTab.Content = new ModifierView(environment);*/
 
             NodeEditorTab.Content = new NodeEditorViewModel(environment);
         }

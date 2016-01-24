@@ -64,6 +64,10 @@ namespace EnviroGenDisplay.ViewModels
             {
                 return new SquareContinentNodeViewModel();
             }
+            if (nodeName == "Simple Colorizer")
+            {
+                return new ColorizerNodeViewModel(Environment);
+            }
 
             return null;
         }

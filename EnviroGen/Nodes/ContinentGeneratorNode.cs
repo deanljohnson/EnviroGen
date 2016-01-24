@@ -5,7 +5,6 @@ namespace EnviroGen.Nodes
     public class ContinentGeneratorNode<TContinentGenerator> : INode 
         where TContinentGenerator : IContinentGenerator
     {
-        public INode Input { get; set; }
         public INode Output { get; set; }
 
         public TContinentGenerator ContinentGenerator { get; set; }

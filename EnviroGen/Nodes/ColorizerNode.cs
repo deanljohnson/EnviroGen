@@ -5,7 +5,6 @@ namespace EnviroGen.Nodes
     public class ColorizerNode<TColorizer> : INode 
         where TColorizer : IColorizer
     {
-        public INode Input { get; set; }
         public INode Output { get; set; }
 
         public TColorizer Colorizer { get; set; }

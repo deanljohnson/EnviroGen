@@ -42,12 +42,24 @@ namespace EnviroGenDisplay.Views
         {
             m_CreateConnectionAction = new CreateConnectionAction(sourceNode, sourceControl);
 
+            //Removed connections from the same source
+            for (var i = 0; i < NodeConnections.Count; i++)
+            {
+                if (ReferenceEquals(NodeConnections[i].InputControl, sourceControl))
+                {
+                    NodeConnections.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            sourceNode.Output = null;
+
             m_NodeConnection = new NodeConnectionViewModel(NodeCanvas)
             {
-                SourceControl = m_CreateConnectionAction.SourceControl
+                InputControl = m_CreateConnectionAction.SourceControl
             };
 
-            m_NodeConnection.Two = m_NodeConnection.One;
+            m_NodeConnection.OutputPosition = m_NodeConnection.InputPosition;
 
             NodeConnections.Add(m_NodeConnection);
 
@@ -61,10 +73,12 @@ namespace EnviroGenDisplay.Views
         {
             m_DraggingNodeConnection = false;
             m_CreateConnectionAction.Finished = true;
-            m_CreateConnectionAction.Source.Output = destNode;
-            destNode.Input = m_CreateConnectionAction.Source;
+            
+            //Nodes are not allowed to connect to themselves
+            if (destNode != m_CreateConnectionAction.Source)
+                m_CreateConnectionAction.Source.Output = destNode;
 
-            m_NodeConnection.DestControl = destControl;
+            m_NodeConnection.OutputControl = destControl;
         }
 
         public void UpdateConnectionPositions()
@@ -94,6 +108,7 @@ namespace EnviroGenDisplay.Views
 
             var nodeViewControl = new NodeView(nodeViewModel, nodeName, this);
 
+            //Right click shouldnt ever be null here - if so this will fail hard and tell us there is a problem
             if (m_RightClickPosition == null) throw new Exception("Right click position was not properly set on the canvas");
             nodeViewControl.CanvasLeft = m_RightClickPosition.Value.X;
             nodeViewControl.CanvasTop = m_RightClickPosition.Value.Y;
@@ -124,7 +139,7 @@ namespace EnviroGenDisplay.Views
                 //Sanity check here
                 if (Mouse.LeftButton == MouseButtonState.Pressed)
                 {
-                    m_NodeConnection.Two = Mouse.GetPosition(NodeCanvas);
+                    m_NodeConnection.OutputPosition = Mouse.GetPosition(NodeCanvas);
                 }
                 else
                 {

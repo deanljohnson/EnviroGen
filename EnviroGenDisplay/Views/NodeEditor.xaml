@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              mc:Ignorable="d"
-             Height="Auto" Width="Auto">
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <UserControl.Resources>
         <ContextMenu x:Key="NodeMenu" d:DataContext="{d:DesignInstance viewModels:NodeEditorViewModel}">
             <MenuItem Header="Terrain Noise Generators">
@@ -28,12 +28,16 @@
             <MenuItem Header="Continent Generators">
                 <MenuItem Header="Square" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
+            <MenuItem Header="Coloring">
+                <MenuItem Header="Simple Colorizer" Click="NodeMenuItem_OnClick"/>
+            </MenuItem>
         </ContextMenu>
     </UserControl.Resources>
-    <Border BorderThickness="1" BorderBrush="Black" VerticalAlignment="Top" Margin="10,10,10,10">
+    <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10">
         <Canvas Name="NodeCanvas" ContextMenu="{StaticResource NodeMenu}" 
-                Width="1000" Height="780" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                Background="GhostWhite" MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp" ClipToBounds="True"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                Background="GhostWhite" ClipToBounds="True"
+                MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp" 
                 MouseLeftButtonDown="NodeCanvas_OnMouseLeftButtonDown"
                 MouseLeftButtonUp="NodeCanvas_OnMouseLeftButtonUp"
                 MouseMove="NodeCanvas_OnMouseMove">

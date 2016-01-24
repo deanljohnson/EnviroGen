@@ -8,19 +8,13 @@ namespace EnviroGenDisplay.ViewModels
     {
         protected TNode Node;
 
-        public INode Input
-        {
-            get { return Node.Input; }
-            set { Node.Input = value; }
-        }
-
         public INode Output
         {
             get { return Node.Output; }
             set { Node.Output = value; }
         }
 
-        public void Modify(Environment environment)
+        public virtual void Modify(Environment environment)
         {
             Node.Modify(environment);
         }

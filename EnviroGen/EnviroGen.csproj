@@ -97,7 +97,6 @@
     <Compile Include="Nodes\TerrainGeneratorNode.cs" />
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="Nodes\ModifierNode.cs" />
-    <Compile Include="Nodes\NodeGraph.cs" />
     <Compile Include="Noise\Modifiers\AddModifier.cs" />
     <Compile Include="Noise\Modifiers\ClampModifier.cs" />
     <Compile Include="Noise\Modifiers\IInvertableModifier.cs" />

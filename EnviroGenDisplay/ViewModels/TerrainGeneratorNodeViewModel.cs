@@ -103,6 +103,8 @@ namespace EnviroGenDisplay.ViewModels
 
         private void Generate(object m = null)
         {
+            //We limit random seed to 10000 because very large seeds 
+            //cause artifacts with some noise algorithms
             if (Seed == -1)
                 Seed = new Random().Next(10000);
 

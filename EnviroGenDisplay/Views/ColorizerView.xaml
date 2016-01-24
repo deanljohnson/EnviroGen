@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:ColorizerViewModel}">
+             mc:Ignorable="d">
+    <Grid Margin="5,5,5,5" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:ColorizerNodeViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -25,7 +24,6 @@
         <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Path=ColorRanges}">
         </ListBox>
         <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Set Coloring" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Command="{Binding Path=SetColorsCommand}"/>
             <Button Content="+" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Command="{Binding Path=AddColorCommand}"/>
             <Button Content="-" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Command="{Binding Path=RemoveColorCommand}"/>
         </StackPanel>

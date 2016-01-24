@@ -134,15 +134,13 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModels\EnvironmentViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ClampModifierNodeViewModel.cs" />
-    <Compile Include="ViewModels\ColorizerViewModel.cs" />
+    <Compile Include="ViewModels\ColorizerNodeViewModel.cs" />
     <Compile Include="ViewModels\ColorRangeViewModel.cs" />
     <Compile Include="ViewModels\TerrainGeneratorNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ExponentModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Erosion\HydraulicErosionNodeViewModel.cs" />
     <Compile Include="ViewModels\Erosion\ImprovedThermalErosionNodeViewModel.cs" />
-    <Compile Include="ViewModels\Modifiers\InvertableModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\InvertModifierNodeViewModel.cs" />
-    <Compile Include="ViewModels\Modifiers\ModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\NormalizeModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\RidgedModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ScaleModifierNodeViewModel.cs" />
@@ -153,8 +151,8 @@
     <Compile Include="Views\TerrainGeneratorView.xaml.cs">
       <DependentUpon>TerrainGeneratorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\HeightMapView.xaml.cs">
-      <DependentUpon>HeightMapView.xaml</DependentUpon>
+    <Compile Include="Views\EnvironmentView.xaml.cs">
+      <DependentUpon>EnvironmentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Modifiers\AddModifierView.xaml.cs">
       <DependentUpon>AddModifierView.xaml</DependentUpon>
@@ -228,7 +226,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\HeightMapView.xaml">
+    <Page Include="Views\EnvironmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

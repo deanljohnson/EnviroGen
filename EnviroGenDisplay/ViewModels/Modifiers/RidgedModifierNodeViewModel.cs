@@ -7,7 +7,10 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
     {
         public RidgedModifierNodeViewModel()
         {
-            Node = new ModifierNode<RidgedModifier>();
+            Node = new ModifierNode<RidgedModifier>
+            {
+                Modifier = new RidgedModifier()
+            };
         }
     }
 }

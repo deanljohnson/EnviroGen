@@ -5,7 +5,6 @@ namespace EnviroGen.Nodes
     public class ModifierNode<TModifier> : INode 
         where TModifier : IModifier
     {
-        public INode Input { get; set; }
         public INode Output { get; set; }
 
         public TModifier Modifier { get; set; }
