@@ -23,11 +23,11 @@ namespace EnviroGenDisplay
             var statusTracker = new StatusTrackerViewModel();
             StatusTracker.DataContext = statusTracker;
 
-            MapView.Content = new EnvironmentViewModel
+            EnvironmentTab.Content = new EnvironmentViewModel
             {
                 StatusTracker = statusTracker
             };
-            var environment = (IEnvironment) MapView.Content;
+            var environment = (IEnvironment)EnvironmentTab.Content;
 
             HeightMapTab.Content = new GenerationOptionsViewModel(environment);
 

@@ -1,13 +1,8 @@
 ﻿<Window x:Class="EnviroGenDisplay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EnviroGen Display" Height="859.5" Width="1308" SizeToContent="WidthAndHeight"
-        xmlns:views="clr-namespace:EnviroGenDisplay.Views"
-        xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
-        xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
-        xmlns:erosion="clr-namespace:EnviroGenDisplay.ViewModels.Erosion"
-        xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion"
-        xmlns:modifiers1="clr-namespace:EnviroGenDisplay.Views.Modifiers">
+        Title="EnviroGen Display" Height="871.5" Width="1308" SizeToContent="WidthAndHeight"
+        xmlns:views="clr-namespace:EnviroGenDisplay.Views">
     <Window.Resources>
         
     </Window.Resources>
@@ -42,11 +37,12 @@
         </TabControl>
         <TabControl Grid.Column="1">
             <TabItem Header="Environment" Name="EnvironmentTab">
-                <views:HeightMapView x:Name="MapView" HorizontalAlignment="Left" VerticalAlignment="Top" Height="782"/>
             </TabItem>
-            <TabItem Header="NodeEditor" Name="NodeEditorTab">
+            <TabItem Header="NodeEditor">
+                <!-- Using ContentPresenter here to fix issues with controls being re-created on tab-switch-->
+                <ContentPresenter Name="NodeEditorTab"></ContentPresenter>
             </TabItem>
         </TabControl>
-        <views:StatusTrackerView x:Name="StatusTracker" Grid.Column="1" HorizontalAlignment="Left" Margin="10,806,0,0" VerticalAlignment="Top"/>
+        <views:StatusTrackerView x:Name="StatusTracker" Grid.Column="1" HorizontalAlignment="Left" Margin="10,815,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

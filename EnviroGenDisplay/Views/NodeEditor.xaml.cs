@@ -37,8 +37,8 @@ namespace EnviroGenDisplay.Views
             var nodeViewControl = new NodeView(nodeViewModel);
 
             if (m_RightClickPosition == null) throw new Exception("Right click position was not properly set on the canvas");
-            nodeViewControl.SetValue(Canvas.LeftProperty, m_RightClickPosition?.X);
-            nodeViewControl.SetValue(Canvas.TopProperty, m_RightClickPosition?.Y);
+            nodeViewControl.CanvasLeft = m_RightClickPosition.Value.X;
+            nodeViewControl.CanvasTop = m_RightClickPosition.Value.Y;
             m_RightClickPosition = null;
 
             NodeCanvas.Children.Add(nodeViewControl);

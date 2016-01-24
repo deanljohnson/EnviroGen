@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EnviroGenDisplay.Views.Nodes"
-             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
-             xmlns:vms="clr-namespace:EnviroGenDisplay.ViewModels"
              mc:Ignorable="d">
     <UserControl.Resources>
     </UserControl.Resources>
-    <Border Name="NodeContainer" CornerRadius="10" Background="Gainsboro"  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto">
-        
+    <Border CornerRadius="10" Background="Gainsboro"  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto"
+            MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
+            MouseMove="UIElement_OnMouseMove"
+            MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp">
+        <ContentControl Name="NodeContainer"></ContentControl>
     </Border>
 </UserControl>
