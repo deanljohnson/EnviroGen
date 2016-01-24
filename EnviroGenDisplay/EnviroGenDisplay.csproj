@@ -138,8 +138,8 @@
     <Compile Include="ViewModels\ColorRangeViewModel.cs" />
     <Compile Include="ViewModels\TerrainGeneratorNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ExponentModifierNodeViewModel.cs" />
-    <Compile Include="ViewModels\Erosion\HydraulicErosionViewModel.cs" />
-    <Compile Include="ViewModels\Erosion\ImprovedThermalErosionViewModel.cs" />
+    <Compile Include="ViewModels\Erosion\HydraulicErosionNodeViewModel.cs" />
+    <Compile Include="ViewModels\Erosion\ImprovedThermalErosionNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\InvertableModifierViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\InvertModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ModifierViewModel.cs" />
@@ -147,7 +147,7 @@
     <Compile Include="ViewModels\Modifiers\RidgedModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ScaleModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\SquareContinentViewModel.cs" />
-    <Compile Include="ViewModels\Erosion\ThermalErosionViewModel.cs" />
+    <Compile Include="ViewModels\Erosion\ThermalErosionNodeViewModel.cs" />
     <Compile Include="ViewModels\StatusTrackerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\TerrainGeneratorView.xaml.cs">

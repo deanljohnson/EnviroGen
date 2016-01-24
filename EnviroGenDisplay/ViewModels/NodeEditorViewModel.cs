@@ -1,4 +1,5 @@
-﻿using EnviroGenDisplay.ViewModels.Modifiers;
+﻿using EnviroGenDisplay.ViewModels.Erosion;
+using EnviroGenDisplay.ViewModels.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels
 {
@@ -45,6 +46,18 @@ namespace EnviroGenDisplay.ViewModels
             if (nodeName == "Scale")
             {
                 return new ScaleModifierNodeViewModel();
+            }
+            if (nodeName == "Hydraulic")
+            {
+                return new HydraulicErosionNodeViewModel();
+            }
+            if (nodeName == "Improved Thermal")
+            {
+                return new ImprovedThermalErosionNodeViewModel();
+            }
+            if (nodeName == "Thermal")
+            {
+                return new ThermalErosionNodeViewModel();
             }
 
             return null;

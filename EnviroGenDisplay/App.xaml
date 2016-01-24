@@ -28,13 +28,13 @@
         <DataTemplate DataType="{x:Type modifiers:ClampModifierNodeViewModel}">
             <modifiers1:ClampModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:HydraulicErosionViewModel}">
+        <DataTemplate DataType="{x:Type erosion:HydraulicErosionNodeViewModel}">
             <erosion1:HydraulicErosionView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:ThermalErosionViewModel}">
+        <DataTemplate DataType="{x:Type erosion:ThermalErosionNodeViewModel}">
             <erosion1:ThermalErosionView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:ImprovedThermalErosionViewModel}">
+        <DataTemplate DataType="{x:Type erosion:ImprovedThermalErosionNodeViewModel}">
             <erosion1:ImprovedThermalErosionView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">

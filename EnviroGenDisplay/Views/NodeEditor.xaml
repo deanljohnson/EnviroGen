@@ -21,12 +21,12 @@
                 <MenuItem Header="Scale" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Erosion Processes">
-                <MenuItem Header="Hydraulic"/>
-                <MenuItem Header="Thermal"/>
-                <MenuItem Header="Improved Thermal"/>
+                <MenuItem Header="Hydraulic" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Thermal" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Improved Thermal" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Continent Generators">
-                <MenuItem Header="Square"/>
+                <MenuItem Header="Square" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
         </ContextMenu>
     </UserControl.Resources>

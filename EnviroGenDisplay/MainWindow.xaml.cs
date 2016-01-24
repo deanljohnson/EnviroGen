@@ -31,9 +31,9 @@ namespace EnviroGenDisplay
 
             /*HeightMapTab.Content = new TerrainGeneratorNodeViewModel(environment);
 
-            HydraulicErosionTab.Content = new HydraulicErosionViewModel(environment);
-            ThermalErosionTab.Content = new ThermalErosionViewModel(environment);
-            ImprovedThermalErosionTab.Content = new ImprovedThermalErosionViewModel(environment);
+            HydraulicErosionTab.Content = new HydraulicErosionNodeViewModel(environment);
+            ThermalErosionTab.Content = new ThermalErosionNodeViewModel(environment);
+            ImprovedThermalErosionTab.Content = new ImprovedThermalErosionNodeViewModel(environment);
 
             SquareContinentTab.Content = new SquareContinentViewModel(environment);
 
