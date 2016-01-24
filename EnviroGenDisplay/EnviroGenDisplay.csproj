@@ -146,7 +146,7 @@
     <Compile Include="ViewModels\Modifiers\NormalizeModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\RidgedModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Modifiers\ScaleModifierNodeViewModel.cs" />
-    <Compile Include="ViewModels\SquareContinentViewModel.cs" />
+    <Compile Include="ViewModels\Continents\SquareContinentNodeViewModel.cs" />
     <Compile Include="ViewModels\Erosion\ThermalErosionNodeViewModel.cs" />
     <Compile Include="ViewModels\StatusTrackerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -195,7 +195,7 @@
     <Compile Include="Views\Nodes\NodeView.xaml.cs">
       <DependentUpon>NodeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SquareContinentView.xaml.cs">
+    <Compile Include="Views\Continents\SquareContinentView.xaml.cs">
       <DependentUpon>SquareContinentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Erosion\ThermalErosionView.xaml.cs">
@@ -284,7 +284,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SquareContinentView.xaml">
+    <Page Include="Views\Continents\SquareContinentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

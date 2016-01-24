@@ -8,6 +8,8 @@
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:nodeViews="clr-namespace:EnviroGenDisplay.Views.Nodes"
+             xmlns:continents="clr-namespace:EnviroGenDisplay.ViewModels.Continents"
+             xmlns:continents1="clr-namespace:EnviroGenDisplay.Views.Continents"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <DataTemplate DataType="{x:Type modifiers:RidgedModifierNodeViewModel}">
@@ -46,8 +48,8 @@
         <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
             <views:HeightMapView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:SquareContinentViewModel}">
-            <views:SquareContinentView/>
+        <DataTemplate DataType="{x:Type continents:SquareContinentNodeViewModel}">
+            <continents1:SquareContinentView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:NodeEditorViewModel}">
             <views:NodeEditor/>

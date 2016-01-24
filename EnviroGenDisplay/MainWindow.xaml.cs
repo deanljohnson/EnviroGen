@@ -35,7 +35,7 @@ namespace EnviroGenDisplay
             ThermalErosionTab.Content = new ThermalErosionNodeViewModel(environment);
             ImprovedThermalErosionTab.Content = new ImprovedThermalErosionNodeViewModel(environment);
 
-            SquareContinentTab.Content = new SquareContinentViewModel(environment);
+            SquareContinentTab.Content = new SquareContinentNodeViewModel(environment);
 
             ColoringTab.Content = new ColorizerViewModel(environment);
 

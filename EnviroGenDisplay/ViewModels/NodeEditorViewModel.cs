@@ -1,4 +1,5 @@
-﻿using EnviroGenDisplay.ViewModels.Erosion;
+﻿using EnviroGenDisplay.ViewModels.Continents;
+using EnviroGenDisplay.ViewModels.Erosion;
 using EnviroGenDisplay.ViewModels.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels
@@ -58,6 +59,10 @@ namespace EnviroGenDisplay.ViewModels
             if (nodeName == "Thermal")
             {
                 return new ThermalErosionNodeViewModel();
+            }
+            if (nodeName == "Square")
+            {
+                return new SquareContinentNodeViewModel();
             }
 
             return null;
