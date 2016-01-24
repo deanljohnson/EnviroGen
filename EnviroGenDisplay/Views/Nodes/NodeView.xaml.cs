@@ -27,11 +27,12 @@ namespace EnviroGenDisplay.Views.Nodes
             set { SetValue(Canvas.TopProperty, value); }
         }
 
-        public NodeView(ViewModelBase nodeViewModel)
+        public NodeView(ViewModelBase nodeViewModel, string nodeName)
         {
             InitializeComponent();
 
             NodeContainer.Content = nodeViewModel;
+            NodeNameTextBlock.Text = nodeName;
         }
 
         private void UIElement_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -32,9 +32,10 @@ namespace EnviroGenDisplay.Views
 
             if (menuItem == null) return;
 
-            var nodeViewModel = m_ViewModel.GetNodeViewModel(menuItem.Header.ToString());
+            var nodeName = menuItem.Header.ToString();
+            var nodeViewModel = m_ViewModel.GetNodeViewModel(nodeName);
 
-            var nodeViewControl = new NodeView(nodeViewModel);
+            var nodeViewControl = new NodeView(nodeViewModel, nodeName);
 
             if (m_RightClickPosition == null) throw new Exception("Right click position was not properly set on the canvas");
             nodeViewControl.CanvasLeft = m_RightClickPosition.Value.X;

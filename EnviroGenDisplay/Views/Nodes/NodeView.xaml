@@ -6,10 +6,21 @@
              mc:Ignorable="d">
     <UserControl.Resources>
     </UserControl.Resources>
-    <Border CornerRadius="10" Background="Gainsboro"  BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto"
+    <Border Name="NodeViewBorder" CornerRadius="10" BorderBrush="Black" BorderThickness="2" 
+            HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto"
             MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
             MouseMove="UIElement_OnMouseMove"
-            MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp">
-        <ContentControl Name="NodeContainer"></ContentControl>
+            MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp" MinWidth="50" MinHeight="50">
+        <Grid>
+            <Grid.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=clipMask}" Stretch="None"/>
+            </Grid.OpacityMask>
+            <Border x:Name="clipMask" Background="White" CornerRadius="8"/>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Name="NodeNameTextBlock" TextAlignment="Center" FontSize="12" Text="Node Name" Background="LightBlue" 
+                           Width="{Binding Width, ElementName=NodeViewBorder}" Height="15"/>
+                <ContentControl Name="NodeContainer"></ContentControl>
+            </StackPanel>
+        </Grid>
     </Border>
 </UserControl>
