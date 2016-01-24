@@ -115,6 +115,7 @@ namespace EnviroGenDisplay.ViewModels
             lock (Map.Environment)
             {
                 Node.Modify(Map.Environment);
+                Map.Environment.Terrain.UpdateImage();
             }
         }
 
