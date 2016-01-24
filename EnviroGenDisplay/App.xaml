@@ -7,28 +7,26 @@
              xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
+             xmlns:nodeViews="clr-namespace:EnviroGenDisplay.Views.Nodes"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <DataTemplate DataType="{x:Type modifiers:RidgedModifierViewModel}">
+        <DataTemplate DataType="{x:Type modifiers:RidgedModifierNodeViewModel}">
             <modifiers1:RidgedModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:InvertModifierViewModel}">
+        <DataTemplate DataType="{x:Type modifiers:InvertModifierNodeViewModel}">
             <modifiers1:InvertModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ScaleModifierViewModel}">
+        <DataTemplate DataType="{x:Type modifiers:ScaleModifierNodeViewModel}">
             <modifiers1:ScaleModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ExponentModifierViewModel}">
+        <DataTemplate DataType="{x:Type modifiers:ExponentModifierNodeViewModel}">
             <modifiers1:ExponentModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:NormalizeModifierViewModel}">
+        <DataTemplate DataType="{x:Type modifiers:NormalizeModifierNodeViewModel}">
             <modifiers1:NormalizeModifierView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ClampModifierViewModel}">
+        <DataTemplate DataType="{x:Type modifiers:ClampModifierNodeViewModel}">
             <modifiers1:ClampModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:AddModifierViewModel}">
-            <modifiers1:AddModifierView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type erosion:HydraulicErosionViewModel}">
             <erosion1:HydraulicErosionView/>
@@ -42,8 +40,8 @@
         <DataTemplate DataType="{x:Type viewModels:ColorizerViewModel}">
             <views:ColorizerView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:GenerationOptionsViewModel}">
-            <views:GenerationOptionsView/>
+        <DataTemplate DataType="{x:Type viewModels:TerrainGeneratorNodeViewModel}">
+            <views:TerrainGeneratorView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
             <views:HeightMapView/>
@@ -53,6 +51,12 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:NodeEditorViewModel}">
             <views:NodeEditor/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:NodeConnectionViewModel}">
+            <nodeViews:NodeConnectionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modifiers:AddModifierNodeViewModel}">
+            <modifiers1:AddModifierView/>
         </DataTemplate>
     </Application.Resources>
 </Application>

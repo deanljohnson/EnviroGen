@@ -94,11 +94,10 @@
     <Compile Include="Nodes\ColorizerNode.cs" />
     <Compile Include="Nodes\ContinentGeneratorNode.cs" />
     <Compile Include="Nodes\EroderNode.cs" />
+    <Compile Include="Nodes\TerrainGeneratorNode.cs" />
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="Nodes\ModifierNode.cs" />
     <Compile Include="Nodes\NodeGraph.cs" />
-    <Compile Include="Nodes\RootNode.cs" />
-    <Compile Include="Nodes\TerminalNode.cs" />
     <Compile Include="Noise\Modifiers\AddModifier.cs" />
     <Compile Include="Noise\Modifiers\ClampModifier.cs" />
     <Compile Include="Noise\Modifiers\IInvertableModifier.cs" />

@@ -11,7 +11,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TabControl HorizontalAlignment="Left" Width="280" Height="Auto" Margin="0,0,0,18">
+        <!--<TabControl HorizontalAlignment="Left" Width="280" Height="Auto" Margin="0,0,0,18">
             <TabItem Header="Height Map" Name="HeightMapTab">
             </TabItem>
             <TabItem Header="Continents">
@@ -34,7 +34,7 @@
             </TabItem>
             <TabItem Header="Modifiers" Name="ModifiersTab">
             </TabItem>
-        </TabControl>
+        </TabControl>-->
         <TabControl Grid.Column="1">
             <TabItem Header="Environment" Name="EnvironmentTab">
             </TabItem>

@@ -5,9 +5,9 @@ namespace EnviroGenDisplay.Views
     /// <summary>
     /// Interaction logic for EnvironmentDataView.xaml
     /// </summary>
-    public partial class GenerationOptionsView : UserControl
+    public partial class TerrainGeneratorView : UserControl
     {
-        public GenerationOptionsView()
+        public TerrainGeneratorView()
         {
             InitializeComponent();
         }

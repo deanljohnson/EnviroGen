@@ -1,7 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 using EnviroGenDisplay.ViewModels;
-using EnviroGenDisplay.ViewModels.Modifiers;
 
 namespace EnviroGenDisplay.Views.Modifiers
 {
@@ -17,13 +16,13 @@ namespace EnviroGenDisplay.Views.Modifiers
         {
             InitializeComponent();
 
-            AddChildModifier(new AddModifierViewModel(environment));
-            AddChildModifier(new ClampModifierViewModel(environment));
-            AddChildModifier(new ExponentModifierViewModel(environment));
-            AddChildModifier(new InvertModifierViewModel(environment));
-            AddChildModifier(new NormalizeModifierViewModel(environment));
-            AddChildModifier(new RidgedModifierViewModel(environment));
-            AddChildModifier(new ScaleModifierViewModel(environment));
+            //AddChildModifier(new AddModifierViewModel(environment));
+            //AddChildModifier(new ClampModifierNodeViewModel(environment));
+            //AddChildModifier(new ExponentModifierNodeViewModel(environment));
+            //AddChildModifier(new InvertModifierNodeViewModel(environment));
+            //AddChildModifier(new NormalizeModifierNodeViewModel(environment));
+            //AddChildModifier(new RidgedModifierNodeViewModel(environment));
+            //AddChildModifier(new ScaleModifierNodeViewModel(environment));
         }
 
         private void AddChildModifier(ViewModelBase vm)

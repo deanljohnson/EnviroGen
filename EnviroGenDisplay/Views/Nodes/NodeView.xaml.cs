@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using EnviroGen.Nodes;
 using EnviroGenDisplay.ViewModels;
 
 namespace EnviroGenDisplay.Views.Nodes
@@ -13,6 +14,8 @@ namespace EnviroGenDisplay.Views.Nodes
     {
         private Point m_DragStartRelativeMousePos { get; set; }
         private bool m_Dragging { get; set; }
+        private NodeEditor m_Editor { get; }
+
         public Point CanvasPoint => new Point(CanvasLeft, CanvasTop);
 
         public double CanvasLeft
@@ -27,10 +30,11 @@ namespace EnviroGenDisplay.Views.Nodes
             set { SetValue(Canvas.TopProperty, value); }
         }
 
-        public NodeView(ViewModelBase nodeViewModel, string nodeName)
+        public NodeView(ViewModelBase nodeViewModel, string nodeName, NodeEditor editor)
         {
             InitializeComponent();
 
+            m_Editor = editor;
             NodeContainer.Content = nodeViewModel;
             NodeNameTextBlock.Text = nodeName;
         }
@@ -55,6 +59,8 @@ namespace EnviroGenDisplay.Views.Nodes
 
                 CanvasLeft += delta.X;
                 CanvasTop += delta.Y;
+
+                m_Editor.UpdateConnectionPositions();
             }
         }
 
@@ -81,6 +87,25 @@ namespace EnviroGenDisplay.Views.Nodes
             }
 
             SetValue(Panel.ZIndexProperty, maxZ + 1);
+        }
+
+        private void Connection_OnMouseLeftButtonEvent(object sender, MouseButtonEventArgs e)
+        {
+            var node = NodeContainer.Content as INode;
+            var type = ReferenceEquals(sender, InputControl) ? "Input" : "Output";
+
+            if (node != null && 
+                type == "Output" && 
+                e.ButtonState == MouseButtonState.Pressed)
+            {
+                m_Editor?.StartConnectionAction(node, sender as Control);
+            }
+            else if (node != null && 
+                type == "Input" && 
+                e.ButtonState == MouseButtonState.Released)
+            {
+                m_Editor?.EndConnectionAction(node, sender as Control);
+            }
         }
     }
 }

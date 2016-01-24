@@ -6,22 +6,19 @@
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
              mc:Ignorable="d">
-    <Expander Header="Invert">
-        <Grid d:DataContext="{d:DesignInstance modifiers:InvertModifierViewModel}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.Resources>
-                <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
-            </Grid.Resources>
-            <Label Content="Max Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
-            <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=MaxValue, Converter={StaticResource FloatToStringConverter}}"/>
-            <Button x:Name="ApplyButton" Content="Apply" Width="Auto" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1" Command="{Binding Path=ApplyCommand}"/>
-        </Grid>
-    </Expander>
+    <Grid d:DataContext="{d:DesignInstance modifiers:InvertModifierNodeViewModel}" Margin="5,5,5,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
+        </Grid.Resources>
+        <Label Content="Max Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=MaxValue, Converter={StaticResource FloatToStringConverter}}"/>
+    </Grid>
 </UserControl>

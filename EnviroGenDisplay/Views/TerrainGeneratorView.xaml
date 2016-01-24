@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="EnviroGenDisplay.Views.GenerationOptionsView"
+﻿<UserControl x:Class="EnviroGenDisplay.Views.TerrainGeneratorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              mc:Ignorable="d">
-    <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:GenerationOptionsViewModel}">
+    <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:TerrainGeneratorNodeViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>

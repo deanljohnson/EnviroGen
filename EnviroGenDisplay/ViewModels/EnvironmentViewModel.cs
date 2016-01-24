@@ -20,7 +20,8 @@ namespace EnviroGenDisplay.ViewModels
         private WriteableBitmap m_HeightBitmap;
         private BackgroundWorker m_TerrainWorker { get; } = new BackgroundWorker();
         private BackgroundWorker m_ErosionWorker { get; } = new BackgroundWorker();
-        private Environment m_Environment { get; }
+
+        public Environment Environment { get; }
 
         public WriteableBitmap HeightMapBitmap {
             get { return m_HeightBitmap; }
@@ -37,7 +38,7 @@ namespace EnviroGenDisplay.ViewModels
 
         public EnvironmentViewModel(int w = 1000, int h = 780)
         {
-            m_Environment = new Environment(null);
+            Environment = new Environment(null);
             //why 96? idk, it works
             HeightMapBitmap = new WriteableBitmap(w, h, 96, 96, PixelFormats.Bgra32, null);
 
@@ -46,6 +47,11 @@ namespace EnviroGenDisplay.ViewModels
 
             m_ErosionWorker.DoWork += ErodeTerrain;
             m_ErosionWorker.RunWorkerCompleted += OnGenerationProcedureComplete;
+        }
+
+        public void Update()
+        {
+            OnGenerationProcedureComplete(null, null);
         }
 
         public void GenerateTerrain(GenerationOptions data)
@@ -62,11 +68,11 @@ namespace EnviroGenDisplay.ViewModels
 
         public void ApplyColorizer()
         {
-            if (m_Environment?.Terrain == null) return;
+            if (Environment?.Terrain == null) return;
 
-            lock (m_Environment)
+            lock (Environment)
             {
-                m_Environment.Terrain.Colorize();
+                Environment.Terrain.Colorize();
 
                 UpdateWholeBitmap();
             }
@@ -74,26 +80,26 @@ namespace EnviroGenDisplay.ViewModels
 
         public Colorizer GetColorizer()
         {
-            return m_Environment.Terrain?.Colorizer ?? Terrain.DefaultColorizer;
+            return Environment.Terrain?.Colorizer ?? Terrain.DefaultColorizer;
         }
 
         public void AddColor(ColorRange c)
         {
-            m_Environment.Terrain?.Colorizer.AddColorRange(c);
+            Environment.Terrain?.Colorizer.AddColorRange(c);
         }
 
         public void RemoveColor(ColorRange c)
         {
-            m_Environment.Terrain?.Colorizer.RemoveColorRange(c);
+            Environment.Terrain?.Colorizer.RemoveColorRange(c);
         }
 
         public void GenerateContinents(IContinentGenerator generator)
         {
-            if (m_Environment?.Terrain == null) return;
+            if (Environment?.Terrain == null) return;
 
-            lock (m_Environment)
+            lock (Environment)
             {
-                m_Environment.GenerateContinents(generator);
+                Environment.GenerateContinents(generator);
             }
 
             UpdateWholeBitmap();
@@ -101,31 +107,31 @@ namespace EnviroGenDisplay.ViewModels
 
         public void ApplyTerrainModifier(IModifier modifier)
         {
-            if (m_Environment?.Terrain == null) return;
+            if (Environment?.Terrain == null) return;
 
-            lock (m_Environment)
+            lock (Environment)
             {
-                m_Environment.ApplyTerrainModifier(modifier);
+                Environment.ApplyTerrainModifier(modifier);
             }
             UpdateWholeBitmap();
         }
 
         public void ApplyTerrainModifierInverted(IInvertableModifier modifier)
         {
-            if (m_Environment?.Terrain == null) return;
+            if (Environment?.Terrain == null) return;
 
-            lock (m_Environment)
+            lock (Environment)
             {
-                m_Environment.ApplyTerrainModifierInverted(modifier);
+                Environment.ApplyTerrainModifierInverted(modifier);
             }
             UpdateWholeBitmap();
         }
 
         private void OnGenerationProcedureComplete(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
-            if (m_Environment?.Terrain == null) return;
+            if (Environment?.Terrain == null) return;
 
-            lock (m_Environment)
+            lock (Environment)
             {
                 //We have to execute this after any background workers are finished
                 //because writeablebitmap's can only lock on the owning thread
@@ -144,9 +150,9 @@ namespace EnviroGenDisplay.ViewModels
             //pick a random seed if the seed is -1
             options.Seed = (options.Seed == -1) ? Random.Next(10000) : options.Seed;
 
-            lock (m_Environment)
+            lock (Environment)
             {
-                m_Environment.GenerateTerrain(options);
+                Environment.GenerateTerrain(options);
             }
 
             StatusTracker.PopMessage();
@@ -154,7 +160,7 @@ namespace EnviroGenDisplay.ViewModels
 
         private void ErodeTerrain(object sender, DoWorkEventArgs doWorkEventArgs)
         {
-            if (m_Environment?.Terrain == null) return;
+            if (Environment?.Terrain == null) return;
 
             StatusTracker.PushMessage("Eroding Terrain...");
 
@@ -162,9 +168,9 @@ namespace EnviroGenDisplay.ViewModels
 
             Debug.Assert(eroder != null, $"The passed argument was not of the expected type {typeof(IEroder)}");
 
-            lock (m_Environment)
+            lock (Environment)
             {
-                m_Environment.ErodeTerrain(eroder);
+                Environment.ErodeTerrain(eroder);
             }
 
             StatusTracker.PopMessage();
@@ -173,24 +179,24 @@ namespace EnviroGenDisplay.ViewModels
         private void UpdateWholeBitmap()
         {
             //Get pixels to place in the Bitmap
-            var pixels = new Color[m_Environment.Terrain.Image.Width * m_Environment.Terrain.Image.Height];
-            for (uint j = 0; j < m_Environment.Terrain.Image.Height; j++)
+            var pixels = new Color[Environment.Terrain.Image.Width * Environment.Terrain.Image.Height];
+            for (uint j = 0; j < Environment.Terrain.Image.Height; j++)
             {
                 //The number of pixels up to the j'th row
-                var countSoFar = (j * m_Environment.Terrain.Image.Width);
+                var countSoFar = (j * Environment.Terrain.Image.Width);
 
-                for (uint i = 0; i < m_Environment.Terrain.Image.Width; i++)
+                for (uint i = 0; i < Environment.Terrain.Image.Width; i++)
                 {
-                    pixels[i + countSoFar] = m_Environment.Terrain.Image[i, j];
+                    pixels[i + countSoFar] = Environment.Terrain.Image[i, j];
                 }
             }
 
             //Resize the bitmap if needed
-            if (m_Environment.Terrain.Image.Width != HeightMapBitmap.PixelWidth ||
-                m_Environment.Terrain.Image.Height != HeightMapBitmap.PixelHeight)
+            if (Environment.Terrain.Image.Width != HeightMapBitmap.PixelWidth ||
+                Environment.Terrain.Image.Height != HeightMapBitmap.PixelHeight)
             {
-                HeightMapBitmap = new WriteableBitmap((int) m_Environment.Terrain.Image.Width, 
-                                                        (int) m_Environment.Terrain.Image.Height, 
+                HeightMapBitmap = new WriteableBitmap((int) Environment.Terrain.Image.Width, 
+                                                        (int) Environment.Terrain.Image.Height, 
                                                         96, 96, PixelFormats.Bgra32, null);
             }
 

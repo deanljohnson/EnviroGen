@@ -29,7 +29,7 @@ namespace EnviroGenDisplay
             };
             var environment = (IEnvironment)EnvironmentTab.Content;
 
-            HeightMapTab.Content = new GenerationOptionsViewModel(environment);
+            /*HeightMapTab.Content = new TerrainGeneratorNodeViewModel(environment);
 
             HydraulicErosionTab.Content = new HydraulicErosionViewModel(environment);
             ThermalErosionTab.Content = new ThermalErosionViewModel(environment);
@@ -39,7 +39,7 @@ namespace EnviroGenDisplay
 
             ColoringTab.Content = new ColorizerViewModel(environment);
 
-            ModifiersTab.Content = new ModifierView(environment);
+            ModifiersTab.Content = new ModifierView(environment);*/
 
             NodeEditorTab.Content = new NodeEditorViewModel(environment);
         }

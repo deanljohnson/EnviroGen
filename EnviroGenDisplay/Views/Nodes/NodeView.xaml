@@ -6,21 +6,33 @@
              mc:Ignorable="d">
     <UserControl.Resources>
     </UserControl.Resources>
-    <Border Name="NodeViewBorder" CornerRadius="10" BorderBrush="Black" BorderThickness="2" 
+    <Canvas Width="{Binding ElementName=NodeViewBorder, Path=ActualWidth}" Height="{Binding ElementName=NodeViewBorder, Path=ActualHeight}">
+        <Border Name="NodeViewBorder" CornerRadius="10" BorderBrush="Black" BorderThickness="2" 
             HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto"
             MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
             MouseMove="UIElement_OnMouseMove"
             MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp" MinWidth="50" MinHeight="50">
-        <Grid>
-            <Grid.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=clipMask}" Stretch="None"/>
-            </Grid.OpacityMask>
-            <Border x:Name="clipMask" Background="White" CornerRadius="8"/>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Name="NodeNameTextBlock" TextAlignment="Center" FontSize="12" Text="Node Name" Background="LightBlue" 
+            <Grid>
+                <Grid.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=clipMask}" Stretch="None"/>
+                </Grid.OpacityMask>
+                <Border x:Name="clipMask" Background="White" CornerRadius="8"/>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Name="NodeNameTextBlock" TextAlignment="Center" FontSize="12" Text="Node Name" Background="LightBlue" 
                            Width="{Binding Width, ElementName=NodeViewBorder}" Height="15"/>
-                <ContentControl Name="NodeContainer"></ContentControl>
-            </StackPanel>
-        </Grid>
-    </Border>
+                    <ContentControl Name="NodeContainer"></ContentControl>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <ContentControl Name="InputControl" Canvas.Left="-8" Canvas.Top="5" 
+                        MouseLeftButtonDown="Connection_OnMouseLeftButtonEvent"
+                        MouseLeftButtonUp="Connection_OnMouseLeftButtonEvent">
+            <Ellipse Name="InputConnection" Width="10" Height="10" Fill="Red"/>
+        </ContentControl>
+        <ContentControl Name="OutputControl" Canvas.Right="-8" Canvas.Top="5" 
+                        MouseLeftButtonDown="Connection_OnMouseLeftButtonEvent"
+                        MouseLeftButtonUp="Connection_OnMouseLeftButtonEvent">
+            <Ellipse Name="OutputConnection" Width="10" Height="10" Fill="Green"/>
+        </ContentControl>
+    </Canvas>
 </UserControl>

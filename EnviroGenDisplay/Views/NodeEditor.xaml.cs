@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using EnviroGen.Nodes;
+using EnviroGenDisplay.Actions;
 using EnviroGenDisplay.ViewModels;
 using EnviroGenDisplay.Views.Nodes;
 
@@ -16,14 +20,67 @@ namespace EnviroGenDisplay.Views
     /// </summary>
     public partial class NodeEditor : UserControl
     {
+        private bool m_DraggingNodeConnection { get; set; }
+        private NodeConnectionViewModel m_NodeConnection { get; set; }
+        private CreateConnectionAction m_CreateConnectionAction { get; set; }
+
         private Point? m_RightClickPosition { get; set; }
 
         private NodeEditorViewModel m_VM;
         private NodeEditorViewModel m_ViewModel => m_VM ?? (m_VM = DataContext as NodeEditorViewModel);
 
+        public ObservableCollection<NodeConnectionViewModel> NodeConnections { get; set; } = new ObservableCollection<NodeConnectionViewModel>();
+
         public NodeEditor()
         {
             InitializeComponent();
+
+            Connections.DataContext = this;
+        }
+
+        public void StartConnectionAction(INode sourceNode, Control sourceControl)
+        {
+            m_CreateConnectionAction = new CreateConnectionAction(sourceNode, sourceControl);
+
+            m_NodeConnection = new NodeConnectionViewModel(NodeCanvas)
+            {
+                SourceControl = m_CreateConnectionAction.SourceControl
+            };
+
+            m_NodeConnection.Two = m_NodeConnection.One;
+
+            NodeConnections.Add(m_NodeConnection);
+
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                m_DraggingNodeConnection = true;
+            }
+        }
+
+        public void EndConnectionAction(INode destNode, Control destControl)
+        {
+            m_DraggingNodeConnection = false;
+            m_CreateConnectionAction.Finished = true;
+            m_CreateConnectionAction.Source.Output = destNode;
+            destNode.Input = m_CreateConnectionAction.Source;
+
+            m_NodeConnection.DestControl = destControl;
+        }
+
+        public void UpdateConnectionPositions()
+        {
+            foreach (var nodeConnection in Connections.Items.OfType<NodeConnectionViewModel>())
+            {
+                nodeConnection.SetLineEndsToControlLocations();
+            }
+        }
+
+        private void CancelConnectionAction()
+        {
+            m_DraggingNodeConnection = false;
+            m_CreateConnectionAction = null;
+
+            NodeConnections.Remove(m_NodeConnection);
         }
 
         private void NodeMenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -35,7 +92,7 @@ namespace EnviroGenDisplay.Views
             var nodeName = menuItem.Header.ToString();
             var nodeViewModel = m_ViewModel.GetNodeViewModel(nodeName);
 
-            var nodeViewControl = new NodeView(nodeViewModel, nodeName);
+            var nodeViewControl = new NodeView(nodeViewModel, nodeName, this);
 
             if (m_RightClickPosition == null) throw new Exception("Right click position was not properly set on the canvas");
             nodeViewControl.CanvasLeft = m_RightClickPosition.Value.X;
@@ -48,6 +105,32 @@ namespace EnviroGenDisplay.Views
         private void NodeCanvas_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             m_RightClickPosition = Mouse.GetPosition(NodeCanvas);
+        }
+
+        private void NodeCanvas_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void NodeCanvas_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (m_CreateConnectionAction != null && !m_CreateConnectionAction.Finished)
+                CancelConnectionAction();
+        }
+
+        private void NodeCanvas_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (m_DraggingNodeConnection)
+            {
+                //Sanity check here
+                if (Mouse.LeftButton == MouseButtonState.Pressed)
+                {
+                    m_NodeConnection.Two = Mouse.GetPosition(NodeCanvas);
+                }
+                else
+                {
+                    CancelConnectionAction();
+                }
+            }
         }
     }
 }

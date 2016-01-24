@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EnviroGenDisplay.Views"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              mc:Ignorable="d"
              Height="Auto" Width="Auto">
@@ -13,13 +12,13 @@
                 <MenuItem Header="Simplex Noise" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Terrain Modifiers">
-                <MenuItem Header="Add"/>
-                <MenuItem Header="Clamp"/>
-                <MenuItem Header="Exponent"/>
-                <MenuItem Header="Invert"/>
-                <MenuItem Header="Normalize"/>
-                <MenuItem Header="Ridged"/>
-                <MenuItem Header="Scale"/>
+                <MenuItem Header="Add" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Clamp" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Exponent" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Invert" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Normalize" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Ridged" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Scale" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Erosion Processes">
                 <MenuItem Header="Hydraulic"/>
@@ -34,7 +33,17 @@
     <Border BorderThickness="1" BorderBrush="Black" VerticalAlignment="Top" Margin="10,10,10,10">
         <Canvas Name="NodeCanvas" ContextMenu="{StaticResource NodeMenu}" 
                 Width="1000" Height="780" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                Background="GhostWhite" MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp" ClipToBounds="True">
+                Background="GhostWhite" MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp" ClipToBounds="True"
+                MouseLeftButtonDown="NodeCanvas_OnMouseLeftButtonDown"
+                MouseLeftButtonUp="NodeCanvas_OnMouseLeftButtonUp"
+                MouseMove="NodeCanvas_OnMouseMove">
+            <ItemsControl Name="Connections" ItemsSource="{Binding Path=NodeConnections}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </Canvas>
     </Border>
 </UserControl>

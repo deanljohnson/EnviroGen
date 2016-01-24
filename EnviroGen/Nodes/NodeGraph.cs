@@ -7,33 +7,9 @@ namespace EnviroGen.Nodes
     {
         private List<INode> m_Nodes { get; } = new List<INode>();
 
-        public RootNode RootNode { get; set; }
-
         public NodeGraph()
         {
 
-        }
-
-        public bool HasRootToTerminalPath()
-        {
-            INode currentNode = RootNode;
-
-            var foundTerminalOnGraph = false;
-
-            while (true)
-            {
-                if (currentNode == null) break;
-
-                if (currentNode.Output is TerminalNode)
-                {
-                    foundTerminalOnGraph = true;
-                    break;
-                }
-
-                currentNode = currentNode.Output;
-            }
-
-            return foundTerminalOnGraph;
         }
 
         public IEnumerator<INode> GetEnumerator()
@@ -54,7 +30,6 @@ namespace EnviroGen.Nodes
         public void Clear()
         {
             m_Nodes.Clear();
-            RootNode = null;
         }
 
         public bool Contains(INode item)

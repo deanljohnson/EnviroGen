@@ -8,6 +8,10 @@ namespace EnviroGenDisplay
 {
     public interface IEnvironment
     {
+        Environment Environment { get; }
+
+        void Update();
+
         void GenerateTerrain(GenerationOptions data);
 
         Colorizer GetColorizer();
