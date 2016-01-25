@@ -19,7 +19,7 @@ namespace EnviroGen.Noise.Modifiers
             var maxValue = map[0, 0];
             var minValue = map[0, 0];
 
-            foreach (var h in map.Map)
+            foreach (float h in map)
             {
                 maxValue = h > maxValue ? h : maxValue;
                 minValue = h < minValue ? h : minValue;
@@ -28,9 +28,9 @@ namespace EnviroGen.Noise.Modifiers
             var valueDif = maxValue - minValue;
             var scaleDif = High - Low;
 
-            for (uint y = 0; y < map.Size.Y; y++)
+            for (var y = 0; y < map.Size.Y; y++)
             {
-                for (uint x = 0; x < map.Size.X; x++)
+                for (var x = 0; x < map.Size.X; x++)
                 {
                     map[x, y] = (scaleDif * (map[x, y] - minValue)) / (valueDif) + Low;
                 }

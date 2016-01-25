@@ -2,13 +2,11 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using EnviroGen;
-using EnviroGen.Coloring;
 using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels
 {
-    internal class EnvironmentViewModel : ViewModelBase, IEnvironment
+    internal class EnvironmentViewModel : ViewModelBase, IDisplayedEnvironment
     {
         private WriteableBitmap m_HeightBitmap;
 
@@ -45,33 +43,6 @@ namespace EnviroGenDisplay.ViewModels
                 //because writeablebitmap's can only lock on the owning thread
                 UpdateWholeBitmap();
             }
-        }
-
-        public void ApplyColorizer()
-        {
-            if (Environment?.Terrain == null) return;
-
-            lock (Environment)
-            {
-                Environment.Terrain.Colorize();
-
-                UpdateWholeBitmap();
-            }
-        }
-
-        public Colorizer GetColorizer()
-        {
-            return Environment.Terrain?.Colorizer ?? Terrain.DefaultColorizer;
-        }
-
-        public void AddColor(ColorRange c)
-        {
-            Environment.Terrain?.Colorizer.AddColorRange(c);
-        }
-
-        public void RemoveColor(ColorRange c)
-        {
-            Environment.Terrain?.Colorizer.RemoveColorRange(c);
         }
 
         private void UpdateWholeBitmap()

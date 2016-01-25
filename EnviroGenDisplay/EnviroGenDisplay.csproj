@@ -119,7 +119,7 @@
     <Compile Include="Converters\BaseConverter.cs" />
     <Compile Include="Converters\FloatToStringConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
-    <Compile Include="IEnvironment.cs" />
+    <Compile Include="IDisplayedEnvironment.cs" />
     <Compile Include="IStatusTracker.cs" />
     <Compile Include="ViewModels\Modifiers\AddModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\NodeConnectionViewModel.cs" />

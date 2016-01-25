@@ -1,30 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using EnviroGen.Internals;
 
 namespace EnviroGen.HeightMaps
 {
-    public class HeightMap : IEnumerable
+    public class HeightMap : IEnumerable<float>
     {
-        private float[,] m_Map;
-        /// <summary>
-        /// The height values associated with this HeightMap
-        /// </summary>
-        public float[,] Map
-        {
-            get { return m_Map; }
-            set
-            {
-                m_Map = value;
-                Size = new IntPoint(m_Map.GetLength(0), m_Map.GetLength(1));
-            }
-        }
+        private float[,] m_Map { get; }
 
         /// <summary>
         /// The dimensions of the HeightMap
         /// </summary>
-        public IntPoint Size { get; private set; }
+        public IntPoint Size { get; }
 
         public HeightMap(float[,] map)
         {
@@ -32,22 +21,20 @@ namespace EnviroGen.HeightMaps
             m_Map = map;
         }
 
-        public float this[uint x, uint y]
+        public HeightMap(HeightMap map)
+            : this(map.m_Map)
+        {
+        }
+
+        public virtual float this[int x, int y]
         {
             get { return m_Map[x, y]; }
             set { m_Map[x, y] = value; }
         }
 
-        public float this[int x, int y]
+        IEnumerator<float> IEnumerable<float>.GetEnumerator()
         {
-            get { return m_Map[x, y]; }
-            set { m_Map[x, y] = value; }
-        }
-
-        public float this[IntPoint v]
-        {
-            get { return m_Map[v.X, v.Y]; }
-            set { m_Map[v.X, v.Y] = value; }
+            return m_Map.OfType<float>().GetEnumerator();
         }
 
         public IEnumerator GetEnumerator()
@@ -57,10 +44,10 @@ namespace EnviroGen.HeightMaps
 
         public void Normalize(float min = 0f, float max = 1f)
         {
-            var maxValue = Map[0, 0];
-            var minValue = Map[0, 0];
+            var maxValue = m_Map[0, 0];
+            var minValue = m_Map[0, 0];
 
-            foreach (var h in Map)
+            foreach (var h in m_Map)
             {
                 maxValue = h > maxValue ? h : maxValue;
                 minValue = h < minValue ? h : minValue;

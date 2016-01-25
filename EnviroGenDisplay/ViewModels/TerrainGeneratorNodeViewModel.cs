@@ -87,18 +87,18 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
-        public IEnvironment Map { get; set; }
+        public IDisplayedEnvironment Map { get; set; }
 
         public ICommand GenerateCommand { get; set; }
 
-        public TerrainGeneratorNodeViewModel(IEnvironment map)
+        public TerrainGeneratorNodeViewModel(IDisplayedEnvironment map)
         {
             Map = map;
             Node = new TerrainGeneratorNode();
             GenerateCommand = new RelayCommand(Generate);
             m_ModifyWorker = new BackgroundWorker();
             m_ModifyWorker.DoWork += Modify;
-            m_ModifyWorker.RunWorkerCompleted += ModifyComplete;
+            m_ModifyWorker.RunWorkerCompleted += GenerateComplete;
         }
 
         private void Generate(object m = null)
@@ -117,11 +117,10 @@ namespace EnviroGenDisplay.ViewModels
             lock (Map.Environment)
             {
                 Node.Modify(Map.Environment);
-                Map.Environment.Terrain.UpdateImage();
             }
         }
 
-        private void ModifyComplete(object sender, RunWorkerCompletedEventArgs e)
+        private void GenerateComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             Map.Update();
         }

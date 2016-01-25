@@ -83,7 +83,7 @@ namespace EnviroGen.Erosion
                     }
 
                     var heightOfNeighborWithAllWater = waterMap[x, y] + waterMap[lowestNeighbor.X, lowestNeighbor.Y] +
-                                                       heightMap[lowestNeighbor];
+                                                       heightMap[lowestNeighbor.X, lowestNeighbor.Y];
 
                     if (heightOfNeighborWithAllWater < heightMap[x, y])
                     {
@@ -129,7 +129,7 @@ namespace EnviroGen.Erosion
             var lowest = new IntPoint(x, y);
             foreach (var neighbor in neighbors)
             {
-                if (heightMap[neighbor] < heightMap[lowest])
+                if (heightMap[neighbor.X, neighbor.Y] < heightMap[lowest.X, lowest.Y])
                 {
                     lowest = neighbor;
                 }

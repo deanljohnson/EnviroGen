@@ -41,9 +41,9 @@ namespace EnviroGen.Coloring
         {
             var img = new Color[map.Size.X, map.Size.Y];
 
-            for (uint y = 0; y < map.Size.Y; y++)
+            for (var y = 0; y < map.Size.Y; y++)
             {
-                for (uint x = 0; x < map.Size.X; x++)
+                for (var x = 0; x < map.Size.X; x++)
                 {
                     img[x, y] = GetBaseColor(map[x, y], true);
                 }

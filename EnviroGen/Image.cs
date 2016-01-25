@@ -29,6 +29,7 @@ namespace EnviroGen
                 if (x < Width && y < Height)
                 {
                     m_Pixels[x, y] = value;
+                    return;
                 }
 
                 throw new IndexOutOfRangeException();

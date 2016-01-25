@@ -11,7 +11,7 @@ namespace EnviroGen.Nodes
 
         public void Modify(Environment environment)
         {
-            environment.ApplyTerrainModifier(Modifier);
+            Modifier.Modify(environment.Terrain);
 
             Output?.Modify(environment);
         }

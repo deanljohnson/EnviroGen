@@ -20,6 +20,8 @@ namespace EnviroGen.Nodes
             environment.Terrain = new Terrain(HeightMapGenerator.GenerateHeightMap(this));
 
             Output?.Modify(environment);
+
+            Output = Output;
         }
     }
 }

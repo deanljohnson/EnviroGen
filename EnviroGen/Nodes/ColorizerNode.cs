@@ -11,7 +11,7 @@ namespace EnviroGen.Nodes
 
         public void Modify(Environment environment)
         {
-            environment.Terrain.Colorize(Colorizer);
+            environment.Terrain.Colorizer = Colorizer;
 
             Output?.Modify(environment);
         }

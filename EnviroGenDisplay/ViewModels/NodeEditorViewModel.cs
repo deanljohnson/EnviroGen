@@ -6,9 +6,9 @@ namespace EnviroGenDisplay.ViewModels
 {
     public class NodeEditorViewModel : ViewModelBase
     {
-        public IEnvironment Environment { get; set; }
+        public IDisplayedEnvironment Environment { get; set; }
 
-        public NodeEditorViewModel(IEnvironment environment)
+        public NodeEditorViewModel(IDisplayedEnvironment environment)
         {
             Environment = environment;
         }

@@ -15,9 +15,9 @@ namespace EnviroGen.Noise.Modifiers
 
         public void Modify(HeightMap map)
         {
-            for (uint y = 0; y < map.Size.Y; y++)
+            for (var y = 0; y < map.Size.Y; y++)
             {
-                for (uint x = 0; x < map.Size.X; x++)
+                for (var x = 0; x < map.Size.X; x++)
                 {
                     if (map[x, y] < Low)
                     {

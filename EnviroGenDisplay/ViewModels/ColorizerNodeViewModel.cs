@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
 using EnviroGen;
@@ -15,9 +14,9 @@ namespace EnviroGenDisplay.ViewModels
         public ICommand AddColorCommand { get; set; }
         public ICommand RemoveColorCommand { get; set; }
 
-        public IEnvironment Map { get; set; }
+        public IDisplayedEnvironment Map { get; set; }
 
-        public ColorizerNodeViewModel(IEnvironment environment)
+        public ColorizerNodeViewModel(IDisplayedEnvironment environment)
         {
             AddColorCommand = new RelayCommand(AddColor);
             RemoveColorCommand = new RelayCommand(RemoveColor);
@@ -26,14 +25,13 @@ namespace EnviroGenDisplay.ViewModels
 
             Node = new ColorizerNode<Colorizer>
             {
-                Colorizer = new Colorizer(Map.GetColorizer().BaseColorRanges)
+                Colorizer = new Colorizer(Terrain.DefaultColorizer.BaseColorRanges)
             };
 
-            var colorRangeViewModels = Map.GetColorizer().BaseColorRanges
+            var colorRangeViewModels = Terrain.DefaultColorizer.BaseColorRanges
                 .Select(colorRange => new ColorRangeViewModel(colorRange)).ToList();
 
             ColorRanges = new ObservableCollection<ColorRangeViewModel>(colorRangeViewModels);
-            ColorRanges.CollectionChanged += OnColorRangesChange;
         }
 
         public override void Modify(Environment environment)
@@ -54,28 +52,6 @@ namespace EnviroGenDisplay.ViewModels
             {
                 ColorRanges.RemoveAt(ColorRanges.Count - 1);
             }
-        }
-
-        private void OnColorRangesChange(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            /*if (e.NewItems != null)
-            {
-                foreach (ColorRangeViewModel newItem in e.NewItems)
-                {
-                    Debug.Assert(newItem.ColorRange.GetType().IsClass, "Expected a class. Cannot accept value types");
-                    //Note that changes to newItem.ColorRange will automatically 
-                    //propogate to the Maps colors -> reference types
-                    Map.AddColor(newItem.ColorRange);
-                }
-            }
-
-            if (e.OldItems != null)
-            {
-                foreach (ColorRangeViewModel oldItem in e.OldItems)
-                {
-                    Map.RemoveColor(oldItem.ColorRange);
-                }
-            }*/
         }
     }
 }

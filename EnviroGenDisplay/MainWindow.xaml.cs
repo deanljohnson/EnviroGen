@@ -23,7 +23,7 @@ namespace EnviroGenDisplay
             {
                 StatusTracker = statusTracker
             };
-            var environment = (IEnvironment)EnvironmentTab.Content;
+            var environment = (IDisplayedEnvironment)EnvironmentTab.Content;
 
             NodeEditorTab.Content = new NodeEditorViewModel(environment);
         }
