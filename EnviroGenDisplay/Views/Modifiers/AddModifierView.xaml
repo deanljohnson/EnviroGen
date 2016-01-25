@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
              mc:Ignorable="d">
@@ -17,14 +18,14 @@
         <Grid.Resources>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <Label Content="Value:" 
-               HorizontalAlignment="Left" VerticalAlignment="Center" 
+        <views:ContextInfoProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
                Grid.Column="0" Grid.Row="0" 
-               Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+               Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <views:ContextInfoProvider.ContextInfo>
                 The amount to add to every point on the terrain height map.
-            </Label.ToolTip>
-        </Label>
+            </views:ContextInfoProvider.ContextInfo>
+            <Label Content="Value:"/>
+        </views:ContextInfoProvider>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Value, Converter={StaticResource FloatToStringConverter}}"/>
     </Grid>
 </UserControl>

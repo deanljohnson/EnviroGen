@@ -60,10 +60,9 @@
         <DataTemplate DataType="{x:Type modifiers:AddModifierNodeViewModel}">
             <modifiers1:AddModifierView/>
         </DataTemplate>
-        <Style x:Key="ContextInfoDisplayLabel" TargetType="Label">
-            <EventSetter Event="MouseEnter" Handler="PropertyLabel_OnMouseEnter"/>
-            <EventSetter Event="MouseLeave" Handler="PropertyLabel_OnMouseLeave"/>
-            <Setter Property="ToolTipService.IsEnabled" Value="False"/>
+        <Style x:Key="ContextInfoDisplayDescriptor" TargetType="views:ContextInfoProvider">
+            <EventSetter Event="MouseEnter" Handler="ContextInfoProvider_OnMouseEnter"/>
+            <EventSetter Event="MouseLeave" Handler="ContextInfoProvider_OnMouseLeave"/>
         </Style>
     </Application.Resources>
 </Application>

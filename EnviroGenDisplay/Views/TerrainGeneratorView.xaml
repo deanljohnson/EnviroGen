@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
+             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              mc:Ignorable="d">
     <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:TerrainGeneratorNodeViewModel}">
         <Grid.ColumnDefinitions>
@@ -29,37 +30,43 @@
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <Label Content="Size X:" Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayLabel}">   
-            <Label.ToolTip>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <views:ContextInfoProvider.ContextInfo>
                 The horizontal size of the map to generate.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Size Y:" Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+            <Label Content="Size X:"/>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <views:ContextInfoProvider.ContextInfo>
                 The vertical size of the map to generate.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Octave Count:" Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+            <Label Content="Size Y:"/>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <views:ContextInfoProvider.ContextInfo>
                 Essentially controls the level of detail applied to the terrain. 
                 Progressively higher counts will provide smaller details, eventually trailing away to nothing.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Seed:" Grid.Column="0" Grid.Row="3" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+            <Label Content="Octave Count:"/>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="3" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <views:ContextInfoProvider.ContextInfo>
                 The seed for the generation algorithm's RNG. -1 produces a random seed.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Roughness:" Grid.Column="0" Grid.Row="4" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+            <Label Content="Seed:"/>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="4" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <views:ContextInfoProvider.ContextInfo>
                 Controls the how quickly the terrain rises and falls. Higher values produce very jagged terrain.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Frequency:" Grid.Column="0" Grid.Row="5" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+            <Label Content="Roughness:"/>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="5" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <views:ContextInfoProvider.ContextInfo>
                 Essentially provides a zooming effect on the generated terrain. Higher values will appear more zoomed out.
-            </Label.ToolTip>
-        </Label>
+            </views:ContextInfoProvider.ContextInfo>
+            <Label Content="Frequency:"/>
+        </views:ContextInfoProvider>
         <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="6" Command="{Binding Path=GenerateCommand}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SizeX, Converter={StaticResource IntToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=SizeY, Converter={StaticResource IntToStringConverter}}"/>

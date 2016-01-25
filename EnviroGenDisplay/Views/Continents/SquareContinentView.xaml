@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:continents="clr-namespace:EnviroGenDisplay.ViewModels.Continents"
              mc:Ignorable="d">
@@ -21,22 +22,25 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Minimum Continent Size:" Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Minimum Continent Size:"/>
+            <views:ContextInfoProvider.ContextInfo>
                 The lower limit on the randomly generated continent size.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Maximum Continent Size:" Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Maximum Continent Size:"/>
+            <views:ContextInfoProvider.ContextInfo>
                 The upper limit on the randomly generated continent size.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Continent Scale:" Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Continent Scale:"/>
+            <views:ContextInfoProvider.ContextInfo>
                 The maximum amount that heights are scaled by to create the continent. 
                 The amount decreases the further a point is from the center of the continent.
-            </Label.ToolTip>
-        </Label>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=MinimumContinentSize, Converter={StaticResource IntToStringConverter}}" Margin="0,4"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=MaximumContinentSize, Converter={StaticResource IntToStringConverter}}" Margin="0,4"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=ScaleAmount, Converter={StaticResource FloatToStringConverter}}" Margin="0,4"/>

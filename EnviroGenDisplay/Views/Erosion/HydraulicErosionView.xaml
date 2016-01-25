@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:erosion="clr-namespace:EnviroGenDisplay.ViewModels.Erosion"
+             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              mc:Ignorable="d">
     <Grid Margin="5,5,5,5" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance erosion:HydraulicErosionNodeViewModel}">
         <Grid.Resources>
@@ -23,31 +24,36 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Rain Amount:" Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Rain Amount"/>
+            <views:ContextInfoProvider.ContextInfo>
                 How much rain is deposited on each map location in each iteration.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Solubility:" Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Solubility:"/>
+            <views:ContextInfoProvider.ContextInfo>
                 The amount of land that can be picked up by water in one iteration at each map location.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Evaporation:" Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Evaporation:"/>
+            <views:ContextInfoProvider.ContextInfo>
                 The percentage of water that evaporates from each map location with each iteration.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Capacity:" Grid.Column="0" Grid.Row="3" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="3" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Capacity:"/>
+            <views:ContextInfoProvider.ContextInfo>
                 The amount of sediment that a unit of water can hold. Excess sediment is deposited on each iteration.
-            </Label.ToolTip>
-        </Label>
-        <Label Content="Iterations:" Grid.Column="0" Grid.Row="4" Style="{StaticResource ContextInfoDisplayLabel}">
-            <Label.ToolTip>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="4" Style="{StaticResource ContextInfoDisplayDescriptor}">
+            <Label Content="Iterations:"/>
+            <views:ContextInfoProvider.ContextInfo>
                 The number of times to run the erosion process.
-            </Label.ToolTip>
-        </Label>
+            </views:ContextInfoProvider.ContextInfo>
+        </views:ContextInfoProvider>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=RainAmount, Converter={StaticResource FloatToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Solubility, Converter={StaticResource FloatToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=Evaporation, Converter={StaticResource FloatToStringConverter}}"/>
