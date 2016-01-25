@@ -14,7 +14,6 @@ namespace EnviroGenDisplay.Views
     //TODO: This has all sorts of nasty hacks. However, I could not find a better solution and so am stuck with this for now.
     // Problem 1: The view knows it's ViewModel. MVVM be damned I guess...
     // Problem 2: Tracking the right click position like this is very sketchy.
-    // Problem 3: Throwing an exception when the right click position is not set correctly is pretty bad.
     /// <summary>
     /// Interaction logic for NodeEditor.xaml
     /// </summary>
@@ -72,13 +71,15 @@ namespace EnviroGenDisplay.Views
         public void EndConnectionAction(INode destNode, Control destControl)
         {
             m_DraggingNodeConnection = false;
-            m_CreateConnectionAction.Finished = true;
             
             //Nodes are not allowed to connect to themselves
-            if (destNode != m_CreateConnectionAction.Source)
+            if (destNode != m_CreateConnectionAction.Source && !m_CreateConnectionAction.Finished)
+            {
+                m_CreateConnectionAction.Finished = true;
                 m_CreateConnectionAction.Source.Output = destNode;
-
-            m_NodeConnection.OutputControl = destControl;
+                m_NodeConnection.OutputControl = destControl;
+            }
+            
         }
 
         public void UpdateConnectionPositions()
