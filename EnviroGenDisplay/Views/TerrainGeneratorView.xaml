@@ -29,35 +29,35 @@
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <Label Content="Size X:" Grid.Column="0" Grid.Row="0">
-            <Label.ToolTip>The horizontal size of the map to generate</Label.ToolTip>
-        </Label>
-        <Label Content="Size Y:" Grid.Column="0" Grid.Row="1">
-            <Label.ToolTip>The vertical size of the map to generate</Label.ToolTip>
-        </Label>
-        <Label Content="Octave Count:" Grid.Column="0" Grid.Row="2">
+        <Label Content="Size X:" Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayLabel}">   
             <Label.ToolTip>
-                <TextBlock TextWrapping="Wrap" Width="200">
-                    Essentially controls the level of detail applied to the terrain. 
-                    Progressively higher counts will provide smaller details, eventually trailing away to nothing
-                </TextBlock>
+                The horizontal size of the map to generate.
             </Label.ToolTip>
         </Label>
-        <Label Content="Seed:" Grid.Column="0" Grid.Row="3">
-            <Label.ToolTip>The seed for the generation algorithm's RNG. -1 produces a random seed.</Label.ToolTip>
-        </Label>
-        <Label Content="Roughness:" Grid.Column="0" Grid.Row="4">
+        <Label Content="Size Y:" Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayLabel}">
             <Label.ToolTip>
-                <TextBlock TextWrapping="Wrap" Width="200">
-                    Controls the how quickly the terrain rises and falls. Higher values produce very jagged terrain.
-                </TextBlock>
+                The vertical size of the map to generate.
             </Label.ToolTip>
         </Label>
-        <Label Content="Frequency:" Grid.Column="0" Grid.Row="5">
+        <Label Content="Octave Count:" Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayLabel}">
             <Label.ToolTip>
-                <TextBlock TextWrapping="Wrap" Width="200">
-                    Essentially provides a zooming effect on the generated terrain. Higher values will appear more zoomed out.
-                </TextBlock>
+                Essentially controls the level of detail applied to the terrain. 
+                Progressively higher counts will provide smaller details, eventually trailing away to nothing.
+            </Label.ToolTip>
+        </Label>
+        <Label Content="Seed:" Grid.Column="0" Grid.Row="3" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                The seed for the generation algorithm's RNG. -1 produces a random seed.
+            </Label.ToolTip>
+        </Label>
+        <Label Content="Roughness:" Grid.Column="0" Grid.Row="4" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                Controls the how quickly the terrain rises and falls. Higher values produce very jagged terrain.
+            </Label.ToolTip>
+        </Label>
+        <Label Content="Frequency:" Grid.Column="0" Grid.Row="5" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                Essentially provides a zooming effect on the generated terrain. Higher values will appear more zoomed out.
             </Label.ToolTip>
         </Label>
         <Button Content="Generate" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Column="0" Grid.Row="6" Command="{Binding Path=GenerateCommand}"/>

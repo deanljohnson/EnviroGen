@@ -21,9 +21,22 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Minimum Continent Size:" Grid.Column="0" Grid.Row="0"/>
-        <Label Content="Maximum Continent Size:" Grid.Column="0" Grid.Row="1"/>
-        <Label Content="Continent Scale:" Grid.Column="0" Grid.Row="2"/>
+        <Label Content="Minimum Continent Size:" Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                The lower limit on the randomly generated continent size.
+            </Label.ToolTip>
+        </Label>
+        <Label Content="Maximum Continent Size:" Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                The upper limit on the randomly generated continent size.
+            </Label.ToolTip>
+        </Label>
+        <Label Content="Continent Scale:" Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                The maximum amount that heights are scaled by to create the continent. 
+                The amount decreases the further a point is from the center of the continent.
+            </Label.ToolTip>
+        </Label>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=MinimumContinentSize, Converter={StaticResource IntToStringConverter}}" Margin="0,4"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=MaximumContinentSize, Converter={StaticResource IntToStringConverter}}" Margin="0,4"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=ScaleAmount, Converter={StaticResource FloatToStringConverter}}" Margin="0,4"/>

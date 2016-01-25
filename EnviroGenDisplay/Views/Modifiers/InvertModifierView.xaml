@@ -18,7 +18,14 @@
         <Grid.Resources>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <Label Content="Max Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <Label Content="Max Value:" 
+               HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Grid.Column="0" Grid.Row="0"
+               Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                All points on the terrains height map will be set to (thisValue - height).
+            </Label.ToolTip>
+        </Label>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=MaxValue, Converter={StaticResource FloatToStringConverter}}"/>
     </Grid>
 </UserControl>

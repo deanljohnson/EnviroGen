@@ -19,9 +19,23 @@
         <Grid.Resources>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <Label Content="Low Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <Label Content="Low Value:" 
+               HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Grid.Column="0" Grid.Row="0"
+               Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                Any points on the terrain height map lower than this value will be set to this value.
+            </Label.ToolTip>
+        </Label>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=LowValue, Converter={StaticResource FloatToStringConverter}}"/>
-        <Label Content="High Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+        <Label Content="High Value:" 
+               HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Grid.Column="0" Grid.Row="1"
+               Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                Any points on the terrain height map higher than this value will be set to this value.
+            </Label.ToolTip>
+        </Label>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=HighValue, Converter={StaticResource FloatToStringConverter}}"/>
     </Grid>
 </UserControl>

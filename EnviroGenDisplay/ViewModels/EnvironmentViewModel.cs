@@ -24,8 +24,6 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
-        public IStatusTracker StatusTracker { get; set; }
-
         public EnvironmentViewModel(int w = 1000, int h = 780)
         {
             Environment = new Environment(null);

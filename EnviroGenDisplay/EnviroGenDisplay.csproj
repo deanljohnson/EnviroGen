@@ -120,7 +120,6 @@
     <Compile Include="Converters\FloatToStringConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="IDisplayedEnvironment.cs" />
-    <Compile Include="IStatusTracker.cs" />
     <Compile Include="ViewModels\Modifiers\AddModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\NodeConnectionViewModel.cs" />
     <Compile Include="ViewModels\NodeEditorViewModel.cs" />
@@ -146,7 +145,6 @@
     <Compile Include="ViewModels\Modifiers\ScaleModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\Continents\SquareContinentNodeViewModel.cs" />
     <Compile Include="ViewModels\Erosion\ThermalErosionNodeViewModel.cs" />
-    <Compile Include="ViewModels\StatusTrackerViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\TerrainGeneratorView.xaml.cs">
       <DependentUpon>TerrainGeneratorView.xaml</DependentUpon>
@@ -195,9 +193,6 @@
     </Compile>
     <Compile Include="Views\Erosion\ThermalErosionView.xaml.cs">
       <DependentUpon>ThermalErosionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StatusTrackerView.xaml.cs">
-      <DependentUpon>StatusTrackerView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -280,10 +275,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Erosion\ThermalErosionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\StatusTrackerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,7 +18,14 @@
         <Grid.Resources>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <Label Content="Scale Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <Label Content="Scale Value:" 
+               HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Grid.Column="0" Grid.Row="0"
+               Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                The amount to multiply all points on the terrain height map by.
+            </Label.ToolTip>
+        </Label>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Scale, Converter={StaticResource FloatToStringConverter}}"/>
     </Grid>
 </UserControl>

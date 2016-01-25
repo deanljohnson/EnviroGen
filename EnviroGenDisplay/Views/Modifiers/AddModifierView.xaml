@@ -17,7 +17,14 @@
         <Grid.Resources>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <Label Content="Value:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <Label Content="Value:" 
+               HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Grid.Column="0" Grid.Row="0" 
+               Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                The amount to add to every point on the terrain height map.
+            </Label.ToolTip>
+        </Label>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Value, Converter={StaticResource FloatToStringConverter}}"/>
     </Grid>
 </UserControl>

@@ -116,7 +116,9 @@ namespace EnviroGenDisplay.ViewModels
         {
             lock (Map.Environment)
             {
+                MainWindow.Instance.SetStatusTextSafe("Generating Terrain");
                 Node.Modify(Map.Environment);
+                MainWindow.Instance.RemoveStatusTextSafe("Generating Terrain");
             }
         }
 

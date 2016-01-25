@@ -19,8 +19,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Talus Angle:" Grid.Column="0" Grid.Row="0"/>
-        <Label Content="Iterations:" Grid.Column="0" Grid.Row="1"/>
+        <Label Content="Talus Angle:" Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                If the highest slope at any point is greater than this value, erosion will occur.
+            </Label.ToolTip>
+        </Label>
+        <Label Content="Iterations:" Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayLabel}">
+            <Label.ToolTip>
+                The number of times to run the erosion process.
+            </Label.ToolTip>
+        </Label>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=TalusAngle, Converter={StaticResource FloatToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Iterations, Converter={StaticResource IntToStringConverter}}"/>
     </Grid>
