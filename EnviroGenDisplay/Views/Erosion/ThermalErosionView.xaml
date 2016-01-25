@@ -20,13 +20,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0">
             <Label Content="Talus Angle:"/>
             <views:ContextInfoProvider.ContextInfo>
                 If the highest slope at any point is greater than this value, erosion will occur.
             </views:ContextInfoProvider.ContextInfo>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1">
             <Label Content="Iterations:"/>
             <views:ContextInfoProvider.ContextInfo>
                 The number of times to run the erosion process.

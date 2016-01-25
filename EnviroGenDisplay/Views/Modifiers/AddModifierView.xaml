@@ -19,8 +19,7 @@
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
         <views:ContextInfoProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
-               Grid.Column="0" Grid.Row="0" 
-               Style="{StaticResource ContextInfoDisplayDescriptor}">
+               Grid.Column="0" Grid.Row="0">
             <views:ContextInfoProvider.ContextInfo>
                 The amount to add to every point on the terrain height map.
             </views:ContextInfoProvider.ContextInfo>

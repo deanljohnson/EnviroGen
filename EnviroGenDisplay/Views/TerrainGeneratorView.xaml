@@ -30,38 +30,38 @@
             <converters:IntToStringConverter x:Key="IntToStringConverter"/>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0">
             <views:ContextInfoProvider.ContextInfo>
                 The horizontal size of the map to generate.
             </views:ContextInfoProvider.ContextInfo>
             <Label Content="Size X:"/>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1">
             <views:ContextInfoProvider.ContextInfo>
                 The vertical size of the map to generate.
             </views:ContextInfoProvider.ContextInfo>
             <Label Content="Size Y:"/>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2">
             <views:ContextInfoProvider.ContextInfo>
                 Essentially controls the level of detail applied to the terrain. 
                 Progressively higher counts will provide smaller details, eventually trailing away to nothing.
             </views:ContextInfoProvider.ContextInfo>
             <Label Content="Octave Count:"/>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="3" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="3">
             <views:ContextInfoProvider.ContextInfo>
                 The seed for the generation algorithm's RNG. -1 produces a random seed.
             </views:ContextInfoProvider.ContextInfo>
             <Label Content="Seed:"/>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="4" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="4">
             <views:ContextInfoProvider.ContextInfo>
                 Controls the how quickly the terrain rises and falls. Higher values produce very jagged terrain.
             </views:ContextInfoProvider.ContextInfo>
             <Label Content="Roughness:"/>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="5" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="5">
             <views:ContextInfoProvider.ContextInfo>
                 Essentially provides a zooming effect on the generated terrain. Higher values will appear more zoomed out.
             </views:ContextInfoProvider.ContextInfo>

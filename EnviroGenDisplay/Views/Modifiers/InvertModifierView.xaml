@@ -20,8 +20,7 @@
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
         <views:ContextInfoProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
-               Grid.Column="0" Grid.Row="0"
-               Style="{StaticResource ContextInfoDisplayDescriptor}">
+               Grid.Column="0" Grid.Row="0">
             <Label Content="Max Value:"/>
             <views:ContextInfoProvider.ContextInfo>
                 All points on the terrains height map will be set to (thisValue - height).

@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows;
 using EnviroGenDisplay.Views;
 
 namespace EnviroGenDisplay
@@ -11,16 +8,20 @@ namespace EnviroGenDisplay
     /// </summary>
     public partial class App : Application
     {
-        private void ContextInfoProvider_OnMouseEnter(object sender, MouseEventArgs e)
+        static App()
         {
-            Debug.Assert(sender is ContextInfoProvider);
-            EnviroGenDisplay.MainWindow.Instance.SetContextInfoTextSafe(((ContextInfoProvider)sender).ContextInfo);
+            ContextInfoProvider.SetContextInfo = SetContextInfo;
+            ContextInfoProvider.RemoveContextInfo = RemoveContextInfo;
         }
 
-        private void ContextInfoProvider_OnMouseLeave(object sender, MouseEventArgs e)
+        private static void SetContextInfo(ContextInfoProvider provider)
         {
-            Debug.Assert(sender is ContextInfoProvider);
-            EnviroGenDisplay.MainWindow.Instance.RemoveContextInfoTextSafe(((ContextInfoProvider)sender).ContextInfo);
+            EnviroGenDisplay.MainWindow.Instance.SetContextInfoTextSafe(provider.ContextInfo);
+        }
+
+        private static void RemoveContextInfo(ContextInfoProvider provider)
+        {
+            EnviroGenDisplay.MainWindow.Instance.RemoveContextInfoTextSafe(provider.ContextInfo);
         }
     }
 }

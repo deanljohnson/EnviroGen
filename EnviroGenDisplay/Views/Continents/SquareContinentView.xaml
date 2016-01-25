@@ -22,19 +22,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0">
             <Label Content="Minimum Continent Size:"/>
             <views:ContextInfoProvider.ContextInfo>
                 The lower limit on the randomly generated continent size.
             </views:ContextInfoProvider.ContextInfo>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1">
             <Label Content="Maximum Continent Size:"/>
             <views:ContextInfoProvider.ContextInfo>
                 The upper limit on the randomly generated continent size.
             </views:ContextInfoProvider.ContextInfo>
         </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2" Style="{StaticResource ContextInfoDisplayDescriptor}">
+        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2">
             <Label Content="Continent Scale:"/>
             <views:ContextInfoProvider.ContextInfo>
                 The maximum amount that heights are scaled by to create the continent. 

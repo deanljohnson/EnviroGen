@@ -60,9 +60,9 @@
         <DataTemplate DataType="{x:Type modifiers:AddModifierNodeViewModel}">
             <modifiers1:AddModifierView/>
         </DataTemplate>
-        <Style x:Key="ContextInfoDisplayDescriptor" TargetType="views:ContextInfoProvider">
+        <!--<Style x:Key="ContextInfoDisplayDescriptor" TargetType="views:ContextInfoProvider">
             <EventSetter Event="MouseEnter" Handler="ContextInfoProvider_OnMouseEnter"/>
             <EventSetter Event="MouseLeave" Handler="ContextInfoProvider_OnMouseLeave"/>
-        </Style>
+        </Style>-->
     </Application.Resources>
 </Application>
