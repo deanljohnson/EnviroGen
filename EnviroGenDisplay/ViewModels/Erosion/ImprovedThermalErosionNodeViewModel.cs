@@ -1,7 +1,6 @@
 ﻿using System;
 using EnviroGen.Erosion;
 using EnviroGen.Nodes;
-using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels.Erosion
 {
@@ -34,18 +33,12 @@ namespace EnviroGenDisplay.ViewModels.Erosion
         }
 
         public ImprovedThermalErosionNodeViewModel()
+            : base("Performing Improved Thermal Erosion")
         {
-            Node = new EroderNode<ImprovedThermalEroder>()
+            Node = new EroderNode<ImprovedThermalEroder>
             {
                 Eroder = new ImprovedThermalEroder()
             };
-        }
-
-        public override void Modify(Environment environment)
-        {
-            MainWindow.Instance.SetStatusTextSafe("Performing Improved Thermal Erosion");
-            base.Modify(environment);
-            MainWindow.Instance.RemoveStatusTextSafe("Performing Improved Thermal Erosion");
         }
     }
 }

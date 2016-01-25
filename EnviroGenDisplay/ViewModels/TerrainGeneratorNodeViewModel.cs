@@ -92,6 +92,7 @@ namespace EnviroGenDisplay.ViewModels
         public ICommand GenerateCommand { get; set; }
 
         public TerrainGeneratorNodeViewModel(IDisplayedEnvironment map)
+            : base("Generating Terrain")
         {
             Map = map;
             Node = new TerrainGeneratorNode();
@@ -116,9 +117,7 @@ namespace EnviroGenDisplay.ViewModels
         {
             lock (Map.Environment)
             {
-                MainWindow.Instance.SetStatusTextSafe("Generating Terrain");
                 Node.Modify(Map.Environment);
-                MainWindow.Instance.RemoveStatusTextSafe("Generating Terrain");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using EnviroGen.HeightMaps;
+﻿using System;
+using EnviroGen.HeightMaps;
 
 namespace EnviroGen.Nodes
 {
@@ -15,13 +16,16 @@ namespace EnviroGen.Nodes
         {
         }
 
+        public event EventHandler Started;
+        public event EventHandler Finished;
+
         public void Modify(Environment environment)
         {
+            Started?.Invoke(this, null);
             environment.Terrain = new Terrain(HeightMapGenerator.GenerateHeightMap(this));
+            Finished?.Invoke(this, null);
 
             Output?.Modify(environment);
-
-            Output = Output;
         }
     }
 }

@@ -14,14 +14,10 @@ namespace EnviroGenDisplay.ViewModels
         public ICommand AddColorCommand { get; set; }
         public ICommand RemoveColorCommand { get; set; }
 
-        public IDisplayedEnvironment Map { get; set; }
-
-        public ColorizerNodeViewModel(IDisplayedEnvironment environment)
+        public ColorizerNodeViewModel()
         {
             AddColorCommand = new RelayCommand(AddColor);
             RemoveColorCommand = new RelayCommand(RemoveColor);
-
-            Map = environment;
 
             Node = new ColorizerNode<Colorizer>
             {

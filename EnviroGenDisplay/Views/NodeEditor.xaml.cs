@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EnviroGen.Nodes;
-using EnviroGenDisplay.Actions;
 using EnviroGenDisplay.ViewModels;
 using EnviroGenDisplay.Views.Nodes;
 
@@ -19,48 +18,36 @@ namespace EnviroGenDisplay.Views
     /// </summary>
     public partial class NodeEditor : UserControl
     {
+        public static NodeEditor Instance { get; private set; }
+
         private bool m_DraggingNodeConnection { get; set; }
-        private NodeConnectionViewModel m_NodeConnection { get; set; }
-        private CreateConnectionAction m_CreateConnectionAction { get; set; }
 
         private Point? m_RightClickPosition { get; set; }
 
         private NodeEditorViewModel m_Vm;
         private NodeEditorViewModel m_ViewModel => m_Vm ?? (m_Vm = DataContext as NodeEditorViewModel);
 
-        public ObservableCollection<NodeConnectionViewModel> NodeConnections { get; set; } = new ObservableCollection<NodeConnectionViewModel>();
+        public NodeConnectionManager NodeConnectionManager { get; set; }
+
+        public ObservableCollection<NodeConnectionViewModel> NodeConnections
+        {
+            get { return NodeConnectionManager.Connections; }
+            set { NodeConnectionManager.Connections = value; }
+        }
 
         public NodeEditor()
         {
+            Instance = this;
+
             InitializeComponent();
 
+            NodeConnectionManager = new NodeConnectionManager(NodeCanvas);
             Connections.DataContext = this;
         }
 
         public void StartConnectionAction(INode sourceNode, Control sourceControl)
         {
-            m_CreateConnectionAction = new CreateConnectionAction(sourceNode, sourceControl);
-
-            //Removed connections from the same source
-            for (var i = 0; i < NodeConnections.Count; i++)
-            {
-                if (ReferenceEquals(NodeConnections[i].InputControl, sourceControl))
-                {
-                    NodeConnections.RemoveAt(i);
-                    i--;
-                }
-            }
-
-            sourceNode.Output = null;
-
-            m_NodeConnection = new NodeConnectionViewModel(NodeCanvas)
-            {
-                InputControl = m_CreateConnectionAction.SourceControl
-            };
-
-            m_NodeConnection.OutputPosition = m_NodeConnection.InputPosition;
-
-            NodeConnections.Add(m_NodeConnection);
+            NodeConnectionManager.StartConnectionAction(sourceNode, sourceControl);
 
             if (Mouse.LeftButton == MouseButtonState.Pressed)
             {
@@ -72,14 +59,7 @@ namespace EnviroGenDisplay.Views
         {
             m_DraggingNodeConnection = false;
             
-            //Nodes are not allowed to connect to themselves
-            if (destNode != m_CreateConnectionAction.Source && !m_CreateConnectionAction.Finished)
-            {
-                m_CreateConnectionAction.Finished = true;
-                m_CreateConnectionAction.Source.Output = destNode;
-                m_NodeConnection.OutputControl = destControl;
-            }
-            
+            NodeConnectionManager.EndConnectionAction(destNode, destControl);
         }
 
         public void UpdateConnectionPositions()
@@ -92,10 +72,8 @@ namespace EnviroGenDisplay.Views
 
         private void CancelConnectionAction()
         {
+            NodeConnectionManager.CancelConnection();
             m_DraggingNodeConnection = false;
-            m_CreateConnectionAction = null;
-
-            NodeConnections.Remove(m_NodeConnection);
         }
 
         private void NodeMenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -105,14 +83,11 @@ namespace EnviroGenDisplay.Views
             if (menuItem == null) return;
 
             var nodeName = menuItem.Header.ToString();
-            var nodeViewModel = m_ViewModel.GetNodeViewModel(nodeName);
-
-            var nodeViewControl = new NodeView(nodeViewModel, nodeName, this);
 
             //Right click shouldnt ever be null here - if so this will fail hard and tell us there is a problem
             if (m_RightClickPosition == null) throw new Exception("Right click position was not properly set on the canvas");
-            nodeViewControl.CanvasLeft = m_RightClickPosition.Value.X;
-            nodeViewControl.CanvasTop = m_RightClickPosition.Value.Y;
+            var nodeViewModel = m_ViewModel.GetNodeViewModel(nodeName);
+            var nodeViewControl = new NodeView(nodeViewModel, nodeName, m_RightClickPosition.Value);
             m_RightClickPosition = null;
 
             NodeCanvas.Children.Add(nodeViewControl);
@@ -129,7 +104,7 @@ namespace EnviroGenDisplay.Views
 
         private void NodeCanvas_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (m_CreateConnectionAction != null && !m_CreateConnectionAction.Finished)
+            if (NodeConnectionManager.Connecting)
                 CancelConnectionAction();
         }
 
@@ -140,7 +115,10 @@ namespace EnviroGenDisplay.Views
                 //Sanity check here
                 if (Mouse.LeftButton == MouseButtonState.Pressed)
                 {
-                    m_NodeConnection.OutputPosition = Mouse.GetPosition(NodeCanvas);
+                    if (NodeConnectionManager.Connecting)
+                    {
+                        NodeConnectionManager.InProgressConnection.DestinationPosition = Mouse.GetPosition(NodeCanvas);
+                    }
                 }
                 else
                 {

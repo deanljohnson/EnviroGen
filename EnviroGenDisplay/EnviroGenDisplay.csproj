@@ -115,11 +115,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Actions\CreateConnectionAction.cs" />
     <Compile Include="Converters\BaseConverter.cs" />
     <Compile Include="Converters\FloatToStringConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="IDisplayedEnvironment.cs" />
+    <Compile Include="NodeConnectionManager.cs" />
     <Compile Include="ViewModels\Modifiers\AddModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\NodeConnectionViewModel.cs" />
     <Compile Include="ViewModels\NodeEditorViewModel.cs" />

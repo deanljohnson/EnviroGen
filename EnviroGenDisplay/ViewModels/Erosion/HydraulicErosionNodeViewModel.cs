@@ -1,7 +1,6 @@
 ﻿using System;
 using EnviroGen.Erosion;
 using EnviroGen.Nodes;
-using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels.Erosion
 {
@@ -73,18 +72,12 @@ namespace EnviroGenDisplay.ViewModels.Erosion
         }
 
         public HydraulicErosionNodeViewModel()
+            : base("Performing Hydraulic Erosion")
         {
             Node = new EroderNode<HydraulicEroder>
             {
                 Eroder = new HydraulicEroder()
             };
-        }
-
-        public override void Modify(Environment environment)
-        {
-            MainWindow.Instance.SetStatusTextSafe("Performing Hydraulic Erosion");
-            base.Modify(environment);
-            MainWindow.Instance.RemoveStatusTextSafe("Performing Hydraulic Erosion");
         }
     }
 }

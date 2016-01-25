@@ -1,4 +1,5 @@
-﻿using EnviroGen.Coloring;
+﻿using System;
+using EnviroGen.Coloring;
 
 namespace EnviroGen.Nodes
 {
@@ -9,9 +10,14 @@ namespace EnviroGen.Nodes
 
         public TColorizer Colorizer { get; set; }
 
+        public event EventHandler Started;
+        public event EventHandler Finished;
+
         public void Modify(Environment environment)
         {
+            Started?.Invoke(this, null);
             environment.Terrain.Colorizer = Colorizer;
+            Finished?.Invoke(this, null);
 
             Output?.Modify(environment);
         }

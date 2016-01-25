@@ -1,7 +1,6 @@
 ﻿using System;
 using EnviroGen.Continents;
 using EnviroGen.Nodes;
-using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels.Continents
 {
@@ -45,18 +44,12 @@ namespace EnviroGenDisplay.ViewModels.Continents
         }
 
         public SquareContinentNodeViewModel()
+            : base("Generating Continents (Square)")
         {
             Node = new ContinentGeneratorNode<SquareContinentGenerator>
             {
                 ContinentGenerator = new SquareContinentGenerator()
             };
-        }
-
-        public override void Modify(Environment environment)
-        {
-            MainWindow.Instance.SetStatusTextSafe("Generating Continents (Square)");
-            base.Modify(environment);
-            MainWindow.Instance.RemoveStatusTextSafe("Generating Continents (Square)");
         }
     }
 }

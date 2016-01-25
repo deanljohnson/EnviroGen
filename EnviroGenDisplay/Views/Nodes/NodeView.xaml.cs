@@ -30,11 +30,14 @@ namespace EnviroGenDisplay.Views.Nodes
             set { SetValue(Canvas.TopProperty, value); }
         }
 
-        public NodeView(ViewModelBase nodeViewModel, string nodeName, NodeEditor editor)
+        public NodeView(ViewModelBase nodeViewModel, string nodeName, Point loc)
         {
             InitializeComponent();
 
-            m_Editor = editor;
+            CanvasLeft = loc.X;
+            CanvasTop = loc.Y;
+
+            m_Editor = NodeEditor.Instance;
             NodeContainer.Content = nodeViewModel;
             NodeNameTextBlock.Text = nodeName;
         }

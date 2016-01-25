@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using EnviroGen.Nodes;
 
 namespace EnviroGenDisplay.ViewModels
 {
@@ -7,48 +8,64 @@ namespace EnviroGenDisplay.ViewModels
     {
         private Panel m_GraphContainer { get; }
 
-        private Control m_InputControl;
-        private Control m_OutputControl;
-        private Point m_InputPosition;
-        private Point m_OutputPosition;
+        private INode m_Destination;
+        private Control m_SourceControl;
+        private Control m_DestinationControl;
+        private Point m_SourcePosition;
+        private Point m_DestinationPosition;
 
-        public Point InputPosition
-        {
-            get { return m_InputPosition; }
+        public INode Source { get; set; }
+        public INode Destination {
+            get { return m_Destination; }
             set
             {
-                m_InputPosition = value;
+                m_Destination = value;
+                if (Source != null)
+                {
+                    Source.Output = m_Destination;
+                }
+            }
+        }
+
+        public bool Connected => Source != null && Destination != null;
+
+        public Point SourcePosition
+        {
+            get { return m_SourcePosition; }
+            set
+            {
+                m_SourcePosition = value;
                 OnPropertyChanged();
             }
         }
 
-        public Point OutputPosition
+        public Point DestinationPosition
         {
-            get { return m_OutputPosition; }
+            get { return m_DestinationPosition; }
             set
             {
-                m_OutputPosition = value;
+                m_DestinationPosition = value;
                 OnPropertyChanged();
             }
         }
 
-        public Control InputControl
+        public Control SourceControl
         {
-            get { return m_InputControl; }
+            get { return m_SourceControl; }
             set
             {
-                InputPosition = CenterPositionOfElement(value);
-                m_InputControl = value;
+                SourcePosition = CenterPositionOfElement(value);
+                m_SourceControl = value;
             }
         }
 
-        public Control OutputControl
+        public Control DestinationControl
         {
-            get { return m_OutputControl; }
+            get { return m_DestinationControl; }
             set
             {
-                OutputPosition = CenterPositionOfElement(value);
-                m_OutputControl = value;
+                DestinationPosition = CenterPositionOfElement(value);
+                m_DestinationControl = value;
             }
         }
 
@@ -59,13 +76,13 @@ namespace EnviroGenDisplay.ViewModels
 
         public void SetLineEndsToControlLocations()
         {
-            if (m_InputControl != null)
+            if (m_SourceControl != null)
             {
-                InputPosition = CenterPositionOfElement(m_InputControl);
+                SourcePosition = CenterPositionOfElement(m_SourceControl);
             }
-            if (m_OutputControl != null)
+            if (m_DestinationControl != null)
             {
-                OutputPosition = CenterPositionOfElement(m_OutputControl);
+                DestinationPosition = CenterPositionOfElement(m_DestinationControl);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using EnviroGen.Erosion;
+﻿using System;
+using EnviroGen.Erosion;
 
 namespace EnviroGen.Nodes
 {
@@ -9,9 +10,14 @@ namespace EnviroGen.Nodes
 
         public TEroder Eroder { get; set; }
 
+        public event EventHandler Started;
+        public event EventHandler Finished;
+
         public void Modify(Environment environment)
         {
+            Started?.Invoke(this, null);
             Eroder.Erode(environment.Terrain);
+            Finished?.Invoke(this, null);
 
             Output?.Modify(environment);
         }

@@ -66,7 +66,7 @@ namespace EnviroGenDisplay.ViewModels
             }
             if (nodeName == "Simple Colorizer")
             {
-                return new ColorizerNodeViewModel(Environment);
+                return new ColorizerNodeViewModel();
             }
 
             return null;
