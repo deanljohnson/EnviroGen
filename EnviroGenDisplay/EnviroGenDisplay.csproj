@@ -178,9 +178,6 @@
     <Compile Include="Views\Modifiers\InvertModifierView.xaml.cs">
       <DependentUpon>InvertModifierView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Modifiers\ModifierView.xaml.cs">
-      <DependentUpon>ModifierView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Modifiers\NormalizeModifierView.xaml.cs">
       <DependentUpon>NormalizeModifierView.xaml</DependentUpon>
     </Compile>
@@ -259,10 +256,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Modifiers\InvertModifierView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Modifiers\ModifierView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -41,7 +41,7 @@ namespace EnviroGen.Noise
         private static readonly int[] Perm = new int[512];
 
         // 2D simplex noise
-        public static float Noise2d(float xin, float yin)
+        public static float Noise2D(float xin, float yin)
         {
             float n0, n1, n2; 
 

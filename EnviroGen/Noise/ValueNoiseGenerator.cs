@@ -7,10 +7,10 @@ namespace EnviroGen.Noise
         /// <summary>
         /// Generates a value noise map using the provided seed
         /// </summary>
-        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, float frequency, int seed)
+        public static float[,] GenerateNoiseArray(int xMax, int yMax, int numOctaves, float roughness, int seed)
         {
             var noise = GenerateWhiteNoise(xMax, yMax, new Random(seed));
-            return GenerateValueNoise(noise, numOctaves, roughness, frequency);
+            return GenerateValueNoise(noise, numOctaves, roughness);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace EnviroGen.Noise
             return whiteNoise;
         }
 
-        private static float[,] GenerateValueNoise(float[,] baseNoise, int numOctaves, float roughness, float frequency)
+        private static float[,] GenerateValueNoise(float[,] baseNoise, int numOctaves, float roughness)
         {
             var persistence = roughness;
             var width = baseNoise.GetLength(0);

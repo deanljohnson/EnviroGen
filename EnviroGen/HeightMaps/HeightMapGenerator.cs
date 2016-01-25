@@ -50,7 +50,7 @@ namespace EnviroGen.HeightMaps
                     if (noiseType == NoiseType.Simplex)
                     {
                         arr[x - seed, y - seed] = FractalBrownianMotion.GenerateNoise(x, y, octaveCount, gain, frequency, 2f,
-                        SimplexNoiseGenerator.Noise2d);
+                        SimplexNoiseGenerator.Noise2D);
                     }
                 }
             }

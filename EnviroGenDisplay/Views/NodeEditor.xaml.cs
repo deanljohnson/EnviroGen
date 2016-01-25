@@ -25,8 +25,8 @@ namespace EnviroGenDisplay.Views
 
         private Point? m_RightClickPosition { get; set; }
 
-        private NodeEditorViewModel m_VM;
-        private NodeEditorViewModel m_ViewModel => m_VM ?? (m_VM = DataContext as NodeEditorViewModel);
+        private NodeEditorViewModel m_Vm;
+        private NodeEditorViewModel m_ViewModel => m_Vm ?? (m_Vm = DataContext as NodeEditorViewModel);
 
         public ObservableCollection<NodeConnectionViewModel> NodeConnections { get; set; } = new ObservableCollection<NodeConnectionViewModel>();
 
