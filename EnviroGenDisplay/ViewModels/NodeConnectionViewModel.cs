@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using EnviroGen.Nodes;
+using EnviroGenNodeEditor;
 
 namespace EnviroGenDisplay.ViewModels
 {
-    public class NodeConnectionViewModel : ViewModelBase
+    public class NodeConnectionViewModel : ViewModelBase, INodeConnection<INode>
     {
         private Panel m_GraphContainer { get; }
 
@@ -15,6 +16,27 @@ namespace EnviroGenDisplay.ViewModels
         private Point m_DestinationPosition;
 
         public INode Source { get; set; }
+        public double SourceX
+        {
+            get { return SourcePosition.X; }
+            set { SourcePosition = new Point(value, SourcePosition.Y); }
+        }
+        public double SourceY
+        {
+            get { return SourcePosition.Y; }
+            set { SourcePosition = new Point(SourcePosition.X, value); }
+        }
+        public double DestX
+        {
+            get { return DestinationPosition.X; }
+            set { DestinationPosition = new Point(value, DestinationPosition.Y); }
+        }
+        public double DestY
+        {
+            get { return DestinationPosition.Y; }
+            set { DestinationPosition = new Point(DestinationPosition.X, value); }
+        }
+
         public INode Destination {
             get { return m_Destination; }
             set
@@ -74,7 +96,7 @@ namespace EnviroGenDisplay.ViewModels
             m_GraphContainer = graphContainer;
         }
 
-        public void SetLineEndsToControlLocations()
+        public void SetLineEndsToNodeLocations()
         {
             if (m_SourceControl != null)
             {

@@ -44,7 +44,7 @@ namespace EnviroGenDisplay.ViewModels.Continents
         }
 
         public SquareContinentNodeViewModel()
-            : base("Generating Continents (Square)")
+            : base("Square Continent Generator", "Generating Continents (Square)")
         {
             Node = new ContinentGeneratorNode<SquareContinentGenerator>
             {

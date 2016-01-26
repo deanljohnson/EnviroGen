@@ -20,6 +20,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
         }
 
         public AddModifierNodeViewModel()
+            : base("Add")
         {
             Node = new ModifierNode<AddModifier>
             {

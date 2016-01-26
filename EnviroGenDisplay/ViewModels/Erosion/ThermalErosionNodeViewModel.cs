@@ -33,7 +33,7 @@ namespace EnviroGenDisplay.ViewModels.Erosion
         }
 
         public ThermalErosionNodeViewModel()
-            : base("Performing Thermal Erosion")
+            : base("Thermal Eroder", "Performing Thermal Erosion")
         {
             Node = new EroderNode<ThermalEroder>
             {

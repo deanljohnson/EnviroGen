@@ -72,7 +72,7 @@ namespace EnviroGenDisplay.ViewModels.Erosion
         }
 
         public HydraulicErosionNodeViewModel()
-            : base("Performing Hydraulic Erosion")
+            : base("Hydraulic Eroder", "Performing Hydraulic Erosion")
         {
             Node = new EroderNode<HydraulicEroder>
             {

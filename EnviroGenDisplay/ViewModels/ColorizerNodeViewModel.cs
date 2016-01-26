@@ -15,6 +15,7 @@ namespace EnviroGenDisplay.ViewModels
         public ICommand RemoveColorCommand { get; set; }
 
         public ColorizerNodeViewModel()
+            : base("Colorizer")
         {
             AddColorCommand = new RelayCommand(AddColor);
             RemoveColorCommand = new RelayCommand(RemoveColor);

@@ -92,7 +92,7 @@ namespace EnviroGenDisplay.ViewModels
         public ICommand GenerateCommand { get; set; }
 
         public TerrainGeneratorNodeViewModel(IDisplayedEnvironment map)
-            : base("Generating Terrain")
+            : base("Simplex Noise", "Generating Terrain")
         {
             Map = map;
             Node = new TerrainGeneratorNode();

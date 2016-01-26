@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using EnviroGen.Nodes;
 using EnviroGenDisplay.ViewModels;
-using EnviroGenDisplay.Views.Nodes;
+using EnviroGenNodeEditor;
 
 namespace EnviroGenDisplay.Views
 {
@@ -15,26 +14,13 @@ namespace EnviroGenDisplay.Views
     {
         public static NodeEditor Instance { get; private set; }
 
+        private readonly NodeEditor<NodeViewModel, 
+            ObservableCollection<NodeViewModel>, 
+            NodeConnectionViewModel, 
+            ObservableCollection<NodeConnectionViewModel>> 
+                m_Editor = new NodeEditor<NodeViewModel, ObservableCollection<NodeViewModel>, NodeConnectionViewModel, ObservableCollection<NodeConnectionViewModel>>();
+
         private bool m_MouseUpOnNode { get; set; }
-        private ISelectable m_SelectedNodeBacking;
-        private ISelectable m_SelectedNode
-        {
-            get { return m_SelectedNodeBacking; }
-            set
-            {
-                if (m_SelectedNodeBacking != null)
-                {
-                    m_SelectedNodeBacking.Selected = false;
-                }
-
-                m_SelectedNodeBacking = value;
-
-                if (m_SelectedNodeBacking != null)
-                {
-                    m_SelectedNodeBacking.Selected = true;
-                }
-            }
-        }
 
         private bool m_DraggingNodeConnection { get; set; }
 
@@ -43,12 +29,16 @@ namespace EnviroGenDisplay.Views
         private NodeEditorViewModel m_Vm;
         private NodeEditorViewModel m_ViewModel => m_Vm ?? (m_Vm = DataContext as NodeEditorViewModel);
 
-        public NodeConnectionManager NodeConnectionManager { get; set; }
+        public ObservableCollection<NodeViewModel> Nodes
+        {
+            get { return m_Editor.Nodes; }
+            set { m_Editor.Nodes = value; }
+        }
 
         public ObservableCollection<NodeConnectionViewModel> NodeConnections
         {
-            get { return NodeConnectionManager.Connections; }
-            set { NodeConnectionManager.Connections = value; }
+            get { return m_Editor.NodeConnections; }
+            set { m_Editor.NodeConnections = value; }
         }
 
         public NodeEditor()
@@ -57,53 +47,95 @@ namespace EnviroGenDisplay.Views
 
             InitializeComponent();
 
-            NodeConnectionManager = new NodeConnectionManager(NodeCanvas);
+            Nodes = new ObservableCollection<NodeViewModel>();
+            NodeConnections = new ObservableCollection<NodeConnectionViewModel>();
+
             Connections.DataContext = this;
+
+            Nodes.CollectionChanged += OnNodesChange;
         }
 
-        public void StartConnectionAction(INode sourceNode, Control sourceControl)
+        public void StartConnectionAction(NodeViewModel node, Control c)
         {
-            NodeConnectionManager.StartConnectionAction(sourceNode, sourceControl);
-
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            var connection = new NodeConnectionViewModel(NodeCanvas)
             {
-                m_DraggingNodeConnection = true;
-            }
+                Source = node,
+                SourcePosition = Mouse.GetPosition(NodeCanvas),
+                SourceControl = c
+            };
+
+            m_Editor.StartConnectionAction(connection);
+            m_DraggingNodeConnection = true;
         }
 
-        public void EndConnectionAction(INode destNode, Control destControl)
+        public void EndConnectionAction(NodeViewModel node, Control c)
         {
-            m_DraggingNodeConnection = false;
+            if (m_Editor.MakingConnection)
+            {
+                m_Editor.InProgressConnection.DestinationControl = c;
+                m_Editor.EndConnectionAction(node);
+            }
             
-            NodeConnectionManager.EndConnectionAction(destNode, destControl);
+            m_DraggingNodeConnection = false;
         }
 
         public void UpdateConnectionPositions()
         {
             foreach (var nodeConnection in Connections.Items.OfType<NodeConnectionViewModel>())
             {
-                nodeConnection.SetLineEndsToControlLocations();
+                nodeConnection.SetLineEndsToNodeLocations();
             }
         }
 
-        private void CancelConnectionAction()
+        private void OnNodesChange(object sender, NotifyCollectionChangedEventArgs e)
         {
-            NodeConnectionManager.CancelConnection();
-            m_DraggingNodeConnection = false;
+            if (e.NewItems != null)
+            {
+                foreach (var newItem in e.NewItems)
+                {
+                    NodesContainer.Items.Add(newItem);
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (var oldItem in e.OldItems)
+                {
+                    NodesContainer.Items.Remove(oldItem);
+                }
+            }
         }
 
         private void OnSelectableMouseDown(object sender, MouseEventArgs e)
         {
-            Debug.Assert(sender is ISelectable);
+            Debug.Assert(sender is NodeViewModel);
 
-            m_SelectedNode = (ISelectable) sender;
+            var nvm = (NodeViewModel) sender;
+            m_Editor.SelectedNode = nvm;
+
+            BringToFront(nvm);
         }
 
         private void OnSelectableMouseUp(object sender, MouseEventArgs e)
         {
-            Debug.Assert(sender is ISelectable);
+            Debug.Assert(sender is NodeViewModel);
 
             m_MouseUpOnNode = true;
+        }
+
+        private void BringToFront(NodeViewModel e)
+        {
+            var otherZIndices = NodesContainer.Items.OfType<NodeViewModel>()
+              .Where(x => !ReferenceEquals(x, e))
+              .Select(nvm => nvm.Z).ToArray();
+
+            var maxZ = -1;
+            if (otherZIndices.Any())
+            {
+                maxZ = otherZIndices.Max();
+            }
+
+            e.Z = maxZ + 1;
         }
 
         private void NodeMenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -114,16 +146,17 @@ namespace EnviroGenDisplay.Views
 
             var nodeName = menuItem.Header.ToString();
 
-            //Right click shouldnt ever be null here - if so this will fail hard and tell us there is a problem
-            if (m_RightClickPosition == null) throw new Exception("Right click position was not properly set on the canvas");
             var nodeViewModel = m_ViewModel.GetNodeViewModel(nodeName);
-            var nodeViewControl = new NodeView(nodeViewModel, nodeName, m_RightClickPosition.Value);
-            m_RightClickPosition = null;
+            
+            nodeViewModel.OnMouseDown += OnSelectableMouseDown;
+            nodeViewModel.OnMouseUp += OnSelectableMouseUp;
 
-            nodeViewControl.PreviewMouseDown += OnSelectableMouseDown;
-            nodeViewControl.PreviewMouseUp += OnSelectableMouseUp;
+            if (m_RightClickPosition != null)
+            {
+                nodeViewModel.Position = m_RightClickPosition.Value;
+            }
 
-            NodeCanvas.Children.Add(nodeViewControl);
+            Nodes.Add(nodeViewModel);
         }
 
         private void NodeCanvas_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -137,13 +170,16 @@ namespace EnviroGenDisplay.Views
 
         private void NodeCanvas_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (m_SelectedNode != null && !m_MouseUpOnNode)
-                m_SelectedNode = null;
+            if (m_Editor.SelectedNode != null && !m_MouseUpOnNode)
+                m_Editor.SelectedNode = null;
 
             m_MouseUpOnNode = false;
 
-            if (NodeConnectionManager.Connecting)
-                CancelConnectionAction();
+            if (m_Editor.MakingConnection)
+            {
+                m_Editor.CancelConnectionAction();
+                m_DraggingNodeConnection = false;
+            }
         }
 
         private void NodeCanvas_OnMouseMove(object sender, MouseEventArgs e)
@@ -153,14 +189,17 @@ namespace EnviroGenDisplay.Views
                 //Sanity check here
                 if (Mouse.LeftButton == MouseButtonState.Pressed)
                 {
-                    if (NodeConnectionManager.Connecting)
+                    if (m_Editor.MakingConnection)
                     {
-                        NodeConnectionManager.InProgressConnection.DestinationPosition = Mouse.GetPosition(NodeCanvas);
+                        var mousePos = Mouse.GetPosition(NodeCanvas);
+
+                        m_Editor.InProgressConnection.DestX = mousePos.X;
+                        m_Editor.InProgressConnection.DestY = mousePos.Y;
                     }
                 }
                 else
                 {
-                    CancelConnectionAction();
+                    m_Editor.CancelConnectionAction();
                 }
             }
         }

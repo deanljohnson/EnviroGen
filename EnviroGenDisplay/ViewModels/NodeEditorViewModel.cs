@@ -13,7 +13,7 @@ namespace EnviroGenDisplay.ViewModels
             Environment = environment;
         }
 
-        public ViewModelBase GetNodeViewModel(string nodeName)
+        public NodeViewModel GetNodeViewModel(string nodeName)
         {
             //TODO: Fix these hard coded mappings.... this is not neat by any means
             if (nodeName == "Simplex Noise")

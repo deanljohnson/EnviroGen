@@ -6,6 +6,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
     class RidgedModifierNodeViewModel : NodeViewModel<ModifierNode<RidgedModifier>>
     {
         public RidgedModifierNodeViewModel()
+            : base("Ridged")
         {
             Node = new ModifierNode<RidgedModifier>
             {

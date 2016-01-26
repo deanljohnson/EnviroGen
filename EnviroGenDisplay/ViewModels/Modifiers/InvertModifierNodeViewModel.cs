@@ -21,6 +21,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
         }
 
         public InvertModifierNodeViewModel()
+            : base("Invert")
         {
             Node = new ModifierNode<InvertModifier>
             {

@@ -3,36 +3,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d">
     <UserControl.Resources>
     </UserControl.Resources>
-    <Canvas Width="{Binding ElementName=NodeViewBorder, Path=ActualWidth}" Height="{Binding ElementName=NodeViewBorder, Path=ActualHeight}">
-        <Border Name="NodeViewBorder" CornerRadius="10" BorderBrush="Black" BorderThickness="2" 
+    <Canvas d:DataContext="{d:DesignInstance viewModels:NodeViewModel}" Width="{Binding ElementName=NodeViewBorder, Path=ActualWidth}" Height="{Binding ElementName=NodeViewBorder, Path=ActualHeight}">
+        <Border Name="NodeViewBorder" CornerRadius="10" BorderThickness="2" 
             HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto"
-            MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
-            MouseMove="UIElement_OnMouseMove"
-            MouseLeftButtonUp="UIElement_OnMouseLeftButtonUp" 
-            MinWidth="50" MinHeight="50">
+            MinWidth="50" MinHeight="50" ClipToBounds="True">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Selected}" Value="True">
+                            <Setter Property="BorderBrush" Value="Yellow"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Selected}" Value="False">
+                            <Setter Property="BorderBrush" Value="Black"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding StartDragCommand}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseMove">
+                    <i:InvokeCommandAction Command="{Binding ContinueDragCommand}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction Command="{Binding EndDragCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <Grid>
                 <Grid.OpacityMask>
                     <VisualBrush Visual="{Binding ElementName=clipMask}" Stretch="None"/>
                 </Grid.OpacityMask>
                 <Border x:Name="clipMask" Background="White" CornerRadius="8"/>
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Name="NodeNameTextBlock" TextAlignment="Center" FontSize="12" Text="Node Name" Background="LightBlue" 
+                    <TextBlock Name="NodeNameTextBlock" TextAlignment="Center" FontSize="12" Text="{Binding Name}" Background="LightBlue" 
                            Width="{Binding Width, ElementName=NodeViewBorder}" Height="15"/>
-                    <ContentControl Name="NodeContainer"></ContentControl>
+                    <ContentControl Name="NodeContainer" Content="{Binding}"></ContentControl>
                 </StackPanel>
             </Grid>
         </Border>
-        <ContentControl Name="InputControl" Canvas.Left="-8" Canvas.Top="5" 
-                        MouseLeftButtonDown="Connection_OnMouseLeftButtonEvent"
-                        MouseLeftButtonUp="Connection_OnMouseLeftButtonEvent">
+        <ContentControl Name="InputControl" Canvas.Left="-8" Canvas.Top="5">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction Command="{Binding EndConnectionCommand}" CommandParameter="{Binding ElementName=InputControl}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <Ellipse Name="InputConnection" Width="10" Height="10" Fill="Red"/>
         </ContentControl>
-        <ContentControl Name="OutputControl" Canvas.Right="-8" Canvas.Top="5" 
-                        MouseLeftButtonDown="Connection_OnMouseLeftButtonEvent"
-                        MouseLeftButtonUp="Connection_OnMouseLeftButtonEvent">
+        <ContentControl Name="OutputControl" Canvas.Right="-8" Canvas.Top="5">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding StartConnectionCommand}" CommandParameter="{Binding ElementName=OutputControl}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <Ellipse Name="OutputConnection" Width="10" Height="10" Fill="Green"/>
         </ContentControl>
     </Canvas>

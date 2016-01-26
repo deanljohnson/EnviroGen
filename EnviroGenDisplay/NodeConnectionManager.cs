@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using EnviroGen.Nodes;
 using EnviroGenDisplay.ViewModels;
+using EnviroGenDisplay.Views.Nodes;
 
 namespace EnviroGenDisplay
 {
@@ -72,6 +73,11 @@ namespace EnviroGenDisplay
             Connections.Remove(m_NodeConnection);
 
             m_NodeConnection = null;
+        }
+
+        public void DeleteConnectionsToNode(INode node)
+        {
+            
         }
     }
 }

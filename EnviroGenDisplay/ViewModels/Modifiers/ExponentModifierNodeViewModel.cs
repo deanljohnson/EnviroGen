@@ -20,6 +20,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
         }
 
         public ExponentModifierNodeViewModel()
+            : base("Exponent")
         {
             Node = new ModifierNode<ExponentModifier>
             {

@@ -33,6 +33,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
         }
 
         public NormalizeModifierNodeViewModel()
+            : base("Normalize")
         {
             Node = new ModifierNode<NormalizeModifier>
             {

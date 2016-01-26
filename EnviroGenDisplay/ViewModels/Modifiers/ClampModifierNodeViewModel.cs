@@ -33,6 +33,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
         }
 
         public ClampModifierNodeViewModel()
+            : base("Clamp")
         {
             Node = new ModifierNode<ClampModifier>
             {

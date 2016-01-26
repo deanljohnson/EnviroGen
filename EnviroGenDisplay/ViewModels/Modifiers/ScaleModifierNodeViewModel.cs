@@ -20,6 +20,7 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
         }
 
         public ScaleModifierNodeViewModel()
+            : base("Scale")
         {
             Node = new ModifierNode<ScaleModifier>
             {
