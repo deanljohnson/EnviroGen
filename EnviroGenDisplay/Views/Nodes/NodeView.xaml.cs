@@ -1,20 +1,48 @@
 ﻿using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EnviroGen.Nodes;
 using EnviroGenDisplay.ViewModels;
+using Point = System.Windows.Point;
+using System.Windows;
+using System.Windows.Media;
 
 namespace EnviroGenDisplay.Views.Nodes
 {
     /// <summary>
     /// Interaction logic for Node.xaml
     /// </summary>
-    public partial class NodeView : UserControl
+    public partial class NodeView : UserControl, ISelectable
     {
         private Point m_DragStartRelativeMousePos { get; set; }
         private bool m_Dragging { get; set; }
         private NodeEditor m_Editor { get; }
+
+        //private Brush m_SelectedBrush { get; } = new SolidColorBrush(Colors.Yellow);
+        private Brush m_SelectedBrush { get; } = new LinearGradientBrush(Colors.Yellow, Colors.Orange, 90.0);
+        private Brush m_NormalBrush { get; } = new SolidColorBrush(Colors.Black);
+        private bool m_Selected;
+
+        public bool Selected
+        {
+            get { return m_Selected; }
+            set
+            {
+                if (m_Selected != value)
+                {
+                    m_Selected = value;
+
+                    if (m_Selected)
+                    {
+                        DoSelect();
+                    }
+                    else
+                    {
+                        DoUnSelect();
+                    }
+                }
+            }
+        }
 
         public Point CanvasPoint => new Point(CanvasLeft, CanvasTop);
 
@@ -109,6 +137,16 @@ namespace EnviroGenDisplay.Views.Nodes
             {
                 m_Editor?.EndConnectionAction(node, sender as Control);
             }
+        }
+
+        private void DoSelect()
+        {
+            NodeViewBorder.BorderBrush = m_SelectedBrush;
+        }
+
+        private void DoUnSelect()
+        {
+            NodeViewBorder.BorderBrush = m_NormalBrush;
         }
     }
 }

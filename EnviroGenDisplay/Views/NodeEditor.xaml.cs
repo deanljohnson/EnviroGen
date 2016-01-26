@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,15 +11,30 @@ using EnviroGenDisplay.Views.Nodes;
 
 namespace EnviroGenDisplay.Views
 {
-    //TODO: This has all sorts of nasty hacks. However, I could not find a better solution and so am stuck with this for now.
-    // Problem 1: The view knows it's ViewModel. MVVM be damned I guess...
-    // Problem 2: Tracking the right click position like this is very sketchy.
-    /// <summary>
-    /// Interaction logic for NodeEditor.xaml
-    /// </summary>
     public partial class NodeEditor : UserControl
     {
         public static NodeEditor Instance { get; private set; }
+
+        private bool m_MouseUpOnNode { get; set; }
+        private ISelectable m_SelectedNodeBacking;
+        private ISelectable m_SelectedNode
+        {
+            get { return m_SelectedNodeBacking; }
+            set
+            {
+                if (m_SelectedNodeBacking != null)
+                {
+                    m_SelectedNodeBacking.Selected = false;
+                }
+
+                m_SelectedNodeBacking = value;
+
+                if (m_SelectedNodeBacking != null)
+                {
+                    m_SelectedNodeBacking.Selected = true;
+                }
+            }
+        }
 
         private bool m_DraggingNodeConnection { get; set; }
 
@@ -76,6 +92,20 @@ namespace EnviroGenDisplay.Views
             m_DraggingNodeConnection = false;
         }
 
+        private void OnSelectableMouseDown(object sender, MouseEventArgs e)
+        {
+            Debug.Assert(sender is ISelectable);
+
+            m_SelectedNode = (ISelectable) sender;
+        }
+
+        private void OnSelectableMouseUp(object sender, MouseEventArgs e)
+        {
+            Debug.Assert(sender is ISelectable);
+
+            m_MouseUpOnNode = true;
+        }
+
         private void NodeMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuItem;
@@ -89,6 +119,9 @@ namespace EnviroGenDisplay.Views
             var nodeViewModel = m_ViewModel.GetNodeViewModel(nodeName);
             var nodeViewControl = new NodeView(nodeViewModel, nodeName, m_RightClickPosition.Value);
             m_RightClickPosition = null;
+
+            nodeViewControl.PreviewMouseDown += OnSelectableMouseDown;
+            nodeViewControl.PreviewMouseUp += OnSelectableMouseUp;
 
             NodeCanvas.Children.Add(nodeViewControl);
         }
@@ -104,6 +137,11 @@ namespace EnviroGenDisplay.Views
 
         private void NodeCanvas_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (m_SelectedNode != null && !m_MouseUpOnNode)
+                m_SelectedNode = null;
+
+            m_MouseUpOnNode = false;
+
             if (NodeConnectionManager.Connecting)
                 CancelConnectionAction();
         }
