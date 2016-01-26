@@ -10,16 +10,16 @@ namespace EnviroGenDisplay
     {
         static App()
         {
-            ContextInfoProvider.SetContextInfo = SetContextInfo;
-            ContextInfoProvider.RemoveContextInfo = RemoveContextInfo;
+            ContextProvider.SetContextInfo = SetContextInfo;
+            ContextProvider.RemoveContextInfo = RemoveContextInfo;
         }
 
-        private static void SetContextInfo(ContextInfoProvider provider)
+        private static void SetContextInfo(ContextProvider provider)
         {
             EnviroGenDisplay.MainWindow.Instance.SetContextInfoTextSafe(provider.ContextInfo);
         }
 
-        private static void RemoveContextInfo(ContextInfoProvider provider)
+        private static void RemoveContextInfo(ContextProvider provider)
         {
             EnviroGenDisplay.MainWindow.Instance.RemoveContextInfoTextSafe(provider.ContextInfo);
         }

@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
+             xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
     <Grid d:DataContext="{d:DesignInstance modifiers:AddModifierNodeViewModel}" Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
@@ -18,13 +19,13 @@
         <Grid.Resources>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <views:ContextInfoProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
+        <enviroGenDisplay:ContextProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
                Grid.Column="0" Grid.Row="0">
-            <views:ContextInfoProvider.ContextInfo>
+            <enviroGenDisplay:ContextProvider.ContextInfo>
                 The amount to add to every point on the terrain height map.
-            </views:ContextInfoProvider.ContextInfo>
+            </enviroGenDisplay:ContextProvider.ContextInfo>
             <Label Content="Value:"/>
-        </views:ContextInfoProvider>
+        </enviroGenDisplay:ContextProvider>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Value, Converter={StaticResource FloatToStringConverter}}"/>
     </Grid>
 </UserControl>

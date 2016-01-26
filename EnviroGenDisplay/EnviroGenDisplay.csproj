@@ -115,6 +115,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContextProvider.cs" />
     <Compile Include="Converters\BaseConverter.cs" />
     <Compile Include="Converters\FloatToStringConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
@@ -124,9 +125,6 @@
     <Compile Include="ViewModels\NodeConnectionViewModel.cs" />
     <Compile Include="ViewModels\NodeEditorViewModel.cs" />
     <Compile Include="ViewModels\NodeViewModel.cs" />
-    <Compile Include="Views\ContextInfoProvider.xaml.cs">
-      <DependentUpon>ContextInfoProvider.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Nodes\NodeConnectionView.xaml.cs">
       <DependentUpon>NodeConnectionView.xaml</DependentUpon>
     </Compile>
@@ -209,9 +207,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ContextInfoProvider.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Nodes\NodeConnectionView.xaml">
       <SubType>Designer</SubType>

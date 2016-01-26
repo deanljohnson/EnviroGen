@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:continents="clr-namespace:EnviroGenDisplay.ViewModels.Continents"
+             xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
     <Grid Margin="5,5,5,5" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance continents:SquareContinentNodeViewModel}">
         <Grid.Resources>
@@ -22,25 +23,25 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0">
+        <enviroGenDisplay:ContextProvider Grid.Column="0" Grid.Row="0">
             <Label Content="Minimum Continent Size:"/>
-            <views:ContextInfoProvider.ContextInfo>
+            <enviroGenDisplay:ContextProvider.ContextInfo>
                 The lower limit on the randomly generated continent size.
-            </views:ContextInfoProvider.ContextInfo>
-        </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1">
+            </enviroGenDisplay:ContextProvider.ContextInfo>
+        </enviroGenDisplay:ContextProvider>
+        <enviroGenDisplay:ContextProvider Grid.Column="0" Grid.Row="1">
             <Label Content="Maximum Continent Size:"/>
-            <views:ContextInfoProvider.ContextInfo>
+            <enviroGenDisplay:ContextProvider.ContextInfo>
                 The upper limit on the randomly generated continent size.
-            </views:ContextInfoProvider.ContextInfo>
-        </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="2">
+            </enviroGenDisplay:ContextProvider.ContextInfo>
+        </enviroGenDisplay:ContextProvider>
+        <enviroGenDisplay:ContextProvider Grid.Column="0" Grid.Row="2">
             <Label Content="Continent Scale:"/>
-            <views:ContextInfoProvider.ContextInfo>
+            <enviroGenDisplay:ContextProvider.ContextInfo>
                 The maximum amount that heights are scaled by to create the continent. 
                 The amount decreases the further a point is from the center of the continent.
-            </views:ContextInfoProvider.ContextInfo>
-        </views:ContextInfoProvider>
+            </enviroGenDisplay:ContextProvider.ContextInfo>
+        </enviroGenDisplay:ContextProvider>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=MinimumContinentSize, Converter={StaticResource IntToStringConverter}}" Margin="0,4"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=MaximumContinentSize, Converter={StaticResource IntToStringConverter}}" Margin="0,4"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="2" Text="{Binding Path=ScaleAmount, Converter={StaticResource FloatToStringConverter}}" Margin="0,4"/>

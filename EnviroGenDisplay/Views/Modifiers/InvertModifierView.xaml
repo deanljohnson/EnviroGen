@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
+             xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
     <Grid d:DataContext="{d:DesignInstance modifiers:InvertModifierNodeViewModel}" Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
@@ -19,13 +20,13 @@
         <Grid.Resources>
             <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         </Grid.Resources>
-        <views:ContextInfoProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
+        <enviroGenDisplay:ContextProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
                Grid.Column="0" Grid.Row="0">
             <Label Content="Max Value:"/>
-            <views:ContextInfoProvider.ContextInfo>
+            <enviroGenDisplay:ContextProvider.ContextInfo>
                 All points on the terrains height map will be set to (thisValue - height).
-            </views:ContextInfoProvider.ContextInfo>
-        </views:ContextInfoProvider>
+            </enviroGenDisplay:ContextProvider.ContextInfo>
+        </enviroGenDisplay:ContextProvider>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=MaxValue, Converter={StaticResource FloatToStringConverter}}"/>
     </Grid>
 </UserControl>

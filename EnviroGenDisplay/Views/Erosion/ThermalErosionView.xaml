@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:erosion="clr-namespace:EnviroGenDisplay.ViewModels.Erosion"
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
+             xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
     <Grid Margin="5,5,5,5" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance erosion:ThermalErosionNodeViewModel}">
         <Grid.Resources>
@@ -20,18 +21,18 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="0">
+        <enviroGenDisplay:ContextProvider Grid.Column="0" Grid.Row="0">
             <Label Content="Talus Angle:"/>
-            <views:ContextInfoProvider.ContextInfo>
+            <enviroGenDisplay:ContextProvider.ContextInfo>
                 If the highest slope at any point is greater than this value, erosion will occur.
-            </views:ContextInfoProvider.ContextInfo>
-        </views:ContextInfoProvider>
-        <views:ContextInfoProvider Grid.Column="0" Grid.Row="1">
+            </enviroGenDisplay:ContextProvider.ContextInfo>
+        </enviroGenDisplay:ContextProvider>
+        <enviroGenDisplay:ContextProvider Grid.Column="0" Grid.Row="1">
             <Label Content="Iterations:"/>
-            <views:ContextInfoProvider.ContextInfo>
+            <enviroGenDisplay:ContextProvider.ContextInfo>
                 The number of times to run the erosion process.
-            </views:ContextInfoProvider.ContextInfo>
-        </views:ContextInfoProvider>
+            </enviroGenDisplay:ContextProvider.ContextInfo>
+        </enviroGenDisplay:ContextProvider>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="0" Text="{Binding Path=TalusAngle, Converter={StaticResource FloatToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" Height="Auto" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Iterations, Converter={StaticResource IntToStringConverter}}"/>
     </Grid>
