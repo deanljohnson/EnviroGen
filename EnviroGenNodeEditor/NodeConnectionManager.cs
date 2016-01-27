@@ -6,7 +6,7 @@ namespace EnviroGenNodeEditor
 {
     public class NodeConnectionManager<TNode, TNodeConnection, TNodeConnectionCollection>
         where TNode : INode, ISelectable
-        where TNodeConnection : class, INodeConnection<INode>
+        where TNodeConnection : class, INodeConnection<INode>, new()
         where TNodeConnectionCollection : Collection<TNodeConnection>
     {
         private TNodeConnection m_Connection { get; set; }
@@ -15,11 +15,14 @@ namespace EnviroGenNodeEditor
         public TNodeConnectionCollection NodeConnections { get; set; }
         public TNodeConnection InProgressConnection => m_Connection;
 
-        public void StartConnectionAction(TNodeConnection connection)
+        public void StartConnectionAction(StartConnectionEventArgs e)
         {
-            Debug.Assert(connection != null);
-
-            m_Connection = connection;
+            m_Connection = new TNodeConnection
+            {
+                Source = e.SourceNode,
+                SourceX = e.X,
+                SourceY = e.Y
+            };
 
             Connecting = true;
 
@@ -44,19 +47,21 @@ namespace EnviroGenNodeEditor
             NodeConnections.Add(m_Connection);
         }
 
-        public void EndConnectionAction(TNode destNode)
+        public void EndConnectionAction(EndConnectionEventArgs e)
         {
-            Debug.Assert(destNode != null);
+            Debug.Assert(e.DestNode != null);
 
             Connecting = false;
 
             //Nodes cannot connect to themselves, 
             //and if the connection is complete we dont change anythiing
-            if (!destNode.Equals(m_Connection.Source) &&
+            if (!e.DestNode.Equals(m_Connection.Source) &&
                 (m_Connection.Source == null ||
                 m_Connection.Destination == null))
             {
-                m_Connection.Destination = destNode;
+                m_Connection.Destination = e.DestNode;
+                m_Connection.DestX = e.X;
+                m_Connection.DestY = e.Y;
             }
         }
 

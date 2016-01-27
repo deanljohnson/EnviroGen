@@ -6,6 +6,7 @@ using System.Windows.Input;
 using EnviroGenDisplay.ViewModels.Continents;
 using EnviroGenDisplay.ViewModels.Erosion;
 using EnviroGenDisplay.ViewModels.Modifiers;
+using EnviroGenNodeEditor;
 using Editor = EnviroGenNodeEditor.NodeEditor<EnviroGenDisplay.ViewModels.NodeViewModel, System.Collections.ObjectModel.ObservableCollection<EnviroGenDisplay.ViewModels.NodeViewModel>,
                                             EnviroGenDisplay.ViewModels.NodeConnectionViewModel, System.Collections.ObjectModel.ObservableCollection<EnviroGenDisplay.ViewModels.NodeConnectionViewModel>>;
 
@@ -33,8 +34,6 @@ namespace EnviroGenDisplay.ViewModels
             set { Editor.NodeConnections = value; }
         }
 
-        public ICommand CreateNodeCommand { get; set; }
-
         public NodeEditorViewModel(IDisplayedEnvironment environment, Editor editor)
         {
             Environment = environment;
@@ -42,8 +41,11 @@ namespace EnviroGenDisplay.ViewModels
 
             Nodes = new ObservableCollection<NodeViewModel>();
             NodeConnections = new ObservableCollection<NodeConnectionViewModel>();
+        }
 
-            CreateNodeCommand = new RelayCommand(CreateNode);
+        public void OnCreateNodeEvent(object sender, CreateNodeEventArgs e)
+        {
+            CreateNode(e.X, e.Y, e.Name);
         }
 
         public void OnEditorMouseButtonEvent(object sender, EditorMouseEventArgs e)
@@ -62,9 +64,14 @@ namespace EnviroGenDisplay.ViewModels
             }
             else if (e.Button == EditorMouseButton.Right)
             {
-                if (e.ButtonState == EditorMouseButtonState.Up)
+                switch (e.ButtonState)
                 {
-                    OnRightButtonUp(e.X, e.Y);
+                    case EditorMouseButtonState.Up:
+                        OnRightButtonUp(e.X, e.Y);
+                        break;
+                    case EditorMouseButtonState.Down:
+                        OnRightButtonDown(e.X, e.Y);
+                        break;
                 }
             }
         }
@@ -77,14 +84,16 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
+        private void OnRightButtonDown(double mouseX, double mouseY)
+        {
+        }
+
         private void OnRightButtonUp(double mouseX, double mouseY)
         {
-            NodeCreationPoint = new Point(mouseX, mouseY);
         }
 
         private void OnLeftButtonDown(double mouseX, double mouseY)
         {
-
         }
 
         private void OnLeftButtonUp(double mouseX, double mouseY)
@@ -109,20 +118,29 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
-        private void CreateNode(object name)
+        private void CreateNode(double x, double y, string name)
         {
-            Debug.Assert(name is string);
-            var nodeViewModel = GetNodeViewModel((string) name);
+            var nodeViewModel = GetNodeViewModel(name);
 
             nodeViewModel.OnMouseDown += OnSelectableMouseDown;
             nodeViewModel.OnMouseUp += OnSelectableMouseUp;
+            nodeViewModel.OnNodeDragged += OnNodeDragged;
+            nodeViewModel.OnStartConnection += OnStartConnection;
+            nodeViewModel.OnEndConnection += OnEndConnection;
 
-            if (NodeCreationPoint != null)
-            {
-                nodeViewModel.Position = NodeCreationPoint.Value;
-            }
+            nodeViewModel.Position = new Point(x, y);
 
             Nodes.Add(nodeViewModel);
+        }
+
+        private void OnStartConnection(object sender, StartConnectionEventArgs e)
+        {
+            Editor.StartConnectionAction(e);
+        }
+
+        private void OnEndConnection(object sender, EndConnectionEventArgs e)
+        {
+            Editor.EndConnectionAction(e);
         }
 
         private void OnSelectableMouseDown(object sender, MouseButtonEventArgs e)
@@ -140,6 +158,23 @@ namespace EnviroGenDisplay.ViewModels
             Debug.Assert(sender is NodeViewModel);
 
             m_MouseUpOnNode = true;
+        }
+
+        private void OnNodeDragged(object sender, NodeDraggedEventArgs e)
+        {
+            foreach (var connection in NodeConnections)
+            {
+                if (connection.Source == e.Node)
+                {
+                    connection.SourceX += e.DeltaX;
+                    connection.SourceY += e.DeltaY;
+                }
+                else if (connection.Destination == e.Node)
+                {
+                    connection.DestX += e.DeltaX;
+                    connection.DestY += e.DeltaY;
+                }
+            }
         }
 
         private void BringToFront(NodeViewModel e)

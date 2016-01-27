@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Linq;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using EnviroGenDisplay.ViewModels;
 
 namespace EnviroGenDisplay.Views
 {
-    //TODO: Wrap mouse events to pass info of the exact parameters that NodeEditorViewModel needs
     public partial class NodeEditor : UserControl
     {
         public static NodeEditor Instance { get; private set; }
 
-        //TODO: This connection between View and ViewModel is bad, 
-        //but it's in an effort to move as much logic as possible to the view model.
-        //Hopefully, we will eventually be able to get rid of this
-        private NodeEditorViewModel m_Vm;
-        private NodeEditorViewModel m_ViewModel => m_Vm ?? (m_Vm = DataContext as NodeEditorViewModel);
+        private Point m_NodeCreationPoint { get; set; }
 
         public event EventHandler<EditorMouseEventArgs> EditorMouseMoveEvent;
         public event EventHandler<EditorMouseEventArgs> EditorMouseButtonEvent;
+        public event EventHandler<CreateNodeEventArgs> CreateNodeEvent;
 
         public NodeEditor()
         {
@@ -27,33 +23,11 @@ namespace EnviroGenDisplay.Views
             InitializeComponent();
         }
 
-        public void StartConnectionAction(NodeViewModel node, Control c)
+        protected virtual void OnCreateNodeEvent(CreateNodeEventArgs e)
         {
-            var connection = new NodeConnectionViewModel(NodeCanvas)
-            {
-                Source = node,
-                SourcePosition = Mouse.GetPosition(NodeCanvas),
-                SourceControl = c
-            };
+            var handler = CreateNodeEvent;
 
-            m_ViewModel.Editor.StartConnectionAction(connection);
-        }
-
-        public void EndConnectionAction(NodeViewModel node, Control c)
-        {
-            if (m_ViewModel.Editor.MakingConnection)
-            {
-                m_ViewModel.Editor.InProgressConnection.DestinationControl = c;
-                m_ViewModel.Editor.EndConnectionAction(node);
-            }
-        }
-
-        public void UpdateConnectionPositions()
-        {
-            foreach (var nodeConnection in Connections.Items.OfType<NodeConnectionViewModel>())
-            {
-                nodeConnection.SetLineEndsToNodeLocations();
-            }
+            handler?.Invoke(this, e);
         }
 
         protected virtual void OnEditorMouseButtonEvent(EditorMouseEventArgs e)
@@ -109,7 +83,17 @@ namespace EnviroGenDisplay.Views
         {
             var pos = Mouse.GetPosition(NodeCanvas);
 
+            m_NodeCreationPoint = pos;
+
             OnEditorMouseButtonEvent(new EditorMouseEventArgs(pos.X, pos.Y, EditorMouseButton.Right, EditorMouseButtonState.Up));
+        }
+
+        private void NodeMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            Debug.Assert(sender is MenuItem);
+            var name = ((MenuItem) sender).Header.ToString();
+            
+            OnCreateNodeEvent(new CreateNodeEventArgs(m_NodeCreationPoint.X, m_NodeCreationPoint.Y, name));
         }
     }
 }

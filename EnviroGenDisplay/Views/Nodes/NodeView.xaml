@@ -9,7 +9,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
     </UserControl.Resources>
-    <Canvas d:DataContext="{d:DesignInstance viewModels:NodeViewModel}" Width="{Binding ElementName=NodeViewBorder, Path=ActualWidth}" Height="{Binding ElementName=NodeViewBorder, Path=ActualHeight}">
+    <Canvas Name="NodeViewCanvas" d:DataContext="{d:DesignInstance viewModels:NodeViewModel}" Width="{Binding ElementName=NodeViewBorder, Path=ActualWidth}" Height="{Binding ElementName=NodeViewBorder, Path=ActualHeight}">
         <Border Name="NodeViewBorder" CornerRadius="10" BorderThickness="2" 
             HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto"
             MinWidth="50" MinHeight="50">
@@ -57,7 +57,7 @@
         <ContentControl Name="InputControl" Canvas.Left="-8" Canvas.Top="5">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction Command="{Binding EndConnectionCommand}" CommandParameter="{Binding ElementName=InputControl}"/>
+                    <i:InvokeCommandAction Command="{Binding EndConnectionCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Ellipse Name="InputConnection" Width="10" Height="10" Fill="Red"/>
@@ -65,7 +65,7 @@
         <ContentControl Name="OutputControl" Canvas.Right="-8" Canvas.Top="5">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
-                    <i:InvokeCommandAction Command="{Binding StartConnectionCommand}" CommandParameter="{Binding ElementName=OutputControl}"/>
+                    <i:InvokeCommandAction Command="{Binding StartConnectionCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Ellipse Name="OutputConnection" Width="10" Height="10" Fill="Green"/>

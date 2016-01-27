@@ -17,31 +17,34 @@
         <i:EventTrigger EventName="EditorMouseButtonEvent">
             <ei:CallMethodAction MethodName="OnEditorMouseButtonEvent" TargetObject="{Binding}"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="CreateNodeEvent">
+            <ei:CallMethodAction MethodName="OnCreateNodeEvent" TargetObject="{Binding}"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>
         <ContextMenu x:Key="NodeMenu">
             <MenuItem Header="Terrain Noise Generators">
-                <MenuItem Header="Simplex Noise" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Simplex Noise" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Terrain Modifiers">
-                <MenuItem Header="Add" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Clamp" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Exponent" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Invert" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Normalize" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Ridged" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Scale" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Add" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Clamp" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Exponent" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Invert" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Normalize" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Ridged" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Scale" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Erosion Processes">
-                <MenuItem Header="Hydraulic" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Thermal" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
-                <MenuItem Header="Improved Thermal" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Hydraulic" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Thermal" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Improved Thermal" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Continent Generators">
-                <MenuItem Header="Square" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Square" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
             <MenuItem Header="Coloring">
-                <MenuItem Header="Simple Colorizer" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Simple Colorizer" Click="NodeMenuItem_OnClick"/>
             </MenuItem>
         </ContextMenu>
     </UserControl.Resources>

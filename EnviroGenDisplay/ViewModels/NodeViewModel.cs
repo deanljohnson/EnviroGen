@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using EnviroGen.Nodes;
 using EnviroGenDisplay.Views;
@@ -20,12 +18,18 @@ namespace EnviroGenDisplay.ViewModels
 
         public MouseButtonEventHandler OnMouseDown { get; set; }
         public MouseButtonEventHandler OnMouseUp { get; set; }
+        public EventHandler<NodeDraggedEventArgs> OnNodeDragged { get; set; }
+        public EventHandler<StartConnectionEventArgs> OnStartConnection { get; set; }
+        public EventHandler<EndConnectionEventArgs> OnEndConnection { get; set; }
 
         public abstract INode Output { get; set; }
         public event EventHandler Started;
         public event EventHandler Finished;
         public abstract void Modify(Environment environment);
         public abstract bool Equals(NodeViewModel other);
+
+        public Point InputControlOffset { get; set; }
+        public Point OutputControlOffset { get; set; }
 
         public Point Position {
             get { return new Point(X, Y); }
@@ -98,8 +102,8 @@ namespace EnviroGenDisplay.ViewModels
             ContinueDragCommand = new RelayCommand(OnContinueDrag);
             EndDragCommand = new RelayCommand(OnEndDrag);
 
-            StartConnectionCommand = new RelayCommand(OnStartConnection);
-            EndConnectionCommand = new RelayCommand(OnEndConnection);
+            StartConnectionCommand = new RelayCommand(OnStartConnectionCommand);
+            EndConnectionCommand = new RelayCommand(OnEndConnectionCommand);
         }
 
         public void OnPreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -140,7 +144,7 @@ namespace EnviroGenDisplay.ViewModels
                 X += delta.X;
                 Y += delta.Y;
 
-                NodeEditor.Instance.UpdateConnectionPositions();
+                OnNodeDragged?.Invoke(this, new NodeDraggedEventArgs(this, X, Y, delta.X, delta.Y));
             }
         }
 
@@ -149,16 +153,18 @@ namespace EnviroGenDisplay.ViewModels
             m_Dragging = false;
         }
 
-        private void OnStartConnection(object sourceControl)
+        private void OnStartConnectionCommand(object sourceControl)
         {
-            Debug.Assert(sourceControl is Control);
-            NodeEditor.Instance.StartConnectionAction(this, (Control) sourceControl);
+            OnStartConnection(this, new StartConnectionEventArgs(this, 
+                X + OutputControlOffset.X, 
+                Y + OutputControlOffset.Y));
         }
 
-        private void OnEndConnection(object destControl)
+        private void OnEndConnectionCommand(object destControl)
         {
-            Debug.Assert(destControl is Control);
-            NodeEditor.Instance.EndConnectionAction(this, (Control) destControl);
+            OnEndConnection(this, new EndConnectionEventArgs(this,
+                X + InputControlOffset.X,
+                Y + InputControlOffset.Y));
         }
     }
 

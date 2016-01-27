@@ -6,7 +6,7 @@ namespace EnviroGenNodeEditor
     public class NodeEditor<TNode, TNodeCollection, TNodeConnection, TNodeConnectionCollection>
         where TNode : INode, ISelectable
         where TNodeCollection : Collection<TNode> 
-        where TNodeConnection : class, INodeConnection<INode>
+        where TNodeConnection : class, INodeConnection<INode>, new()
         where TNodeConnectionCollection : Collection<TNodeConnection>
     {
         private NodeConnectionManager<TNode, TNodeConnection, TNodeConnectionCollection> m_ConnectionManager { get; }
@@ -52,15 +52,15 @@ namespace EnviroGenNodeEditor
             Nodes.Add(node);
         }
 
-        public virtual void StartConnectionAction(TNodeConnection connection)
+        public virtual void StartConnectionAction(StartConnectionEventArgs e)
         {
-            m_ConnectionManager.StartConnectionAction(connection);
+            m_ConnectionManager.StartConnectionAction(e);
         }
 
-        public virtual void EndConnectionAction(TNode destNode)
+        public virtual void EndConnectionAction(EndConnectionEventArgs e)
         {
             if (MakingConnection)
-                m_ConnectionManager.EndConnectionAction(destNode);
+                m_ConnectionManager.EndConnectionAction(e);
         }
 
         public virtual void CancelConnectionAction()
