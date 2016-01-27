@@ -1,58 +1,30 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics;
+﻿using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EnviroGenDisplay.ViewModels;
-using EnviroGenNodeEditor;
 
 namespace EnviroGenDisplay.Views
 {
+    //TODO: Wrap mouse events to pass info of the exact parameters that NodeEditorViewModel needs
     public partial class NodeEditor : UserControl
     {
         public static NodeEditor Instance { get; private set; }
 
-        private readonly NodeEditor<NodeViewModel, 
-            ObservableCollection<NodeViewModel>, 
-            NodeConnectionViewModel, 
-            ObservableCollection<NodeConnectionViewModel>> 
-                m_Editor = new NodeEditor<NodeViewModel, ObservableCollection<NodeViewModel>, NodeConnectionViewModel, ObservableCollection<NodeConnectionViewModel>>();
-
-        private bool m_MouseUpOnNode { get; set; }
-
-        private bool m_DraggingNodeConnection { get; set; }
-
-        private Point? m_RightClickPosition { get; set; }
-
+        //TODO: This connection between View and ViewModel is bad, 
+        //but it's in an effort to move as much logic as possible to the view model.
+        //Hopefully, we will eventually be able to get rid of this
         private NodeEditorViewModel m_Vm;
         private NodeEditorViewModel m_ViewModel => m_Vm ?? (m_Vm = DataContext as NodeEditorViewModel);
 
-        public ObservableCollection<NodeViewModel> Nodes
-        {
-            get { return m_Editor.Nodes; }
-            set { m_Editor.Nodes = value; }
-        }
-
-        public ObservableCollection<NodeConnectionViewModel> NodeConnections
-        {
-            get { return m_Editor.NodeConnections; }
-            set { m_Editor.NodeConnections = value; }
-        }
+        public event EventHandler<EditorMouseEventArgs> EditorMouseMoveEvent;
+        public event EventHandler<EditorMouseEventArgs> EditorMouseButtonEvent;
 
         public NodeEditor()
         {
             Instance = this;
 
             InitializeComponent();
-
-            Nodes = new ObservableCollection<NodeViewModel>();
-            NodeConnections = new ObservableCollection<NodeConnectionViewModel>();
-
-            Connections.DataContext = this;
-
-            Nodes.CollectionChanged += OnNodesChange;
         }
 
         public void StartConnectionAction(NodeViewModel node, Control c)
@@ -64,19 +36,16 @@ namespace EnviroGenDisplay.Views
                 SourceControl = c
             };
 
-            m_Editor.StartConnectionAction(connection);
-            m_DraggingNodeConnection = true;
+            m_ViewModel.Editor.StartConnectionAction(connection);
         }
 
         public void EndConnectionAction(NodeViewModel node, Control c)
         {
-            if (m_Editor.MakingConnection)
+            if (m_ViewModel.Editor.MakingConnection)
             {
-                m_Editor.InProgressConnection.DestinationControl = c;
-                m_Editor.EndConnectionAction(node);
+                m_ViewModel.Editor.InProgressConnection.DestinationControl = c;
+                m_ViewModel.Editor.EndConnectionAction(node);
             }
-            
-            m_DraggingNodeConnection = false;
         }
 
         public void UpdateConnectionPositions()
@@ -87,121 +56,60 @@ namespace EnviroGenDisplay.Views
             }
         }
 
-        private void OnNodesChange(object sender, NotifyCollectionChangedEventArgs e)
+        protected virtual void OnEditorMouseButtonEvent(EditorMouseEventArgs e)
         {
-            if (e.NewItems != null)
-            {
-                foreach (var newItem in e.NewItems)
-                {
-                    NodesContainer.Items.Add(newItem);
-                }
-            }
+            var handler = EditorMouseButtonEvent;
 
-            if (e.OldItems != null)
-            {
-                foreach (var oldItem in e.OldItems)
-                {
-                    NodesContainer.Items.Remove(oldItem);
-                }
-            }
+            handler?.Invoke(this, e);
         }
 
-        private void OnSelectableMouseDown(object sender, MouseEventArgs e)
+        protected virtual void OnEditorMouseMove(EditorMouseEventArgs e)
         {
-            Debug.Assert(sender is NodeViewModel);
+            var handler = EditorMouseMoveEvent;
 
-            var nvm = (NodeViewModel) sender;
-            m_Editor.SelectedNode = nvm;
-
-            BringToFront(nvm);
-        }
-
-        private void OnSelectableMouseUp(object sender, MouseEventArgs e)
-        {
-            Debug.Assert(sender is NodeViewModel);
-
-            m_MouseUpOnNode = true;
-        }
-
-        private void BringToFront(NodeViewModel e)
-        {
-            var otherZIndices = NodesContainer.Items.OfType<NodeViewModel>()
-              .Where(x => !ReferenceEquals(x, e))
-              .Select(nvm => nvm.Z).ToArray();
-
-            var maxZ = -1;
-            if (otherZIndices.Any())
-            {
-                maxZ = otherZIndices.Max();
-            }
-
-            e.Z = maxZ + 1;
-        }
-
-        private void NodeMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            var menuItem = sender as MenuItem;
-
-            if (menuItem == null) return;
-
-            var nodeName = menuItem.Header.ToString();
-
-            var nodeViewModel = m_ViewModel.GetNodeViewModel(nodeName);
-            
-            nodeViewModel.OnMouseDown += OnSelectableMouseDown;
-            nodeViewModel.OnMouseUp += OnSelectableMouseUp;
-
-            if (m_RightClickPosition != null)
-            {
-                nodeViewModel.Position = m_RightClickPosition.Value;
-            }
-
-            Nodes.Add(nodeViewModel);
-        }
-
-        private void NodeCanvas_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            m_RightClickPosition = Mouse.GetPosition(NodeCanvas);
+            handler?.Invoke(this, e);
         }
 
         private void NodeCanvas_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            var pos = Mouse.GetPosition(NodeCanvas);
+            
+            OnEditorMouseButtonEvent(new EditorMouseEventArgs(pos.X, pos.Y, EditorMouseButton.Left, EditorMouseButtonState.Down));
         }
 
         private void NodeCanvas_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (m_Editor.SelectedNode != null && !m_MouseUpOnNode)
-                m_Editor.SelectedNode = null;
+            var pos = Mouse.GetPosition(NodeCanvas);
 
-            m_MouseUpOnNode = false;
-
-            if (m_Editor.MakingConnection)
-            {
-                m_Editor.CancelConnectionAction();
-                m_DraggingNodeConnection = false;
-            }
+            OnEditorMouseButtonEvent(new EditorMouseEventArgs(pos.X, pos.Y, EditorMouseButton.Left, EditorMouseButtonState.Up));
         }
 
         private void NodeCanvas_OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (m_DraggingNodeConnection)
-            {
-                //Sanity check here
-                if (Mouse.LeftButton == MouseButtonState.Pressed)
-                {
-                    if (m_Editor.MakingConnection)
-                    {
-                        var mousePos = Mouse.GetPosition(NodeCanvas);
+            var pos = Mouse.GetPosition(NodeCanvas);
 
-                        m_Editor.InProgressConnection.DestX = mousePos.X;
-                        m_Editor.InProgressConnection.DestY = mousePos.Y;
-                    }
-                }
-                else
-                {
-                    m_Editor.CancelConnectionAction();
-                }
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                OnEditorMouseMove(new EditorMouseEventArgs(pos.X, pos.Y, EditorMouseButton.Left, 
+                    EditorMouseButtonState.Down));
             }
+            else if (Mouse.RightButton == MouseButtonState.Pressed)
+            {
+                OnEditorMouseMove(new EditorMouseEventArgs(pos.X, pos.Y, EditorMouseButton.Right,
+                    EditorMouseButtonState.Down));
+            }
+            else
+            {
+                OnEditorMouseMove(new EditorMouseEventArgs(pos.X, pos.Y, EditorMouseButton.None,
+                    EditorMouseButtonState.None));
+            }
+        }
+
+        private void NodeCanvas_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var pos = Mouse.GetPosition(NodeCanvas);
+
+            OnEditorMouseButtonEvent(new EditorMouseEventArgs(pos.X, pos.Y, EditorMouseButton.Right, EditorMouseButtonState.Up));
         }
     }
 }

@@ -3,35 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:nodes="clr-namespace:EnviroGenDisplay.Views.Nodes"
              xmlns:models="clr-namespace:EnviroGenDisplay.ViewModels"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              mc:Ignorable="d"
-             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+             d:DataContext="{d:DesignInstance models:NodeEditorViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="EditorMouseMoveEvent">
+            <ei:CallMethodAction MethodName="OnEditorMouseMoveEvent" TargetObject="{Binding}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="EditorMouseButtonEvent">
+            <ei:CallMethodAction MethodName="OnEditorMouseButtonEvent" TargetObject="{Binding}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <ContextMenu x:Key="NodeMenu">
             <MenuItem Header="Terrain Noise Generators">
-                <MenuItem Header="Simplex Noise" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Simplex Noise" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
             </MenuItem>
             <MenuItem Header="Terrain Modifiers">
-                <MenuItem Header="Add" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Clamp" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Exponent" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Invert" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Normalize" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Ridged" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Scale" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Add" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Clamp" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Exponent" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Invert" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Normalize" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Ridged" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Scale" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
             </MenuItem>
             <MenuItem Header="Erosion Processes">
-                <MenuItem Header="Hydraulic" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Thermal" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Improved Thermal" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Hydraulic" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Thermal" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
+                <MenuItem Header="Improved Thermal" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
             </MenuItem>
             <MenuItem Header="Continent Generators">
-                <MenuItem Header="Square" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Square" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
             </MenuItem>
             <MenuItem Header="Coloring">
-                <MenuItem Header="Simple Colorizer" Click="NodeMenuItem_OnClick"/>
+                <MenuItem Header="Simple Colorizer" Command="{Binding CreateNodeCommand}" CommandParameter="{Binding Path=Header, RelativeSource={RelativeSource Self}}"/>
             </MenuItem>
         </ContextMenu>
     </UserControl.Resources>
@@ -39,18 +49,18 @@
         <Canvas Name="NodeCanvas" ContextMenu="{StaticResource NodeMenu}" 
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                 Background="GhostWhite" ClipToBounds="True"
-                MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp" 
                 MouseLeftButtonDown="NodeCanvas_OnMouseLeftButtonDown"
                 MouseLeftButtonUp="NodeCanvas_OnMouseLeftButtonUp"
-                MouseMove="NodeCanvas_OnMouseMove">
-            <ItemsControl Name="Connections" d:DataContext="{d:DesignInstance views:NodeEditor}" ItemsSource="{Binding Path=NodeConnections}">
+                MouseMove="NodeCanvas_OnMouseMove"
+                MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp">
+            <ItemsControl Name="Connections" ItemsSource="{Binding Path=NodeConnections}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <ItemsControl Name="NodesContainer" d:DataContext="{d:DesignInstance models:NodeViewModel}">
+            <ItemsControl Name="NodesContainer" ItemsSource="{Binding Path=Nodes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas/>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
 using EnviroGenDisplay.ViewModels;
+using EnviroGenNodeEditor;
 
 namespace EnviroGenDisplay
 {
@@ -74,7 +76,11 @@ namespace EnviroGenDisplay
             EnvironmentTab.Content = new EnvironmentViewModel();
             var environment = (IDisplayedEnvironment)EnvironmentTab.Content;
 
-            NodeEditorTab.Content = new NodeEditorViewModel(environment);
+            NodeEditorTab.Content = new NodeEditorViewModel(environment,
+                                            new NodeEditor<NodeViewModel,
+                                            ObservableCollection<NodeViewModel>,
+                                            NodeConnectionViewModel,
+                                            ObservableCollection<NodeConnectionViewModel>>());
         }
     }
 }

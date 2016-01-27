@@ -47,18 +47,23 @@ namespace EnviroGenNodeEditor
             m_ConnectionManager = new NodeConnectionManager<TNode, TNodeConnection, TNodeConnectionCollection>();
         }
 
-        public void StartConnectionAction(TNodeConnection connection)
+        public virtual void AddNode(TNode node)
+        {
+            Nodes.Add(node);
+        }
+
+        public virtual void StartConnectionAction(TNodeConnection connection)
         {
             m_ConnectionManager.StartConnectionAction(connection);
         }
 
-        public void EndConnectionAction(TNode destNode)
+        public virtual void EndConnectionAction(TNode destNode)
         {
             if (MakingConnection)
                 m_ConnectionManager.EndConnectionAction(destNode);
         }
 
-        public void CancelConnectionAction()
+        public virtual void CancelConnectionAction()
         {
             if (MakingConnection)
                 m_ConnectionManager.CancelConnectionAction();

@@ -10,7 +10,7 @@ namespace EnviroGenNodeEditor
 
         double SourceX { get; set; }
         double SourceY { get; set; }
-
+        
         double DestX { get; set; }
         double DestY { get; set; }
     }

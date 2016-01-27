@@ -102,12 +102,22 @@ namespace EnviroGenDisplay.ViewModels
             EndConnectionCommand = new RelayCommand(OnEndConnection);
         }
 
-        protected void OnFinish(object sender, EventArgs e)
+        public void OnPreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            OnMouseUp.Invoke(this, e);
+        }
+
+        public void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            OnMouseDown.Invoke(this, e);
+        }
+
+        protected void OnFinishModify(object sender, EventArgs e)
         {
             Finished?.Invoke(this, null);
         }
 
-        protected void OnStart(object sender, EventArgs e)
+        protected void OnStartModify(object sender, EventArgs e)
         {
             Started?.Invoke(this, null);
         }
@@ -145,10 +155,10 @@ namespace EnviroGenDisplay.ViewModels
             NodeEditor.Instance.StartConnectionAction(this, (Control) sourceControl);
         }
 
-        private void OnEndConnection(object sourceControl)
+        private void OnEndConnection(object destControl)
         {
-            Debug.Assert(sourceControl is Control);
-            NodeEditor.Instance.EndConnectionAction(this, (Control) sourceControl);
+            Debug.Assert(destControl is Control);
+            NodeEditor.Instance.EndConnectionAction(this, (Control) destControl);
         }
     }
 
@@ -163,13 +173,13 @@ namespace EnviroGenDisplay.ViewModels
             {
                 if (m_Node != null)
                 {
-                    m_Node.Started -= OnStart;
-                    m_Node.Finished -= OnFinish;
+                    m_Node.Started -= OnStartModify;
+                    m_Node.Finished -= OnFinishModify;
                 }
 
                 m_Node = value;
-                m_Node.Started += OnStart;
-                m_Node.Finished += OnFinish;
+                m_Node.Started += OnStartModify;
+                m_Node.Finished += OnFinishModify;
             }
         }
 
