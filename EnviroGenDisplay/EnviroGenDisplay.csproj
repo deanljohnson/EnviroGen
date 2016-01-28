@@ -128,6 +128,7 @@
     <Compile Include="Converters\FloatToStringConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="IDisplayedEnvironment.cs" />
+    <Compile Include="Image.cs" />
     <Compile Include="ViewModels\Modifiers\AddModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\NodeConnectionViewModel.cs" />
     <Compile Include="ViewModels\NodeEditorViewModel.cs" />
