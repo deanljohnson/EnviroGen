@@ -124,7 +124,7 @@ namespace EnviroGen.Noise
 
             return x * (1 - f) + y * f;
         }
-
+        /*
         /// <summary>
         /// Fast, but creates slight rectangular patterns
         /// </summary>
@@ -135,6 +135,6 @@ namespace EnviroGen.Noise
         private static float Lerp(float x, float y, float alpha)
         {
             return x * (1 - alpha) + alpha * y;
-        }
+        }*/
     }
 }

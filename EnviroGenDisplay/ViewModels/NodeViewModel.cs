@@ -8,16 +8,16 @@ using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels
 {
-    public abstract class NodeViewModel : ViewModelBase, INode, 
-        IEquatable<NodeViewModel>, ISelectable
+    public abstract class NodeViewModel : ViewModelBase, IEditorNode, 
+        IEquatable<NodeViewModel>
     {
         private bool m_Dragging { get; set; }
         private Point m_DragStartRelativeMousePos { get; set; }
 
         public string Name { get; set; }
 
-        public MouseButtonEventHandler OnMouseDown { get; set; }
-        public MouseButtonEventHandler OnMouseUp { get; set; }
+        public EventHandler<EditorMouseEventArgs> OnLeftMouseDown { get; set; }
+        public EventHandler<EditorMouseEventArgs> OnLeftMouseUp { get; set; }
         public EventHandler<NodeDraggedEventArgs> OnNodeDragged { get; set; }
         public EventHandler<StartConnectionEventArgs> OnStartConnection { get; set; }
         public EventHandler<EndConnectionEventArgs> OnEndConnection { get; set; }
@@ -30,15 +30,6 @@ namespace EnviroGenDisplay.ViewModels
 
         public Point InputControlOffset { get; set; }
         public Point OutputControlOffset { get; set; }
-
-        public Point Position {
-            get { return new Point(X, Y); }
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-            }
-        }
 
         private double m_X;
         public double X
@@ -106,14 +97,19 @@ namespace EnviroGenDisplay.ViewModels
             EndConnectionCommand = new RelayCommand(OnEndConnectionCommand);
         }
 
-        public void OnPreviewMouseUp(object sender, MouseButtonEventArgs e)
+        public void OnMouseButtonEvent(object sender, EditorMouseEventArgs e)
         {
-            OnMouseUp.Invoke(this, e);
-        }
-
-        public void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            OnMouseDown.Invoke(this, e);
+            if (e.Button == EditorMouseButton.Left)
+            {
+                if (e.ButtonState == EditorMouseButtonState.Down)
+                {
+                    OnLeftMouseDown?.Invoke(this, e);
+                }
+                else if (e.ButtonState == EditorMouseButtonState.Up)
+                {
+                    OnLeftMouseUp?.Invoke(this, e);
+                }
+            }
         }
 
         protected void OnFinishModify(object sender, EventArgs e)

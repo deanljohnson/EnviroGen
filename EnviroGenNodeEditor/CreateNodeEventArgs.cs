@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnviroGenDisplay
+namespace EnviroGenNodeEditor
 {
     public class CreateNodeEventArgs : EventArgs
     {

@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
-             xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
     <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:TerrainGeneratorNodeViewModel}">

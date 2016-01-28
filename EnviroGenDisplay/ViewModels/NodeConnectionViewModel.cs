@@ -46,6 +46,7 @@ namespace EnviroGenDisplay.ViewModels
 
         public bool Connected => Source != null && Destination != null;
 
+        //TODO: remove the point properties, set up backing fields for individual coordinates
         public Point SourcePosition
         {
             get { return m_SourcePosition; }
@@ -64,10 +65,6 @@ namespace EnviroGenDisplay.ViewModels
                 m_DestinationPosition = value;
                 OnPropertyChanged();
             }
-        }
-
-        public NodeConnectionViewModel()
-        {
         }
     }
 }

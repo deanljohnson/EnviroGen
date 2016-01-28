@@ -4,9 +4,7 @@ using EnviroGen.Nodes;
 
 namespace EnviroGenNodeEditor
 {
-    public class NodeConnectionManager<TNode, TNodeConnection, TNodeConnectionCollection>
-        where TNode : INode, ISelectable
-        where TNodeConnection : class, INodeConnection<INode>, new()
+    public class NodeConnectionManager<TNodeConnection, TNodeConnectionCollection> where TNodeConnection : class, INodeConnection<INode>, new()
         where TNodeConnectionCollection : Collection<TNodeConnection>
     {
         private TNodeConnection m_Connection { get; set; }
@@ -63,6 +61,7 @@ namespace EnviroGenNodeEditor
                 m_Connection.DestX = e.X;
                 m_Connection.DestY = e.Y;
             }
+            else { CancelConnectionAction(); }
         }
 
         public void CancelConnectionAction()
@@ -74,6 +73,15 @@ namespace EnviroGenNodeEditor
             NodeConnections.Remove(m_Connection);
 
             m_Connection = null;
+        }
+
+        public void SetConnectionDestination(double x, double y)
+        {
+            if (Connecting)
+            {
+                InProgressConnection.DestX = x;
+                InProgressConnection.DestY = y;
+            }
         }
     }
 }

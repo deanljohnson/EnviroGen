@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EnviroGenDisplay.Annotations;
+using EnviroGenDisplay.Properties;
 
 namespace EnviroGenDisplay.ViewModels
 {

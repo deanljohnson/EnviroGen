@@ -7,12 +7,17 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              mc:Ignorable="d">
-    <UserControl.Resources>
-    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="NodeMouseButtonEvent">
+            <ei:CallMethodAction MethodName="OnMouseButtonEvent" TargetObject="{Binding}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Canvas Name="NodeViewCanvas" d:DataContext="{d:DesignInstance viewModels:NodeViewModel}" Width="{Binding ElementName=NodeViewBorder, Path=ActualWidth}" Height="{Binding ElementName=NodeViewBorder, Path=ActualHeight}">
         <Border Name="NodeViewBorder" CornerRadius="10" BorderThickness="2" 
             HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto"
-            MinWidth="50" MinHeight="50">
+            MinWidth="50" MinHeight="50"
+            PreviewMouseDown="NodeBorder_OnPreviewMouseDown"
+            PreviewMouseUp="NodeBorder_OnPreviewMouseUp">
             <Border.Style>
                 <Style TargetType="Border">
                     <Style.Triggers>
@@ -26,12 +31,6 @@
                 </Style>
             </Border.Style>
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewMouseDown">
-                    <ei:CallMethodAction MethodName="OnPreviewMouseDown" TargetObject="{Binding}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="PreviewMouseUp">
-                    <ei:CallMethodAction MethodName="OnPreviewMouseUp" TargetObject="{Binding}"/>
-                </i:EventTrigger>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding StartDragCommand}"/>
                 </i:EventTrigger>

@@ -55,13 +55,13 @@ namespace EnviroGen.Noise
             var j = FastFloor(yin+s);
             var g2 = (float) ((3.0-Math.Sqrt(3.0))/6.0);
             var t = (i+j)*g2;
-            var X0 = i-t; 
+            var x = i-t; 
 
             // Unskew the cell origin back to (x,y) space
-            var Y0 = j-t;
-            var x0 = xin-X0; 
+            var y = j-t;
+            var x0 = xin-x; 
             // The x,y distances from the cell origin
-            var y0 = yin-Y0;
+            var y0 = yin-y;
             // For the 2D case, the simplex shape is an equilateral triangle.
             // Determine which simplex we are in.
             int i1, j1; 

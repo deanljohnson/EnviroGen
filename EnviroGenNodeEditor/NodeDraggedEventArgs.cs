@@ -1,7 +1,7 @@
 ﻿using System;
 using EnviroGen.Nodes;
 
-namespace EnviroGenDisplay
+namespace EnviroGenNodeEditor
 {
     public class NodeDraggedEventArgs : EventArgs
     {
