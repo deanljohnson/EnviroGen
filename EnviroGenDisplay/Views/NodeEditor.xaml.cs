@@ -16,6 +16,7 @@ namespace EnviroGenDisplay.Views
         public event EventHandler<EditorMouseEventArgs> EditorMouseMoveEvent;
         public event EventHandler<EditorMouseEventArgs> EditorMouseButtonEvent;
         public event EventHandler<CreateNodeEventArgs> CreateNodeEvent;
+        public event EventHandler DeleteSelectedNodeEvent;
 
         public NodeEditor()
         {
@@ -43,6 +44,13 @@ namespace EnviroGenDisplay.Views
             var handler = EditorMouseMoveEvent;
 
             handler?.Invoke(this, e);
+        }
+
+        protected virtual void OnDeleteSelectedNodeEvent()
+        {
+            var handler = DeleteSelectedNodeEvent;
+
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
         private void NodeCanvas_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -95,6 +103,14 @@ namespace EnviroGenDisplay.Views
             var name = ((MenuItem) sender).Header.ToString();
             
             OnCreateNodeEvent(new CreateNodeEventArgs(m_NodeCreationPoint.X, m_NodeCreationPoint.Y, name));
+        }
+
+        private void NodeCanvas_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                OnDeleteSelectedNodeEvent();
+            }
         }
     }
 }

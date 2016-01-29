@@ -19,7 +19,7 @@ namespace EnviroGen.Nodes
         public event EventHandler Started;
         public event EventHandler Finished;
 
-        public void Modify(Environment environment)
+        public virtual void Modify(Environment environment)
         {
             Started?.Invoke(this, null);
             environment.Terrain = new Terrain(HeightMapGenerator.GenerateHeightMap(this));

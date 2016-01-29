@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using EnviroGenDisplay.ViewModels.Continents;
 using EnviroGenDisplay.ViewModels.Erosion;
 using EnviroGenDisplay.ViewModels.Modifiers;
@@ -33,6 +34,11 @@ namespace EnviroGenDisplay.ViewModels
 
             Nodes = new ObservableCollection<NodeViewModel>();
             NodeConnections = new ObservableCollection<NodeConnectionViewModel>();
+        }
+
+        public void OnDeleteSelectedNodeEvent(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void OnCreateNodeEvent(object sender, CreateNodeEventArgs e)

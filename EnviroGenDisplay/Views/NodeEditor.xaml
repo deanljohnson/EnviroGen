@@ -20,6 +20,9 @@
         <i:EventTrigger EventName="CreateNodeEvent">
             <ei:CallMethodAction MethodName="OnCreateNodeEvent" TargetObject="{Binding}"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="DeleteSelectedNodeEvent">
+            <ei:CallMethodAction MethodName="OnDeleteSelectedNodeEvent" TargetObject="{Binding}"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>
         <ContextMenu x:Key="NodeMenu">
@@ -55,7 +58,8 @@
                 MouseLeftButtonDown="NodeCanvas_OnMouseLeftButtonDown"
                 MouseLeftButtonUp="NodeCanvas_OnMouseLeftButtonUp"
                 MouseMove="NodeCanvas_OnMouseMove"
-                MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp">
+                MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp"
+                KeyDown="NodeCanvas_OnKeyDown">
             <ItemsControl Name="Connections" ItemsSource="{Binding Path=NodeConnections}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

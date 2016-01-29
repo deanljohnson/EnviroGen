@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using EnviroGen.Nodes;
+using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels
 {
@@ -104,20 +105,20 @@ namespace EnviroGenDisplay.ViewModels
 
         private void Generate(object m = null)
         {
-            //We limit random seed to 10000 because very large seeds 
-            //cause artifacts with some noise algorithms
-            if (Seed == -1)
-                Seed = new Random().Next(10000);
-
             if (!m_ModifyWorker.IsBusy)
                 m_ModifyWorker.RunWorkerAsync();
         }
 
         private void Modify(object sender, DoWorkEventArgs e)
         {
+            //We limit random seed to 10000 because very large seeds 
+            //cause artifacts with some noise algorithms
+            if (Seed == -1)
+                Seed = new Random().Next(10000);
+
             lock (Map.Environment)
             {
-                Node.Modify(Map.Environment);
+                Modify(Map.Environment);
             }
         }
 
