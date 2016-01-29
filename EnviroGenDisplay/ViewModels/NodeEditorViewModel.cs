@@ -1,17 +1,57 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using EnviroGenDisplay.ViewModels.Continents;
-using EnviroGenDisplay.ViewModels.Erosion;
-using EnviroGenDisplay.ViewModels.Modifiers;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using EnviroGenNodeEditor;
 using Editor = EnviroGenNodeEditor.NodeEditor<EnviroGenDisplay.ViewModels.NodeViewModel, System.Collections.ObjectModel.ObservableCollection<EnviroGenDisplay.ViewModels.NodeViewModel>,
                                             EnviroGenDisplay.ViewModels.NodeConnectionViewModel, System.Collections.ObjectModel.ObservableCollection<EnviroGenDisplay.ViewModels.NodeConnectionViewModel>>;
 
 namespace EnviroGenDisplay.ViewModels
 {
+    public class NodeMenuEntry
+    {
+        public string Header { get; }
+
+        public ObservableCollection<NodeMenuEntry> ChildMenus { get; set; }
+        public Func<NodeViewModel> NodeCreator { get; }
+
+        public NodeMenuEntry(string header, Func<NodeViewModel> nodeCreator)
+        {
+            Header = header;
+            ChildMenus = new ObservableCollection<NodeMenuEntry>();
+            NodeCreator = nodeCreator;
+        }
+    }
+
     public class NodeEditorViewModel : ViewModelBase
     {
-        public IDisplayedEnvironment Environment { get; set; }
+        public static ObservableCollection<NodeMenuEntry> NodeMenuEntries { get; set; } = new ObservableCollection<NodeMenuEntry>(); 
+
+        static NodeEditorViewModel()
+        {
+            var type = typeof(NodeViewModel);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract);
+
+            foreach (var t in types)
+            {
+                var nodeNameAttribute = t.GetCustomAttribute(typeof (EditorNodeNameAttribute)) as EditorNodeNameAttribute;
+
+                Debug.Assert(nodeNameAttribute != null);
+
+                var nme = NodeMenuEntries.FirstOrDefault(n => n.Header == nodeNameAttribute.Category);
+
+                if (nme == null)
+                {
+                    nme = new NodeMenuEntry(nodeNameAttribute.Category, null);
+                    NodeMenuEntries.Add(nme);
+                }
+                
+                nme.ChildMenus.Add(new NodeMenuEntry(nodeNameAttribute.Name, () => Activator.CreateInstance(t) as NodeViewModel));
+            }
+        }
 
         public Editor Editor { get; set; }
 
@@ -27,9 +67,8 @@ namespace EnviroGenDisplay.ViewModels
             set { Editor.NodeConnections = value; }
         }
 
-        public NodeEditorViewModel(IDisplayedEnvironment environment, Editor editor)
+        public NodeEditorViewModel(Editor editor)
         {
-            Environment = environment;
             Editor = editor;
 
             Nodes = new ObservableCollection<NodeViewModel>();
@@ -43,7 +82,9 @@ namespace EnviroGenDisplay.ViewModels
 
         public void OnCreateNodeEvent(object sender, CreateNodeEventArgs e)
         {
-            var nodeViewModel = GetNodeViewModel(e.Name);
+            if (e.MenuEntry.NodeCreator == null) return;
+
+            var nodeViewModel = e.MenuEntry.NodeCreator();
 
             nodeViewModel.X = e.X;
             nodeViewModel.Y = e.Y;
@@ -59,65 +100,6 @@ namespace EnviroGenDisplay.ViewModels
         public void OnEditorMouseMoveEvent(object sender, EditorMouseEventArgs e)
         {
             Editor.PushMouseMoveEvent(e);
-        }
-
-        private NodeViewModel GetNodeViewModel(string nodeName)
-        {
-            //TODO: Fix these hard coded mappings.... this is not neat by any means
-            if (nodeName == "Simplex Noise")
-            {
-                return new TerrainGeneratorNodeViewModel(Environment);
-            }
-            if (nodeName == "Add")
-            {
-                return new AddModifierNodeViewModel();
-            }
-            if (nodeName == "Clamp")
-            {
-                return new ClampModifierNodeViewModel();
-            }
-            if (nodeName == "Exponent")
-            {
-                return new ExponentModifierNodeViewModel();
-            }
-            if (nodeName == "Invert")
-            {
-                return new InvertModifierNodeViewModel();
-            }
-            if (nodeName == "Normalize")
-            {
-                return new NormalizeModifierNodeViewModel();
-            }
-            if (nodeName == "Ridged")
-            {
-                return new RidgedModifierNodeViewModel();
-            }
-            if (nodeName == "Scale")
-            {
-                return new ScaleModifierNodeViewModel();
-            }
-            if (nodeName == "Hydraulic")
-            {
-                return new HydraulicErosionNodeViewModel();
-            }
-            if (nodeName == "Improved Thermal")
-            {
-                return new ImprovedThermalErosionNodeViewModel();
-            }
-            if (nodeName == "Thermal")
-            {
-                return new ThermalErosionNodeViewModel();
-            }
-            if (nodeName == "Square")
-            {
-                return new SquareContinentNodeViewModel();
-            }
-            if (nodeName == "Simple Colorizer")
-            {
-                return new ColorizerNodeViewModel();
-            }
-
-            return null;
         }
     }
 }

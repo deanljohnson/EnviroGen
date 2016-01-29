@@ -4,6 +4,7 @@ using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
+    [EditorNodeName("Add", Category = App.ModifiersCategory)]
     class AddModifierNodeViewModel : NodeViewModel<ModifierNode<AddModifier>>
     {
         public float Value
@@ -19,8 +20,13 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             }
         }
 
+        static AddModifierNodeViewModel()
+        {
+            Name = "Add";
+        }
+
         public AddModifierNodeViewModel()
-            : base("Add")
+            : base("Adding")
         {
             Node = new ModifierNode<AddModifier>
             {

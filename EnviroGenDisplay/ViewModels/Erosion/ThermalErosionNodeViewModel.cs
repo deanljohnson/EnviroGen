@@ -4,6 +4,7 @@ using EnviroGen.Nodes;
 
 namespace EnviroGenDisplay.ViewModels.Erosion
 {
+    [EditorNodeName("Thermal Eroder", Category = App.ErosionProcessesCategory)]
     class ThermalErosionNodeViewModel : NodeViewModel<EroderNode<ThermalEroder>>
     {
         public int Iterations
@@ -32,8 +33,13 @@ namespace EnviroGenDisplay.ViewModels.Erosion
             }
         }
 
+        static ThermalErosionNodeViewModel()
+        {
+            Name = "Thermal Eroder";
+        }
+
         public ThermalErosionNodeViewModel()
-            : base("Thermal Eroder", "Performing Thermal Erosion")
+            : base("Performing Thermal Erosion")
         {
             Node = new EroderNode<ThermalEroder>
             {

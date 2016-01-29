@@ -100,9 +100,12 @@ namespace EnviroGenDisplay.Views
         private void NodeMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             Debug.Assert(sender is MenuItem);
-            var name = ((MenuItem) sender).Header.ToString();
+
+            var menuItem = (MenuItem) sender;
             
-            OnCreateNodeEvent(new CreateNodeEventArgs(m_NodeCreationPoint.X, m_NodeCreationPoint.Y, name));
+            var menuDataContext = ((MenuItem) sender).DataContext;
+            
+            OnCreateNodeEvent(new CreateNodeEventArgs(menuDataContext, m_NodeCreationPoint.X, m_NodeCreationPoint.Y));
         }
 
         private void NodeCanvas_OnKeyDown(object sender, KeyEventArgs e)

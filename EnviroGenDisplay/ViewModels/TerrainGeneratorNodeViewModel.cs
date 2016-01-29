@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using EnviroGen.Nodes;
-using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels
 {
+    [EditorNodeName("Simplex Noise", Category = App.TerrainGeneratorsCategory)]
     class TerrainGeneratorNodeViewModel : NodeViewModel<TerrainGeneratorNode>
     {
         private BackgroundWorker m_ModifyWorker { get; }
@@ -88,14 +88,18 @@ namespace EnviroGenDisplay.ViewModels
             }
         }
 
-        public IDisplayedEnvironment Map { get; set; }
-
         public ICommand GenerateCommand { get; set; }
 
-        public TerrainGeneratorNodeViewModel(IDisplayedEnvironment map)
-            : base("Simplex Noise", "Generating Terrain")
+        static TerrainGeneratorNodeViewModel()
         {
-            Map = map;
+            Name = "Simplex Noise";
+        }
+
+        public TerrainGeneratorNodeViewModel()
+            : base("Generating Terrain")
+        {
+            HasInput = false;
+
             Node = new TerrainGeneratorNode();
             GenerateCommand = new RelayCommand(Generate);
             m_ModifyWorker = new BackgroundWorker();
@@ -116,15 +120,15 @@ namespace EnviroGenDisplay.ViewModels
             if (Seed == -1)
                 Seed = new Random().Next(10000);
 
-            lock (Map.Environment)
+            lock (App.WorkingEnvironment)
             {
-                Modify(Map.Environment);
+                Modify(App.WorkingEnvironment);
             }
         }
 
         private void GenerateComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            Map.Update();
+            App.WorkingEnvironment.Update();
         }
     }
 }

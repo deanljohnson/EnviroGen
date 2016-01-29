@@ -73,14 +73,16 @@ namespace EnviroGenDisplay
 
         private void SetupUI()
         {
-            EnvironmentTab.Content = new EnvironmentViewModel();
-            var environment = (IDisplayedEnvironment)EnvironmentTab.Content;
+            var enviroVm = new EnvironmentViewModel();
+            EnvironmentTab.Content = enviroVm;
+            App.WorkingEnvironment = enviroVm;
 
-            NodeEditorTab.Content = new NodeEditorViewModel(environment,
-                                            new NodeEditor<NodeViewModel,
-                                            ObservableCollection<NodeViewModel>,
-                                            NodeConnectionViewModel,
-                                            ObservableCollection<NodeConnectionViewModel>>());
+            NodeEditorTab.Content = 
+                new NodeEditorViewModel(
+                    new NodeEditor<NodeViewModel,
+                                    ObservableCollection<NodeViewModel>,
+                                    NodeConnectionViewModel,
+                                    ObservableCollection<NodeConnectionViewModel>>());
         }
     }
 }

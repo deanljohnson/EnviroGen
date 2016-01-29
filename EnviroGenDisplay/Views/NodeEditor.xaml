@@ -9,7 +9,7 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              mc:Ignorable="d"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-             d:DataContext="{d:DesignInstance models:NodeEditorViewModel}">
+             d:DataContext="{d:DesignInstance models:NodeEditorViewModel}" >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="EditorMouseMoveEvent">
             <ei:CallMethodAction MethodName="OnEditorMouseMoveEvent" TargetObject="{Binding}"/>
@@ -25,30 +25,20 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>
-        <ContextMenu x:Key="NodeMenu">
-            <MenuItem Header="Terrain Noise Generators">
-                <MenuItem Header="Simplex Noise" Click="NodeMenuItem_OnClick"/>
-            </MenuItem>
-            <MenuItem Header="Terrain Modifiers">
-                <MenuItem Header="Add" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Clamp" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Exponent" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Invert" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Normalize" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Ridged" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Scale" Click="NodeMenuItem_OnClick"/>
-            </MenuItem>
-            <MenuItem Header="Erosion Processes">
-                <MenuItem Header="Hydraulic" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Thermal" Click="NodeMenuItem_OnClick"/>
-                <MenuItem Header="Improved Thermal" Click="NodeMenuItem_OnClick"/>
-            </MenuItem>
-            <MenuItem Header="Continent Generators">
-                <MenuItem Header="Square" Click="NodeMenuItem_OnClick"/>
-            </MenuItem>
-            <MenuItem Header="Coloring">
-                <MenuItem Header="Simple Colorizer" Click="NodeMenuItem_OnClick"/>
-            </MenuItem>
+        <Style x:Key="MenuItemStyle" TargetType="MenuItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NodeCreator}" Value="{x:Null}">
+                    <Setter Property="StaysOpenOnClick" Value="True">
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <ContextMenu x:Key="NodeMenu" ItemsSource="{Binding Path=NodeMenuEntries}">
+            <ContextMenu.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type models:NodeMenuEntry}" ItemsSource="{Binding Path=ChildMenus}">
+                    <MenuItem Header="{Binding Header}" Width="200" Click="NodeMenuItem_OnClick" Style="{StaticResource MenuItemStyle}"/>
+                </HierarchicalDataTemplate>
+            </ContextMenu.Resources>
         </ContextMenu>
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10">

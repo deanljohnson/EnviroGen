@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using EnviroGen;
 
 namespace EnviroGenDisplay
 {
@@ -7,6 +8,14 @@ namespace EnviroGenDisplay
     /// </summary>
     public partial class App : Application
     {
+        public static Environment WorkingEnvironment { get; set; }
+
+        public const string ContinentGeneratorsCategory = "Continent Generators";
+        public const string ErosionProcessesCategory = "Erosion Processes";
+        public const string ModifiersCategory = "Modifiers";
+        public const string ColoringCategory = "Coloring";
+        public const string TerrainGeneratorsCategory = "Terrain Generators";
+
         static App()
         {
             ContextProvider.SetContextInfo = SetContextInfo;

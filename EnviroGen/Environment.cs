@@ -4,9 +4,13 @@
     {
         public Terrain Terrain { get; set; }
 
-        public Environment(Terrain terrain)
+        public Environment(Terrain terrain = null)
         {
             Terrain = terrain;
+        }
+
+        public virtual void Update()
+        {
         }
     }
 }

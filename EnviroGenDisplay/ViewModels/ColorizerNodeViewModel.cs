@@ -7,6 +7,7 @@ using EnviroGen.Nodes;
 
 namespace EnviroGenDisplay.ViewModels
 {
+    [EditorNodeName("Colorizer", Category = App.ColoringCategory)]
     class ColorizerNodeViewModel : NodeViewModel<ColorizerNode<Colorizer>>
     {
         public ObservableCollection<ColorRangeViewModel> ColorRanges { get; }
@@ -14,8 +15,13 @@ namespace EnviroGenDisplay.ViewModels
         public ICommand AddColorCommand { get; set; }
         public ICommand RemoveColorCommand { get; set; }
 
+        static ColorizerNodeViewModel()
+        {
+            Name = "Colorizer";
+        }
+
         public ColorizerNodeViewModel()
-            : base("Colorizer")
+            : base("Coloring")
         {
             AddColorCommand = new RelayCommand(AddColor);
             RemoveColorCommand = new RelayCommand(RemoveColor);

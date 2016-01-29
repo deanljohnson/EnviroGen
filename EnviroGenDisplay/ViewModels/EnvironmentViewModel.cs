@@ -1,16 +1,27 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using EnviroGenDisplay.Properties;
 using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay.ViewModels
 {
-    internal class EnvironmentViewModel : ViewModelBase, IDisplayedEnvironment
+    internal class EnvironmentViewModel : Environment
     {
-        private WriteableBitmap m_HeightBitmap;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public Environment Environment { get; }
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+        private WriteableBitmap m_HeightBitmap;
 
         public WriteableBitmap HeightMapBitmap {
             get { return m_HeightBitmap; }
@@ -19,23 +30,22 @@ namespace EnviroGenDisplay.ViewModels
                 if (!ReferenceEquals(m_HeightBitmap, value))
                 {
                     m_HeightBitmap = value;
-                    OnPropertyChanged(nameof(HeightMapBitmap));
+                    OnPropertyChanged();
                 }
             }
         }
 
         public EnvironmentViewModel(int w = 1000, int h = 780)
         {
-            Environment = new Environment(null);
             //why 96? idk, it works
             HeightMapBitmap = new WriteableBitmap(w, h, 96, 96, PixelFormats.Bgra32, null);
         }
 
-        public void Update()
+        public override void Update()
         {
-            if (Environment?.Terrain == null) return;
+            if (Terrain == null) return;
 
-            lock (Environment)
+            lock (this)
             {
                 //We have to execute this after any background workers are finished
                 //because writeablebitmap's can only lock on the owning thread
@@ -46,24 +56,24 @@ namespace EnviroGenDisplay.ViewModels
         private void UpdateWholeBitmap()
         {
             //Get pixels to place in the Bitmap
-            var pixels = new Color[Environment.Terrain.Image.Width * Environment.Terrain.Image.Height];
-            for (uint j = 0; j < Environment.Terrain.Image.Height; j++)
+            var pixels = new Color[Terrain.Image.Width * Terrain.Image.Height];
+            for (uint j = 0; j < Terrain.Image.Height; j++)
             {
                 //The number of pixels up to the j'th row
-                var countSoFar = (j * Environment.Terrain.Image.Width);
+                var countSoFar = (j * Terrain.Image.Width);
 
-                for (uint i = 0; i < Environment.Terrain.Image.Width; i++)
+                for (uint i = 0; i < Terrain.Image.Width; i++)
                 {
-                    pixels[i + countSoFar] = Environment.Terrain.Image[i, j];
+                    pixels[i + countSoFar] = Terrain.Image[i, j];
                 }
             }
 
             //Resize the bitmap if needed
-            if (Environment.Terrain.Image.Width != HeightMapBitmap.PixelWidth ||
-                Environment.Terrain.Image.Height != HeightMapBitmap.PixelHeight)
+            if (Terrain.Image.Width != HeightMapBitmap.PixelWidth ||
+                Terrain.Image.Height != HeightMapBitmap.PixelHeight)
             {
-                HeightMapBitmap = new WriteableBitmap((int) Environment.Terrain.Image.Width, 
-                                                        (int) Environment.Terrain.Image.Height, 
+                HeightMapBitmap = new WriteableBitmap((int) Terrain.Image.Width, 
+                                                        (int) Terrain.Image.Height, 
                                                         96, 96, PixelFormats.Bgra32, null);
             }
 

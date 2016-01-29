@@ -4,6 +4,7 @@ using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
+    [EditorNodeName("Invert", Category = App.ModifiersCategory)]
     class InvertModifierNodeViewModel : NodeViewModel<ModifierNode<InvertModifier>>
     {
         public float MaxValue
@@ -20,8 +21,13 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             }
         }
 
+        static InvertModifierNodeViewModel()
+        {
+            Name = "Invert";
+        }
+
         public InvertModifierNodeViewModel()
-            : base("Invert")
+            : base("Inverting")
         {
             Node = new ModifierNode<InvertModifier>
             {

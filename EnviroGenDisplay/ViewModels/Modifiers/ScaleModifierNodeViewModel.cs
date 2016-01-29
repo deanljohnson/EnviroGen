@@ -4,6 +4,7 @@ using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
+    [EditorNodeName("Scale", Category = App.ModifiersCategory)]
     class ScaleModifierNodeViewModel : NodeViewModel<ModifierNode<ScaleModifier>>
     {
         public float Scale
@@ -19,8 +20,13 @@ namespace EnviroGenDisplay.ViewModels.Modifiers
             }
         }
 
+        static ScaleModifierNodeViewModel()
+        {
+            Name = "Scale";
+        }
+
         public ScaleModifierNodeViewModel()
-            : base("Scale")
+            : base("Scaling")
         {
             Node = new ModifierNode<ScaleModifier>
             {

@@ -11,10 +11,13 @@ namespace EnviroGenDisplay.ViewModels
     public abstract class NodeViewModel : ViewModelBase, IEditorNode, 
         IEquatable<NodeViewModel>
     {
+        public static string Name { get; set; }
+
         private bool m_Dragging { get; set; }
         private Point m_DragStartRelativeMousePos { get; set; }
 
-        public string Name { get; set; }
+        public bool HasInput { get; set; } = true;
+        public bool HasOutput { get; set; } = true;
 
         public event EventHandler<EditorMouseEventArgs> OnLeftMouseDown;
         public event EventHandler<EditorMouseEventArgs> OnLeftMouseUp;
@@ -86,10 +89,8 @@ namespace EnviroGenDisplay.ViewModels
         public ICommand StartConnectionCommand { get; set; }
         public ICommand EndConnectionCommand { get; set; }
 
-        protected NodeViewModel(string name)
+        protected NodeViewModel()
         {
-            Name = name;
-
             StartDragCommand = new RelayCommand(OnStartDrag);
             ContinueDragCommand = new RelayCommand(OnContinueDrag);
             EndDragCommand = new RelayCommand(OnEndDrag);
@@ -192,8 +193,7 @@ namespace EnviroGenDisplay.ViewModels
             set { Node.Output = value; }
         }
 
-        protected NodeViewModel(string name, string statusMessage = null)
-            : base(name)
+        protected NodeViewModel(string statusMessage = null)
         {
             if (statusMessage != null)
             {
