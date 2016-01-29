@@ -35,6 +35,18 @@ namespace EnviroGenDisplay
             CreateMenuEntries(nvmTypes);
         }
 
+        public void AddNodeViewModelDataTemplate(Type nodeViewModelType, Type displayObjectType)
+        {
+            //TODO: Type Checks!
+            //TODO: Or scrap this and auto create the NodeViews....
+            var dataTemplate = new DataTemplate(nodeViewModelType)
+            {
+                VisualTree = new FrameworkElementFactory(displayObjectType)
+            };
+
+            Resources.Add(new DataTemplateKey(nodeViewModelType), dataTemplate);
+        }
+
         private static void LoadPlugins()
         {
             
