@@ -1,5 +1,12 @@
-﻿using System.Windows;
-using EnviroGen;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
+using EnviroGenDisplay.ViewModels;
+using Environment = EnviroGen.Environment;
 
 namespace EnviroGenDisplay
 {
@@ -9,6 +16,8 @@ namespace EnviroGenDisplay
     public partial class App : Application
     {
         public static Environment WorkingEnvironment { get; set; }
+
+        public static ObservableCollection<NodeMenuEntry> NodeMenuEntries { get; set; } = new ObservableCollection<NodeMenuEntry>();
 
         public const string ContinentGeneratorsCategory = "Continent Generators";
         public const string ErosionProcessesCategory = "Erosion Processes";
@@ -20,6 +29,47 @@ namespace EnviroGenDisplay
         {
             ContextProvider.SetContextInfo = SetContextInfo;
             ContextProvider.RemoveContextInfo = RemoveContextInfo;
+
+            LoadPlugins();
+            var nvmTypes = GetNodeViewModelTypes();
+            CreateMenuEntries(nvmTypes);
+        }
+
+        private static void LoadPlugins()
+        {
+            
+        }
+
+        private static List<Type> GetNodeViewModelTypes()
+        {
+            var type = typeof(NodeViewModel);
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract).ToList();
+        }
+
+        private static void CreateMenuEntries(List<Type> types)
+        {
+            foreach (var t in types)
+            {
+                var nodeNameAttribute = t.GetCustomAttribute(typeof(EditorNodeNameAttribute)) as EditorNodeNameAttribute;
+
+                Debug.Assert(nodeNameAttribute != null);
+
+                var nme = NodeMenuEntries.FirstOrDefault(n => n.Header == nodeNameAttribute.Category);
+
+                //Create NodeMenuEntry for category if needed
+                if (nme == null)
+                {
+                    nme = new NodeMenuEntry(nodeNameAttribute.Category, null);
+                    NodeMenuEntries.Add(nme);
+                }
+
+                //Fixes access to foreach variable in closure warning/possible problem
+                var t1 = t;
+
+                nme.ChildMenus.Add(new NodeMenuEntry(nodeNameAttribute.Name, () => Activator.CreateInstance(t1) as NodeViewModel));
+            }
         }
 
         private static void SetContextInfo(ContextProvider provider)

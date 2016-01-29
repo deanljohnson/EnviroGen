@@ -3,7 +3,7 @@
 namespace EnviroGenDisplay
 {
     [AttributeUsage(AttributeTargets.Class)]
-    class EditorNodeNameAttribute : Attribute
+    public class EditorNodeNameAttribute : Attribute
     {
         private string m_Category;
 
@@ -15,13 +15,22 @@ namespace EnviroGenDisplay
             set
             {
                 m_Category = value;
-                QualifiedName = m_Category + "." + Name;
+
+                if (m_Category == string.Empty)
+                {
+                    QualifiedName = Name;
+                }
+                else
+                {
+                    QualifiedName = m_Category + "." + Name;
+                }
             }
         }
 
         public EditorNodeNameAttribute(string name)
         {
             Name = name;
+            QualifiedName = name;
         }
     }
 }
