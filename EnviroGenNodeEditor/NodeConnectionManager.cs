@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using EnviroGen.Nodes;
 
 namespace EnviroGenNodeEditor
 {
-    public class NodeConnectionManager<TNodeConnection, TNodeConnectionCollection> where TNodeConnection : class, INodeConnection<INode>, new()
+    public class NodeConnectionManager<TNode, TNodeConnection, TNodeConnectionCollection>
+        where TNode : class, IEditorNode
+        where TNodeConnection : class, INodeConnection<INode>, new()
         where TNodeConnectionCollection : Collection<TNodeConnection>
     {
         private TNodeConnection m_Connection { get; set; }
@@ -81,6 +84,21 @@ namespace EnviroGenNodeEditor
             {
                 InProgressConnection.DestX = x;
                 InProgressConnection.DestY = y;
+            }
+        }
+
+        public void RemoveConnectionsToNode(TNode node)
+        {
+            var referenced = NodeConnections.Where(c => c.Source == node || c.Destination == node);
+
+            foreach (var connection in referenced)
+            {
+                NodeConnections.Remove(connection);
+            }
+
+            if (Connecting && m_Connection.Source == node)
+            {
+                CancelConnectionAction();
             }
         }
     }

@@ -10,7 +10,7 @@ namespace EnviroGenNodeEditor
         where TNodeConnection : class, INodeConnection<INode>, new()
         where TNodeConnectionCollection : Collection<TNodeConnection>
     {
-        private NodeConnectionManager<TNodeConnection, TNodeConnectionCollection> m_ConnectionManager { get; }
+        private NodeConnectionManager<TNode, TNodeConnection, TNodeConnectionCollection> m_ConnectionManager { get; }
         private TNode m_SelectedNode;
         private bool m_MouseUpOnNode { get; set; }
 
@@ -42,14 +42,11 @@ namespace EnviroGenNodeEditor
 
         public NodeEditor()
         {
-            m_ConnectionManager = new NodeConnectionManager<TNodeConnection, TNodeConnectionCollection>();
+            m_ConnectionManager = new NodeConnectionManager<TNode, TNodeConnection, TNodeConnectionCollection>();
         }
 
-        public virtual void AddNode(TNode node, double x, double y)
+        public virtual void AddNode(TNode node)
         {
-            node.X = x;
-            node.Y = y;
-
             node.OnStartConnection += OnStartConnectionAction;
             node.OnEndConnection += OnEndConnectionAction;
             node.OnLeftMouseDown += OnNodeMouseDown;
@@ -57,6 +54,24 @@ namespace EnviroGenNodeEditor
             node.OnNodeDragged += OnNodeDragged;
 
             Nodes.Add(node);
+        }
+
+        public virtual void DeleteNode(TNode node)
+        {
+            if (SelectedNode == node)
+            {
+                SelectedNode = null;
+            }
+
+            node.OnStartConnection -= OnStartConnectionAction;
+            node.OnEndConnection -= OnEndConnectionAction;
+            node.OnLeftMouseDown -= OnNodeMouseDown;
+            node.OnLeftMouseUp -= OnNodeMouseUp;
+            node.OnNodeDragged -= OnNodeDragged;
+
+            m_ConnectionManager.RemoveConnectionsToNode(node);
+
+            Nodes.Remove(node);
         }
 
         public virtual void PushMouseButtonEvent(EditorMouseEventArgs e)

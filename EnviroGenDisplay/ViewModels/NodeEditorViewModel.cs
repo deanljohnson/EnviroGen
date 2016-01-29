@@ -39,7 +39,10 @@ namespace EnviroGenDisplay.ViewModels
         {
             var nodeViewModel = GetNodeViewModel(e.Name);
 
-            Editor.AddNode(nodeViewModel, e.X, e.Y);
+            nodeViewModel.X = e.X;
+            nodeViewModel.Y = e.Y;
+
+            Editor.AddNode(nodeViewModel);
         }
 
         public void OnEditorMouseButtonEvent(object sender, EditorMouseEventArgs e)

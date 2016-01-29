@@ -16,11 +16,11 @@ namespace EnviroGenDisplay.ViewModels
 
         public string Name { get; set; }
 
-        public EventHandler<EditorMouseEventArgs> OnLeftMouseDown { get; set; }
-        public EventHandler<EditorMouseEventArgs> OnLeftMouseUp { get; set; }
-        public EventHandler<NodeDraggedEventArgs> OnNodeDragged { get; set; }
-        public EventHandler<StartConnectionEventArgs> OnStartConnection { get; set; }
-        public EventHandler<EndConnectionEventArgs> OnEndConnection { get; set; }
+        public event EventHandler<EditorMouseEventArgs> OnLeftMouseDown;
+        public event EventHandler<EditorMouseEventArgs> OnLeftMouseUp;
+        public event EventHandler<NodeDraggedEventArgs> OnNodeDragged;
+        public event EventHandler<StartConnectionEventArgs> OnStartConnection;
+        public event EventHandler<EndConnectionEventArgs> OnEndConnection;
 
         public abstract INode Output { get; set; }
         public event EventHandler Started;
@@ -67,6 +67,7 @@ namespace EnviroGenDisplay.ViewModels
         }
 
         private bool m_Selected;
+
         public bool Selected
         {
             get { return m_Selected; }
@@ -151,14 +152,14 @@ namespace EnviroGenDisplay.ViewModels
 
         private void OnStartConnectionCommand(object sourceControl)
         {
-            OnStartConnection(this, new StartConnectionEventArgs(this, 
+            OnStartConnection?.Invoke(this, new StartConnectionEventArgs(this, 
                 X + OutputControlOffset.X, 
                 Y + OutputControlOffset.Y));
         }
 
         private void OnEndConnectionCommand(object destControl)
         {
-            OnEndConnection(this, new EndConnectionEventArgs(this,
+            OnEndConnection?.Invoke(this, new EndConnectionEventArgs(this,
                 X + InputControlOffset.X,
                 Y + InputControlOffset.Y));
         }

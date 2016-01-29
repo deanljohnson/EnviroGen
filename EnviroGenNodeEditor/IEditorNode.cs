@@ -5,11 +5,11 @@ namespace EnviroGenNodeEditor
 {
     public interface IEditorNode : INode
     {
-        EventHandler<EditorMouseEventArgs> OnLeftMouseDown { get; set; }
-        EventHandler<EditorMouseEventArgs> OnLeftMouseUp { get; set; }
-        EventHandler<NodeDraggedEventArgs> OnNodeDragged { get; set; }
-        EventHandler<StartConnectionEventArgs> OnStartConnection { get; set; }
-        EventHandler<EndConnectionEventArgs> OnEndConnection { get; set; }
+        event EventHandler<EditorMouseEventArgs> OnLeftMouseDown;
+        event EventHandler<EditorMouseEventArgs> OnLeftMouseUp;
+        event EventHandler<NodeDraggedEventArgs> OnNodeDragged;
+        event EventHandler<StartConnectionEventArgs> OnStartConnection;
+        event EventHandler<EndConnectionEventArgs> OnEndConnection;
 
         bool Selected { get; set; }
 
