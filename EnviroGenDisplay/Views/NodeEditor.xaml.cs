@@ -113,7 +113,13 @@ namespace EnviroGenDisplay.Views
             if (e.Key == Key.Delete)
             {
                 OnDeleteSelectedNodeEvent();
+                e.Handled = true;
             }
+        }
+
+        private void NodeCanvas_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            NodeCanvas.Focus();
         }
     }
 }

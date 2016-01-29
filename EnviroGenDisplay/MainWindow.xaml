@@ -12,7 +12,7 @@
             </TabItem>
             <TabItem Header="NodeEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <!-- Using ContentPresenter here to fix issues with controls being re-created on tab-switch-->
-                <ContentPresenter Name="NodeEditorTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ContentPresenter>
+                <ContentPresenter Name="NodeEditorTab" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </TabItem>
         </TabControl>
         <StatusBar Grid.Column="0" Grid.Row="1">

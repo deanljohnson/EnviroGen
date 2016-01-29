@@ -45,11 +45,12 @@
         <Canvas Name="NodeCanvas" ContextMenu="{StaticResource NodeMenu}" 
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                 Background="GhostWhite" ClipToBounds="True"
+                MouseEnter="NodeCanvas_OnMouseEnter"
                 MouseLeftButtonDown="NodeCanvas_OnMouseLeftButtonDown"
                 MouseLeftButtonUp="NodeCanvas_OnMouseLeftButtonUp"
                 MouseMove="NodeCanvas_OnMouseMove"
                 MouseRightButtonUp="NodeCanvas_OnMouseRightButtonUp"
-                KeyDown="NodeCanvas_OnKeyDown">
+                KeyDown="NodeCanvas_OnKeyDown" Focusable="True">
             <ItemsControl Name="Connections" ItemsSource="{Binding Path=NodeConnections}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
