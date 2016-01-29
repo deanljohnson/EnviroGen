@@ -89,16 +89,18 @@ namespace EnviroGenNodeEditor
 
         public void RemoveConnectionsToNode(TNode node)
         {
-            var referenced = NodeConnections.Where(c => c.Source == node || c.Destination == node);
-
-            foreach (var connection in referenced)
-            {
-                NodeConnections.Remove(connection);
-            }
-
             if (Connecting && m_Connection.Source == node)
             {
                 CancelConnectionAction();
+            }
+
+            var referenced = NodeConnections.Where(c => c.Source == node || c.Destination == node).ToArray();
+
+            foreach (var connection in referenced)
+            {
+                //Break the conncetion between nodes
+                connection.Source.Output = null;
+                NodeConnections.Remove(connection);
             }
         }
     }

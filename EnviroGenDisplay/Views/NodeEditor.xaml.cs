@@ -103,7 +103,7 @@ namespace EnviroGenDisplay.Views
 
             var menuItem = (MenuItem) sender;
             
-            var menuDataContext = ((MenuItem) sender).DataContext;
+            var menuDataContext = (menuItem).DataContext;
             
             OnCreateNodeEvent(new CreateNodeEventArgs(menuDataContext, m_NodeCreationPoint.X, m_NodeCreationPoint.Y));
         }

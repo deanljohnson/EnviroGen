@@ -77,7 +77,8 @@ namespace EnviroGenDisplay.ViewModels
 
         public void OnDeleteSelectedNodeEvent(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (Editor.SelectedNode != null)
+                Editor.DeleteNode(Editor.SelectedNode);
         }
 
         public void OnCreateNodeEvent(object sender, CreateNodeEventArgs e)
