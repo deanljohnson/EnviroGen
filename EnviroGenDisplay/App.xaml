@@ -1,55 +1,14 @@
 ﻿<Application x:Class="EnviroGenDisplay.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
-             xmlns:modifiers1="clr-namespace:EnviroGenDisplay.Views.Modifiers"
-             xmlns:erosion="clr-namespace:EnviroGenDisplay.ViewModels.Erosion"
-             xmlns:erosion1="clr-namespace:EnviroGenDisplay.Views.Erosion"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:views="clr-namespace:EnviroGenDisplay.Views"
              xmlns:nodeViews="clr-namespace:EnviroGenDisplay.Views.Nodes"
-             xmlns:continents="clr-namespace:EnviroGenDisplay.ViewModels.Continents"
-             xmlns:continents1="clr-namespace:EnviroGenDisplay.Views.Continents"
+             xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <DataTemplate DataType="{x:Type modifiers:RidgedModifierNodeViewModel}">
-            <modifiers1:RidgedModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:InvertModifierNodeViewModel}">
-            <modifiers1:InvertModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ScaleModifierNodeViewModel}">
-            <modifiers1:ScaleModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ExponentModifierNodeViewModel}">
-            <modifiers1:ExponentModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:NormalizeModifierNodeViewModel}">
-            <modifiers1:NormalizeModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:ClampModifierNodeViewModel}">
-            <modifiers1:ClampModifierView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:HydraulicErosionNodeViewModel}">
-            <erosion1:HydraulicErosionView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:ThermalErosionNodeViewModel}">
-            <erosion1:ThermalErosionView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type erosion:ImprovedThermalErosionNodeViewModel}">
-            <erosion1:ImprovedThermalErosionView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ColorizerNodeViewModel}">
-            <views:ColorizerView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModels:TerrainGeneratorNodeViewModel}">
-            <views:TerrainGeneratorView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:EnvironmentViewModel}">
             <views:EnvironmentView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type continents:SquareContinentNodeViewModel}">
-            <continents1:SquareContinentView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:NodeEditorViewModel}">
             <views:NodeEditor/>
@@ -57,12 +16,9 @@
         <DataTemplate DataType="{x:Type viewModels:NodeConnectionViewModel}">
             <nodeViews:NodeConnectionView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type modifiers:AddModifierNodeViewModel}">
-            <modifiers1:AddModifierView/>
-        </DataTemplate>
-        <!--<Style x:Key="ContextInfoDisplayDescriptor" TargetType="views:ContextInfoProvider">
-            <EventSetter Event="MouseEnter" Handler="ContextInfoProvider_OnMouseEnter"/>
-            <EventSetter Event="MouseLeave" Handler="ContextInfoProvider_OnMouseLeave"/>
-        </Style>-->
+        
+        <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
+        <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     </Application.Resources>
 </Application>

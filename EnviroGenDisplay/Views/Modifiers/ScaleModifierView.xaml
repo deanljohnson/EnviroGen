@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:modifiers="clr-namespace:EnviroGenDisplay.ViewModels.Modifiers"
              xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
@@ -16,9 +15,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
-        </Grid.Resources>
         <enviroGenDisplay:ContextProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
                Grid.Column="0" Grid.Row="0">
             <Label Content="Scale Value:"/>

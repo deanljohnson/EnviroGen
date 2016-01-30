@@ -1,10 +1,11 @@
 ﻿using System;
 using EnviroGen.Nodes;
 using EnviroGen.Noise.Modifiers;
+using EnviroGenDisplay.Views.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    [EditorNodeName("Exponent", Category = App.ModifiersCategory)]
+    [EditorNode("Exponent", typeof(ExponentModifierView), Category = App.ModifiersCategory)]
     class ExponentModifierNodeViewModel : NodeViewModel<ModifierNode<ExponentModifier>>
     {
         public float Exponent

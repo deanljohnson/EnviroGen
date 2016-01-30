@@ -1,10 +1,11 @@
 ﻿using System;
 using EnviroGen.Erosion;
 using EnviroGen.Nodes;
+using EnviroGenDisplay.Views.Erosion;
 
 namespace EnviroGenDisplay.ViewModels.Erosion
 {
-    [EditorNodeName("Hydraulic Eroder", Category = App.ErosionProcessesCategory)]
+    [EditorNode("Hydraulic Eroder", typeof(HydraulicErosionView), Category = App.ErosionProcessesCategory)]
     class HydraulicErosionNodeViewModel : NodeViewModel<EroderNode<HydraulicEroder>>
     {
         public int Iterations

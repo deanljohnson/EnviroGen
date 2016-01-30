@@ -4,10 +4,11 @@ using System.Windows.Input;
 using EnviroGen;
 using EnviroGen.Coloring;
 using EnviroGen.Nodes;
+using EnviroGenDisplay.Views;
 
 namespace EnviroGenDisplay.ViewModels
 {
-    [EditorNodeName("Colorizer", Category = App.ColoringCategory)]
+    [EditorNode("Colorizer", typeof(ColorizerView), Category = App.ColoringCategory)]
     class ColorizerNodeViewModel : NodeViewModel<ColorizerNode<Colorizer>>
     {
         public ObservableCollection<ColorRangeViewModel> ColorRanges { get; }

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
-             xmlns:converters="clr-namespace:EnviroGenDisplay.Converters"
              xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
     <Grid Margin="10,10,10,10" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance viewModels:TerrainGeneratorNodeViewModel}">
@@ -26,10 +25,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <converters:IntToStringConverter x:Key="IntToStringConverter"/>
-            <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
-        </Grid.Resources>
         <enviroGenDisplay:ContextProvider Grid.Column="0" Grid.Row="0">
             <enviroGenDisplay:ContextProvider.ContextInfo>
                 The horizontal size of the map to generate.

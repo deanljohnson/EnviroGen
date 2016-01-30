@@ -1,10 +1,11 @@
 ﻿using System;
 using EnviroGen.Continents;
 using EnviroGen.Nodes;
+using EnviroGenDisplay.Views.Continents;
 
 namespace EnviroGenDisplay.ViewModels.Continents
 {
-    [EditorNodeName("Square Continent Generator", Category = App.ContinentGeneratorsCategory)]
+    [EditorNode("Square Continent Generator", typeof(SquareContinentView), Category = App.ContinentGeneratorsCategory)]
     class SquareContinentNodeViewModel : NodeViewModel<ContinentGeneratorNode<SquareContinentGenerator>>
     {
         public int MaximumContinentSize {

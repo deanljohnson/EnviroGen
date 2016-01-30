@@ -25,34 +25,22 @@ namespace EnviroGenDisplay
         public const string ColoringCategory = "Coloring";
         public const string TerrainGeneratorsCategory = "Terrain Generators";
 
-        static App()
+        public App()
         {
             ContextProvider.SetContextInfo = SetContextInfo;
             ContextProvider.RemoveContextInfo = RemoveContextInfo;
 
             LoadPlugins();
             var nvmTypes = GetNodeViewModelTypes();
-            CreateMenuEntries(nvmTypes);
+            CreateUIInformation(nvmTypes);
         }
 
-        public void AddNodeViewModelDataTemplate(Type nodeViewModelType, Type displayObjectType)
-        {
-            //TODO: Type Checks!
-            //TODO: Or scrap this and auto create the NodeViews....
-            var dataTemplate = new DataTemplate(nodeViewModelType)
-            {
-                VisualTree = new FrameworkElementFactory(displayObjectType)
-            };
-
-            Resources.Add(new DataTemplateKey(nodeViewModelType), dataTemplate);
-        }
-
-        private static void LoadPlugins()
+        private void LoadPlugins()
         {
             
         }
 
-        private static List<Type> GetNodeViewModelTypes()
+        private List<Type> GetNodeViewModelTypes()
         {
             var type = typeof(NodeViewModel);
             return AppDomain.CurrentDomain.GetAssemblies()
@@ -60,28 +48,41 @@ namespace EnviroGenDisplay
                 .Where(p => type.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract).ToList();
         }
 
-        private static void CreateMenuEntries(List<Type> types)
+        private void CreateUIInformation(List<Type> types)
         {
             foreach (var t in types)
             {
-                var nodeNameAttribute = t.GetCustomAttribute(typeof(EditorNodeNameAttribute)) as EditorNodeNameAttribute;
+                var editorNodeAttribute = t.GetCustomAttribute(typeof(EditorNodeAttribute)) as EditorNodeAttribute;
 
-                Debug.Assert(nodeNameAttribute != null);
+                Debug.Assert(editorNodeAttribute != null);
 
-                var nme = NodeMenuEntries.FirstOrDefault(n => n.Header == nodeNameAttribute.Category);
-
-                //Create NodeMenuEntry for category if needed
-                if (nme == null)
-                {
-                    nme = new NodeMenuEntry(nodeNameAttribute.Category, null);
-                    NodeMenuEntries.Add(nme);
-                }
-
-                //Fixes access to foreach variable in closure warning/possible problem
-                var t1 = t;
-
-                nme.ChildMenus.Add(new NodeMenuEntry(nodeNameAttribute.Name, () => Activator.CreateInstance(t1) as NodeViewModel));
+                CreateMenuEntry(editorNodeAttribute.Name, editorNodeAttribute.Category, t);
+                CreateViewResource(t, editorNodeAttribute.DisplayControlType);
             }
+        }
+
+        private void CreateMenuEntry(string name, string cat, Type t)
+        {
+            var nme = NodeMenuEntries.FirstOrDefault(n => n.Header == cat);
+
+            //Create NodeMenuEntry for category if needed
+            if (nme == null)
+            {
+                nme = new NodeMenuEntry(cat, null);
+                NodeMenuEntries.Add(nme);
+            }
+
+            nme.ChildMenus.Add(new NodeMenuEntry(name, () => Activator.CreateInstance(t) as NodeViewModel));
+        }
+
+        private void CreateViewResource(Type viewModelType, Type displayControlType)
+        {
+            var dataTemplate = new DataTemplate(viewModelType)
+            {
+                VisualTree = new FrameworkElementFactory(displayControlType)
+            };
+
+            Resources.Add(new DataTemplateKey(viewModelType), dataTemplate);
         }
 
         private static void SetContextInfo(ContextProvider provider)

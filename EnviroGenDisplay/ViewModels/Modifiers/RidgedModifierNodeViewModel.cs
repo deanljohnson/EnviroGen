@@ -1,9 +1,10 @@
 ﻿using EnviroGen.Nodes;
 using EnviroGen.Noise.Modifiers;
+using EnviroGenDisplay.Views.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    [EditorNodeName("Ridged", Category = App.ModifiersCategory)]
+    [EditorNode("Ridged", typeof(RidgedModifierView), Category = App.ModifiersCategory)]
     class RidgedModifierNodeViewModel : NodeViewModel<ModifierNode<RidgedModifier>>
     {
         static RidgedModifierNodeViewModel()

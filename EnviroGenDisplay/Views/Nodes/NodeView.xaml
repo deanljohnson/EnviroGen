@@ -7,9 +7,6 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-    </UserControl.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="NodeMouseButtonEvent">
             <ei:CallMethodAction MethodName="OnMouseButtonEvent" TargetObject="{Binding}"/>
@@ -56,7 +53,7 @@
                 </StackPanel>
             </Grid>
         </Border>
-        <ContentControl Name="InputControl" Canvas.Left="-8" Canvas.Top="5" Visibility="{Binding HasInput, Converter={StaticResource BoolToVis}}">
+        <ContentControl Name="InputControl" Canvas.Left="-8" Canvas.Top="5" Visibility="{Binding HasInput, Converter={StaticResource BoolToVisConverter}}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonUp">
                     <i:InvokeCommandAction Command="{Binding EndConnectionCommand}"/>
@@ -64,7 +61,7 @@
             </i:Interaction.Triggers>
             <Ellipse Name="InputConnection" Width="10" Height="10" Fill="Red"/>
         </ContentControl>
-        <ContentControl Name="OutputControl" Canvas.Right="-8" Canvas.Top="5" Visibility="{Binding HasOutput, Converter={StaticResource BoolToVis}}">
+        <ContentControl Name="OutputControl" Canvas.Right="-8" Canvas.Top="5" Visibility="{Binding HasOutput, Converter={StaticResource BoolToVisConverter}}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding StartConnectionCommand}"/>

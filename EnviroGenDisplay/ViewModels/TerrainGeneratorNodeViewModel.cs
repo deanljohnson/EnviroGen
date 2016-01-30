@@ -2,10 +2,11 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using EnviroGen.Nodes;
+using EnviroGenDisplay.Views;
 
 namespace EnviroGenDisplay.ViewModels
 {
-    [EditorNodeName("Simplex Noise", Category = App.TerrainGeneratorsCategory)]
+    [EditorNode("Simplex Noise", typeof(TerrainGeneratorView), Category = App.TerrainGeneratorsCategory)]
     class TerrainGeneratorNodeViewModel : NodeViewModel<TerrainGeneratorNode>
     {
         private BackgroundWorker m_ModifyWorker { get; }

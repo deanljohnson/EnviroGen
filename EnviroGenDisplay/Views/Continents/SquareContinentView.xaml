@@ -8,10 +8,6 @@
              xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d">
     <Grid Margin="5,5,5,5" Height="Auto" VerticalAlignment="Top" d:DataContext="{d:DesignInstance continents:SquareContinentNodeViewModel}">
-        <Grid.Resources>
-            <converters:IntToStringConverter x:Key="IntToStringConverter"/>
-            <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
-        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>

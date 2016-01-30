@@ -1,10 +1,11 @@
 ﻿using System;
 using EnviroGen.Nodes;
 using EnviroGen.Noise.Modifiers;
+using EnviroGenDisplay.Views.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    [EditorNodeName("Normalize", Category = App.ModifiersCategory)]
+    [EditorNode("Normalize", typeof(NormalizeModifierView), Category = App.ModifiersCategory)]
     class NormalizeModifierNodeViewModel : NodeViewModel<ModifierNode<NormalizeModifier>>
     {
         public float LowValue

@@ -7,6 +7,7 @@
              xmlns:models="clr-namespace:EnviroGenDisplay.ViewModels"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay"
              mc:Ignorable="d"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
              d:DataContext="{d:DesignInstance models:NodeEditorViewModel}" >
@@ -35,7 +36,7 @@
         </Style>
         <ContextMenu x:Key="NodeMenu" ItemsSource="{Binding Path=NodeMenuEntries}">
             <ContextMenu.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type models:NodeMenuEntry}" ItemsSource="{Binding Path=ChildMenus}">
+                <HierarchicalDataTemplate DataType="{x:Type enviroGenDisplay:NodeMenuEntry}" ItemsSource="{Binding Path=ChildMenus}">
                     <MenuItem Header="{Binding Header}" Width="200" Click="NodeMenuItem_OnClick" Style="{StaticResource MenuItemStyle}"/>
                 </HierarchicalDataTemplate>
             </ContextMenu.Resources>

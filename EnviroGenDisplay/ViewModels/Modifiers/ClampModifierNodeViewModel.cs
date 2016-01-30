@@ -1,10 +1,11 @@
 ﻿using System;
 using EnviroGen.Nodes;
 using EnviroGen.Noise.Modifiers;
+using EnviroGenDisplay.Views.Modifiers;
 
 namespace EnviroGenDisplay.ViewModels.Modifiers
 {
-    [EditorNodeName("Clamp", Category = App.ModifiersCategory)]
+    [EditorNode("Clamp", typeof(ClampModifierView), Category = App.ModifiersCategory)]
     class ClampModifierNodeViewModel : NodeViewModel<ModifierNode<ClampModifier>>
     {
         public float LowValue
