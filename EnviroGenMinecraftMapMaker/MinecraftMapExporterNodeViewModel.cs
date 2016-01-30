@@ -9,7 +9,7 @@ namespace EnviroGenMinecraftMapMaker
     [EditorNode("Minecraft Map Exporter", typeof(MinecraftMapExporterView), Category = "Exporters")]
     public class MinecraftMapExporterNodeViewModel : NodeViewModel<ModifierNode<MinecraftMapExporter>>
     {
-        private BackgroundWorker m_ModifyWorker = new BackgroundWorker();
+        private readonly BackgroundWorker m_ModifyWorker = new BackgroundWorker();
 
         public string Path {
             get { return Node.Modifier.Path; }
