@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="libs\Substrate.dll" />
+    <Content Include="libs\Substrate.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

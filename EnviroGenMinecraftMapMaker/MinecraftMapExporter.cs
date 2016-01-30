@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using EnviroGen;
 using EnviroGen.HeightMaps;
 using EnviroGen.Noise.Modifiers;
 using Substrate;
@@ -13,12 +14,16 @@ namespace EnviroGenMinecraftMapMaker
     {
         private const int CHUNK_SIZE = 16;
         private const int MAX_TERRAIN_HEIGHT = 128;
+        private const int SEA_LEVEL = 63;
 
         public string Path { get; set; } = @"C:\Users\Dean\AppData\Roaming\.minecraft\saves\EnviroGenExport\";
-        public string Name { get; set; }
+        public string Name { get; set; } = "EnviroGen Export";
 
         static MinecraftMapExporter()
         {
+            GenerationOptions.DefaultRoughness = .3f;
+            GenerationOptions.DefaultFrequency = .003f;
+
             NbtVerifier.InvalidTagType += (e) =>
             {
                 throw new Exception("Invalid Tag Type: " + e.TagName + " [" + e.Tag + "]");
@@ -59,7 +64,6 @@ namespace EnviroGenMinecraftMapMaker
             var chunksX = terrain.Size.X / CHUNK_SIZE;
             var chunksZ = terrain.Size.Y / CHUNK_SIZE; //In MC, z is a horizontal axis and y is vertical
 
-            
             //Build chunks
             for (var cz = 0; cz < chunksZ; cz++)
             {
@@ -72,6 +76,8 @@ namespace EnviroGenMinecraftMapMaker
 
                     BuildChunk(chunk, intMap, cx * CHUNK_SIZE, cz * CHUNK_SIZE);
 
+                    chunk.IsTerrainPopulated = false;
+
                     chunk.Blocks.RebuildHeightMap();
                     chunk.Blocks.RebuildBlockLight();
                     chunk.Blocks.RebuildSkyLight();
@@ -79,11 +85,11 @@ namespace EnviroGenMinecraftMapMaker
                     chunkManager.Save();
                 }
             }
-
+            
             world.Level.GameType = GameType.CREATIVE;
 
-            var spawnX = (chunksX / 2) * CHUNK_SIZE;
-            var spawnZ = (chunksZ / 2) * CHUNK_SIZE;
+            var spawnX = chunkManager.ChunkGlobalX(chunksX / 2);
+            var spawnZ = chunkManager.ChunkLocalZ(chunksZ / 2);
             world.Level.Spawn = new SpawnPoint(spawnX, intMap[spawnX, spawnZ] + 2, spawnZ);
 
             world.Save();
@@ -96,9 +102,46 @@ namespace EnviroGenMinecraftMapMaker
                 for (var x = 0; x < CHUNK_SIZE; x++)
                 {
                     var height = heightMap[x + startingX, z + startingZ];
-                    for (var y = 0; y < height; y++)
+                    try
                     {
-                        chunk.Blocks.SetID(x, y, z, BlockType.DIRT);
+                        //Bedrock Layer
+                        for (var y = 0; y < 2; y++)
+                        {
+                            chunk.Blocks.SetID(x, y, z, BlockType.BEDROCK);
+                        }
+
+                        //Stone Layer
+                        for (var y = 2; y < height - 5; y++)
+                        {
+                            chunk.Blocks.SetID(x, y, z, BlockType.STONE);
+                        }
+
+                        //Dirt/Grass Layer
+                        for (var y = height > 5 ? height - 5 : 0; y < height; y++)
+                        {
+                            if (y == height - 1 && y >= SEA_LEVEL)
+                            {
+                                chunk.Blocks.SetID(x, y, z, BlockType.GRASS);
+                            }
+                            else
+                            {
+                                chunk.Blocks.SetID(x, y, z, BlockType.DIRT);
+                            }
+                        }
+
+                        //Sand/Sea Level Layer
+                        if (height <= SEA_LEVEL)
+                        {
+                            chunk.Blocks.SetID(x, height, z, BlockType.SAND);
+                            for (var y = height + 1; y < SEA_LEVEL; y++)
+                            {
+                                chunk.Blocks.SetID(x, y, z, BlockType.WATER);
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("An error occured in the chunk building process");
                     }
                 }
             }
