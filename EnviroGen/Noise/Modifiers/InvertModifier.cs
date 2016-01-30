@@ -1,5 +1,4 @@
-﻿using EnviroGen.HeightMaps;
-
+﻿
 namespace EnviroGen.Noise.Modifiers
 {
     public class InvertModifier : IModifier
@@ -11,8 +10,9 @@ namespace EnviroGen.Noise.Modifiers
             MaxValue = max;
         }
 
-        public void Modify(HeightMap map)
+        public void Modify(Environment environment)
         {
+            var map = environment.Terrain;
             for (var y = 0; y < map.Size.Y; y++)
             {
                 for (var x = 0; x < map.Size.X; x++)

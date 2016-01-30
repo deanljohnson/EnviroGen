@@ -1,6 +1,4 @@
-﻿using EnviroGen.HeightMaps;
-
-namespace EnviroGen.Noise.Modifiers
+﻿namespace EnviroGen.Noise.Modifiers
 {
     public class ScaleModifier : IInvertableModifier
     {
@@ -11,8 +9,9 @@ namespace EnviroGen.Noise.Modifiers
             Scale = scale;
         }
 
-        public void Modify(HeightMap map)
+        public void Modify(Environment environment)
         {
+            var map = environment.Terrain;
             for (var y = 0; y < map.Size.Y; y++)
             {
                 for (var x = 0; x < map.Size.X; x++)
@@ -22,8 +21,9 @@ namespace EnviroGen.Noise.Modifiers
             }
         }
 
-        public void InvertModify(HeightMap map)
+        public void InvertModify(Environment environment)
         {
+            var map = environment.Terrain;
             for (var y = 0; y < map.Size.Y; y++)
             {
                 for (var x = 0; x < map.Size.X; x++)

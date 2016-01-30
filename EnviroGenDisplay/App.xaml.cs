@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -37,7 +38,23 @@ namespace EnviroGenDisplay
 
         private void LoadPlugins()
         {
-            
+            var pluginPath = AppDomain.CurrentDomain.BaseDirectory + @"Plugins";
+
+            foreach (var dll in Directory.GetFiles(pluginPath, "*.dll", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    var assembly = Assembly.LoadFile(dll);
+                }
+                catch (FileLoadException)
+                {
+                    Debug.Print("Plugin was already loaded, " + dll);
+                }
+                catch (BadImageFormatException)
+                {
+                    Debug.Print("The plugin is not an assembly, " + dll);
+                }
+            }
         }
 
         private List<Type> GetNodeViewModelTypes()

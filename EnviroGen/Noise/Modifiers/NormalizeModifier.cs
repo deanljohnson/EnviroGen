@@ -1,6 +1,4 @@
-﻿using EnviroGen.HeightMaps;
-
-namespace EnviroGen.Noise.Modifiers
+﻿namespace EnviroGen.Noise.Modifiers
 {
     public class NormalizeModifier : IModifier
     {
@@ -14,8 +12,9 @@ namespace EnviroGen.Noise.Modifiers
         }
 
 
-        public void Modify(HeightMap map)
+        public void Modify(Environment environment)
         {
+            var map = environment.Terrain;
             var maxValue = map[0, 0];
             var minValue = map[0, 0];
 
