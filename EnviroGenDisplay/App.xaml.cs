@@ -44,7 +44,7 @@ namespace EnviroGenDisplay
             {
                 try
                 {
-                    var assembly = Assembly.LoadFile(dll);
+                    var assembly = Assembly.LoadFrom(dll);
                 }
                 catch (FileLoadException)
                 {

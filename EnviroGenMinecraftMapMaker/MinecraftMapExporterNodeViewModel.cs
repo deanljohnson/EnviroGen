@@ -20,6 +20,19 @@ namespace EnviroGenMinecraftMapMaker
             }
         }
 
+        public string LevelName
+        {
+            get { return Node.Modifier.Name; }
+            set
+            {
+                if (Node.Modifier.Name != value)
+                {
+                    Node.Modifier.Name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         static MinecraftMapExporterNodeViewModel()
         {
             Name = "Minecraft Map Exporter";
@@ -28,7 +41,10 @@ namespace EnviroGenMinecraftMapMaker
         public MinecraftMapExporterNodeViewModel()
             : base("Exporting to Minecraft Map File")
         {
-            Node = new ModifierNode<MinecraftMapExporter>();
+            Node = new ModifierNode<MinecraftMapExporter>
+            {
+                Modifier = new MinecraftMapExporter()
+            };
         }
     }
 }
