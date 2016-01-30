@@ -48,6 +48,18 @@ namespace EnviroGenMinecraftMapMaker
             }
         }
 
+        public int MaxTerrainHeight
+        {
+            get { return Node.Modifier.MaxTerrainHeight; }
+            set {
+                if (Node.Modifier.MaxTerrainHeight != value)
+                {
+                    Node.Modifier.MaxTerrainHeight = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         static MinecraftMapExporterNodeViewModel()
         {
             Name = "Minecraft Map Exporter";

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using EnviroGen;
 using EnviroGen.HeightMaps;
 using EnviroGen.Noise.Modifiers;
 using Substrate;
@@ -13,18 +12,15 @@ namespace EnviroGenMinecraftMapMaker
     public class MinecraftMapExporter : IModifier
     {
         private const int CHUNK_SIZE = 16;
-        private const int MAX_TERRAIN_HEIGHT = 128;
         private const int SEA_LEVEL = 63;
 
         public string Path { get; set; } = @"C:\Users\Dean\AppData\Roaming\.minecraft\saves\EnviroGenExport\";
         public string Name { get; set; } = "EnviroGen Export";
         public bool Normalize { get; set; } = false;
+        public int MaxTerrainHeight { get; set; } = 128;
 
         static MinecraftMapExporter()
         {
-            GenerationOptions.DefaultRoughness = .3f;
-            GenerationOptions.DefaultFrequency = .003f;
-
             NbtVerifier.InvalidTagType += (e) =>
             {
                 throw new Exception("Invalid Tag Type: " + e.TagName + " [" + e.Tag + "]");
@@ -58,7 +54,7 @@ namespace EnviroGenMinecraftMapMaker
             if (Normalize)
             {
                 //Normalize to Minecraft height ranges
-                terrain.Normalize(0, MAX_TERRAIN_HEIGHT);
+                terrain.Normalize(0, MaxTerrainHeight);
             }
 
             //Convert to integers to better map to MC's values
