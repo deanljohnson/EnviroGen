@@ -5,7 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EnviroGenMinecraftMapMaker"
              xmlns:enviroGenDisplay="clr-namespace:EnviroGenDisplay;assembly=EnviroGenDisplay"
+             xmlns:converters="clr-namespace:EnviroGenDisplay.Converters;assembly=EnviroGenDisplay"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BoolToStringConverter x:Key="BoolToStringConverter"/>
+    </UserControl.Resources>
     <Grid d:DataContext="{d:DesignInstance local:MinecraftMapExporterNodeViewModel}" Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -14,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
+	        <RowDefinition />
         </Grid.RowDefinitions>
         <enviroGenDisplay:ContextProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
                Grid.Column="0" Grid.Row="0">
@@ -25,11 +30,19 @@
         <enviroGenDisplay:ContextProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
                Grid.Column="0" Grid.Row="1">
             <enviroGenDisplay:ContextProvider.ContextInfo>
-                The path to export the Minecraft map file to.
+                The name to give to the Minecraft Map.
             </enviroGenDisplay:ContextProvider.ContextInfo>
             <Label Content="Level Name:"/>
         </enviroGenDisplay:ContextProvider>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="100" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Path}" Margin="0,4,-60,4"/>
+        <enviroGenDisplay:ContextProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Grid.Column="0" Grid.Row="2">
+            <enviroGenDisplay:ContextProvider.ContextInfo>
+                If true, the map will be normalized from 0-128 on export.
+            </enviroGenDisplay:ContextProvider.ContextInfo>
+            <Label Content="Normalize:"/>
+        </enviroGenDisplay:ContextProvider>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="100" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Path}"/>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="100" Grid.Column="1" Grid.Row="1" Text="{Binding Path=LevelName}"/>
+        <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="100" Grid.Column="1" Grid.Row="2" Text="{Binding Path=Normalize, Converter={StaticResource BoolToStringConverter}}"/>
     </Grid>
 </UserControl>

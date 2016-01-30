@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace EnviroGenDisplay.Converters
 {
     [ValueConversion(typeof(float), typeof(string))]
-    class FloatToStringConverter : BaseConverter, IValueConverter
+    public class FloatToStringConverter : BaseConverter, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

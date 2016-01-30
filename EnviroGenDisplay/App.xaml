@@ -16,9 +16,10 @@
         <DataTemplate DataType="{x:Type viewModels:NodeConnectionViewModel}">
             <nodeViews:NodeConnectionView/>
         </DataTemplate>
-        
+
         <converters:FloatToStringConverter x:Key="FloatToStringConverter"/>
         <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+        <converters:BoolToStringConverter x:Key="BoolToStringConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     </Application.Resources>
 </Application>

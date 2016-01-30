@@ -125,6 +125,7 @@
     </ApplicationDefinition>
     <Compile Include="ContextProvider.cs" />
     <Compile Include="Converters\BaseConverter.cs" />
+    <Compile Include="Converters\BoolToStringConverter.cs" />
     <Compile Include="Converters\FloatToStringConverter.cs" />
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="CreateNodeEventArgs.cs" />

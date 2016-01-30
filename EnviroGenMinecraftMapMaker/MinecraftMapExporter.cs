@@ -18,6 +18,7 @@ namespace EnviroGenMinecraftMapMaker
 
         public string Path { get; set; } = @"C:\Users\Dean\AppData\Roaming\.minecraft\saves\EnviroGenExport\";
         public string Name { get; set; } = "EnviroGen Export";
+        public bool Normalize { get; set; } = false;
 
         static MinecraftMapExporter()
         {
@@ -54,8 +55,11 @@ namespace EnviroGenMinecraftMapMaker
             //Make sure we can create complete chunks
             var terrain = environment.Terrain.SizeTruncatedToMultiple(CHUNK_SIZE);
 
-            //Normalize to Minecraft height ranges
-            terrain.Normalize(0, MAX_TERRAIN_HEIGHT);
+            if (Normalize)
+            {
+                //Normalize to Minecraft height ranges
+                terrain.Normalize(0, MAX_TERRAIN_HEIGHT);
+            }
 
             //Convert to integers to better map to MC's values
             var intMap = HeightMapToIntegers(terrain);

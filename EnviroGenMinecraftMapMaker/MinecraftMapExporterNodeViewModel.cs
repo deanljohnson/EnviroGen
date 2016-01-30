@@ -36,6 +36,18 @@ namespace EnviroGenMinecraftMapMaker
             }
         }
 
+        public bool Normalize
+        {
+            get { return Node.Modifier.Normalize; }
+            set {
+                if (Node.Modifier.Normalize != value)
+                {
+                    Node.Modifier.Normalize = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         static MinecraftMapExporterNodeViewModel()
         {
             Name = "Minecraft Map Exporter";

@@ -4,8 +4,8 @@ using System.Windows.Data;
 
 namespace EnviroGenDisplay.Converters
 {
-    [ValueConversion(typeof(int), typeof(string))]
-    public class IntToStringConverter : BaseConverter, IValueConverter
+    [ValueConversion(typeof(bool), typeof(string))]
+    public class BoolToStringConverter : BaseConverter, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -14,7 +14,14 @@ namespace EnviroGenDisplay.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return int.Parse(value.ToString());
+            bool b;
+
+            if (bool.TryParse(value.ToString(), out b))
+            {
+                return b;
+            }
+
+            throw new ArgumentException("Not able to convert bool to string.");
         }
     }
 }
