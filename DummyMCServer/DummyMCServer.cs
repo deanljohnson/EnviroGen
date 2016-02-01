@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO.Pipes;
+using System.Linq;
+using System.Threading;
 
 namespace DummyMCServer
 {
     class DummyMCServer
     {
+        private static bool InputMode = true;
         private static string OutputPipeName;
         private static string InputPipeName;
 
@@ -12,6 +15,9 @@ namespace DummyMCServer
         {
             OutputPipeName = args[0];
             InputPipeName = args[1];
+
+            var outputListener = new Thread(OutputListenerThread);
+            outputListener.Start();
 
             while (true)
             {
@@ -43,6 +49,32 @@ namespace DummyMCServer
                     if (successfulParse)
                         SendCommandToServer(bytes);
                 }
+            }
+        }
+
+        private static void OutputListenerThread(object data)
+        {
+            while (true)
+            {
+                var outputPipe = new NamedPipeClientStream(".", OutputPipeName, PipeDirection.InOut);
+
+                outputPipe.Connect();
+
+                var command = (byte)outputPipe.ReadByte();
+                var commandLength = ServerCommands.CommandLengths[command];
+
+                var commandBytes = new byte[commandLength + 1];
+                commandBytes[0] = command;
+
+                if (commandLength > 0)
+                {
+                    outputPipe.Read(commandBytes, 1, commandLength);
+                }
+
+                var commandString = commandBytes.Aggregate(string.Empty, 
+                                    (current, commandByte) => current + (commandByte + " "));
+
+                Console.WriteLine($"Received from EnviroGen: {commandString}");
             }
         }
 
