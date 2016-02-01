@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.IO.Pipes;
 using System.Threading;
 
@@ -56,7 +55,7 @@ namespace MinecraftEnviroGenServer
         {
             try
             {
-                var pipeStream = new NamedPipeServerStream(m_OutputPipeName, PipeDirection.InOut, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
+                var pipeStream = new NamedPipeServerStream(m_OutputPipeName, PipeDirection.Out, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
                 //Wait till the Java side connects to the pipe
                 pipeStream.WaitForConnection();
 
@@ -74,25 +73,38 @@ namespace MinecraftEnviroGenServer
         {
             try
             {
-                var pipeStream = new NamedPipeServerStream(m_InputPipeName, PipeDirection.InOut, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
+                var pipeStream = new NamedPipeServerStream(m_InputPipeName, PipeDirection.In, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
 
-                if (!pipeStream.IsConnected) return;
+                //Sleep on this thread till until we have a connecton and input
+                while (!pipeStream.IsConnected || pipeStream.Length == 0)
+                {
+                    //Give the CPU a chance to do something else.
+                    //In actuality, this causes a ~15ms sleep, not 1ms, just because of timing resolution.
+                    Thread.Sleep(1);
+                }
 
                 //Read till stream is empty
                 while (true)
                 {
+                    //We are assuming the pipe is not empty
+                    //If it is, we should not be at this line
                     var command = (byte)pipeStream.ReadByte();
 
                     if (command != InputCommands.NULL)
                     {
-                        var input = new byte[1 + InputCommands.CommandLengths[command]];
+                        var commandLength = InputCommands.CommandLengths[command];
+                        var input = new byte[1 + commandLength];
 
                         input[0] = command;
-                        pipeStream.Read(input, 1, InputCommands.CommandLengths[command]);
+                        Debug.Assert(pipeStream.Length >= commandLength);
+                        //Read all the command args into the input array
+                        pipeStream.Read(input, 1, commandLength);
 
                         //Spawn a new thread and keep waiting
                         var t = new Thread(ProcessClientInputCommand);
                         t.Start(input);
+
+                        if (pipeStream.Length == 0) break;
                     }
                     else
                     {
@@ -112,10 +124,9 @@ namespace MinecraftEnviroGenServer
 
             try
             {
-                var writer = new StreamWriter(pipeStream);
-                writer.Write(Commander.NextCommand + "\n");
-                writer.Flush();
+                pipeStream.Write(Commander.NextCommand, 0, Commander.NextCommand.Length);
                 pipeStream.Flush();
+                Commander.FlushCommand();
             }
             catch (Exception e)
             {
@@ -128,9 +139,23 @@ namespace MinecraftEnviroGenServer
             pipeStream.Dispose();
         }
 
-        private void ProcessClientInputCommand(object input)
+        private void ProcessClientInputCommand(object inputObject)
         {
-            Debug.Assert(input is byte[]);
+            Debug.Assert(inputObject is byte[]);
+            var input = (byte[]) inputObject;
+
+            switch (input[0])
+            {
+                case InputCommands.START_WORLD_GEN:
+                    Console.WriteLine($"Received Input: {nameof(InputCommands.START_WORLD_GEN)}");
+                    break;
+                case InputCommands.START_SIMULATING:
+                    Console.WriteLine($"Received Input: {nameof(InputCommands.START_SIMULATING)}");
+                    break;
+                case InputCommands.UPDATE_REQUEST:
+                    Console.WriteLine($"Received Input: {nameof(InputCommands.UPDATE_REQUEST)}");
+                    break;
+            }
         }
     }
 }

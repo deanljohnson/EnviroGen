@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace MinecraftEnviroGenServer
 {
@@ -6,6 +7,14 @@ namespace MinecraftEnviroGenServer
     {
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("ERROR: Expected to find the path to the server executable as a command line argument.");
+                Console.Write("Press ENTER to exit...");
+                Console.ReadLine();
+                return;
+            }
+
             StartMCServer(args[0]);
 
             StartPipeServer("EnviroGenServerOutput", "EnviroGenServerInput", 20);

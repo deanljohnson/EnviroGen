@@ -2,6 +2,6 @@
 {
     interface ICommandSupplier
     {
-        string NextCommand { get; }
+        byte[] NextCommand { get; }
     }
 }
