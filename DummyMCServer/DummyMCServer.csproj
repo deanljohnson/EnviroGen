@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{79E6A81F-DA8C-47B9-84CF-4DD562F805FE}</ProjectGuid>
+    <ProjectGuid>{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MinecraftEnviroGenServer</RootNamespace>
-    <AssemblyName>MinecraftEnviroGenServer</AssemblyName>
+    <RootNamespace>DummyMCServer</RootNamespace>
+    <AssemblyName>DummyMCServer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,21 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnviroGenPipeServer.cs" />
-    <Compile Include="EnviroGenServerCommander.cs" />
-    <Compile Include="ICommandSupplier.cs" />
-    <Compile Include="InputCommands.cs" />
-    <Compile Include="MinecraftEnviroGenServer.cs" />
+    <Compile Include="DummyMCServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DummyMCServer\DummyMCServer.csproj">
-      <Project>{baad8cd9-659f-40e7-be7e-333f7140c0c9}</Project>
-      <Name>DummyMCServer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

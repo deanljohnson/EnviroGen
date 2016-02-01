@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnviroGenMinecraftMapMaker"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinecraftEnviroGenServer", "MinecraftEnviroGenServer\MinecraftEnviroGenServer.csproj", "{79E6A81F-DA8C-47B9-84CF-4DD562F805FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Minecraft", "Minecraft", "{EC042509-623D-489D-8362-5A18E64F5158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyMCServer", "DummyMCServer\DummyMCServer.csproj", "{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,8 +89,25 @@ Global
 		{79E6A81F-DA8C-47B9-84CF-4DD562F805FE}.Release|x64.Build.0 = Release|Any CPU
 		{79E6A81F-DA8C-47B9-84CF-4DD562F805FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{79E6A81F-DA8C-47B9-84CF-4DD562F805FE}.Release|x86.Build.0 = Release|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Debug|x64.Build.0 = Debug|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Debug|x86.Build.0 = Debug|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Release|x64.Build.0 = Release|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{33665C06-F82B-4A15-9264-BC3D505D2032} = {EC042509-623D-489D-8362-5A18E64F5158}
+		{79E6A81F-DA8C-47B9-84CF-4DD562F805FE} = {EC042509-623D-489D-8362-5A18E64F5158}
+		{BAAD8CD9-659F-40E7-BE7E-333F7140C0C9} = {EC042509-623D-489D-8362-5A18E64F5158}
 	EndGlobalSection
 EndGlobal

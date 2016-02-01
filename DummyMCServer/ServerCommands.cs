@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace MinecraftEnviroGenServer
+namespace DummyMCServer
 {
-    public static class InputCommands
+    public class ServerCommands
     {
         /// <summary>
         /// A dictionary that maps commands to the length in bytes of the arguments for that command.

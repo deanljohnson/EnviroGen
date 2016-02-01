@@ -1,18 +1,35 @@
 ﻿namespace MinecraftEnviroGenServer
 {
-    //TODO: enforce locked access to NextCommand
     public class EnviroGenServerCommander : ICommandSupplier
     {
-        public byte[] NextCommand { get; set; }
+        private byte[] m_NextCommand { get; set; }
 
         public EnviroGenServerCommander()
         {
-            NextCommand = new byte[0];
+            m_NextCommand = new byte[0];
         }
 
-        public void FlushCommand()
+        public byte[] GetCopyOfCommand(bool flush)
         {
-            NextCommand = new byte[0];
+            var copy = new byte[m_NextCommand.Length];
+
+            lock (m_NextCommand)
+            {
+                m_NextCommand.CopyTo(copy, 0);
+
+                if (flush) m_NextCommand = new byte[0];
+            }
+
+            return copy;
+        }
+
+        public void SetCommand(byte[] cmd)
+        {
+            lock (m_NextCommand)
+            {
+                m_NextCommand = new byte[cmd.Length];
+                cmd.CopyTo(m_NextCommand, 0);
+            }
         }
     }
 }

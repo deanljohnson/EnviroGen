@@ -15,7 +15,7 @@ namespace MinecraftEnviroGenServer
         private Thread m_OutputThread { get; set; }
         private Thread m_InputThread { get; set; }
 
-        public EnviroGenServerCommander Commander { get; set; }
+        public ICommandSupplier Commander { get; set; }
 
         public EnviroGenPipeServer(string outputPipeName, string inputPipeName, int numThreads)
         {
@@ -29,10 +29,10 @@ namespace MinecraftEnviroGenServer
             m_Running = true;
 
             m_OutputThread = new Thread(ServerOutputLoop);
-            m_OutputThread.Start();
+            //m_OutputThread.Start();
 
-            //m_InputThread = new Thread(ServerInputLoop);
-            //m_InputThread.Start();
+            m_InputThread = new Thread(ServerInputLoop);
+            m_InputThread.Start();
         }
 
         private void ServerOutputLoop(object data)
@@ -73,44 +73,43 @@ namespace MinecraftEnviroGenServer
         {
             try
             {
-                var pipeStream = new NamedPipeServerStream(m_InputPipeName, PipeDirection.In, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
+                var pipeStream = new NamedPipeServerStream(m_InputPipeName, PipeDirection.InOut, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
 
-                //Sleep on this thread till until we have a connecton and input
-                while (!pipeStream.IsConnected || pipeStream.Length == 0)
-                {
-                    //Give the CPU a chance to do something else.
-                    //In actuality, this causes a ~15ms sleep, not 1ms, just because of timing resolution.
-                    Thread.Sleep(1);
-                }
+                pipeStream.WaitForConnection();
 
-                //Read till stream is empty
+                Console.WriteLine("New Connection on Input Pipe");
+
                 while (true)
                 {
-                    //We are assuming the pipe is not empty
-                    //If it is, we should not be at this line
-                    var command = (byte)pipeStream.ReadByte();
+                    var commandInt = pipeStream.ReadByte();
 
-                    if (command != InputCommands.NULL)
+                    if (commandInt >= 0)
                     {
+                        var command = (byte)commandInt;
+                        Console.WriteLine($"Raw command read: {command}");
+
                         var commandLength = InputCommands.CommandLengths[command];
                         var input = new byte[1 + commandLength];
 
                         input[0] = command;
-                        Debug.Assert(pipeStream.Length >= commandLength);
-                        //Read all the command args into the input array
-                        pipeStream.Read(input, 1, commandLength);
+
+                        if (commandLength > 0)
+                        {
+                            //TODO: handle improper number of bytes sent, currently this just blocks if the amount is too low
+                            //Read all the command args into the input array
+                            pipeStream.Read(input, 1, commandLength);
+                        }
 
                         //Spawn a new thread and keep waiting
                         var t = new Thread(ProcessClientInputCommand);
                         t.Start(input);
 
-                        if (pipeStream.Length == 0) break;
-                    }
-                    else
-                    {
                         break;
                     }
                 }
+
+                pipeStream.Close();
+                pipeStream.Dispose();
             }
             catch (Exception e)
             {
@@ -124,15 +123,13 @@ namespace MinecraftEnviroGenServer
 
             try
             {
-                pipeStream.Write(Commander.NextCommand, 0, Commander.NextCommand.Length);
+                var cmd = Commander.GetCopyOfCommand(true);
+                pipeStream.Write(cmd, 0, cmd.Length);
                 pipeStream.Flush();
-                Commander.FlushCommand();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                pipeStream.Close();
-                pipeStream.Dispose();
             }
 
             pipeStream.Close();
@@ -146,14 +143,17 @@ namespace MinecraftEnviroGenServer
 
             switch (input[0])
             {
+                case InputCommands.NULL:
+                    Console.WriteLine($"Received Input: {nameof(InputCommands.NULL)}");
+                    break;
                 case InputCommands.START_WORLD_GEN:
                     Console.WriteLine($"Received Input: {nameof(InputCommands.START_WORLD_GEN)}");
                     break;
-                case InputCommands.START_SIMULATING:
-                    Console.WriteLine($"Received Input: {nameof(InputCommands.START_SIMULATING)}");
-                    break;
                 case InputCommands.UPDATE_REQUEST:
                     Console.WriteLine($"Received Input: {nameof(InputCommands.UPDATE_REQUEST)}");
+                    break;
+                case InputCommands.START_SIMULATING:
+                    Console.WriteLine($"Received Input: {nameof(InputCommands.START_SIMULATING)}");
                     break;
             }
         }
