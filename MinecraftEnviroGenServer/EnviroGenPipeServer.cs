@@ -6,6 +6,7 @@ using System.Threading;
 
 namespace MinecraftEnviroGenServer
 {
+    //TODO: Fix the InputThread operations
     public class EnviroGenPipeServer
     {
         private string m_OutputPipeName { get; }
@@ -55,7 +56,7 @@ namespace MinecraftEnviroGenServer
         {
             try
             {
-                var pipeStream = new NamedPipeServerStream(m_OutputPipeName, PipeDirection.InOut, m_NumThreads, PipeTransmissionMode.Message, PipeOptions.None);
+                var pipeStream = new NamedPipeServerStream(m_OutputPipeName, PipeDirection.InOut, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
                 //Wait till the Java side connects to the pipe
                 pipeStream.WaitForConnection();
 
@@ -73,19 +74,25 @@ namespace MinecraftEnviroGenServer
         {
             try
             {
-                var pipeStream = new NamedPipeServerStream(m_InputPipeName, PipeDirection.InOut, m_NumThreads, PipeTransmissionMode.Message, PipeOptions.None);
-                var reader = new StreamReader(pipeStream);
+                var pipeStream = new NamedPipeServerStream(m_InputPipeName, PipeDirection.InOut, m_NumThreads, PipeTransmissionMode.Byte, PipeOptions.None);
+
+                if (!pipeStream.IsConnected) return;
 
                 //Read till stream is empty
                 while (true)
                 {
-                    var line = reader.ReadLine();
+                    var command = (byte)pipeStream.ReadByte();
 
-                    if (line != null)
+                    if (command != InputCommands.NULL)
                     {
+                        var input = new byte[1 + InputCommands.CommandLengths[command]];
+
+                        input[0] = command;
+                        pipeStream.Read(input, 1, InputCommands.CommandLengths[command]);
+
                         //Spawn a new thread and keep waiting
                         var t = new Thread(ProcessClientInputCommand);
-                        t.Start(line);
+                        t.Start(input);
                     }
                     else
                     {
@@ -121,9 +128,9 @@ namespace MinecraftEnviroGenServer
             pipeStream.Dispose();
         }
 
-        private void ProcessClientInputCommand(object line)
+        private void ProcessClientInputCommand(object input)
         {
-            Debug.Assert(line is string);
+            Debug.Assert(input is byte[]);
         }
     }
 }
