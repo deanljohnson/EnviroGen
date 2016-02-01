@@ -60,6 +60,20 @@ namespace EnviroGenMinecraftMapMaker
             }
         }
 
+        private string m_CurrentExportOperation;
+        public string CurrentExportOperation
+        {
+            get { return m_CurrentExportOperation; }
+            set
+            {
+                if (m_CurrentExportOperation != value)
+                {
+                    m_CurrentExportOperation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         static MinecraftMapExporterNodeViewModel()
         {
             Name = "Minecraft Map Exporter";
@@ -70,7 +84,11 @@ namespace EnviroGenMinecraftMapMaker
         {
             Node = new ModifierNode<MinecraftMapExporter>
             {
-                Modifier = new MinecraftMapExporter()
+                Modifier = new MinecraftMapExporter
+                {
+                    PostStatusAction = delegate(string s) { CurrentExportOperation = s; }
+                }
+                
             };
 
             m_ModifyWorker.DoWork += CallBaseModify;

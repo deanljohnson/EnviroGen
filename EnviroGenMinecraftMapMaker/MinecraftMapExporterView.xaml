@@ -21,6 +21,7 @@
             <RowDefinition />
 	        <RowDefinition />
 	        <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <enviroGenDisplay:ContextProvider HorizontalAlignment="Left" VerticalAlignment="Center" 
                Grid.Column="0" Grid.Row="0">
@@ -54,5 +55,12 @@
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="100" Grid.Column="1" Grid.Row="1" Text="{Binding Path=LevelName}"/>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="100" Grid.Column="1" Grid.Row="2" Text="{Binding Path=Normalize, Converter={StaticResource BoolToStringConverter}}"/>
         <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto" TextWrapping="NoWrap" Width="100" Grid.Column="1" Grid.Row="3" Text="{Binding Path=MaxTerrainHeight, Converter={StaticResource IntToStringConverter}}"/>
+        <Expander Grid.Column="0" Grid.Row="4" Header="Export Status" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical">
+                <Label Content="Current Export Operation:"/>
+                <Label Content="{Binding CurrentExportOperation}" Margin="20,0,0,0"/>
+            </StackPanel>
+            
+        </Expander>
     </Grid>
 </UserControl>
