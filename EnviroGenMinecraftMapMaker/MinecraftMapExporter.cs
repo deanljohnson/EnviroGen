@@ -14,10 +14,12 @@ namespace EnviroGenMinecraftMapMaker
         private const int CHUNK_SIZE = 16;
         private const int SEA_LEVEL = 63;
 
-        public string Path { get; set; } = @"C:\Users\Dean\AppData\Roaming\.minecraft\saves\EnviroGenExport\";
+        public string Path { get; set; } = @"C:\Users\Dean\Desktop\EnviroGen Server\world";
         public string Name { get; set; } = "EnviroGen Export";
         public bool Normalize { get; set; } = false;
         public int MaxTerrainHeight { get; set; } = 128;
+
+        public Action<string> PostStatusAction { get; set; }
 
         static MinecraftMapExporter()
         {
@@ -37,26 +39,27 @@ namespace EnviroGenMinecraftMapMaker
 
         public void Modify(Environment environment)
         {
+            PostStatusAction?.Invoke("Creating Directory");
+
             if (!Directory.Exists(Path))
                 Directory.CreateDirectory(Path);
-            else
-            {
-                Directory.Delete(Path, true);
-                Directory.CreateDirectory(Path);
-            }
 
             NbtWorld world = AnvilWorld.Create(Path);
             world.Level.LevelName = Name;
+
+            PostStatusAction?.Invoke("Truncating Terrain");
 
             //Make sure we can create complete chunks
             var terrain = environment.Terrain.SizeTruncatedToMultiple(CHUNK_SIZE);
 
             if (Normalize)
             {
+                PostStatusAction?.Invoke("Normalizing Terrain");
                 //Normalize to Minecraft height ranges
                 terrain.Normalize(0, MaxTerrainHeight);
             }
 
+            PostStatusAction?.Invoke("Converting to IntMap");
             //Convert to integers to better map to MC's values
             var intMap = HeightMapToIntegers(terrain);
 
@@ -64,35 +67,39 @@ namespace EnviroGenMinecraftMapMaker
             var chunksX = terrain.Size.X / CHUNK_SIZE;
             var chunksZ = terrain.Size.Y / CHUNK_SIZE; //In MC, z is a horizontal axis and y is vertical
 
+            PostStatusAction?.Invoke("Building Chunks");
             //Build chunks
             for (var cz = 0; cz < chunksZ; cz++)
             {
                 for (var cx = 0; cx < chunksX; cx++)
                 {
+                    PostStatusAction?.Invoke($"Building Chunk [X: {cx}, Z:{cz}]");
                     var chunk = chunkManager.CreateChunk(cx, cz);
 
-                    chunk.IsTerrainPopulated = true;
+                    chunk.IsTerrainPopulated = false;
                     chunk.Blocks.AutoLight = false;
+                    chunk.Blocks.AutoFluid = false;
 
                     BuildChunk(chunk, intMap, cx * CHUNK_SIZE, cz * CHUNK_SIZE);
-
-                    chunk.IsTerrainPopulated = false;
 
                     chunk.Blocks.RebuildHeightMap();
                     chunk.Blocks.RebuildBlockLight();
                     chunk.Blocks.RebuildSkyLight();
 
-                    chunkManager.Save();
+                    chunkManager.SaveChunk(chunk);
                 }
             }
             
             world.Level.GameType = GameType.CREATIVE;
 
+            PostStatusAction?.Invoke("Setting Spawn");
             var spawnX = chunkManager.ChunkGlobalX(chunksX / 2);
             var spawnZ = chunkManager.ChunkLocalZ(chunksZ / 2);
             world.Level.Spawn = new SpawnPoint(spawnX, intMap[spawnX, spawnZ] + 2, spawnZ);
 
+            PostStatusAction?.Invoke("Saving World");
             world.Save();
+            PostStatusAction?.Invoke("None");
         }
 
         private void BuildChunk(IChunk chunk, int[,] heightMap, int startingX, int startingZ)
