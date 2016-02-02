@@ -66,6 +66,30 @@ namespace MinecraftEnviroGenServer
             }
         }
 
+        private static void ChunkRequestSpeedTest(object data)
+        {
+            //initialize world
+            SendCommandToEnviroGen(new byte[] { 1, 10, 10});
+
+            var getChunkCommand = new byte[] { 4, 0, 0 };
+
+            m_Watch.Start();
+            for (var i = 0; i < 1000; i++)
+            {
+                var pipe = new NamedPipeClientStream(".", m_OutputPipeName, PipeDirection.InOut);
+                pipe.Connect();
+                pipe.Write(getChunkCommand, 0, getChunkCommand.Length);
+                var input = new byte[32768 + 1];
+                pipe.Read(input, 0, input.Length);
+            }
+            m_Watch.Stop();
+            Console.WriteLine($"EnviroGen took {m_Watch.ElapsedMilliseconds}ms to serve 1000 chunks.");
+            Console.WriteLine($"Average Time: {m_Watch.ElapsedMilliseconds / 1000f}ms");
+            m_Watch.Reset();
+
+            Console.ReadLine();
+        }
+
         private static byte[] SendCommandToEnviroGen(byte[] cmd)
         {
             if (ServerCommands.CommandLengths[cmd[0]] != cmd.Length - 1)
