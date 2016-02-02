@@ -11,7 +11,7 @@ namespace EnviroGen.HeightMaps
         /// according to the corresponding weight list. The first map is assumed to be fully weighted and it's corresponding
         /// weight will be ignored.
         /// </summary>
-        public static HeightMap GenerateHeightMap(List<GenerationOptions> options, List<float> weights)
+        /*public static HeightMap GenerateHeightMap(List<GenerationOptions> options, List<float> weights)
         {
             if (options.Count != weights.Count)
             {
@@ -26,7 +26,7 @@ namespace EnviroGen.HeightMaps
             }
 
             return map;
-        }
+        }*/
 
         /// <summary>
         /// Returns a HeightMap based on the given GenerationOptions

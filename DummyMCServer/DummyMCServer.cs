@@ -1,23 +1,15 @@
 ﻿using System;
 using System.IO.Pipes;
-using System.Linq;
-using System.Threading;
 
 namespace DummyMCServer
 {
     class DummyMCServer
     {
-        private static bool InputMode = true;
         private static string OutputPipeName;
-        private static string InputPipeName;
 
         static void Main(string[] args)
         {
             OutputPipeName = args[0];
-            InputPipeName = args[1];
-
-            var outputListener = new Thread(OutputListenerThread);
-            outputListener.Start();
 
             while (true)
             {
@@ -47,51 +39,54 @@ namespace DummyMCServer
                     }
 
                     if (successfulParse)
-                        SendCommandToServer(bytes);
+                    {
+                        var response = SendCommandToEnviroGen(bytes);
+                    }
+                    
                 }
             }
         }
 
-        private static void OutputListenerThread(object data)
-        {
-            while (true)
-            {
-                var outputPipe = new NamedPipeClientStream(".", OutputPipeName, PipeDirection.InOut);
-
-                outputPipe.Connect();
-
-                var command = (byte)outputPipe.ReadByte();
-                var commandLength = ServerCommands.CommandLengths[command];
-
-                var commandBytes = new byte[commandLength + 1];
-                commandBytes[0] = command;
-
-                if (commandLength > 0)
-                {
-                    outputPipe.Read(commandBytes, 1, commandLength);
-                }
-
-                var commandString = commandBytes.Aggregate(string.Empty, 
-                                    (current, commandByte) => current + (commandByte + " "));
-
-                Console.WriteLine($"Received from EnviroGen: {commandString}");
-            }
-        }
-
-        private static void SendCommandToServer(byte[] cmd)
+        private static byte[] SendCommandToEnviroGen(byte[] cmd)
         {
             if (ServerCommands.CommandLengths[cmd[0]] != cmd.Length - 1)
             {
                 Console.WriteLine($"Command {ServerCommands.CommandNames[cmd[0]]} was not input with the correct number of arguments, dropping command");
-                return;
+                return null;
             }
 
-            var inputPipe = new NamedPipeClientStream(".", InputPipeName, PipeDirection.InOut);
+            var pipe = new NamedPipeClientStream(".", OutputPipeName, PipeDirection.InOut);
             Console.WriteLine("Connecting to server");
-            inputPipe.Connect();
+            pipe.Connect();
 
             Console.WriteLine($"Sending {ServerCommands.CommandNames[cmd[0]]} to server.");
-            inputPipe.Write(cmd, 0, cmd.Length);
+            pipe.Write(cmd, 0, cmd.Length);
+
+            return ReadCommandFromEnviroGen(pipe);
+        }
+
+        private static byte[] ReadCommandFromEnviroGen(NamedPipeClientStream pipe)
+        {
+            //We read into this buffer because this will block until we get a byte,
+            //which is what we want in this case.
+            var commandRead = new byte[1];
+            pipe.Read(commandRead, 0, 1);
+
+            Console.WriteLine($"Raw command read: {commandRead[0]}");
+
+            var commandLength = MinecraftEnviroGenServer.ServerCommands.CommandLengths[commandRead[0]];
+            var input = new byte[1 + commandLength];
+
+            input[0] = commandRead[0];
+
+            if (commandLength > 0)
+            {
+                //TODO: handle improper number of bytes sent, currently this just blocks if the amount is too low
+                //Read all the command args into the input array
+                pipe.Read(input, 1, commandLength);
+            }
+
+            return input;
         }
     }
 }

@@ -14,7 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Substrate">
+      <HintPath>..\EnviroGenMinecraftMapMaker\libs\Substrate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,20 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DualHeightMap.cs" />
+    <Compile Include="DummyMCServer.cs" />
+    <Compile Include="EnviroGenPipe.cs" />
     <Compile Include="EnviroGenPipeServer.cs" />
-    <Compile Include="EnviroGenServerCommander.cs" />
-    <Compile Include="ICommandSupplier.cs" />
-    <Compile Include="InputCommands.cs" />
-    <Compile Include="MinecraftEnviroGenServer.cs" />
+    <Compile Include="EnviroGenServerHandler.cs" />
+    <Compile Include="ICommandHandler.cs" />
+    <Compile Include="ServerCommands.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DummyMCServer\DummyMCServer.csproj">
-      <Project>{baad8cd9-659f-40e7-be7e-333f7140c0c9}</Project>
-      <Name>DummyMCServer</Name>
+    <ProjectReference Include="..\EnviroGen\EnviroGen.csproj">
+      <Project>{4bbdcc5c-80dd-4eb4-822d-09d1af5ede3a}</Project>
+      <Name>EnviroGen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

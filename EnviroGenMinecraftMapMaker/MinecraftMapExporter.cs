@@ -61,7 +61,7 @@ namespace EnviroGenMinecraftMapMaker
 
             PostStatusAction?.Invoke("Converting to IntMap");
             //Convert to integers to better map to MC's values
-            var intMap = HeightMapToIntegers(terrain);
+            var intMap = terrain.HeightMapToIntegers();
 
             var chunkManager = world.GetChunkManager();
             var chunksX = terrain.Size.X / CHUNK_SIZE;
@@ -152,23 +152,6 @@ namespace EnviroGenMinecraftMapMaker
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Takes the given HeightMap and truncates the float values to return an int[,]
-        /// </summary>
-        private static int[,] HeightMapToIntegers(HeightMap map)
-        {
-            var intMap = new int[map.Size.X, map.Size.Y];
-            for (var y = 0; y < map.Size.Y; y++)
-            {
-                for (var x = 0; x < map.Size.X; x++)
-                {
-                    intMap[x, y] = (int)map[x, y];
-                }
-            }
-
-            return intMap;
         }
     }
 }

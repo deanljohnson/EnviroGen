@@ -42,7 +42,7 @@ namespace EnviroGen.HeightMaps
             return m_Map.GetEnumerator();
         }
 
-        public void Normalize(float min = 0f, float max = 1f)
+        public virtual void Normalize(float min = 0f, float max = 1f)
         {
             var maxValue = m_Map[0, 0];
             var minValue = m_Map[0, 0];
@@ -119,7 +119,7 @@ namespace EnviroGen.HeightMaps
         /// <summary>
         /// Combines this HeightMap with the given HeightMap, with equal weight given to each HeightMap
         /// </summary>
-        public void CombineWith(HeightMap other)
+        /*public void CombineWith(HeightMap other)
         {
             CombineWith(other, new IntPoint());
         }
@@ -149,6 +149,23 @@ namespace EnviroGen.HeightMaps
                     m_Map[x, y] += (other.m_Map[x - offset.X, y - offset.Y] * weight);
                 }
             }
+        }*/
+
+        /// <summary>
+        /// Takes this HeightMap and truncates the float values to return an int[,]
+        /// </summary>
+        public int[,] HeightMapToIntegers()
+        {
+            var intMap = new int[Size.X, Size.Y];
+            for (var y = 0; y < Size.Y; y++)
+            {
+                for (var x = 0; x < Size.X; x++)
+                {
+                    intMap[x, y] = (int)this[x, y];
+                }
+            }
+
+            return intMap;
         }
     }
 }
