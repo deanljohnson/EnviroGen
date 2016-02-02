@@ -44,12 +44,10 @@ namespace MinecraftEnviroGenServer
                 case ServerCommands.START_WORLD_GEN:
                     new Thread(StartGenerateWorld).Start(request);
                     return new[] {ServerCommands.START_WORLD_GEN, request[1], request[2]};
+                case ServerCommands.UPDATE_REQUEST:
+                    return GetUpdate();
                 case ServerCommands.GET_CHUNK:
-                    var blockIDs = GetChunk(request[1], request[2]);
-                    var response = new byte[1 + blockIDs.Length];
-                    response[0] = ServerCommands.RECEIVE_CHUNK;
-                    blockIDs.CopyTo(response, 1);
-                    return response;
+                    return GetChunk(request[1], request[2]);
             }
 
             return NULL_RESPONSE;
@@ -157,7 +155,16 @@ namespace MinecraftEnviroGenServer
                 }
             }
 
-            return blockIDs;
+            var chunkResponse = new byte[1 + blockIDs.Length];
+            chunkResponse[0] = ServerCommands.RECEIVE_CHUNK;
+            blockIDs.CopyTo(chunkResponse, 1);
+
+            return chunkResponse;
+        }
+
+        private byte[] GetUpdate()
+        {
+            return NULL_RESPONSE;
         }
     }
 }
