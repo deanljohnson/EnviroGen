@@ -39,6 +39,7 @@ namespace MinecraftEnviroGenServer
             try
             {
                 var pipeStream = new EnviroGenPipeStream(m_PipeName, m_NumThreads);
+
                 //Wait till the Java side connects to the pipe
                 pipeStream.WaitForConnection();
 

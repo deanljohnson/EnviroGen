@@ -1,16 +1,21 @@
 ﻿using System;
 using System.IO.Pipes;
+using System.Linq;
 using System.Threading;
+using System.Diagnostics;
 
 namespace MinecraftEnviroGenServer
 {
     static class DummyMCServer
     {
         private static string m_OutputPipeName;
+        private static Stopwatch m_Watch { get; set; }
 
         public static void Start(string pipeName)
         {
             m_OutputPipeName = pipeName;
+
+            m_Watch = new Stopwatch();
 
             new Thread(ServerLoop).Start();
         }
@@ -47,7 +52,14 @@ namespace MinecraftEnviroGenServer
 
                     if (successfulParse)
                     {
+                        m_Watch.Start();
                         var response = SendCommandToEnviroGen(bytes);
+                        m_Watch.Stop();
+                        Console.WriteLine($"The server took {m_Watch.ElapsedMilliseconds}ms to respond to the command.");
+                        m_Watch.Reset();
+
+                        var responseString = response.Aggregate(string.Empty, (last, current) => last + " " + current);
+                        Console.WriteLine(responseString);
                     }
 
                 }

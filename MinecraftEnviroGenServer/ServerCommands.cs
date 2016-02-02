@@ -13,7 +13,9 @@ namespace MinecraftEnviroGenServer
             { NULL, 0 },
             { START_WORLD_GEN, 2 },
             { UPDATE_REQUEST, 0 },
-            { START_SIMULATING, 0 }
+            { START_SIMULATING, 0 },
+            { GET_CHUNK, 2 },
+            { RECEIVE_CHUNK, 32768 }
         };
 
         public static Dictionary<byte, string> CommandNames = new Dictionary<byte, string>
@@ -21,7 +23,9 @@ namespace MinecraftEnviroGenServer
             { NULL, "NULL" },
             { START_WORLD_GEN, "START_WORLD_GEN" },
             { UPDATE_REQUEST, "UPDATE_REQUEST" },
-            { START_SIMULATING, "START_SIMULATING" }
+            { START_SIMULATING, "START_SIMULATING" },
+            { GET_CHUNK, "GET_CHUNK" },
+            { RECEIVE_CHUNK, "RECEIVE_CHUNK" }
         };
 
         /// <summary>

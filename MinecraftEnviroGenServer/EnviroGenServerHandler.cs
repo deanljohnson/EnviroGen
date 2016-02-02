@@ -9,11 +9,33 @@ namespace MinecraftEnviroGenServer
 {
     public class EnviroGenServerHandler : ICommandHandler
     {
+        private static readonly byte[] EMPTY_CHUNK;
         private static readonly byte[] NULL_RESPONSE = {0};
         private const int CHUNK_SIZE = 16;
         private const int SEA_LEVEL = 63;
+        private const int MAX_HEIGHT = 128;
 
         private DualHeightMap m_HeightMap { get; set; }
+
+        static EnviroGenServerHandler()
+        {
+            EMPTY_CHUNK = new byte[CHUNK_SIZE * CHUNK_SIZE * MAX_HEIGHT];
+
+            for (var k = 0; k < CHUNK_SIZE; k++)
+            {
+                var kAmount = k * CHUNK_SIZE * MAX_HEIGHT;
+                for (var i = 0; i < CHUNK_SIZE; i++)
+                {
+                    var iAmount = i * MAX_HEIGHT;
+
+                    //Bedrock Layer
+                    for (var j = 0; j < MAX_HEIGHT; j++)
+                    {
+                        EMPTY_CHUNK[j + iAmount + kAmount] = BlockType.AIR;
+                    }
+                }
+            }
+        }
 
         public byte[] HandleRequest(byte[] request)
         {
@@ -59,7 +81,7 @@ namespace MinecraftEnviroGenServer
             };
 
             var floatMap = HeightMapGenerator.GenerateHeightMap(genOptions);
-            floatMap.Normalize(0, 128);
+            floatMap.Normalize(0, MAX_HEIGHT);
 
             if (m_HeightMap == null)
             {
@@ -78,13 +100,18 @@ namespace MinecraftEnviroGenServer
             var initialX = cx * CHUNK_SIZE;
             var initialZ = cz * CHUNK_SIZE;
 
-            var blockIDs = new byte[128 * CHUNK_SIZE * CHUNK_SIZE];
+            if (initialX > m_HeightMap.Size.X || initialZ > m_HeightMap.Size.Y)
+            {
+                return EMPTY_CHUNK;
+            }
+
+            var blockIDs = new byte[MAX_HEIGHT * CHUNK_SIZE * CHUNK_SIZE];
             for (var k = 0; k < CHUNK_SIZE; k++)
             {
-                var kAmount = k * CHUNK_SIZE * 128;
+                var kAmount = k * CHUNK_SIZE * MAX_HEIGHT;
                 for (var i = 0; i < CHUNK_SIZE; i++)
                 {
-                    var iAmount = i * 128;
+                    var iAmount = i * MAX_HEIGHT;
                     var height = m_HeightMap.ByteMap[i + initialX, k + initialZ];
 
                     //Bedrock Layer
@@ -115,7 +142,7 @@ namespace MinecraftEnviroGenServer
                     //Sand/Sea Level Layer
                     if (height <= SEA_LEVEL)
                     {
-                        blockIDs[height + iAmount + kAmount] = BlockType.DIRT;
+                        blockIDs[height + iAmount + kAmount] = BlockType.SAND;
                         for (var j = height + 1; j < SEA_LEVEL; j++)
                         {
                             blockIDs[j + iAmount + kAmount] = BlockType.WATER;
@@ -123,7 +150,7 @@ namespace MinecraftEnviroGenServer
                     }
 
                     //Air
-                    for (var j = height + 1; j < 128; j++)
+                    for (var j = height > SEA_LEVEL ? height + 1 : SEA_LEVEL + 1; j < MAX_HEIGHT; j++)
                     {
                         blockIDs[j + iAmount + kAmount] = BlockType.AIR;
                     }
