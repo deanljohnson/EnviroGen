@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Policy;
 
 namespace MinecraftEnviroGenServer
 {
@@ -15,7 +14,9 @@ namespace MinecraftEnviroGenServer
             { UPDATE_REQUEST, 0 },
             { START_SIMULATING, 0 },
             { GET_CHUNK, 2 },
-            { RECEIVE_CHUNK, 32768 }
+            { RECEIVE_CHUNK, 32768 },
+            { DELETE_BLOCK, 5 },
+            { SET_BLOCK, 6 }
         };
 
         public static Dictionary<byte, string> CommandNames = new Dictionary<byte, string>
@@ -25,43 +26,64 @@ namespace MinecraftEnviroGenServer
             { UPDATE_REQUEST, "UPDATE_REQUEST" },
             { START_SIMULATING, "START_SIMULATING" },
             { GET_CHUNK, "GET_CHUNK" },
-            { RECEIVE_CHUNK, "RECEIVE_CHUNK" }
+            { RECEIVE_CHUNK, "RECEIVE_CHUNK" },
+            { DELETE_BLOCK, "DELETE_BLOCK" },
+            { SET_BLOCK, "SET_BLOCK" }
         };
 
         /// <summary>
-        /// Sent by the EnviroGen pipe client to signify an empty field
+        /// Sent by the EnviroGen pipe client to signify an empty command.
+        /// Args: {0}
         /// </summary>
         public const byte NULL = 0;
 
         /// <summary>
         /// Sent by the java EnviroGen pipe client when world gen is starting, 
-        /// so that initial terrain can all be generated.
+        /// so that initial terrain can all be generated. 
+        /// Args: {cx, cy}
         /// </summary>
         public const byte START_WORLD_GEN = 1;
 
         /// <summary>
         /// Sent by the java EnviroGen pipe client when it is 
         /// ready to accept the next block update.
+        /// Args: {}
         /// </summary>
         public const byte UPDATE_REQUEST = 2;
 
         /// <summary>
         /// Sent by the EnviroGen pipe client when world gen is completed(and it has received the data),
         /// and things such as erosion can begin to be simulated.
+        /// Args: {}
         /// </summary>
         public const byte START_SIMULATING = 3;
 
         /// <summary>
         /// This command gets the byte id's of all blocks in a certain chunk.
-        /// The block id's should be read by a triple nested for-loop
-        /// with z as the outer most, y as the middle, and x as the inner.
-        /// Also, note that EnviroGen only generates to height 128
+        /// BlockIDs are flattened into 1d array by a triple nested for-loop
+        /// in the order z, x, y.
+        /// Args: {cx, cy}
         /// </summary>
         public const byte GET_CHUNK = 4;
 
         /// <summary>
-        /// This is the command returned from EnviroGen when sent GET_CHUNK
+        /// This is the command returned from EnviroGen when sent GET_CHUNK.
+        /// BlockIDs are flattened into 1d array by a triple nested for-loop
+        /// in the order z, x, y.
+        /// Args: {blockID[0]...blockID[32767]}
         /// </summary>
         public const byte RECEIVE_CHUNK = 5;
+
+        /// <summary>
+        /// Sent by EnviroGen as a response to an UPDATE_REQUEST.
+        /// Args: {cx, cy, x, y, z}
+        /// </summary>
+        public const byte DELETE_BLOCK = 6;
+
+        /// <summary>
+        /// Sent by EnviroGen as a response to an UPDATE_REQUEST.
+        /// Args: {cx, cy, x, y, z, id}
+        /// </summary>
+        public const byte SET_BLOCK = 7;
     }
 }

@@ -1,10 +1,17 @@
-﻿using EnviroGen.HeightMaps;
+﻿using System;
+using EnviroGen.HeightMaps;
 
 namespace MinecraftEnviroGenServer
 {
+    /// <summary>
+    /// A class that keeps a byte float representation of the same HeightMap.
+    /// Also tracks updates to the byte map.
+    /// </summary>
     class DualHeightMap : HeightMap
     {
-        public byte[,] ByteMap { get; private set; }
+        private byte[,] m_ByteMap { get; set; }
+
+        public Action<int, int, byte, byte> ByteChangeAction { get; set; }
 
         public override float this[int x, int y]
         {
@@ -12,27 +19,37 @@ namespace MinecraftEnviroGenServer
             set
             {
                 base[x, y] = value;
-                ByteMap[x, y] = (byte) value;
+
+                var newByte = (byte) value;
+                if (m_ByteMap[x, y] == newByte) return;
+
+                ByteChangeAction?.Invoke(x, y, m_ByteMap[x, y], newByte);
+                m_ByteMap[x, y] = newByte;
             }
         }
 
         public DualHeightMap(float[,] map) 
             : base(map)
         {
-            ByteMap = HeightMapToBytes();
+            m_ByteMap = HeightMapToBytes();
         }
 
         public DualHeightMap(HeightMap map) 
             : base(map)
         {
-            ByteMap = HeightMapToBytes();
+            m_ByteMap = HeightMapToBytes();
+        }
+
+        public byte GetByte(int x, int y)
+        {
+            return m_ByteMap[x, y];
         }
 
         public override void Normalize(float min = 0, float max = 1)
         {
             base.Normalize(min, max);
 
-            ByteMap = HeightMapToBytes();
+            m_ByteMap = HeightMapToBytes();
         }
 
         /// <summary>

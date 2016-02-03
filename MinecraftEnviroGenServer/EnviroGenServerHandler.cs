@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using EnviroGen;
 using EnviroGen.HeightMaps;
@@ -16,6 +18,8 @@ namespace MinecraftEnviroGenServer
         private const int MAX_HEIGHT = 128;
 
         private DualHeightMap m_HeightMap { get; set; }
+
+        private Queue<byte[]> m_WaitingUpdates { get; } = new Queue<byte[]>();
 
         static EnviroGenServerHandler()
         {
@@ -83,16 +87,23 @@ namespace MinecraftEnviroGenServer
 
             if (m_HeightMap == null)
             {
-                m_HeightMap = new DualHeightMap(floatMap);
+                m_HeightMap = new DualHeightMap(floatMap)
+                {
+                    ByteChangeAction = OnByteChange
+                };
                 return;
             }
 
             lock (m_HeightMap)
             {
-                m_HeightMap = new DualHeightMap(floatMap);
+                m_HeightMap = new DualHeightMap(floatMap)
+                {
+                    ByteChangeAction = OnByteChange
+                };
             }
         }
 
+        //TODO: We could apply all SET_BLOCK and DELETE_BLOCK commands currently waiting.
         private byte[] GetChunk(byte cx, byte cz)
         {
             var initialX = cx * CHUNK_SIZE;
@@ -110,7 +121,7 @@ namespace MinecraftEnviroGenServer
                 for (var i = 0; i < CHUNK_SIZE; i++)
                 {
                     var iAmount = i * MAX_HEIGHT;
-                    var height = m_HeightMap.ByteMap[i + initialX, k + initialZ];
+                    var height = m_HeightMap.GetByte(i + initialX, k + initialZ);
 
                     //Bedrock Layer
                     for (var j = 0; j < 2; j++)
@@ -147,6 +158,8 @@ namespace MinecraftEnviroGenServer
                         }
                     }
 
+                    //TODO: Find a way to avoid setting these - it is needless computation because MC will automatically place air
+                    //We have to do this right now because our current command structure requires that each side know how many bytes are coming/going
                     //Air
                     for (var j = height > SEA_LEVEL ? height + 1 : SEA_LEVEL + 1; j < MAX_HEIGHT; j++)
                     {
@@ -162,9 +175,48 @@ namespace MinecraftEnviroGenServer
             return chunkResponse;
         }
 
+        private void OnByteChange(int x, int z, byte oldHeight, byte newHeight)
+        {
+            var cx = (byte)(x / CHUNK_SIZE);
+            var cz = (byte)(z / CHUNK_SIZE);
+
+            var xInChunk = (byte)(x % CHUNK_SIZE);
+            var zInChunk = (byte)(z % CHUNK_SIZE);
+
+            var newID = IDByHeight(newHeight);
+
+            if (oldHeight > newHeight)
+            {
+                var height = oldHeight;
+                while (height > newHeight)
+                {
+                    m_WaitingUpdates.Enqueue(new[] { ServerCommands.DELETE_BLOCK, cx, cz, xInChunk, height, zInChunk });
+                    height--;
+                }
+            }
+
+            m_WaitingUpdates.Enqueue(new[] { ServerCommands.SET_BLOCK, cx, cz, xInChunk, newHeight, zInChunk, newID });
+        }
+
+        //TODO: This isnt physically correct behvaior
+        private byte IDByHeight(byte height)
+        {
+            if (height <= SEA_LEVEL)
+            {
+                return BlockType.SAND;
+            }
+
+            return BlockType.GRASS;
+        }
+
         private byte[] GetUpdate()
         {
-            return new[] {ServerCommands.UPDATE_REQUEST};
+            if (m_WaitingUpdates.Any())
+            {
+                return m_WaitingUpdates.Dequeue();
+            }
+
+            return new[] {ServerCommands.NULL};
         }
     }
 }
