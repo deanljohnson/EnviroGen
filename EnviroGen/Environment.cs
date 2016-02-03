@@ -1,10 +1,12 @@
-﻿namespace EnviroGen
+﻿using EnviroGen.HeightMaps;
+
+namespace EnviroGen
 {
     public class Environment
     {
-        public Terrain Terrain { get; set; }
+        public HeightMap Terrain { get; set; }
 
-        public Environment(Terrain terrain = null)
+        public Environment(HeightMap terrain = null)
         {
             Terrain = terrain;
         }

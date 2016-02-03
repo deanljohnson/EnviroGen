@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using EnviroGen;
 using EnviroGenDisplay.Properties;
 using Environment = EnviroGen.Environment;
 
@@ -55,25 +57,28 @@ namespace EnviroGenDisplay.ViewModels
 
         private void UpdateWholeBitmap()
         {
+            Debug.Assert(Terrain is Terrain);
+            var terrain = (Terrain) Terrain;
+
             //Get pixels to place in the Bitmap
-            var pixels = new Color[Terrain.Image.Width * Terrain.Image.Height];
-            for (uint j = 0; j < Terrain.Image.Height; j++)
+            var pixels = new Color[terrain.Image.Width * terrain.Image.Height];
+            for (uint j = 0; j < terrain.Image.Height; j++)
             {
                 //The number of pixels up to the j'th row
-                var countSoFar = (j * Terrain.Image.Width);
+                var countSoFar = (j * terrain.Image.Width);
 
-                for (uint i = 0; i < Terrain.Image.Width; i++)
+                for (uint i = 0; i < terrain.Image.Width; i++)
                 {
-                    pixels[i + countSoFar] = Terrain.Image[i, j];
+                    pixels[i + countSoFar] = terrain.Image[i, j];
                 }
             }
 
             //Resize the bitmap if needed
-            if (Terrain.Image.Width != HeightMapBitmap.PixelWidth ||
-                Terrain.Image.Height != HeightMapBitmap.PixelHeight)
+            if (terrain.Image.Width != HeightMapBitmap.PixelWidth ||
+                terrain.Image.Height != HeightMapBitmap.PixelHeight)
             {
-                HeightMapBitmap = new WriteableBitmap((int) Terrain.Image.Width, 
-                                                        (int) Terrain.Image.Height, 
+                HeightMapBitmap = new WriteableBitmap((int)terrain.Image.Width, 
+                                                        (int)terrain.Image.Height, 
                                                         96, 96, PixelFormats.Bgra32, null);
             }
 

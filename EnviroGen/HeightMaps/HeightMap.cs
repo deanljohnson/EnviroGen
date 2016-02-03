@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EnviroGen.Internals;
@@ -166,6 +165,30 @@ namespace EnviroGen.HeightMaps
             }
 
             return intMap;
+        }
+
+        /// <summary>
+        /// Returns a new Terrain instance with dimensions equal to the greatest multiple 
+        /// of m less than or equal to this Terrain's current dimensions.
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public HeightMap SizeTruncatedToMultiple(int m)
+        {
+            var width = Size.X - (Size.X % m);
+            var height = Size.Y - (Size.Y % m);
+
+            var heights = new float[width, height];
+
+            for (var y = 0; y < height; y++)
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    heights[x, y] = this[x, y];
+                }
+            }
+
+            return new HeightMap(heights);
         }
     }
 }

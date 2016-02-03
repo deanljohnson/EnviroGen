@@ -17,9 +17,12 @@ namespace MinecraftEnviroGenServer
         private const int SEA_LEVEL = 63;
         private const int MAX_HEIGHT = 128;
 
+        //TODO: We should be using an environment here....
         private DualHeightMap m_HeightMap { get; set; }
 
         private Queue<byte[]> m_WaitingUpdates { get; } = new Queue<byte[]>();
+
+        public event EventHandler OnNoreMoreWaitingUpdates;
 
         static EnviroGenServerHandler()
         {
@@ -211,12 +214,31 @@ namespace MinecraftEnviroGenServer
 
         private byte[] GetUpdate()
         {
-            if (m_WaitingUpdates.Any())
+            lock (m_WaitingUpdates)
             {
-                return m_WaitingUpdates.Dequeue();
+                if (m_WaitingUpdates.Any())
+                {
+                    return m_WaitingUpdates.Dequeue();
+                }
             }
 
+            OnNoreMoreWaitingUpdates?.BeginInvoke(this, EventArgs.Empty, OnNoMoreWaitingUpdatesCallback, this);
+
             return new[] {ServerCommands.NULL};
+        }
+
+        private void OnNoMoreWaitingUpdatesCallback(object updateByteArrays)
+        {
+            Debug.Assert(updateByteArrays is byte[][]);
+            var updates = (byte[][]) updateByteArrays;
+
+            lock (m_WaitingUpdates)
+            {
+                foreach (var command in updates)
+                {
+                    m_WaitingUpdates.Enqueue(command);
+                }
+            }
         }
     }
 }

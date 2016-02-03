@@ -55,6 +55,7 @@
     <Compile Include="EnviroGenPipeServer.cs" />
     <Compile Include="EnviroGenServerHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
+    <Compile Include="NeedUpdatesEventArgs.cs" />
     <Compile Include="ServerCommands.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -6472,6 +6473,7 @@
     <Content Include="forge\src\main\java\dean\minecraft\EnviroGen\ServerCommands.java" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="EnviroGenWrappers\" />
     <Folder Include="forge\.metadata\.mylyn\contexts\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.core.resources\.history\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.core.resources\.safetable\" />

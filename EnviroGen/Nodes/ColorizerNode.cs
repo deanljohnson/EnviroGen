@@ -16,7 +16,11 @@ namespace EnviroGen.Nodes
         public void Modify(Environment environment)
         {
             Started?.Invoke(this, null);
-            environment.Terrain.Colorizer = Colorizer;
+            if (environment.Terrain is Terrain)
+            {
+                ((Terrain)environment.Terrain).Colorizer = Colorizer;
+            }
+            
             Finished?.Invoke(this, null);
 
             Output?.Modify(environment);
