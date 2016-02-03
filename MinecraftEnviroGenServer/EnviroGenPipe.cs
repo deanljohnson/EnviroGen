@@ -12,6 +12,11 @@ namespace MinecraftEnviroGenServer
             m_Pipe = new NamedPipeServerStream(pipeName, PipeDirection.InOut, numThreads, PipeTransmissionMode.Byte, PipeOptions.None);
         }
 
+        public void Close()
+        {
+            m_Pipe.Close();
+        }
+
         public void Dispose()
         {
             m_Pipe.Dispose();

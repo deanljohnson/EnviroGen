@@ -65,12 +65,12 @@ namespace EnviroGenDisplay.ViewModels
 
         public float Gain
         {
-            get { return Node.Gain; }
+            get { return Node.Roughness; }
             set
             {
-                if (Math.Abs(Node.Gain - value) > float.Epsilon)
+                if (Math.Abs(Node.Roughness - value) > float.Epsilon)
                 {
-                    Node.Gain = value;
+                    Node.Roughness = value;
                     OnPropertyChanged();
                 }
             }

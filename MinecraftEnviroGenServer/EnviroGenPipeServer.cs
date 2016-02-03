@@ -66,15 +66,17 @@ namespace MinecraftEnviroGenServer
                 var request = pipeStream.ReadNextRequest();
                 var response = HandleRequest(request);
 
-                Console.WriteLine($"Sending {ServerCommands.CommandNames[response[0]]} to MC Server");
+                Console.WriteLine($"Sending {ServerCommands.CommandNames[response[0]]} with {response.Length - 1} arguments to MC Server");
                 pipeStream.Write(response, 0, response.Length);
                 pipeStream.Flush();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                pipeStream.Close();
+                pipeStream.Dispose();
             }
-
+            pipeStream.Close();
             pipeStream.Dispose();
         }
 

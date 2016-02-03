@@ -18,7 +18,7 @@
         public int SizeY { get; set; }
         public int OctaveCount { get; set; }
         public int Seed { get; set; }
-        public float Gain { get; set; }
+        public float Roughness { get; set; }
         public float Frequency { get; set; }
 
         public NoiseType NoiseType { get; set; } = NoiseType.Simplex;
@@ -29,7 +29,7 @@
             SizeY = DefualtSizeY;
             OctaveCount = DefualtOctaveCount;
             Seed = DefaultSeed;
-            Gain = DefaultRoughness;
+            Roughness = DefaultRoughness;
             Frequency = DefaultFrequency;
         }
 
@@ -39,7 +39,7 @@
             SizeY = copy.SizeY;
             OctaveCount = copy.OctaveCount;
             Seed = copy.Seed;
-            Gain = copy.Gain;
+            Roughness = copy.Roughness;
             Frequency = copy.Frequency;
             NoiseType = copy.NoiseType;
         }

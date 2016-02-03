@@ -33,7 +33,7 @@ namespace EnviroGen.HeightMaps
         /// </summary>
         public static HeightMap GenerateHeightMap(GenerationOptions options)
         {
-            return GenerateHeightMap(options.SizeX, options.SizeY, options.OctaveCount, options.Gain, options.Frequency, options.Seed, options.NoiseType);
+            return GenerateHeightMap(options.SizeX, options.SizeY, options.OctaveCount, options.Roughness, options.Frequency, options.Seed, options.NoiseType);
         }
 
         /// <summary>

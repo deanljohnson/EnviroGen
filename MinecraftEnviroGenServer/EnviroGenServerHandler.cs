@@ -69,8 +69,8 @@ namespace MinecraftEnviroGenServer
 
             var genOptions = new GenerationOptions
             {
-                Frequency = .55f,
-                Gain = .05f,
+                Frequency = .003f,
+                Roughness = .3f,
                 NoiseType = NoiseType.Simplex,
                 OctaveCount = 6,
                 Seed = new Random().Next(10000),
@@ -164,7 +164,7 @@ namespace MinecraftEnviroGenServer
 
         private byte[] GetUpdate()
         {
-            return NULL_RESPONSE;
+            return new[] {ServerCommands.UPDATE_REQUEST};
         }
     }
 }
