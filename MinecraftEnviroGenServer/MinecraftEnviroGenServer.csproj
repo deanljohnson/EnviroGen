@@ -4213,7 +4213,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="forge\.metadata\.plugins\org.eclipse.core.resources\.safetable\org.eclipse.core.resources" />
     <EmbeddedResource Include="forge\eclipse\.metadata\.plugins\org.eclipse.core.resources\.safetable\org.eclipse.core.resources" />
   </ItemGroup>
   <ItemGroup>
@@ -6475,6 +6474,7 @@
   <ItemGroup>
     <Folder Include="forge\.metadata\.mylyn\contexts\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.core.resources\.history\" />
+    <Folder Include="forge\.metadata\.plugins\org.eclipse.core.resources\.safetable\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.emf.common.ui\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.mylyn.bugzilla.core\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.mylyn.context.core\contexts\" />

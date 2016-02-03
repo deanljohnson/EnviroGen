@@ -51,6 +51,8 @@ public class EnviroGenMod
     
     public static EnviroGenPipeClient PipeClient;
     
+    public int UpdateRate = 2;
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -59,16 +61,23 @@ public class EnviroGenMod
     	
     	PipeClient = new EnviroGenPipeClient("\\\\.\\pipe\\EnviroGenOutput");
     }
+    
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
     	PipeClient.startEnviroGenWorldGen();
     }
+    
+    @EventHandler
+    public void serverStarting(FMLServerStartingEvent event)
+    {
+    	event.registerServerCommand(new UpdateRateCommand());
+    }
 
     @SubscribeEvent
     public void onWorldTick(WorldTickEvent event) 
     {
-    	if (m_InputCounter % 2 != 0){
+    	if (m_InputCounter % UpdateRate != 0){
 			m_InputCounter++;
     		return;
     	}
