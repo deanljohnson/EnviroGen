@@ -11,7 +11,7 @@ namespace MinecraftEnviroGenServer
         {
             { NULL, 0 },
             { START_WORLD_GEN, 2 },
-            { UPDATE_REQUEST, 0 },
+            { UPDATE_REQUEST, 1 },
             { START_SIMULATING, 0 },
             { GET_CHUNK, 2 },
             { RECEIVE_CHUNK, 32768 },
@@ -33,7 +33,7 @@ namespace MinecraftEnviroGenServer
 
         /// <summary>
         /// Sent by the EnviroGen pipe client to signify an empty command.
-        /// Args: {0}
+        /// Args: {}
         /// </summary>
         public const byte NULL = 0;
 
@@ -47,7 +47,7 @@ namespace MinecraftEnviroGenServer
         /// <summary>
         /// Sent by the java EnviroGen pipe client when it is 
         /// ready to accept the next block update.
-        /// Args: {}
+        /// Args: {numUpdates}
         /// </summary>
         public const byte UPDATE_REQUEST = 2;
 

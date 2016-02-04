@@ -57,6 +57,7 @@ public class EnviroGenMod
     
     public int UpdateRate = 2;
     
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -76,6 +77,7 @@ public class EnviroGenMod
     public void serverStarting(FMLServerStartingEvent event)
     {
     	event.registerServerCommand(new UpdateRateCommand());
+    	event.registerServerCommand(new UpdataVolumeCommand());
     }
 
     @SubscribeEvent

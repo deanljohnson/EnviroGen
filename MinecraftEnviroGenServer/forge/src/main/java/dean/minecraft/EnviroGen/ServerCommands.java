@@ -10,7 +10,7 @@ public final class ServerCommands
 	
 	/**
     * Sent by the EnviroGen pipe client to signify an empty command.
-    * Args: {0}
+    * Args: {}
     */
     public static final byte NULL = 0;
 
@@ -24,7 +24,7 @@ public final class ServerCommands
     /**
     * Sent by the java EnviroGen pipe client when it is 
     * ready to accept the next block update.
-    * Args: {}
+    * Args: {numUpdates}
     */
     public static final byte UPDATE_REQUEST = 2;
 
@@ -66,7 +66,7 @@ public final class ServerCommands
     static {
     	CommandLengths.put(NULL, 0);
     	CommandLengths.put(START_WORLD_GEN, 2);
-    	CommandLengths.put(UPDATE_REQUEST, 0);
+    	CommandLengths.put(UPDATE_REQUEST, 1);
     	CommandLengths.put(START_SIMULATING, 0);
     	CommandLengths.put(GET_CHUNK, 2);
     	CommandLengths.put(RECEIVE_CHUNK, 32768);

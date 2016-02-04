@@ -54,7 +54,7 @@ namespace MinecraftEnviroGenServer
                     new Thread(StartGenerateWorld).Start(request);
                     return new[] {ServerCommands.START_WORLD_GEN, request[1], request[2]};
                 case ServerCommands.UPDATE_REQUEST:
-                    return GetUpdate();
+                    return GetUpdates(request[1]);
                 case ServerCommands.GET_CHUNK:
                     return GetChunk(request[1], request[2]);
             }
@@ -234,13 +234,33 @@ namespace MinecraftEnviroGenServer
             return BlockType.GRASS;
         }
 
-        private byte[] GetUpdate()
+        private byte[] GetUpdates(byte count)
         {
             lock (m_WaitingUpdates)
             {
-                if (m_WaitingUpdates.Any())
+                if (m_WaitingUpdates.Any() && count > 0)
                 {
-                    return m_WaitingUpdates.Dequeue();
+                    var updates = new byte[0];
+                    while (count > 0)
+                    {
+                        var copy = updates.Clone() as byte[];
+                        Debug.Assert(copy != null);
+
+                        var thisUpdate = m_WaitingUpdates.Dequeue();
+                        updates = new byte[updates.Length + thisUpdate.Length];
+                        copy.CopyTo(updates, 0);
+                        thisUpdate.CopyTo(updates, copy.Length);
+
+                        if (m_WaitingUpdates.Any())
+                        {
+                            count--;
+                        }
+                        else
+                        {
+                            count = 0;
+                        }
+                    }
+                    return updates;
                 }
             }
 

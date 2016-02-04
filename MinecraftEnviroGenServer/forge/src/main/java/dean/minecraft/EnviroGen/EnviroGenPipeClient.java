@@ -13,6 +13,8 @@ public class EnviroGenPipeClient {
 	
 	private Logger m_Logger;
 	
+	public byte UpdateVolume = 1;
+	
 	public EnviroGenPipeClient(String egOutput)
 	{
 		m_EnviroGenOutputName = egOutput;
@@ -30,7 +32,7 @@ public class EnviroGenPipeClient {
 		//so we try till it succeeds
 		while(true)
 		{
-			byte[] input = sendRequestToEnviroGen(cmd);
+			byte[] input = sendRequestToEnviroGen(cmd, false);
 			
 			if (input == null) continue;
 			
@@ -41,9 +43,15 @@ public class EnviroGenPipeClient {
 	
 	public void requestUpdateFromServer()
 	{
-		byte[] input = sendRequestToEnviroGen(new byte[]{ServerCommands.UPDATE_REQUEST});
+		byte[] input = sendRequestToEnviroGen(new byte[]{ServerCommands.UPDATE_REQUEST, UpdateVolume}, true);
 		
-		processEnviroGenOutput(input);
+		for (int i = 0; i < input.length;)
+		{
+			int length = ServerCommands.CommandLengths.get(input[i]);
+			//+1 for the command itself
+			processEnviroGenOutput(input, i, length + 1);
+			i += length + 1;
+		}
 	}
 	
 	public byte[] requestChunkFromEnviroGen(byte cx, byte cz)
@@ -52,19 +60,19 @@ public class EnviroGenPipeClient {
 		
 		while(true)
 		{
-			byte[] response = sendRequestToEnviroGen(cmd);
+			byte[] response = sendRequestToEnviroGen(cmd, false);
 			if (response == null) continue;
 			
 			return response;
 		}
 	}
 	
-	private byte[] sendRequestToEnviroGen(byte[] cmd)
+	private byte[] sendRequestToEnviroGen(byte[] cmd, boolean readAll)
 	{
 		openPipe(false);
 		sendToPipe(cmd);
 		
-		byte[] input = readInputFromPipe(m_EnviroGenOutputPipe);
+		byte[] input = readInputFromPipe(m_EnviroGenOutputPipe, readAll);
 		
 		closePipe();
 		return input;
@@ -103,25 +111,48 @@ public class EnviroGenPipeClient {
 		}
 	}
 	
-	private byte[] readInputFromPipe(RandomAccessFile pipe)
+	private byte[] readInputFromPipe(RandomAccessFile pipe, boolean readAll)
 	{
+		byte[] multiInput = null;
 		try
 		{
-			byte[] commandRead = new byte[1];
-			pipe.read(commandRead, 0, 1);
-			
-			m_Logger.info("Raw command read: " + commandRead[0]);
-			
-			int commandLength = ServerCommands.CommandLengths.get(commandRead[0]);
-			byte[] input = new byte[1 + commandLength];
-			
-			input[0] = commandRead[0];
-			
-			if (commandLength > 0){
-				pipe.read(input, 1, commandLength);
+			while(true)
+			{
+				//We use an array because the overload of read we use requires it.
+				//We use this overload of read because it will block until at least one byte is read
+				//and that is what we want.
+				byte[] commandRead = new byte[1];
+				int bytesRead = pipe.read(commandRead, 0, 1);
+				
+				//bytesRead should always be 1. It will be -1 if we have reached the end of the pipe stream
+				if (bytesRead != 1)
+				{
+					if (multiInput == null) return new byte[]{ServerCommands.NULL};
+					return multiInput;
+				}
+				
+				m_Logger.info("Raw command read: " + commandRead[0]);
+				
+				int commandLength = ServerCommands.CommandLengths.get(commandRead[0]);
+				byte[] input = new byte[1 + commandLength];
+				
+				input[0] = commandRead[0];
+				
+				if (commandLength > 0){
+					pipe.read(input, 1, commandLength);
+				}
+				
+				if (!readAll)
+				{
+					return input;
+				}
+				else 
+				{
+					multiInput = (multiInput == null) 
+								? input 
+								: addArrays(multiInput, input);
+				}
 			}
-			
-			return input;
 		}
 		catch(EOFException e)
 		{
@@ -158,14 +189,42 @@ public class EnviroGenPipeClient {
 		{
 			EnviroGenMod.WORLD_CREATED = true;
 		}
-		if (cmd[0] == ServerCommands.DELETE_BLOCK)
+		else if (cmd[0] == ServerCommands.DELETE_BLOCK)
 		{
 			EnviroGenMod.instance.DeleteBlock(cmd[1], cmd[2], cmd[3], cmd[4], cmd[5]);
 		}
-		if (cmd[0] == ServerCommands.SET_BLOCK)
+		else if (cmd[0] == ServerCommands.SET_BLOCK)
 		{
 			EnviroGenMod.instance.SetBlock(cmd[1], cmd[2], cmd[3], cmd[4], cmd[5], cmd[6]);
 		}
 		m_Logger.info(String.format("Received %s command from EnviroGen", ServerCommands.CommandNames.get(cmd[0])));
+	}
+	
+	private void processEnviroGenOutput(byte[] source, int index, int len)
+	{
+		byte[] cmd = new byte[len];
+		
+		for (int i = 0; i < len; i++)
+		{
+			cmd[i] = source[i + index];
+		}
+		
+		processEnviroGenOutput(cmd);
+	}
+	
+	private byte[] addArrays(byte[] a, byte[] b)
+	{
+		byte[] combined = new byte[a.length + b.length];
+		
+		for (int i = 0; i < a.length; i++)
+		{
+			combined[i] = a[i];
+		}
+		for (int i = 0; i < b.length; i++)
+		{
+			combined[i + a.length] = b[i];
+		}
+		
+		return combined;
 	}
 }
