@@ -40,8 +40,8 @@ public class EnviroGenMod
 	private Logger logger;
 	private int m_InputCounter = 1;
 	
-	public static final byte CHUNK_X = 10;
-	public static final byte CHUNK_Z = 10;
+	public static final byte CHUNK_X = 20;
+	public static final byte CHUNK_Z = 20;
 	public static boolean WORLD_CREATED = false;
 	
 	public static final String NAME = "EnviroGen";

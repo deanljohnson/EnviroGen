@@ -17,6 +17,8 @@ namespace MinecraftEnviroGenServer
         private const int CHUNK_SIZE = 16;
         private const int SEA_LEVEL = 63;
         private const int MAX_HEIGHT = 128;
+        private const int NORMALIZE_LOW = 24;
+        private const int NORMALIZE_HIGH = 96;
 
         private Environment m_Environment { get; } = new Environment();
 
@@ -76,7 +78,7 @@ namespace MinecraftEnviroGenServer
 
             var genOptions = new GenerationOptions
             {
-                Frequency = .006f,
+                Frequency = .007f,
                 Roughness = .4f,
                 NoiseType = NoiseType.Simplex,
                 OctaveCount = 6,
@@ -86,7 +88,7 @@ namespace MinecraftEnviroGenServer
             };
 
             var floatMap = HeightMapGenerator.GenerateHeightMap(genOptions);
-            floatMap.Normalize(0, MAX_HEIGHT);
+            floatMap.Normalize(NORMALIZE_LOW, NORMALIZE_HIGH);
 
             if (m_Environment.Terrain == null)
             {
@@ -192,14 +194,31 @@ namespace MinecraftEnviroGenServer
             if (oldHeight > newHeight)
             {
                 var height = oldHeight;
-                while (height > newHeight)
+                lock (m_WaitingUpdates)
                 {
-                    m_WaitingUpdates.Enqueue(new[] { ServerCommands.DELETE_BLOCK, cx, cz, xInChunk, height, zInChunk });
-                    height--;
+                    while (height > newHeight)
+                    {
+                        m_WaitingUpdates.Enqueue(new[] { ServerCommands.DELETE_BLOCK,
+                                                         cx, cz, xInChunk, height, zInChunk });
+                        height--;
+                    }
                 }
+                
             }
-
-            m_WaitingUpdates.Enqueue(new[] { ServerCommands.SET_BLOCK, cx, cz, xInChunk, newHeight, zInChunk, newID });
+            else if (oldHeight < newHeight)
+            {
+                var height = newHeight;
+                lock (m_WaitingUpdates)
+                {
+                    while (height > oldHeight)
+                    {
+                        m_WaitingUpdates.Enqueue(new[] { ServerCommands.SET_BLOCK, cx, cz,
+                                                         xInChunk, newHeight, zInChunk, newID });
+                        height--;
+                    }
+                }
+                
+            }
         }
 
         //TODO: This isnt physically correct behvaior, or even accurate with how the simulated erosion works

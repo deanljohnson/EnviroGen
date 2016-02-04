@@ -9,9 +9,12 @@ namespace MinecraftEnviroGenServer
 
         public MCEnvironmentUpdater()
         {
-            Eroder = new ImprovedThermalEroder
+            Eroder = new HydraulicEroder
             {
-                TalusAngle = 3f,
+                RainAmount = .2f,
+                Solubility = .1f,
+                Evaporation = .1f,
+                Capacity = .5f,
                 Iterations = 1
             };
         }
