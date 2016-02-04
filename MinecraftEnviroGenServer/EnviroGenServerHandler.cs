@@ -6,6 +6,7 @@ using System.Threading;
 using EnviroGen;
 using EnviroGen.HeightMaps;
 using Substrate;
+using Environment = EnviroGen.Environment;
 
 namespace MinecraftEnviroGenServer
 {
@@ -17,12 +18,11 @@ namespace MinecraftEnviroGenServer
         private const int SEA_LEVEL = 63;
         private const int MAX_HEIGHT = 128;
 
-        //TODO: We should be using an environment here....
-        private DualHeightMap m_HeightMap { get; set; }
+        private Environment m_Environment { get; } = new Environment();
 
         private Queue<byte[]> m_WaitingUpdates { get; } = new Queue<byte[]>();
 
-        public event EventHandler OnNoreMoreWaitingUpdates;
+        public IEnvironmentUpdater EnvironmentUpdater { get; set; }
 
         static EnviroGenServerHandler()
         {
@@ -88,18 +88,18 @@ namespace MinecraftEnviroGenServer
             var floatMap = HeightMapGenerator.GenerateHeightMap(genOptions);
             floatMap.Normalize(0, MAX_HEIGHT);
 
-            if (m_HeightMap == null)
+            if (m_Environment.Terrain == null)
             {
-                m_HeightMap = new DualHeightMap(floatMap)
+                m_Environment.Terrain = new DualHeightMap(floatMap)
                 {
                     ByteChangeAction = OnByteChange
                 };
                 return;
             }
 
-            lock (m_HeightMap)
+            lock (m_Environment.Terrain)
             {
-                m_HeightMap = new DualHeightMap(floatMap)
+                m_Environment.Terrain = new DualHeightMap(floatMap)
                 {
                     ByteChangeAction = OnByteChange
                 };
@@ -112,11 +112,12 @@ namespace MinecraftEnviroGenServer
             var initialX = cx * CHUNK_SIZE;
             var initialZ = cz * CHUNK_SIZE;
 
-            if (initialX > m_HeightMap.Size.X || initialZ > m_HeightMap.Size.Y)
+            if (initialX > m_Environment.Terrain.Size.X || initialZ > m_Environment.Terrain.Size.Y)
             {
                 return EMPTY_CHUNK;
             }
 
+            var dualHeightMap = (DualHeightMap) m_Environment.Terrain;
             var blockIDs = new byte[MAX_HEIGHT * CHUNK_SIZE * CHUNK_SIZE];
             for (var k = 0; k < CHUNK_SIZE; k++)
             {
@@ -124,7 +125,7 @@ namespace MinecraftEnviroGenServer
                 for (var i = 0; i < CHUNK_SIZE; i++)
                 {
                     var iAmount = i * MAX_HEIGHT;
-                    var height = m_HeightMap.GetByte(i + initialX, k + initialZ);
+                    var height = dualHeightMap.GetByte(i + initialX, k + initialZ);
 
                     //Bedrock Layer
                     for (var j = 0; j < 2; j++)
@@ -222,7 +223,7 @@ namespace MinecraftEnviroGenServer
                 }
             }
 
-            OnNoreMoreWaitingUpdates?.BeginInvoke(this, EventArgs.Empty, OnNoMoreWaitingUpdatesCallback, this);
+            OnNoreMoreWaitingUpdates?.BeginInvoke(this, new NeedUpdatesEventArgs(m_Environment), OnNoMoreWaitingUpdatesCallback, this);
 
             return new[] {ServerCommands.NULL};
         }

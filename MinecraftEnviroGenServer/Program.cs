@@ -56,9 +56,14 @@ namespace MinecraftEnviroGenServer
 
         private static void StartPipeServer(string pipeName, int numThreads)
         {
+            var serverHandler = new EnviroGenServerHandler
+            {
+                EnvironmentUpdater = new MCEnvironmentUpdater()
+            };
+
             var server = new EnviroGenPipeServer(pipeName, numThreads)
             {
-                Handler = new EnviroGenServerHandler()
+                Handler = serverHandler
             };
 
             Console.WriteLine("Starting the EnviroGen Pipe Server");

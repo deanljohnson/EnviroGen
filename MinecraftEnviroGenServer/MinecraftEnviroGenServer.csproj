@@ -55,7 +55,8 @@
     <Compile Include="EnviroGenPipeServer.cs" />
     <Compile Include="EnviroGenServerHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
-    <Compile Include="NeedUpdatesEventArgs.cs" />
+    <Compile Include="IEnvironmentUpdater.cs" />
+    <Compile Include="MCEnvironmentUpdater.cs" />
     <Compile Include="ServerCommands.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
