@@ -76,8 +76,8 @@ namespace MinecraftEnviroGenServer
 
             var genOptions = new GenerationOptions
             {
-                Frequency = .003f,
-                Roughness = .3f,
+                Frequency = .006f,
+                Roughness = .4f,
                 NoiseType = NoiseType.Simplex,
                 OctaveCount = 6,
                 Seed = new Random().Next(10000),
@@ -202,7 +202,7 @@ namespace MinecraftEnviroGenServer
             m_WaitingUpdates.Enqueue(new[] { ServerCommands.SET_BLOCK, cx, cz, xInChunk, newHeight, zInChunk, newID });
         }
 
-        //TODO: This isnt physically correct behvaior
+        //TODO: This isnt physically correct behvaior, or even accurate with how the simulated erosion works
         private byte IDByHeight(byte height)
         {
             if (height <= SEA_LEVEL)
@@ -223,23 +223,9 @@ namespace MinecraftEnviroGenServer
                 }
             }
 
-            OnNoreMoreWaitingUpdates?.BeginInvoke(this, new NeedUpdatesEventArgs(m_Environment), OnNoMoreWaitingUpdatesCallback, this);
+            EnvironmentUpdater.DoUpdate(m_Environment);
 
             return new[] {ServerCommands.NULL};
-        }
-
-        private void OnNoMoreWaitingUpdatesCallback(object updateByteArrays)
-        {
-            Debug.Assert(updateByteArrays is byte[][]);
-            var updates = (byte[][]) updateByteArrays;
-
-            lock (m_WaitingUpdates)
-            {
-                foreach (var command in updates)
-                {
-                    m_WaitingUpdates.Enqueue(command);
-                }
-            }
         }
     }
 }

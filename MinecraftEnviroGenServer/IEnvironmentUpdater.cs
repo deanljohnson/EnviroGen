@@ -1,7 +1,9 @@
-﻿namespace MinecraftEnviroGenServer
+﻿using EnviroGen;
+
+namespace MinecraftEnviroGenServer
 {
     public interface IEnvironmentUpdater
     {
-        byte[][] GetNewUpdates();
+        void DoUpdate(Environment environment);
     }
 }

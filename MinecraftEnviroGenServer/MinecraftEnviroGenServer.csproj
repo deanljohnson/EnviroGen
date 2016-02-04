@@ -6474,7 +6474,6 @@
     <Content Include="forge\src\main\java\dean\minecraft\EnviroGen\ServerCommands.java" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EnviroGenWrappers\" />
     <Folder Include="forge\.metadata\.mylyn\contexts\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.core.resources\.history\" />
     <Folder Include="forge\.metadata\.plugins\org.eclipse.core.resources\.safetable\" />

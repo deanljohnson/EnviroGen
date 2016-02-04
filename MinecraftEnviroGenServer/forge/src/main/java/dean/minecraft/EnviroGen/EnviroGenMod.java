@@ -10,8 +10,12 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -84,5 +88,19 @@ public class EnviroGenMod
 		m_InputCounter = 1;
 
     	PipeClient.requestUpdateFromServer();
+    }
+    
+    public void DeleteBlock(byte cx, byte cz, byte x, byte y, byte z)
+    {
+    	World world = DimensionManager.getWorld(0);
+    	BlockPos pos = new BlockPos((cx * 16) + x, y, (cz * 16) + z);
+    	world.destroyBlock(pos, false);
+    }
+    
+    public void SetBlock(byte cx, byte cz, byte x, byte y, byte z, byte id)
+    {
+    	World world = DimensionManager.getWorld(0);
+    	BlockPos pos = new BlockPos((cx * 16) + x, y, (cz * 16) + z);
+    	world.setBlockState(pos, Block.getBlockById(id).getDefaultState(), 3);
     }
 }

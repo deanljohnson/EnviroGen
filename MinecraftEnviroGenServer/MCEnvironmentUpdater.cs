@@ -1,11 +1,24 @@
-﻿namespace MinecraftEnviroGenServer
+﻿using EnviroGen;
+using EnviroGen.Erosion;
+
+namespace MinecraftEnviroGenServer
 {
     class MCEnvironmentUpdater : IEnvironmentUpdater
     {
-        public byte[][] GetNewUpdates()
+        public IEroder Eroder { get; set; }
+
+        public MCEnvironmentUpdater()
         {
-            //TODO: Finish this
-            return null;
+            Eroder = new ImprovedThermalEroder
+            {
+                TalusAngle = 3f,
+                Iterations = 1
+            };
+        }
+
+        public void DoUpdate(Environment environment)
+        {
+            Eroder.Erode(environment.Terrain);
         }
     }
 }

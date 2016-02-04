@@ -158,6 +158,14 @@ public class EnviroGenPipeClient {
 		{
 			EnviroGenMod.WORLD_CREATED = true;
 		}
+		if (cmd[0] == ServerCommands.DELETE_BLOCK)
+		{
+			EnviroGenMod.instance.DeleteBlock(cmd[1], cmd[2], cmd[3], cmd[4], cmd[5]);
+		}
+		if (cmd[0] == ServerCommands.SET_BLOCK)
+		{
+			EnviroGenMod.instance.SetBlock(cmd[1], cmd[2], cmd[3], cmd[4], cmd[5], cmd[6]);
+		}
 		m_Logger.info(String.format("Received %s command from EnviroGen", ServerCommands.CommandNames.get(cmd[0])));
 	}
 }
