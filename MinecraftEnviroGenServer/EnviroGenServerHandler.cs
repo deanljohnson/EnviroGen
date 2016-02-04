@@ -82,7 +82,8 @@ namespace MinecraftEnviroGenServer
                 Roughness = .4f,
                 NoiseType = NoiseType.Simplex,
                 OctaveCount = 6,
-                Seed = new Random().Next(10000),
+                //By default we will just pick a random seed, cap at 10,000 because really high seeds cause problems during noise generation
+                Seed = new Random().Next(10000), 
                 SizeX = width,
                 SizeY = height
             };
@@ -191,6 +192,7 @@ namespace MinecraftEnviroGenServer
 
             var newID = IDByHeight(newHeight);
 
+            //If terrain got lower, delete blocks on top
             if (oldHeight > newHeight)
             {
                 var height = oldHeight;
@@ -203,8 +205,8 @@ namespace MinecraftEnviroGenServer
                         height--;
                     }
                 }
-                
             }
+            //If terrain got higher, add blocks below
             else if (oldHeight < newHeight)
             {
                 var height = newHeight;

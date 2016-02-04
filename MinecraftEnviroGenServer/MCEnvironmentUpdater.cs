@@ -15,7 +15,7 @@ namespace MinecraftEnviroGenServer
                 Solubility = .1f,
                 Evaporation = .1f,
                 Capacity = .5f,
-                Iterations = 1
+                Iterations = 1 //This eroder is ran continuously,
             };
         }
 
