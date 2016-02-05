@@ -3,11 +3,11 @@ using System.IO.Pipes;
 
 namespace MinecraftEnviroGenServer
 {
-    public class EnviroGenPipeStream
+    public class EGPipe
     {
         private NamedPipeServerStream m_Pipe { get; }
 
-        public EnviroGenPipeStream(string pipeName, int numThreads)
+        public EGPipe(string pipeName, int numThreads)
         {
             m_Pipe = new NamedPipeServerStream(pipeName, PipeDirection.InOut, numThreads, PipeTransmissionMode.Byte, PipeOptions.None);
         }

@@ -51,9 +51,9 @@
   <ItemGroup>
     <Compile Include="DualHeightMap.cs" />
     <Compile Include="DummyMCServer.cs" />
-    <Compile Include="EnviroGenPipe.cs" />
-    <Compile Include="EnviroGenPipeServer.cs" />
-    <Compile Include="EnviroGenServerHandler.cs" />
+    <Compile Include="EGPipe.cs" />
+    <Compile Include="EGPipeServer.cs" />
+    <Compile Include="EGServerHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IEnvironmentUpdater.cs" />
     <Compile Include="MCEnvironmentUpdater.cs" />

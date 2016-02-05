@@ -56,12 +56,12 @@ namespace MinecraftEnviroGenServer
 
         private static void StartPipeServer(string pipeName, int numThreads)
         {
-            var serverHandler = new EnviroGenServerHandler
+            var serverHandler = new EGServerHandler
             {
                 EnvironmentUpdater = new MCEnvironmentUpdater()
             };
 
-            var server = new EnviroGenPipeServer(pipeName, numThreads)
+            var server = new EGPipeServer(pipeName, numThreads)
             {
                 Handler = serverHandler
             };

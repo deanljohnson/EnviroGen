@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace MinecraftEnviroGenServer
 {
-    public class EnviroGenPipeServer
+    public class EGPipeServer
     {
         private string m_PipeName { get; }
         private int m_NumThreads { get; }
@@ -12,7 +12,7 @@ namespace MinecraftEnviroGenServer
 
         public ICommandHandler Handler { get; set; }
 
-        public EnviroGenPipeServer(string pipeName, int numThreads)
+        public EGPipeServer(string pipeName, int numThreads)
         {
             m_PipeName = pipeName;
             m_NumThreads = numThreads;
@@ -38,7 +38,7 @@ namespace MinecraftEnviroGenServer
         {
             try
             {
-                var pipeStream = new EnviroGenPipeStream(m_PipeName, m_NumThreads);
+                var pipeStream = new EGPipe(m_PipeName, m_NumThreads);
 
                 //Wait till the Java side connects to the pipe
                 pipeStream.WaitForConnection();
@@ -59,7 +59,7 @@ namespace MinecraftEnviroGenServer
 
         private void ProcessClientRequest(object o)
         {
-            var pipeStream = (EnviroGenPipeStream)o;
+            var pipeStream = (EGPipe)o;
 
             try
             {

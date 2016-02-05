@@ -10,7 +10,7 @@ using Environment = EnviroGen.Environment;
 
 namespace MinecraftEnviroGenServer
 {
-    public class EnviroGenServerHandler : ICommandHandler
+    public class EGServerHandler : ICommandHandler
     {
         private static readonly byte[] EMPTY_CHUNK;
         private static readonly byte[] NULL_RESPONSE = {0};
@@ -26,7 +26,7 @@ namespace MinecraftEnviroGenServer
 
         public IEnvironmentUpdater EnvironmentUpdater { get; set; }
 
-        static EnviroGenServerHandler()
+        static EGServerHandler()
         {
             EMPTY_CHUNK = new byte[CHUNK_SIZE * CHUNK_SIZE * MAX_HEIGHT];
 
