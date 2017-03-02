@@ -37,7 +37,7 @@
         <ContextMenu x:Key="NodeMenu" ItemsSource="{Binding Path=NodeMenuEntries}">
             <ContextMenu.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type enviroGenDisplay:NodeMenuEntry}" ItemsSource="{Binding Path=ChildMenus}">
-                    <MenuItem Header="{Binding Header}" Width="200" Click="NodeMenuItem_OnClick" Style="{StaticResource MenuItemStyle}"/>
+                    <MenuItem Header="{Binding Header}" Width="Auto" Click="NodeMenuItem_OnClick" Style="{StaticResource MenuItemStyle}"/>
                 </HierarchicalDataTemplate>
             </ContextMenu.Resources>
         </ContextMenu>
