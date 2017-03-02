@@ -6,8 +6,8 @@
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              mc:Ignorable="d">
     <Line d:DataContext="{d:DesignInstance viewModels:NodeConnectionViewModel}" Stroke="Black"
-          X1="{Binding Path=SourcePosition.X}"
-          Y1="{Binding Path=SourcePosition.Y}"
-          X2="{Binding Path=DestinationPosition.X}"
-          Y2="{Binding Path=DestinationPosition.Y}"></Line>
+          X1="{Binding Path=SourceX}"
+          Y1="{Binding Path=SourceY}"
+          X2="{Binding Path=DestX}"
+          Y2="{Binding Path=DestY}"></Line>
 </UserControl>

@@ -12,23 +12,39 @@ namespace EnviroGenDisplay.ViewModels
 
         public double SourceX
         {
-            get { return SourcePosition.X; }
-            set { SourcePosition = new Point(value, SourcePosition.Y); }
+            get { return m_SourcePosition.X; }
+            set
+            {
+                m_SourcePosition = new Point(value, m_SourcePosition.Y);
+                OnPropertyChanged();
+            }
         }
         public double SourceY
         {
-            get { return SourcePosition.Y; }
-            set { SourcePosition = new Point(SourcePosition.X, value); }
+            get { return m_SourcePosition.Y; }
+            set
+            {
+                m_SourcePosition = new Point(m_SourcePosition.X, value);
+                OnPropertyChanged();
+            }
         }
         public double DestX
         {
-            get { return DestinationPosition.X; }
-            set { DestinationPosition = new Point(value, DestinationPosition.Y); }
+            get { return m_DestinationPosition.X; }
+            set
+            {
+                m_DestinationPosition = new Point(value, m_DestinationPosition.Y);
+                OnPropertyChanged();
+            }
         }
         public double DestY
         {
-            get { return DestinationPosition.Y; }
-            set { DestinationPosition = new Point(DestinationPosition.X, value); }
+            get { return m_DestinationPosition.Y; }
+            set
+            {
+                m_DestinationPosition = new Point(m_DestinationPosition.X, value);
+                OnPropertyChanged();
+            }
         }
 
         public INode Source { get; set; }
@@ -45,26 +61,5 @@ namespace EnviroGenDisplay.ViewModels
         }
 
         public bool Connected => Source != null && Destination != null;
-
-        //TODO: remove the point properties, set up backing fields for individual coordinates
-        public Point SourcePosition
-        {
-            get { return m_SourcePosition; }
-            set
-            {
-                m_SourcePosition = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Point DestinationPosition
-        {
-            get { return m_DestinationPosition; }
-            set
-            {
-                m_DestinationPosition = value;
-                OnPropertyChanged();
-            }
-        }
     }
 }
