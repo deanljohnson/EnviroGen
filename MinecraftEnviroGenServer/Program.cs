@@ -33,13 +33,6 @@ namespace MinecraftEnviroGenServer
 
         private static void StartDummyMCServer()
         {
-            /*var process = new Process
-            {
-                StartInfo = new ProcessStartInfo("DummyMCServer.exe", "EnviroGenOutput")
-            };
-
-            Console.WriteLine("Starting Dummy MC Server");
-            process.Start();*/
             DummyMCServer.Start("EnviroGenOutput");
         }
 

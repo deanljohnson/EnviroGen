@@ -40,11 +40,14 @@ namespace EnviroGenDisplay
         {
             var pluginPath = AppDomain.CurrentDomain.BaseDirectory + @"Plugins";
 
+            if (!Directory.Exists(pluginPath))
+                return;
+
             foreach (var dll in Directory.GetFiles(pluginPath, "*.dll", SearchOption.AllDirectories))
             {
                 try
                 {
-                    var assembly = Assembly.LoadFrom(dll);
+                    Assembly.LoadFrom(dll);
                 }
                 catch (FileLoadException)
                 {

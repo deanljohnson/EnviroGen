@@ -103,7 +103,7 @@ namespace EnviroGen.Coloring
             {
                 color = colorRanges[0].GetColor(height);
             }
-            else
+            else // default to black
             {
                 color = Color.FromRgb(0, 0, 0);
             }

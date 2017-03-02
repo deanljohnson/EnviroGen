@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using EnviroGen.Noise;
+﻿using EnviroGen.Noise;
 
 namespace EnviroGen.HeightMaps
 {

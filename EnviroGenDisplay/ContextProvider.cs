@@ -29,8 +29,8 @@ namespace EnviroGenDisplay
         public ContextProvider()
         {
             //Setting to NaN does in code what Width="Auto" does in xaml
-            Width = Double.NaN;
-            Height = Double.NaN;
+            Width = double.NaN;
+            Height = double.NaN;
 
             MouseEnter += OnMouseEnter;
             MouseLeave += OnMouseLeave;
