@@ -116,7 +116,6 @@
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="CreateNodeEventArgs.cs" />
     <Compile Include="EditorNodeAttribute.cs" />
-    <Compile Include="Image.cs" />
     <Compile Include="NodeMenuEntry.cs" />
     <Compile Include="ViewModels\Modifiers\AddModifierNodeViewModel.cs" />
     <Compile Include="ViewModels\NodeConnectionViewModel.cs" />

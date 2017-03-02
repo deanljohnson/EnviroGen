@@ -5,6 +5,9 @@ using System.Windows.Input;
 
 namespace EnviroGenDisplay
 {
+    /// <summary>
+    /// Provides context information on specific GUI element
+    /// </summary>
     public class ContextProvider : ContentControl
     {
         public static Action<ContextProvider> SetContextInfo { get; set; }

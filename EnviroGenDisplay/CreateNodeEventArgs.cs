@@ -1,5 +1,4 @@
 ﻿using System;
-using EnviroGenDisplay.ViewModels;
 
 namespace EnviroGenDisplay
 {
