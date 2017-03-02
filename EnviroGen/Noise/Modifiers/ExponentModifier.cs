@@ -2,6 +2,10 @@
 
 namespace EnviroGen.Noise.Modifiers
 {
+    /// <summary>
+    /// Set's every value V in an Environment's HeightMap
+    /// to V^e
+    /// </summary>
     public class ExponentModifier : IInvertableModifier
     {
         public float Exponent { get; set; }

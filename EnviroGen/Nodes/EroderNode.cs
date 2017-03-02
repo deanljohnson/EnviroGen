@@ -3,6 +3,9 @@ using EnviroGen.Erosion;
 
 namespace EnviroGen.Nodes
 {
+    /// <summary>
+    /// A node that can apply an eroder to a HeightMap
+    /// </summary>
     public class EroderNode<TEroder> : INode 
         where TEroder : IEroder
     {

@@ -45,8 +45,6 @@ namespace EnviroGen.Erosion
 
         /// <summary>
         /// Performs the Rainfall and Erosion steps of Hydraulic Erosion simultaneously.
-        /// Yes this function has multiple responsibilities, usually a bad design, but it
-        /// is more efficient this way and still understandable.
         /// </summary>
         private static void DoRainfallAndErosion(HeightMap heightMap, ref float[,] waterMap, ref float[,] sedimentMap,
             float rainAmount, float solubility)
@@ -85,6 +83,8 @@ namespace EnviroGen.Erosion
                     var heightOfNeighborWithAllWater = waterMap[x, y] + waterMap[lowestNeighbor.X, lowestNeighbor.Y] +
                                                        heightMap[lowestNeighbor.X, lowestNeighbor.Y];
 
+                    // If moving all of this nodes water to the neighbor would 
+                    // still not balance the water levels
                     if (heightOfNeighborWithAllWater < heightMap[x, y])
                     {
                         MoveAllWater(ref waterMap, x, y, lowestNeighbor.X, lowestNeighbor.Y);

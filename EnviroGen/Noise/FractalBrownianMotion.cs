@@ -2,6 +2,10 @@
 
 namespace EnviroGen.Noise
 {
+    /// <summary>
+    /// Responsible for combining multiple octaves of noise together.
+    /// Each successive octave is at a finer resolution than the previous octave.
+    /// </summary>
     public static class FractalBrownianMotion
     {
         public static float GenerateNoise(int x, int y, int numOctaves, float gain, float frequency, float lacunarity, Func<float, float, float> noise)

@@ -7,12 +7,12 @@
 
     public class GenerationOptions
     {
-        public static int DefualtSizeX { get; set; } = 1000;
-        public static int DefualtSizeY { get; set; } = 780;
-        public static int DefualtOctaveCount { get; set; } = 6;
-        public static int DefaultSeed { get; set; } = -1;
-        public static float DefaultRoughness { get; set; } = .55f;
-        public static float DefaultFrequency { get; set; } = .005f;
+        private const int DEFUALT_SIZE_X = 1000;
+        private const int DEFUALT_SIZE_Y = 780;
+        private const int DEFUALT_OCTAVE_COUNT = 6;
+        private const int DEFAULT_SEED = -1;
+        private const float DEFAULT_ROUGHNESS = .55f;
+        private const float DEFAULT_FREQUENCY = .005f;
 
         public int SizeX { get; set; }
         public int SizeY { get; set; }
@@ -25,12 +25,12 @@
 
         public GenerationOptions()
         {
-            SizeX = DefualtSizeX;
-            SizeY = DefualtSizeY;
-            OctaveCount = DefualtOctaveCount;
-            Seed = DefaultSeed;
-            Roughness = DefaultRoughness;
-            Frequency = DefaultFrequency;
+            SizeX = DEFUALT_SIZE_X;
+            SizeY = DEFUALT_SIZE_Y;
+            OctaveCount = DEFUALT_OCTAVE_COUNT;
+            Seed = DEFAULT_SEED;
+            Roughness = DEFAULT_ROUGHNESS;
+            Frequency = DEFAULT_FREQUENCY;
         }
 
         public GenerationOptions(GenerationOptions copy)

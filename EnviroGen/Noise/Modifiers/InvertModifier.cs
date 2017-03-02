@@ -1,6 +1,9 @@
-﻿
-namespace EnviroGen.Noise.Modifiers
+﻿namespace EnviroGen.Noise.Modifiers
 {
+    /// <summary>
+    /// Takes every value V in an Environment's HeightMap and sets
+    /// it to a MaxValue - V
+    /// </summary>
     public class InvertModifier : IModifier
     {
         public float MaxValue { get; set; }

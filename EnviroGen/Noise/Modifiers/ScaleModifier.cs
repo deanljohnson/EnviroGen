@@ -1,5 +1,9 @@
 ﻿namespace EnviroGen.Noise.Modifiers
 {
+    /// <summary>
+    /// Multiplies every value in an Environment's HeightMap
+    /// by a certain value
+    /// </summary>
     public class ScaleModifier : IInvertableModifier
     {
         public float Scale { get; set; }

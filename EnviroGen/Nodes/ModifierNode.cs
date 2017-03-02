@@ -3,6 +3,9 @@ using EnviroGen.Noise.Modifiers;
 
 namespace EnviroGen.Nodes
 {
+    /// <summary>
+    /// A node that can apply a mathematical modifier to an Environment
+    /// </summary>
     public class ModifierNode<TModifier> : INode 
         where TModifier : IModifier
     {

@@ -3,6 +3,9 @@ using EnviroGen.Continents;
 
 namespace EnviroGen.Nodes
 {
+    /// <summary>
+    /// A node that can apply a continent generator to a HeightMap
+    /// </summary>
     public class ContinentGeneratorNode<TContinentGenerator> : INode 
         where TContinentGenerator : IContinentGenerator
     {

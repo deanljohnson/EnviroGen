@@ -1,5 +1,10 @@
 ﻿namespace EnviroGen.Noise.Modifiers
 {
+    /// <summary>
+    /// Clamps an Environment's HeightMap values between two numbers.
+    /// Any value lower than the minimum is set to the minimum,
+    /// and any value higher than the maximum is set to the maximum.
+    /// </summary>
     public class ClampModifier : IModifier
     {
         public float Low { get; set; }

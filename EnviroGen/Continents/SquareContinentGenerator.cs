@@ -7,7 +7,7 @@ namespace EnviroGen.Continents
 {
     public class SquareContinentGenerator : IContinentGenerator
     {
-        private static readonly Random Random = new Random();
+        private static readonly Random RANDOM = new Random();
 
         public int MinimumContinentSize { get; set; }
         public int MaximumContinentSize { get; set; }
@@ -20,7 +20,7 @@ namespace EnviroGen.Continents
 
             foreach (var start in startPoints)
             {
-                var size = Random.Next(MaximumContinentSize - MinimumContinentSize) + MinimumContinentSize;
+                var size = RANDOM.Next(MaximumContinentSize - MinimumContinentSize) + MinimumContinentSize;
                 var scaleStep = -(ScaleAmount - 1f) / size;
 
                 ScaleSquareAroundPoint(heightMap, start, size, ScaleAmount, scaleStep);
@@ -73,10 +73,6 @@ namespace EnviroGen.Continents
         /// Multiplies the height at the given point by mul, with bounds checking.
         /// If the point is out of bounds, the method simply returns.
         /// </summary>
-        /// <param name="heightMap"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="mul"></param>
         private static void MultiplyHeightAtPoint(HeightMap heightMap, int x, int y, float mul)
         {
             //if point is in bounds

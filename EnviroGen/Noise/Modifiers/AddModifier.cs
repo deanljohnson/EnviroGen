@@ -1,5 +1,8 @@
 ﻿namespace EnviroGen.Noise.Modifiers
 {
+    /// <summary>
+    /// Adds a constant value to an Environment's HeightMap
+    /// </summary>
     public class AddModifier : IInvertableModifier
     {
         public float Value { get; set; }

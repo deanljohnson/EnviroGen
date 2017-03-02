@@ -3,6 +3,10 @@ using EnviroGen.Coloring;
 
 namespace EnviroGen.Nodes
 {
+    /// <summary>
+    /// Represents a node that can change the colorizer 
+    /// applied to a Terrain instance
+    /// </summary>
     public class ColorizerNode<TColorizer> : INode 
         where TColorizer : IColorizer
     {

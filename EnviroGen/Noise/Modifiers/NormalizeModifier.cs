@@ -1,5 +1,8 @@
 ﻿namespace EnviroGen.Noise.Modifiers
 {
+    /// <summary>
+    /// Normalizes an Environment's HeightMap to be within a certain range
+    /// </summary>
     public class NormalizeModifier : IModifier
     {
         public float Low { get; set; }
