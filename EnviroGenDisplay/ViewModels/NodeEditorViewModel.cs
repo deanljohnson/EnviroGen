@@ -8,7 +8,7 @@ namespace EnviroGenDisplay.ViewModels
 {
     public class NodeEditorViewModel : ViewModelBase
     {
-        public static ObservableCollection<NodeMenuEntry> NodeMenuEntries { get; set; } = App.NodeMenuEntries; 
+        public ObservableCollection<NodeMenuEntry> NodeMenuEntries { get; set; } = App.NodeMenuEntries; 
 
         public Editor Editor { get; set; }
 
@@ -40,9 +40,9 @@ namespace EnviroGenDisplay.ViewModels
 
         public void OnCreateNodeEvent(object sender, CreateNodeEventArgs e)
         {
-            if (e.MenuEntry.NodeCreator == null) return;
+            if (e.MenuEntry.OnClick == null) return;
 
-            var nodeViewModel = e.MenuEntry.NodeCreator();
+            var nodeViewModel = e.MenuEntry.OnClick();
 
             nodeViewModel.X = e.X;
             nodeViewModel.Y = e.Y;

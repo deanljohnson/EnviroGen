@@ -33,7 +33,7 @@ namespace EnviroGenDisplay
 
             LoadPlugins();
             var nvmTypes = GetNodeViewModelTypes();
-            CreateUIInformation(nvmTypes);
+            CreateUIInformationForNodeViewModels(nvmTypes);
         }
 
         private void LoadPlugins()
@@ -68,7 +68,7 @@ namespace EnviroGenDisplay
                 .Where(p => type.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract).ToList();
         }
 
-        private void CreateUIInformation(List<Type> types)
+        private void CreateUIInformationForNodeViewModels(List<Type> types)
         {
             foreach (var t in types)
             {
@@ -77,7 +77,7 @@ namespace EnviroGenDisplay
                 Debug.Assert(editorNodeAttribute != null);
 
                 CreateMenuEntry(editorNodeAttribute.Name, editorNodeAttribute.Category, t);
-                CreateViewResource(t, editorNodeAttribute.DisplayControlType);
+                CreateViewResource(t, editorNodeAttribute.ViewType);
             }
         }
 
@@ -85,7 +85,7 @@ namespace EnviroGenDisplay
         {
             var nme = NodeMenuEntries.FirstOrDefault(n => n.Header == cat);
 
-            //Create NodeMenuEntry for category if needed
+            //Create NodeMenuEntry for parent category if needed
             if (nme == null)
             {
                 nme = new NodeMenuEntry(cat, null);

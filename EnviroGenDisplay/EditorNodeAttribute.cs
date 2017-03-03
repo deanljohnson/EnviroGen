@@ -7,7 +7,7 @@ namespace EnviroGenDisplay
     {
         private string m_Category;
 
-        public Type DisplayControlType { get; }
+        public Type ViewType { get; }
         public string QualifiedName { get; private set; }
         public string Name { get; }
         public string Category
@@ -28,11 +28,11 @@ namespace EnviroGenDisplay
             }
         }
 
-        public EditorNodeAttribute(string name, Type displayControlType)
+        public EditorNodeAttribute(string name, Type viewType)
         {
             Name = name;
             QualifiedName = name;
-            DisplayControlType = displayControlType;
+            ViewType = viewType;
         }
     }
 }

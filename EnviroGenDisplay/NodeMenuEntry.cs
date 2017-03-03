@@ -4,18 +4,15 @@ using EnviroGenDisplay.ViewModels;
 
 namespace EnviroGenDisplay
 {
-    public class NodeMenuEntry
+    public class NodeMenuEntry 
+        : MenuEntry<Func<NodeViewModel>>
     {
-        public string Header { get; }
-
         public ObservableCollection<NodeMenuEntry> ChildMenus { get; set; }
-        public Func<NodeViewModel> NodeCreator { get; }
-
-        public NodeMenuEntry(string header, Func<NodeViewModel> nodeCreator)
+         
+        public NodeMenuEntry(string header, Func<NodeViewModel> onClick)
+            : base(header, onClick)
         {
-            Header = header;
             ChildMenus = new ObservableCollection<NodeMenuEntry>();
-            NodeCreator = nodeCreator;
         }
     }
 }

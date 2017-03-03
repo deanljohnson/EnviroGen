@@ -28,7 +28,7 @@
     <UserControl.Resources>
         <Style x:Key="MenuItemStyle" TargetType="MenuItem">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NodeCreator}" Value="{x:Null}">
+                <DataTrigger Binding="{Binding Path=OnClick}" Value="{x:Null}">
                     <Setter Property="StaysOpenOnClick" Value="True">
                     </Setter>
                 </DataTrigger>
