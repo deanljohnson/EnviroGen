@@ -6,9 +6,14 @@
              xmlns:viewModels="clr-namespace:EnviroGenDisplay.ViewModels"
              mc:Ignorable="d" 
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10">
-            <Image d:DataContext="{d:DesignInstance viewModels:EnvironmentViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Path=HeightMapBitmap}"/>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" d:DataContext="{d:DesignInstance viewModels:EnvironmentViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition MaxHeight="30"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Column="0" Grid.Row="0" BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10">
+            <Image  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Path=HeightMapBitmap}"/>
         </Border>
+        <Button Grid.Column="0" Grid.Row="1" Content="Save to Image" Width="Auto" MaxWidth="80" HorizontalAlignment="Left" Command="{Binding SaveCommand}"/>
     </Grid>
 </UserControl>

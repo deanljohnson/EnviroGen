@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using EnviroGen;
@@ -14,6 +17,8 @@ namespace EnviroGenDisplay.ViewModels
     internal class EnvironmentViewModel : Environment
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand SaveCommand { get; set; }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -41,6 +46,39 @@ namespace EnviroGenDisplay.ViewModels
         {
             //why 96? idk, it works
             HeightMapBitmap = new WriteableBitmap(w, h, 96, 96, PixelFormats.Bgra32, null);
+
+            SaveCommand = new RelayCommand(SaveToImage);
+        }
+
+        private void SaveToImage(object obj = null)
+        {
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Filter = "PNF file (*png)|*.png"
+            };
+
+            dialog.FileOk += OnSaveImage;
+
+            dialog.ShowDialog();
+        }
+
+        private void OnSaveImage(object sender, CancelEventArgs e)
+        {
+            var dialog = sender as SaveFileDialog;
+            if (dialog == null)
+                return;
+
+            string fileName = dialog.FileName;
+
+            if (fileName != string.Empty)
+            {
+                using (FileStream stream5 = new FileStream(fileName, FileMode.Create))
+                {
+                    PngBitmapEncoder encoder5 = new PngBitmapEncoder();
+                    encoder5.Frames.Add(BitmapFrame.Create(m_HeightBitmap.Clone()));
+                    encoder5.Save(stream5);
+                }
+            }
         }
 
         public override void Update()
